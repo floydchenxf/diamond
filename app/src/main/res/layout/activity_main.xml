@@ -3,22 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="60dip">
-
-        <TextView
-            android:id="@+id/chat_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="10dip"
-            android:text="返回"
-            android:textSize="12sp" />
-
-    </FrameLayout>
-
     <RadioGroup
         android:id="@+id/id_ly_bottombar"
         android:layout_width="match_parent"
