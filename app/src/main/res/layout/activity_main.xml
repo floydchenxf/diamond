@@ -1,0 +1,74 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="60dip">
+
+        <TextView
+            android:id="@+id/chat_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dip"
+            android:text="返回"
+            android:textSize="12sp" />
+
+    </FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/id_ly_bottombar"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:background="#d5d5d5"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/tab_index_page"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:button="@null"
+            android:layout_weight="1.0"
+            android:checked="true"
+            android:drawableTop="@drawable/demo_tab_icon_message_normal"
+            android:gravity="center"
+            android:singleLine="true"
+            android:text="首页" />
+
+        <RadioButton
+            android:id="@+id/tab_message"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:button="@null"
+            android:layout_weight="1.0"
+            android:drawableTop="@drawable/demo_tab_icon_contact_normal"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:text="通告" />
+
+        <RadioButton
+            android:id="@+id/tab_my"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:button="@null"
+            android:drawableTop="@drawable/demo_tab_icon_setting_normal"
+            android:gravity="center"
+            android:paddingTop="3dp"
+            android:text="我的" />
+    </RadioGroup>
+
+
+    <FrameLayout
+        android:id="@+id/id_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@id/id_ly_bottombar"
+        android:layout_below="@id/title" />
+
+
+</RelativeLayout>

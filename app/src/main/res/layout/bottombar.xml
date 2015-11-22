@@ -1,0 +1,87 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/tabbottom"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_alignParentBottom="true"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tab_message_text"
+                style="@style/tab_text_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:drawableTop="@drawable/demo_tab_icon_message_normal"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:text="消息"
+                android:textColor="#bcbfc1" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tab_contact_text"
+                style="@style/tab_text_style"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawableTop="@drawable/demo_tab_icon_contact_normal"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:text="联系人"
+                android:textColor="#bcbfc1" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tab_tribe_text"
+                style="@style/tab_text_style"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawableTop="@drawable/demo_tab_icon_tribe_normal"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:text="群组"
+                android:textColor="#bcbfc1" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="fill_parent"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/tab_more_text"
+                style="@style/tab_text_style"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:drawableTop="@drawable/demo_tab_icon_setting_normal"
+                android:gravity="center"
+                android:paddingTop="3dp"
+                android:text="更多"
+                android:textColor="#bcbfc1" />
+        </RelativeLayout>
+
+    </LinearLayout>
+</RelativeLayout>
