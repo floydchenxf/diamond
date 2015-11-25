@@ -5,8 +5,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.RadioGroup;
 
-import com.floyd.diamond.R;
-
 import java.util.List;
 
 /**
@@ -21,6 +19,10 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
     private int currentTab; // 当前Tab页面索引
 
     private OnRgsExtraCheckedChangedListener onRgsExtraCheckedChangedListener; // 用于让调用者在切换tab时候增加新的功能
+
+    private OnLoginCheck onLoginCheck;
+
+
 
     public FragmentTabAdapter(FragmentActivity fragmentActivity, List<Fragment> fragments, int fragmentContentId, RadioGroup rgs) {
         this.fragments = fragments;
@@ -40,8 +42,13 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
 
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-        for (int i = 0; i < rgs.getChildCount(); i++) {
+        for (int i = 0; i < rgs.getChildCount(); i++)
             if (rgs.getChildAt(i).getId() == checkedId) {
+                boolean a = onLoginCheck.needLogin(radioGroup, checkedId, i);
+                if (a) {
+                    break;
+                }
+
                 Fragment fragment = fragments.get(i);
                 FragmentTransaction ft = obtainFragmentTransaction(i);
 
@@ -61,9 +68,10 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
                 }
 
             }
-        }
 
     }
+
+
 
     /*
      * 切换tab
@@ -93,11 +101,11 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
     private FragmentTransaction obtainFragmentTransaction(int index) {
         FragmentTransaction ft = fragmentActivity.getSupportFragmentManager().beginTransaction();
         // 设置切换动画
-        if (index > currentTab) {
-            ft.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out);
-        } else {
-            ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out);
-        }
+//        if (index > currentTab) {
+//            ft.setCustomAnimations(R.anim.slide_left_in, R.anim.slide_left_out);
+//        } else {
+//            ft.setCustomAnimations(R.anim.slide_right_in, R.anim.slide_right_out);
+//        }
         return ft;
     }
 
@@ -119,10 +127,21 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
         this.onRgsExtraCheckedChangedListener = onRgsExtraCheckedChangedListener;
     }
 
+    public void setOnLoginCheck(OnLoginCheck onLogincheck) {
+        this.onLoginCheck = onLogincheck;
+    }
+
     /**
      * 切换tab额外功能功能接口
      */
     public interface OnRgsExtraCheckedChangedListener {
         public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index);
     }
+
+    public interface OnLoginCheck {
+        public boolean needLogin(RadioGroup radioGroup, int preCheckedId, int idx);
+    }
+
+
+
 }

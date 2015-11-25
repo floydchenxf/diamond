@@ -3,6 +3,7 @@ package com.floyd.diamond.aync;
 import com.floyd.diamond.channel.request.BaseRequest;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.floyd.diamond.channel.request.RequestCallback;
+import com.floyd.diamond.channel.threadpool.WxDefaultExecutor;
 
 import java.util.Map;
 
@@ -15,28 +16,36 @@ public class HttpJobFactory {
         return new AsyncJob<byte[]>() {
             @Override
             public void start(final ApiCallback<byte[]> callback) {
-                new BaseRequest(url, params, httpMethod, new RequestCallback() {
-                    @Override
-                    public void onProgress(int progress) {
-                        callback.onProgress(progress);
-                    }
 
+                WxDefaultExecutor.getInstance().executeHttp(new Runnable() {
                     @Override
-                    public <T> void onSuccess(T... result) {
-                        if (result == null || result.length <= 0) {
-                            callback.onError(400, "empty!");
-                            return;
-                        }
+                    public void run() {
+                        new BaseRequest(url, params, httpMethod, new RequestCallback() {
+                            @Override
+                            public void onProgress(int progress) {
+                                callback.onProgress(progress);
+                            }
 
-                        byte[] content = (byte[]) result[0];
-                        callback.onSuccess(content);
-                    }
+                            @Override
+                            public <T> void onSuccess(T... result) {
+                                if (result == null || result.length <= 0) {
+                                    callback.onError(400, "empty!");
+                                    return;
+                                }
 
-                    @Override
-                    public void onError(int code, String info) {
-                        callback.onError(code, info);
+                                byte[] content = (byte[]) result[0];
+                                callback.onSuccess(content);
+                            }
+
+                            @Override
+                            public void onError(int code, String info) {
+                                callback.onError(code, info);
+                            }
+                        }).execute();
                     }
-                }).execute();
+                });
+
+
             }
         };
     }

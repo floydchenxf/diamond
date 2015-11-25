@@ -14,11 +14,37 @@ public abstract class AsyncJob<T> {
     public abstract void start(ApiCallback<T> callback);
 
     public void startUI(final ApiCallback<T> callback) {
-        mHandler.post(new Runnable() {
+        final AsyncJob<T> source = this;
+        source.start(new ApiCallback<T>() {
+            @Override
+            public void onError(final int code, final String errorInfo) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onError(code, errorInfo);
+                    }
+                });
+            }
 
             @Override
-            public void run() {
-                start(callback);
+            public void onSuccess(final T t) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(t);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onProgress(final int progress) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onProgress(progress);
+                    }
+                });
             }
         });
     }
