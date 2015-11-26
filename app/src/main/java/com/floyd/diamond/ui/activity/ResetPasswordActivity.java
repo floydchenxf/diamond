@@ -2,6 +2,8 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -20,6 +22,9 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
     private TextView checkCodeButtonView;
     private EditText newPasswordView;
     private TextView finishButtonView;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private int time;
 
 
     @Override
@@ -45,9 +50,11 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.check_code_button:
+                checkCodeButtonView.setEnabled(false);
                 String phoneNumber = phoneNumView.getText().toString();
                 if (TextUtils.isEmpty(phoneNumber)) {
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                    checkCodeButtonView.setEnabled(true);
                     return;
                 }
 
@@ -55,11 +62,33 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
                     @Override
                     public void onError(int code, String errorInfo) {
                         Toast.makeText(ResetPasswordActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                        checkCodeButtonView.setEnabled(true);
                     }
 
                     @Override
                     public void onSuccess(String s) {
                         Toast.makeText(ResetPasswordActivity.this, s, Toast.LENGTH_SHORT).show();
+                        checkCodeButtonView.setEnabled(false);
+                        checkCodeButtonView.setBackgroundResource(R.drawable.common_round_bg);
+                        checkCodeButtonView.setText("60秒后重新获取");
+                        time = 60;
+                        while(time >= 0) {
+                            mHandler.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    if (time <= 0) {
+                                        checkCodeButtonView.setEnabled(true);
+                                        checkCodeButtonView.setBackgroundResource(R.drawable.common_round_blue_bg);
+                                        checkCodeButtonView.setText("获取验证码");
+                                        return;
+                                    }
+                                    time--;
+                                    checkCodeButtonView.setText(time + "秒后重新获取");
+
+                                }
+                            }, 1000);
+                        }
+
                     }
 
                     @Override

@@ -3,6 +3,8 @@ package com.floyd.diamond.aync;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.floyd.diamond.channel.threadpool.WxDefaultExecutor;
+
 
 /**
  * Created by floyd on 15-11-19.
@@ -47,6 +49,23 @@ public abstract class AsyncJob<T> {
                 });
             }
         });
+    }
+
+    public AsyncJob<T> threadOn() {
+        final AsyncJob<T> source = this;
+        return new AsyncJob<T>() {
+
+            @Override
+            public void start(final ApiCallback<T> callback) {
+                WxDefaultExecutor.getInstance().executeHttp(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        source.start(callback);
+                    }
+                });
+            }
+        };
     }
 
     public <R> AsyncJob<R> map(final Func<T, R> func) {
