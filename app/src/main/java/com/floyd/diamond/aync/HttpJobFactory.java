@@ -1,5 +1,6 @@
 package com.floyd.diamond.aync;
 
+import com.floyd.diamond.biz.APIError;
 import com.floyd.diamond.channel.request.BaseRequest;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.floyd.diamond.channel.request.RequestCallback;
@@ -25,7 +26,7 @@ public class HttpJobFactory {
                     @Override
                     public <T> void onSuccess(T... result) {
                         if (result == null || result.length <= 0) {
-                            callback.onError(400, "empty!");
+                            callback.onError(APIError.API_CONTENT_EMPTY, "empty!");
                             return;
                         }
 
@@ -38,6 +39,7 @@ public class HttpJobFactory {
                         callback.onError(code, info);
                     }
                 }).execute();
+
             }
         }.threadOn();
     }

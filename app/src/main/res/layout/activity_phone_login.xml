@@ -34,7 +34,7 @@
             android:layout_centerInParent="true"
             android:text="@string/phone_reg"
             android:textColor="@color/blue"
-            android:textSize="12sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -86,7 +86,7 @@
     <RelativeLayout
         android:layout_below="@+id/login_content"
         android:layout_width="fill_parent"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="8dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:textColor="@color/white"
             android:text="@string/forgot_pwd_text"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
 
         <TextView
@@ -103,7 +103,7 @@
             android:textColor="@color/white"
             android:layout_alignParentRight="true"
             android:text="忘记密码,手机号注册"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_height="wrap_content" />
     </RelativeLayout>
 

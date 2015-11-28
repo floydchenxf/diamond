@@ -53,6 +53,7 @@ public abstract class AsyncJob<T> {
 
     public AsyncJob<T> threadOn() {
         final AsyncJob<T> source = this;
+
         return new AsyncJob<T>() {
 
             @Override

@@ -30,4 +30,6 @@
     <string name="title_activity_phone_login">PhoneLoginActivity</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="title_activity_reg2">Reg2Activity</string>
+    <string name="edit_profile">编辑个人信息</string>
+    <string name="edit_head">修改头像头像</string>
 </resources>
