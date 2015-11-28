@@ -8,8 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
-        android:background="#d5d5d5"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#ffffff">
 
         <RadioButton
             android:id="@+id/tab_index_page"
@@ -18,10 +18,11 @@
             android:button="@null"
             android:layout_weight="1.0"
             android:checked="true"
-            android:drawableTop="@drawable/demo_tab_icon_message_normal"
+            android:drawableTop="@drawable/home_selector"
             android:gravity="center"
             android:singleLine="true"
-            android:text="首页" />
+            android:text="首页"
+            android:textColor="@drawable/word_selector"/>
 
         <RadioButton
             android:id="@+id/tab_message"
@@ -29,10 +30,11 @@
             android:layout_height="fill_parent"
             android:button="@null"
             android:layout_weight="1.0"
-            android:drawableTop="@drawable/demo_tab_icon_contact_normal"
+            android:drawableTop="@drawable/tg_selector"
             android:gravity="center"
             android:paddingTop="3dp"
-            android:text="通告" />
+            android:text="通告"
+            android:textColor="@drawable/word_selector"/>
 
         <RadioButton
             android:id="@+id/tab_my"
@@ -40,10 +42,11 @@
             android:layout_height="fill_parent"
             android:layout_weight="1.0"
             android:button="@null"
-            android:drawableTop="@drawable/demo_tab_icon_setting_normal"
+            android:drawableTop="@drawable/my_selector"
             android:gravity="center"
             android:paddingTop="3dp"
-            android:text="我的" />
+            android:text="我的"
+            android:textColor="@drawable/word_selector"/>
     </RadioGroup>
 
 
@@ -52,7 +55,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_above="@id/id_ly_bottombar"
-        android:layout_below="@id/title" />
-
+         />
 
 </RelativeLayout>

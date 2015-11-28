@@ -1,10 +1,35 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.floyd.diamond.ui.fragment.MessageFragment">
+    >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/message_page" />
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:background="#d4377e"
+        android:gravity="center"
+        android:text="通告"
+        android:textColor="#ffffff"
+        android:textSize="16sp" />
 
-</FrameLayout>
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv">
+
+        <ListView
+            android:id="@+id/listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:divider="#00000000"
+            android:dividerHeight="10dp"
+            android:paddingTop="10dp"
+            ></ListView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</RelativeLayout>
+

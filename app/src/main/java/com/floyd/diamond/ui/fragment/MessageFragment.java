@@ -1,13 +1,20 @@
 package com.floyd.diamond.ui.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.*;
+import com.floyd.diamond.ui.MessageItemActivity;
+import com.floyd.diamond.ui.adapter.MessageAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +32,10 @@ public class MessageFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
+    private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5};
+
 
     /**
      * Use this factory method to create a new instance of
@@ -60,7 +71,22 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_message, container, false);
+        View view = inflater.inflate(R.layout.fragment_message, container, false);
+        ListView listView = ((ListView) view.findViewById(R.id.listview));
+        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        //设置刷新时动画的颜色，可以设置4个
+        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+
+        MessageAdapter adapter=new MessageAdapter(getActivity(),imgId,R.layout.messagelistviewitem_layout);
+        listView.setAdapter(adapter);
+        //点击跳入通告详细信息界面
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                startActivity(new Intent(getActivity(), MessageItemActivity.class));
+            }
+        });
+        return view;
     }
 
     @Override
