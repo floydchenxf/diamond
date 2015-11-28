@@ -5,13 +5,20 @@ package com.floyd.diamond.biz.vo;
  */
 public class LoginVO {
 
-    public String userName; //显示名称
-    public int accountType; //帐号类型
+    public long id;//用户id
     public String accessToken;//token
+    public String phoneNumber;//手机号码
+    public String avartUrl;//头像地址
+    public String nickname;//别名
+    public int accountType;
+
 
     public String toString() {
-        StringBuilder sb = new StringBuilder(userName);
-        sb.append("---").append(accessToken).append("---").append(accountType);
+        StringBuilder sb = new StringBuilder("id:").append(id+"");
+        sb.append("---").append("phoneNumber:").append(phoneNumber);
+        sb.append("---").append("avartUrl:").append(avartUrl);
+        sb.append("---").append("nickname:").append(nickname);
+        sb.append("---").append("accountType").append(accountType+"");
         return sb.toString();
     }
 }

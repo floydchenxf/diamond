@@ -1,6 +1,6 @@
 package com.floyd.diamond.aync;
 
-import com.floyd.diamond.biz.APIError;
+import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.channel.request.BaseRequest;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.floyd.diamond.channel.request.RequestCallback;

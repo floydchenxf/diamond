@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.ApiResult;
-import com.floyd.diamond.biz.LoginManager;
+import com.floyd.diamond.biz.manager.LoginManager;
 
 public class ResetPasswordActivity extends Activity implements View.OnClickListener {
 

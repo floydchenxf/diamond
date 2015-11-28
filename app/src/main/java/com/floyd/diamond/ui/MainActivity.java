@@ -10,9 +10,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.LoginManager;
+import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.activity.LoginActivity;
+import com.floyd.diamond.ui.fragment.BackHandledFragment;
 import com.floyd.diamond.ui.fragment.FragmentTabAdapter;
 import com.floyd.diamond.ui.fragment.IndexFragment;
 import com.floyd.diamond.ui.fragment.MessageFragment;
@@ -22,9 +23,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener, BackHandledInterface {
 
     private FragmentTransaction fragmentTransaction;
+
+    private BackHandledFragment mBackHandedFragment;
 
 
     private RadioGroup rgs;
@@ -83,5 +86,20 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             default:
         }
 
+    }
+
+    public void onBackPressed() {
+        if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                super.onBackPressed();
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+        }
+    }
+
+    @Override
+    public void setSelectedFragment(BackHandledFragment selectedFragment) {
+        this.mBackHandedFragment = selectedFragment;
     }
 }

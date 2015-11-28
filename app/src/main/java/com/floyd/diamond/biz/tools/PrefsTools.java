@@ -1,8 +1,10 @@
-package com.floyd.diamond.biz;
+package com.floyd.diamond.biz.tools;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+
+import com.floyd.diamond.biz.SharedPreferencesCompat;
 
 import java.util.HashMap;
 

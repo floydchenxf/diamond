@@ -1,9 +1,7 @@
 package com.floyd.diamond.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -42,7 +40,7 @@ import java.util.TimerTask;
  * Use the {@link IndexFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IndexFragment extends Fragment {
+public class IndexFragment extends BackHandledFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -72,7 +70,7 @@ public class IndexFragment extends Fragment {
     //private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4};
 
     private Context context;
-    private Handler handler=new Handler(){
+    private Handler handler= new Handler(){
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -231,7 +229,7 @@ public class IndexFragment extends Fragment {
         }
         Adapter_WelcomeFragment adapter = new Adapter_WelcomeFragment(
                 getFragmentManager(), list);
-        pager.setAdapter(adapter);
+//        pager.setAdapter(adapter);
 
         pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -280,8 +278,13 @@ public class IndexFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
-        super.onAttach(context);
         this.context=context;
+        super.onAttach(context);
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 
 

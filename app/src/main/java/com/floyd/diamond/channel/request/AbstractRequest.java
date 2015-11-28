@@ -7,12 +7,12 @@
  */
 package com.floyd.diamond.channel.request;
 
-import java.io.IOException;
-import java.util.Map;
-
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
+
+import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -123,7 +123,7 @@ public abstract class AbstractRequest extends AbstractWebUtils {
                 default:
                     return response;
             }
-			Log.i(sTAG, "url:" + url + "-------response:" + response);
+			Log.i(sTAG, "url:" + url + "-------response:" + response + "---params:"+parameters);
             if (response == null) {
                 throw new IOException("response is null");
             }

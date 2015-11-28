@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.floyd.diamond.R;
-import com.floyd.diamond.bean.*;
 import com.floyd.diamond.ui.MessageItemActivity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
 
@@ -23,7 +22,7 @@ import com.floyd.diamond.ui.adapter.MessageAdapter;
  * Use the {@link MessageFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MessageFragment extends Fragment {
+public class MessageFragment extends BackHandledFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -57,6 +56,11 @@ public class MessageFragment extends Fragment {
 
     public MessageFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public boolean onBackPressed() {
+        return false;
     }
 
     @Override

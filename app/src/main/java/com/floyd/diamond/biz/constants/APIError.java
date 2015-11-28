@@ -1,4 +1,4 @@
-package com.floyd.diamond.biz;
+package com.floyd.diamond.biz.constants;
 
 /**
  * Created by floyd on 15-11-28.
