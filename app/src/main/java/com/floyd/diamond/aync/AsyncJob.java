@@ -3,6 +3,8 @@ package com.floyd.diamond.aync;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.floyd.diamond.channel.threadpool.WxDefaultExecutor;
+
 
 /**
  * Created by floyd on 15-11-19.
@@ -14,13 +16,56 @@ public abstract class AsyncJob<T> {
     public abstract void start(ApiCallback<T> callback);
 
     public void startUI(final ApiCallback<T> callback) {
-        mHandler.post(new Runnable() {
+        final AsyncJob<T> source = this;
+        source.start(new ApiCallback<T>() {
+            @Override
+            public void onError(final int code, final String errorInfo) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onError(code, errorInfo);
+                    }
+                });
+            }
 
             @Override
-            public void run() {
-                start(callback);
+            public void onSuccess(final T t) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess(t);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onProgress(final int progress) {
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onProgress(progress);
+                    }
+                });
             }
         });
+    }
+
+    public AsyncJob<T> threadOn() {
+        final AsyncJob<T> source = this;
+        return new AsyncJob<T>() {
+
+            @Override
+            public void start(final ApiCallback<T> callback) {
+                WxDefaultExecutor.getInstance().executeHttp(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        source.start(callback);
+                    }
+                });
+            }
+        };
     }
 
     public <R> AsyncJob<R> map(final Func<T, R> func) {

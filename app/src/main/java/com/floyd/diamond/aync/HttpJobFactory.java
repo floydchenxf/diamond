@@ -15,6 +15,7 @@ public class HttpJobFactory {
         return new AsyncJob<byte[]>() {
             @Override
             public void start(final ApiCallback<byte[]> callback) {
+
                 new BaseRequest(url, params, httpMethod, new RequestCallback() {
                     @Override
                     public void onProgress(int progress) {
@@ -38,7 +39,7 @@ public class HttpJobFactory {
                     }
                 }).execute();
             }
-        };
+        }.threadOn();
     }
 
 }
