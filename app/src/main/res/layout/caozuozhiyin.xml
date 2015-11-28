@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="#d4377e">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dip"
+            android:textColor="@color/white"
+            android:background="@drawable/jiantou_back"/>
+        <TextView
+            android:id="@+id/center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="操作指引规则"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </com.zhy.android.percent.support.PercentFrameLayout>
+
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_heightPercent="7%"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="模特操作规则指引"
+            android:textSize="13sp"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginRightPercent="3%"
+            android:drawableRight="@drawable/jiantou_next"/>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_heightPercent="7%"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="商家操作规则指引"
+            android:textSize="13sp"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginRightPercent="3%"/>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_heightPercent="7%"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="认证说明"
+            android:textSize="13sp"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginRightPercent="3%"/>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        app:layout_heightPercent="7%"
+        android:background="#ffffff"
+        android:gravity="center_vertical"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:text="关于app"
+            android:textSize="13sp"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginRightPercent="3%"/>
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+</com.zhy.android.percent.support.PercentLinearLayout>

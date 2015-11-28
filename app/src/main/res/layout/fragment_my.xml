@@ -1,9 +1,181 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="com.floyd.diamond.ui.fragment.MyFragment">
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#55dddddd">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/my_page" />
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#d4377e"
+        app:layout_heightPercent="40%">
 
-</FrameLayout>
+        <ImageView
+            android:id="@+id/mine_touxiang"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/circle_shape"
+            app:layout_heightPercent="35%"
+            app:layout_marginTopPercent="15%"
+            app:layout_widthPercent="20%" />
+
+        <TextView
+            android:id="@+id/mine_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_below="@id/mine_touxiang"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:text="yoyo"
+            android:textColor="#ffffff"
+            app:layout_heightPercent="15%"
+            app:layout_widthPercent="20%" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/mine_name"
+            android:background="#dddddd"
+            app:layout_marginTopPercent="15%" />
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/view"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="19"
+                android:textColor="#dddddd"
+                />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#dddddd" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="20"
+                android:textColor="#dddddd" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#dddddd" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="黑龙江"
+                android:textColor="#dddddd" />
+        </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="15%"
+        app:layout_marginTopPercent="2%"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/care"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="50%"
+            android:text="我的关注"
+            android:gravity="center_vertical"
+            app:layout_marginLeftPercent="2%"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginRightPercent="2%"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#55000000"
+            android:layout_below="@id/care"
+            app:layout_marginLeftPercent="2%"/>
+        <TextView
+            android:id="@+id/task"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="50%"
+            android:text="我的任务"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="2%"
+            app:layout_marginRightPercent="2%"/>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="15%"
+        app:layout_marginTopPercent="2%"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/pictrue"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="50%"
+            android:text="我的图库"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="2%"
+            app:layout_marginRightPercent="2%"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#55000000"
+            android:layout_below="@id/care"
+            app:layout_marginLeftPercent="2%"/>
+        <TextView
+            android:id="@+id/volley"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_heightPercent="50%"
+            android:text="我的钱包"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="2%"
+            app:layout_marginRightPercent="2%"/>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_heightPercent="7%"
+        app:layout_marginTopPercent="2%"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        >
+        <TextView
+            android:id="@+id/set"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="设置"
+            android:gravity="center_vertical"
+            android:drawableRight="@drawable/jiantou_next"
+            app:layout_marginLeftPercent="2%"
+            app:layout_marginRightPercent="2%"/>
+
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+</com.zhy.android.percent.support.PercentLinearLayout>
