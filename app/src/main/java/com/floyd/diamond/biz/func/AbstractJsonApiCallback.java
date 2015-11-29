@@ -3,7 +3,6 @@ package com.floyd.diamond.biz.func;
 import android.text.TextUtils;
 
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.ApiResult;
 import com.floyd.diamond.biz.constants.APIError;
 
 import org.json.JSONException;
@@ -14,9 +13,9 @@ import org.json.JSONObject;
  */
 public abstract class AbstractJsonApiCallback<R> implements ApiCallback<String> {
 
-    private ApiCallback<ApiResult<R>> mCallback;
+    private ApiCallback<R> mCallback;
 
-    protected AbstractJsonApiCallback(ApiCallback<ApiResult<R>> callback) {
+    protected AbstractJsonApiCallback(ApiCallback<R> callback) {
         this.mCallback = callback;
     }
 
@@ -37,19 +36,19 @@ public abstract class AbstractJsonApiCallback<R> implements ApiCallback<String> 
             return;
         }
 
-        ApiResult<R> result = new ApiResult<R>();
+//        ApiResult<R> result = new ApiResult<R>();
         try {
             JSONObject j = new JSONObject(s);
             boolean success = j.getBoolean("success");
             if (success) {
-                JSONObject data = j.getJSONObject("data");
+                String data = j.getString("data");
                 R r = convert2Obj(s, data);
-                result.result = r;
-                result.code = 200;
-                mCallback.onSuccess(result);
+//                result.result = r;
+//                result.code = 200;
+                mCallback.onSuccess(r);
             } else {
                 String msg = j.getString("msg");
-                result.msg = msg;
+//                result.msg = msg;
                 mCallback.onError(APIError.API_BIZ_ERROR, msg);
             }
         } catch (JSONException e) {
@@ -58,5 +57,5 @@ public abstract class AbstractJsonApiCallback<R> implements ApiCallback<String> 
         }
     }
 
-    protected abstract R convert2Obj(String s, JSONObject data) throws JSONException;
+    protected abstract R convert2Obj(String s, String data) throws JSONException;
 }

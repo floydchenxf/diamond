@@ -5,7 +5,7 @@ package com.floyd.diamond.biz.vo;
  */
 public class SellerInfoVO {
     public String area;//区域
-    public String avatarUrl;//头像
+    public String avartUrl;//avatarUrl;//头像
     public String nickname;//别名
     public String shopName;//店铺名称
     public int orderNum;//放单数

@@ -7,7 +7,6 @@ import android.util.Log;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.HttpJobFactory;
-import com.floyd.diamond.biz.ApiResult;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.func.AbstractJsonApiCallback;
 import com.floyd.diamond.biz.func.StringFunc;
@@ -55,29 +54,23 @@ public class SellerManager {
         return vo;
     }
 
-    public static AsyncJob<ApiResult<SellerInfoVO>> fetchSellerInfoJob(final Context context, String accessToken) {
+    public static AsyncJob<SellerInfoVO> fetchSellerInfoJob(final Context context, String accessToken) {
         String url = APIConstants.HOST + APIConstants.API_MY_SELLER_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", accessToken);
         final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
 
 
-        return new AsyncJob<ApiResult<SellerInfoVO>>() {
+        return new AsyncJob<SellerInfoVO>() {
             @Override
-            public void start(ApiCallback<ApiResult<SellerInfoVO>> callback) {
+            public void start(ApiCallback<SellerInfoVO> callback) {
                 httpJob.start(new AbstractJsonApiCallback<SellerInfoVO>(callback) {
                     @Override
-                    protected SellerInfoVO convert2Obj(String s, JSONObject data) throws JSONException {
+                    protected SellerInfoVO convert2Obj(String s, String data) throws JSONException {
                         Log.i(TAG, "---fetchSellerInfoJob:" + data.toString());
                         SellerInfoVO vo = new SellerInfoVO();
                         Gson gson = new Gson();
                         vo = gson.fromJson(data.toString(), SellerInfoVO.class);
-//                        vo.nickname = data.getString("nickname");
-//                        vo.orderNum = data.getInt("orderNum");
-//                        vo.avartUrl = data.getString("avartUrl");
-//                        vo.credit = data.getString("credit");
-//                        vo.area = data.getString("area");
-//                        vo.shopName = data.getString("shopName");
                         PrefsTools.setStringPrefs(context, SELLER_INFO, s);
                         return vo;
                     }

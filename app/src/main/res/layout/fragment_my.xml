@@ -7,6 +7,7 @@
     android:orientation="vertical">
 
     <com.zhy.android.percent.support.PercentRelativeLayout
+        android:id="@+id/user_info_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/head_lay"

@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -23,8 +24,8 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.ApiResult;
 import com.floyd.diamond.biz.constants.EnvConstants;
+import com.floyd.diamond.biz.manager.BitmapDownloadFactory;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -35,6 +36,7 @@ import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
+import com.floyd.diamond.channel.request.HttpMethod;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -76,6 +78,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     private ImageView qiangPicView;
     private ImageView placePicView;
 
+    private View userInfoLayout;
+
     private LoginVO loginVO;
 
     private String tempImage = "image_temp";
@@ -92,6 +96,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my, container, false);
 
+        userInfoLayout = view.findViewById(R.id.user_info_layout);
         careView = (TextView) view.findViewById(R.id.care);
         taskView = (TextView) view.findViewById(R.id.task);
         pictrueView = (TextView) view.findViewById(R.id.pictrue);
@@ -160,29 +165,43 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 nicknameView.setText(moteInfoVO.nickname);
                 qiangView.setText(moteInfoVO.fenNum);
                 placeView.setText(moteInfoVO.fee);
-                if (!TextUtils.isEmpty(moteInfoVO.avatarUrl)) {
-                    ImageLoader.getInstance().displayImage(moteInfoVO.avatarUrl, headView);
+                if (!TextUtils.isEmpty(moteInfoVO.avartUrl)) {
+                    ImageLoader.getInstance().displayImage(moteInfoVO.avartUrl, headView);
                 }
             }
 
-            MoteManager.fetchMoteInfoJob(this.getActivity(), loginVO.accessToken).startUI(new ApiCallback<ApiResult<MoteInfoVO>>() {
+            MoteManager.fetchMoteInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<MoteInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onSuccess(ApiResult<MoteInfoVO> moteInfoVOApiResult) {
-                    Log.i(TAG, "---" + moteInfoVOApiResult);
-                    if (moteInfoVOApiResult.isSuccess()) {
-                        MoteInfoVO moteInfoVO = moteInfoVOApiResult.result;
-                        shopView.setText(moteInfoVO.orderNum);
-                        qiangView.setText(moteInfoVO.fenNum);
-                        placeView.setText(moteInfoVO.fee);
-                        nicknameView.setText(moteInfoVO.nickname);
-                        if (!TextUtils.isEmpty(moteInfoVO.avatarUrl)) {
-                            ImageLoader.getInstance().displayImage(moteInfoVO.avatarUrl, headView);
-                        }
+                public void onSuccess(MoteInfoVO moteInfoVO) {
+                    Log.i(TAG, "---" + moteInfoVO);
+                    shopView.setText(moteInfoVO.orderNum);
+                    qiangView.setText(moteInfoVO.fenNum);
+                    placeView.setText(moteInfoVO.fee);
+                    nicknameView.setText(moteInfoVO.nickname);
+                    if (!TextUtils.isEmpty(moteInfoVO.avartUrl)) {
+//                            ImageLoader.getInstance().displayImage(moteInfoVO.avartUrl, headView);
+                        BitmapDownloadFactory.getImage(moteInfoVO.avartUrl, null, HttpMethod.GET).startUI(new ApiCallback<Bitmap>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Bitmap bitmap) {
+                                headView.setImageBitmap(bitmap);
+                                userInfoLayout.setBackground(new BitmapDrawable(bitmap));
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
                     }
 
                 }
@@ -200,27 +219,41 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 nicknameView.setText(sellerInfoVO.nickname);
                 qiangView.setText(sellerInfoVO.orderNum + "");
                 placeView.setText(sellerInfoVO.area);
-                if (!TextUtils.isEmpty(sellerInfoVO.avatarUrl)) {
-                    ImageLoader.getInstance().displayImage(sellerInfoVO.avatarUrl, headView);
+                if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
+                    ImageLoader.getInstance().displayImage(sellerInfoVO.avartUrl, headView);
                 }
             }
-            SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.accessToken).startUI(new ApiCallback<ApiResult<SellerInfoVO>>() {
+            SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
-                public void onSuccess(ApiResult<SellerInfoVO> sellerInfoVOApiResult) {
-                    if (sellerInfoVOApiResult.isSuccess()) {
-                        SellerInfoVO vo = sellerInfoVOApiResult.result;
-                        shopView.setText(vo.shopName);
-                        nicknameView.setText(vo.nickname);
-                        qiangView.setText(vo.orderNum + "");
-                        placeView.setText(vo.area);
-                        if (!TextUtils.isEmpty(vo.avatarUrl)) {
-                            ImageLoader.getInstance().displayImage(vo.avatarUrl, headView);
-                        }
+                public void onSuccess(SellerInfoVO vo) {
+                    shopView.setText(vo.shopName);
+                    nicknameView.setText(vo.nickname);
+                    qiangView.setText(vo.orderNum + "");
+                    placeView.setText(vo.area);
+                    if (!TextUtils.isEmpty(vo.avartUrl)) {
+                        BitmapDownloadFactory.getImage(vo.avartUrl, null, HttpMethod.GET).startUI(new ApiCallback<Bitmap>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Bitmap bitmap) {
+                                headView.setImageBitmap(bitmap);
+                                userInfoLayout.setBackground(new BitmapDrawable(bitmap));
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
+//                            ImageLoader.getInstance().displayImage(vo.avartUrl, headView);
                     }
 
                 }
@@ -391,7 +424,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             newFile = new File(EnvConstants.imageRootPath, avatorTmp);
             avatorDialog.show();
 
-            FileUploadManager.uploadFiles(loginVO.accessToken, newFile).startUI(new ApiCallback<ApiResult<Boolean>>() {
+            FileUploadManager.uploadFiles(loginVO.token, newFile).startUI(new ApiCallback<String>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
@@ -399,10 +432,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 }
 
                 @Override
-                public void onSuccess(ApiResult<Boolean> booleanApiResult) {
+                public void onSuccess(String booleanApiResult) {
                     avatorDialog.hide();
                     Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
                     headView.setImageBitmap(bitmap);
+                    userInfoLayout.setBackground(new BitmapDrawable(bitmap));
+                    newFile.delete();
                 }
 
                 @Override

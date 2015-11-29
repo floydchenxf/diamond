@@ -12,7 +12,6 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.ApiResult;
 import com.floyd.diamond.biz.manager.LoginManager;
 
 public class ResetPasswordActivity extends Activity implements View.OnClickListener {
@@ -118,20 +117,16 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
                     return;
                 }
 
-                LoginManager.fetchResetPwdJob(pn1, newPwd, smsCode).startUI(new ApiCallback<ApiResult<Boolean>>() {
+                LoginManager.fetchResetPwdJob(pn1, newPwd, smsCode).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, final String errorInfo) {
                         Toast.makeText(ResetPasswordActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onSuccess(ApiResult<Boolean> s) {
-                        if (s.isSuccess()) {
-                            Toast.makeText(ResetPasswordActivity.this, "重置密码成功", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else {
-                            Toast.makeText(ResetPasswordActivity.this, s.msg, Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(Boolean s) {
+                        Toast.makeText(ResetPasswordActivity.this, "重置密码成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override

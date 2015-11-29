@@ -7,7 +7,6 @@ import android.util.Log;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.HttpJobFactory;
-import com.floyd.diamond.biz.ApiResult;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.func.AbstractJsonApiCallback;
 import com.floyd.diamond.biz.func.StringFunc;
@@ -55,28 +54,22 @@ public class MoteManager {
         return vo;
     }
 
-    public static AsyncJob<ApiResult<MoteInfoVO>> fetchMoteInfoJob(final Context context, String accessToken) {
+    public static AsyncJob<MoteInfoVO> fetchMoteInfoJob(final Context context, String accessToken) {
         String url = APIConstants.HOST + APIConstants.API_MY_MOTE_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", accessToken);
         final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
 
 
-        return new AsyncJob<ApiResult<MoteInfoVO>>() {
+        return new AsyncJob<MoteInfoVO>() {
             @Override
-            public void start(ApiCallback<ApiResult<MoteInfoVO>> callback) {
+            public void start(ApiCallback<MoteInfoVO> callback) {
                 httpJob.start(new AbstractJsonApiCallback<MoteInfoVO>(callback) {
                     @Override
-                    protected MoteInfoVO convert2Obj(String s, JSONObject data) throws JSONException {
-                        Log.i(TAG, "---fetchMoteInfoJob:" + data.toString());
+                    protected MoteInfoVO convert2Obj(String s, String data) throws JSONException {
+                        Log.i(TAG, "---fetchMoteInfoJob:" + data);
                         Gson gson = new Gson();
-                        MoteInfoVO vo = gson.fromJson(data.toString(), MoteInfoVO.class);
-//                        vo.nickname = data.getString("nickname");
-//                        vo.orderNum = data.getInt("orderNum");
-//                        vo.authenPic1 = data.getString("authenPic1");
-//                        vo.authenPic2 = data.getString("authenPic2");
-//                        vo.authenPic3 = data.getString("authenPic3");
-//                        vo.authenStatus = data.getString("authenStatus");
+                        MoteInfoVO vo = gson.fromJson(data, MoteInfoVO.class);
                         PrefsTools.setStringPrefs(context, MOTE_INFO, s);
                         return vo;
                     }

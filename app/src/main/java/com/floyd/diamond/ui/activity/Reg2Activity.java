@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.AccountType;
-import com.floyd.diamond.biz.ApiResult;
 import com.floyd.diamond.biz.manager.LoginManager;
 
 public class Reg2Activity extends Activity implements View.OnClickListener {
@@ -117,7 +116,7 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                     return;
                 }
 
-                String password= passwordView.getText().toString();
+                String password = passwordView.getText().toString();
                 if (TextUtils.isEmpty(password)) {
                     Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
                     return;
@@ -129,21 +128,16 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                     return;
                 }
 
-                LoginManager.regUserJob(phoneNumber, usernick, password, type, smsCode).startUI(new ApiCallback<ApiResult<Boolean>>() {
+                LoginManager.regUserJob(phoneNumber, usernick, password, type, smsCode).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         Toast.makeText(Reg2Activity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "--------"+code+"----"+errorInfo);
+                        Log.e(TAG, "--------" + code + "----" + errorInfo);
                     }
 
                     @Override
-                    public void onSuccess(ApiResult<Boolean> s) {
-                        Log.e(TAG, "--------"+s);
-                        if (s.isSuccess()) {
-                            Toast.makeText(Reg2Activity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(Reg2Activity.this, s.msg, Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(Boolean s) {
+                        Toast.makeText(Reg2Activity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

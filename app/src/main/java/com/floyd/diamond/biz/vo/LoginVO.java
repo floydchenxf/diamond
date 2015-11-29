@@ -6,11 +6,11 @@ package com.floyd.diamond.biz.vo;
 public class LoginVO {
 
     public long id;//用户id
-    public String accessToken;//token
+    public String token;//token
     public String phoneNumber;//手机号码
     public String avartUrl;//头像地址
     public String nickname;//别名
-    public int accountType;
+    public int type;
 
 
     public String toString() {
@@ -18,11 +18,11 @@ public class LoginVO {
         sb.append("---").append("phoneNumber:").append(phoneNumber);
         sb.append("---").append("avartUrl:").append(avartUrl);
         sb.append("---").append("nickname:").append(nickname);
-        sb.append("---").append("accountType").append(accountType+"");
+        sb.append("---").append("accountType").append(type+"");
         return sb.toString();
     }
 
     public boolean isModel() {
-        return accountType == 1;
+        return type == 1;
     }
 }
