@@ -50,7 +50,7 @@ public abstract class AbstractJsonApiCallback<R> implements ApiCallback<String> 
             } else {
                 String msg = j.getString("msg");
                 result.msg = msg;
-                mCallback.onSuccess(result);
+                mCallback.onError(APIError.API_BIZ_ERROR, msg);
             }
         } catch (JSONException e) {
             mCallback.onError(APIError.API_JSON_PARSE_ERROR, e.getMessage());

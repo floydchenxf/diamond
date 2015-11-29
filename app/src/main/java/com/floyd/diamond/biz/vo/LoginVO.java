@@ -21,4 +21,8 @@ public class LoginVO {
         sb.append("---").append("accountType").append(accountType+"");
         return sb.toString();
     }
+
+    public boolean isModel() {
+        return accountType == 1;
+    }
 }

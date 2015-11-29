@@ -8,5 +8,6 @@ public class APIError {
     public static final int API_IO_ERROR = 4001;
     public static final int API_JSON_PARSE_ERROR = 4002;
     public static final int API_CONTENT_EMPTY = 4003;
+    public static final int API_BIZ_ERROR=4004;
 
 }

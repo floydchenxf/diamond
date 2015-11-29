@@ -10,4 +10,7 @@ public class APIConstants {
     public static final String API_USER_LOGIN = "api/user/login";
     public static final String API_REG_USER = "api/user/register";
     public static final String API_MY_MOTE_INFO = "api/user/myMoteInfo";
+    public static final String API_MY_SELLER_INFO = "api/user/mySellerInfo";
+
+    public static final String API_UPDATE_MONTE_AVART = "api/user/updateMoteAvart";
 }

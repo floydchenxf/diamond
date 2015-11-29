@@ -43,6 +43,13 @@
         <activity android:name=".ui.MessageItemActivity" />
         <activity android:name=".ui.ModelInfoActivity" />
         <activity android:name=".ui.ModelPersonActivity" />
+
+        <activity
+            android:name=".ui.graphic.CropImageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+
     </application>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
