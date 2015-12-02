@@ -14,6 +14,7 @@ public class DiamodApplication extends Application {
     public void onCreate() {
         super.onCreate();
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
+        IMChannel.setApplication(this);
     }
 
 

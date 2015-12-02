@@ -42,4 +42,15 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_right_out</item>
     </style>
 
+    <style name="aliwx_pull_to_refresh_text_sytle">
+        <item name="android:textSize">@dimen/aliwx_font_third_grade</item>
+        <item name="android:textColor">@color/aliwx_refresh_head_color</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowRadius">1</item>
+        <item name="android:shadowColor">#bfffffff</item>
+    </style>
+
 </resources>

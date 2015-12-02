@@ -39,4 +39,17 @@
     <string name="edit_head">修改头像</string>
     <string name="read_picture_error">载入图片失败</string>
     <string name="runningFaceDetection">开始运行脸部检测</string>
+
+    <string name="aliwx_pull_to_refresh_pull_label">向下滑动加载更多&#8230;</string>
+    <string name="aliwx_pull_to_refresh_release_label">释放立即刷新&#8230;</string>
+    <string name="aliwx_pull_to_refresh_refreshing_label">正在加载&#8230;</string>
+    <string name="aliwx_pull_to_refresh_from_bottom_pull_label">向上滑动加载更多&#8230;</string>
+    <string name="aliwx_pull_to_refresh_from_bottom_release_label">@string/aliwx_pull_to_refresh_release_label</string>
+    <string name="aliwx_pull_to_refresh_from_bottom_refreshing_label">@string/aliwx_pull_to_refresh_refreshing_label</string>
+    <string name="aliwx_refresh_fail">刷新失败</string>
+    <string name="aliwx_refresh_success">刷新成功</string>
+    <string name="aliwx_release_stop_record">松开取消发送</string>
+    <string name="aliwx_releast_send">松开发送</string>
+    <string name="aliwx_reload_again">重新加载</string>
+    <string name="aliwx_last_update_time">上次刷新时间</string>
 </resources>
