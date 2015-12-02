@@ -296,43 +296,22 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == CODE_GALLERY_REQUEST && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CODE_GALLERY_REQUEST) {
             if (!this.getActivity().isFinishing()) {
                 ywPopupWindow.hidePopUpWindow();
             }
 
-            Uri uri = data.getData();
-            if (uri != null) {
-                InputStream in = null;
-                String type = "";
-                byte[] tmpData = null;
-                try {
-                    in = this.getActivity().getContentResolver().openInputStream(uri);
-                    tmpData = new byte[10];
-                    in.read(tmpData);
-                    type = ThumbnailUtils.getType(tmpData);
-                } catch (FileNotFoundException e) {
-                    Log.w(TAG, e);
-                    Log.w(TAG, e);
-                } catch (IOException e) {
-                    Log.w(TAG, e);
-                    Log.w(TAG, e);
-                } finally {
-                    if (in != null) {
-                        try {
-                            in.close();
-                        } catch (IOException e) {
-                            Log.w(TAG, e);
-                        }
-                    }
-                }
-
-                if ("GIF".equals(type)) {
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    InputStream in = null;
+                    String type = "";
+                    byte[] tmpData = null;
                     try {
-                        in = this.getActivity().getContentResolver().openInputStream(
-                                uri);
-                        tmpData = new byte[in.available()];
+                        in = this.getActivity().getContentResolver().openInputStream(uri);
+                        tmpData = new byte[10];
                         in.read(tmpData);
+                        type = ThumbnailUtils.getType(tmpData);
                     } catch (FileNotFoundException e) {
                         Log.w(TAG, e);
                         Log.w(TAG, e);
@@ -348,69 +327,92 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                             }
                         }
                     }
-                    Bitmap bitmap = null;
-                    try {
-                        bitmap = BitmapFactory.decodeByteArray(tmpData, 0,
-                                tmpData.length);
-                    } catch (OutOfMemoryError e) {
-                        Log.e(TAG, e.getMessage(), e);
-                        bitmap = BitmapFactory.decodeByteArray(tmpData, 0,
-                                tmpData.length);
-                    }
-                    FileTools.writeBitmap(EnvConstants.imageRootPath,
-                            tempImage, bitmap);
-                    newFile = new File(EnvConstants.imageRootPath, tempImage);
-                    bitmap = ThumbnailUtils.getImageThumbnail(newFile,
-                            avatorSize, avatorSize, tempImageCompress,
-                            false);
-                    if (bitmap != null) {
-                        bitmap.recycle();
-                        bitmap = null;
-                    }
-                } else {
-                    // tempImageCompress 是tmpFile的文件名
-                    int orientation = 0;
-                    Cursor cursor = null;
-                    try {
-                        cursor = DataBaseUtils.doContentResolverQueryWrapper(this.getActivity(), uri,
-                                new String[]{MediaStore.Images.ImageColumns.ORIENTATION},
-                                null, null, null);
-                        if (cursor != null) {
-                            if (cursor.moveToFirst()) {
-                                orientation = cursor.getInt(0);
+
+                    if ("GIF".equals(type)) {
+                        try {
+                            in = this.getActivity().getContentResolver().openInputStream(
+                                    uri);
+                            tmpData = new byte[in.available()];
+                            in.read(tmpData);
+                        } catch (FileNotFoundException e) {
+                            Log.w(TAG, e);
+                            Log.w(TAG, e);
+                        } catch (IOException e) {
+                            Log.w(TAG, e);
+                            Log.w(TAG, e);
+                        } finally {
+                            if (in != null) {
+                                try {
+                                    in.close();
+                                } catch (IOException e) {
+                                    Log.w(TAG, e);
+                                }
                             }
                         }
-                    } catch (RuntimeException e) {
-                        Log.w(TAG, e);
-                    } finally {
-                        if (cursor != null) {
-                            cursor.close();
-                            cursor = null;
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = BitmapFactory.decodeByteArray(tmpData, 0,
+                                    tmpData.length);
+                        } catch (OutOfMemoryError e) {
+                            Log.e(TAG, e.getMessage(), e);
+                            bitmap = BitmapFactory.decodeByteArray(tmpData, 0,
+                                    tmpData.length);
+                        }
+                        FileTools.writeBitmap(EnvConstants.imageRootPath,
+                                tempImage, bitmap);
+                        newFile = new File(EnvConstants.imageRootPath, tempImage);
+                        bitmap = ThumbnailUtils.getImageThumbnail(newFile,
+                                avatorSize, avatorSize, tempImageCompress,
+                                false);
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                            bitmap = null;
+                        }
+                    } else {
+                        // tempImageCompress 是tmpFile的文件名
+                        int orientation = 0;
+                        Cursor cursor = null;
+                        try {
+                            cursor = DataBaseUtils.doContentResolverQueryWrapper(this.getActivity(), uri,
+                                    new String[]{MediaStore.Images.ImageColumns.ORIENTATION},
+                                    null, null, null);
+                            if (cursor != null) {
+                                if (cursor.moveToFirst()) {
+                                    orientation = cursor.getInt(0);
+                                }
+                            }
+                        } catch (RuntimeException e) {
+                            Log.w(TAG, e);
+                        } finally {
+                            if (cursor != null) {
+                                cursor.close();
+                                cursor = null;
+                            }
+                        }
+
+                        Bitmap bitmap = ThumbnailUtils.getImageThumbnailFromAlbum(this.getActivity(), uri, avatorSize, avatorSize, tempImageCompress, orientation);
+
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                            bitmap = null;
                         }
                     }
+                    tmpData = null;
 
-                    Bitmap bitmap = ThumbnailUtils.getImageThumbnailFromAlbum(this.getActivity(), uri, avatorSize, avatorSize, tempImageCompress, orientation);
-
-                    if (bitmap != null) {
-                        bitmap.recycle();
-                        bitmap = null;
-                    }
+                    Intent intent = new Intent(this.getActivity(), CropImageActivity.class);
+                    intent.setDataAndType(Uri.fromFile(tmpFile), "image/*");// 设置要裁剪的图片
+                    intent.putExtra("crop", "true");// crop=true
+                    // 有这句才能出来最后的裁剪页面.
+                    intent.putExtra("aspectX", 1);
+                    intent.putExtra("aspectY", 1);
+                    intent.putExtra("outputX", avatorSize);
+                    intent.putExtra("outputY", avatorSize);
+                    intent.putExtra("noFaceDetection", true);
+                    intent.putExtra("return-data", true);
+                    intent.putExtra("path", avatorTmp);
+                    intent.putExtra("outputFormat", "JPEG");// 返回格式
+                    this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
                 }
-                tmpData = null;
-
-                Intent intent = new Intent(this.getActivity(), CropImageActivity.class);
-                intent.setDataAndType(Uri.fromFile(tmpFile), "image/*");// 设置要裁剪的图片
-                intent.putExtra("crop", "true");// crop=true
-                // 有这句才能出来最后的裁剪页面.
-                intent.putExtra("aspectX", 1);
-                intent.putExtra("aspectY", 1);
-                intent.putExtra("outputX", avatorSize);
-                intent.putExtra("outputY", avatorSize);
-                intent.putExtra("noFaceDetection", true);
-                intent.putExtra("return-data", true);
-                intent.putExtra("path", avatorTmp);
-                intent.putExtra("outputFormat", "JPEG");// 返回格式
-                this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
             }
 
         } else if (requestCode == CROP_PICTURE_REQUEST && resultCode == Activity.RESULT_OK) {
