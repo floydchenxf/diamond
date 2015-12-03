@@ -5,29 +5,32 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.text.TextUtils;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.aync.JobFactory;
-import com.floyd.diamond.ui.adapter.SimpleAdapter;
+import com.floyd.diamond.biz.manager.IndexManager;
+import com.floyd.diamond.biz.vo.AdvVO;
+import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
+import com.floyd.diamond.ui.anim.LsLoadingView;
 import com.floyd.diamond.ui.pageindicator.CircleLoopPageIndicator;
-import com.floyd.diamond.ui.pojo.banner.DataList;
 import com.floyd.diamond.ui.view.LoopViewPager;
 import com.floyd.diamond.utils.CommonUtil;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,9 +40,11 @@ import java.util.List;
  * Use the {@link IndexFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IndexFragment extends BackHandledFragment implements AbsListView.OnScrollListener {
+public class IndexFragment extends BackHandledFragment implements AbsListView.OnScrollListener, View.OnClickListener {
 
-    private static  int BANNER_HEIGHT_IN_DP = 150;
+    private static final String TAG = "IndexFragment";
+
+    private static  int BANNER_HEIGHT_IN_DP = 300;
     public static final int CHANGE_BANNER_HANDLER_MSG_WHAT = 51;
 
     private PullToRefreshListView mPullToRefreshListView;
@@ -52,7 +57,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private CircleLoopPageIndicator mHeaderViewIndicator;//广告条索引
     private LinearLayout mFakeNavigationContainer; //固定顶端的导航栏
     private LinearLayout mNavigationContainer;//导航栏
-    private List<DataList> mTopBannerList;//最上部分左右循环广告条
+    private List<AdvVO> mTopBannerList;//最上部分左右循环广告条
 
     private BannerImageAdapter mBannerImageAdapter;
 
@@ -63,6 +68,18 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private int mLastShowFakeNavigationItem = 0;
 
     private boolean isScrollToUp = false; //ListView滚动的方向
+
+    private TextView mActLsFailTv;
+
+    private View mActLsFailLayoutView;
+
+    private FrameLayout mActLsloading;
+
+    private LsLoadingView mLsLoadingView;
+
+    private View mLoading_container;
+
+    private IndexMoteAdapter indexMoteAdapter;
 
     private Handler mChangeViewPagerHandler = new Handler() {
         @Override
@@ -95,68 +112,52 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTopBannerList = new ArrayList<DataList>();
+        mTopBannerList = new ArrayList<AdvVO>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_index, container, false);
+
+
+        if(mActLsloading == null){
+            mActLsloading = (FrameLayout) view.findViewById(R.id.act_lsloading);
+        }
+        //一些错误和空页面
+        if (mActLsFailLayoutView == null) {
+            mActLsFailLayoutView = view.findViewById(R.id.act_ls_fail_layout);
+            mActLsFailLayoutView.setOnClickListener(this);
+            mActLsFailLayoutView.setVisibility(View.GONE);
+        }
+
+        if (mActLsFailTv == null) {
+            mActLsFailTv = (TextView) view.findViewById(R.id.act_ls_fail_tv);
+            mActLsFailTv.setText(Html.fromHtml("页面太调皮，跑丢了...<br>请<font color='#1fb4fc'>刷新</font>再试试吧^^"));
+        }
+
+
+        mLsLoadingView = (LsLoadingView) view.findViewById(R.id.ls_loading_image);
+        mLoading_container = view.findViewById(R.id.loading_container);
+        if (mLoading_container != null) {
+            mLoading_container.setVisibility(View.GONE);
+        }
+
         mTitleLayout = view.findViewById(R.id.title);
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pic_list);
         mListView = mPullToRefreshListView.getRefreshableView();
         mListView.setOnScrollListener(this);
         mFakeNavigationContainer = (LinearLayout)view.findViewById(R.id.fake_navigation_container);
         initListViewHeader();
+
+        startLoading();
+
+        loadData();
+
         mListView.addHeaderView(mHeaderView);
-        JobFactory.createJob("http://img.taopic.com/uploads/allimg/130501/240451-13050106450911.jpg").startUI(new ApiCallback<String>() {
-            @Override
-            public void onError(int code, String errorInfo) {
 
-            }
-
-            @Override
-            public void onSuccess(String s) {
-                DataList dataList = new DataList();
-                dataList.setContentUrl(s);
-                DataList dataList2 = new DataList();
-                dataList2.setContentUrl(s);
-                mTopBannerList.add(dataList);
-                mTopBannerList.add(dataList2);
-                mBannerImageAdapter.addItems(mTopBannerList);
-
-                if (mTopBannerList != null && mTopBannerList.size() > 0) {
-                    isShowBanner = true;
-                    int count = mBannerImageAdapter.getCount();
-                    mHeaderViewIndicator.setTotal(count);
-                    mHeaderViewIndicator.setIndex(0);
-                    mHeaderViewPager.setAdapter(mBannerImageAdapter);
-                    mBannerImageAdapter.notifyDataSetChanged();
-                    if (mTopBannerList.size() == 1) {
-                        mHeaderViewIndicator.setVisibility(View.GONE);
-                    } else {
-                        mHeaderViewIndicator.setVisibility(View.VISIBLE);
-                        stopBannerAutoLoop();
-                        startBannerAutoLoop();
-                    }
-//                    gotoTop();
-                } else {
-                    isShowBanner = false;
-                    mHeaderView.findViewById(R.id.pager_layout).setVisibility(View.GONE);
-
-                }
-
-                mNavigationContainer.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
-
-        final SimpleAdapter simpleAdapter = new SimpleAdapter(this.getActivity(), Arrays.asList(new String[]{"wuliao", "nihao"}));
-        mListView.setAdapter(simpleAdapter);
+        indexMoteAdapter = new IndexMoteAdapter(this.getActivity(), new ArrayList<MoteInfoVO>());
+        mListView.setAdapter(indexMoteAdapter);
 
         mListView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -185,13 +186,11 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
-                simpleAdapter.add("1111");
                 mPullToRefreshListView.onRefreshComplete(true, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
-                simpleAdapter.add("2222");
                 mPullToRefreshListView.onRefreshComplete(true, true);
             }
         });
@@ -225,6 +224,71 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             }
         });
         return view;
+    }
+
+    private void loadData() {
+
+        IndexManager.fetchAdvLists(5).startUI(new ApiCallback<List<AdvVO>>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                Log.e(TAG, "code:"+code +"---error:"+errorInfo);
+            }
+
+            @Override
+            public void onSuccess(List<AdvVO> advVOs) {
+                mTopBannerList.addAll(advVOs);
+                mBannerImageAdapter.addItems(mTopBannerList);
+
+                if (mTopBannerList != null && mTopBannerList.size() > 0) {
+                    isShowBanner = true;
+                    int count = mBannerImageAdapter.getCount();
+                    mHeaderViewIndicator.setTotal(count);
+                    mHeaderViewIndicator.setIndex(0);
+                    mHeaderViewPager.setAdapter(mBannerImageAdapter);
+                    mBannerImageAdapter.notifyDataSetChanged();
+                    if (mTopBannerList.size() == 1) {
+                        mHeaderViewIndicator.setVisibility(View.GONE);
+                    } else {
+                        mHeaderViewIndicator.setVisibility(View.VISIBLE);
+                        stopBannerAutoLoop();
+                        startBannerAutoLoop();
+                    }
+//                    gotoTop();
+                } else {
+                    isShowBanner = false;
+                    mHeaderView.findViewById(R.id.pager_layout).setVisibility(View.GONE);
+
+                }
+
+                mNavigationContainer.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+        IndexManager.fetchMoteList(1, 1, 18).startUI(new ApiCallback<List<MoteInfoVO>>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                loadFail();
+            }
+
+            @Override
+            public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
+                indexMoteAdapter.addAll(moteInfoVOs);
+                loadSuccess();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+
     }
 
     private void initListViewHeader() {
@@ -267,6 +331,47 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
 
     }
+
+    /**
+     * 数据加载成功
+     */
+    private void loadSuccess(){
+        mActLsloading.setVisibility(View.GONE);
+        mActLsFailLayoutView.setVisibility(View.GONE);
+        stopLoading();
+    }
+
+    /**
+     * 数据加载失败
+     */
+    private void loadFail(){
+        mActLsloading.setVisibility(View.VISIBLE);
+        mActLsFailLayoutView.setVisibility(View.VISIBLE);
+        stopLoading();
+    }
+
+    /**
+     * 开始显示加载动画
+     */
+    private void startLoading(){
+        if(mActLsloading != null){
+            mActLsloading.setVisibility(View.VISIBLE);
+            mLoading_container.setVisibility(View.VISIBLE);
+            mLsLoadingView.startAnimation();
+            mActLsFailLayoutView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 结束显示加载动画
+     */
+    private void stopLoading(){
+        if(mActLsloading != null){
+            mLoading_container.setVisibility(View.GONE);
+            mLsLoadingView.stopAnimation();
+        }
+    }
+
 
     public void stopBannerAutoLoop(){
         if(mChangeViewPagerHandler!=null){
@@ -330,19 +435,24 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
+
 
     public class BannerImageAdapter extends FragmentPagerAdapter {
 
-        List<DataList> dataLists = new ArrayList<DataList>();
+        List<AdvVO> dataLists = new ArrayList<AdvVO>();
 
-        public BannerImageAdapter(FragmentManager fm, List<DataList> dataList) {
+        public BannerImageAdapter(FragmentManager fm, List<AdvVO> dataList) {
             super(fm);
             if (dataList!=null && !dataList.isEmpty()) {
                 this.dataLists.addAll(dataList);
             }
         }
 
-        public void addItems(List<DataList> dataList) {
+        public void addItems(List<AdvVO> dataList) {
             this.dataLists.addAll(dataList);
             this.notifyDataSetChanged();
         }
@@ -370,15 +480,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
         public long getItemId(int position) {
             if (position >= 0 && position < dataLists.size()) {
-                DataList dataList = dataLists.get(position);
+                AdvVO dataList = dataLists.get(position);
                 if (dataList != null) {
-                    String id=dataList.getId();
-                    if(!TextUtils.isEmpty(id)){
-                        return Long.parseLong(id);
-                    }
+                    long id = dataList.id;
+                    return id;
                 }
             }
-            return (long)position;
+            return (long) position;
         }
     }
 }

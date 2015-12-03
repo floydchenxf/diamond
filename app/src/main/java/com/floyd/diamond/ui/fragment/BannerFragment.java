@@ -15,7 +15,7 @@ import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.constants.EnvConstants;
-import com.floyd.diamond.ui.pojo.banner.DataList;
+import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.utils.CommonUtil;
 
 import org.json.JSONArray;
@@ -36,7 +36,7 @@ public class BannerFragment extends BaseFragment {
 
 
     private ImageLoader mImageLoader;
-    private DataList mDataList;
+    private AdvVO mDataList;
     private int mPosition;
     private NetworkImageView mImageView;
     private int mImageSize;
@@ -89,7 +89,7 @@ public class BannerFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 List<String> actions = new ArrayList<String>();
-                actions.add(mDataList.getContentUrl());
+                actions.add(mDataList.imgUrl);
                 callAction(actions, "BANNER", mDataList);
             }
         });
@@ -97,13 +97,13 @@ public class BannerFragment extends BaseFragment {
         mImageView.setErrorImageResId(R.drawable.pic_loading);
         mImageView.setDefaultImageResId(R.drawable.pic_loading);
         if (mDataList != null) {
-            String fullUrl = mDataList.getContentUrl();
+            String fullUrl = mDataList.imgUrl;
             mImageView.setImageUrl(fullUrl, mImageLoader);
         }
         return mImageView;
     }
 
-    private void callAction(final List<String> actions, final String param, final DataList banner) {
+    private void callAction(final List<String> actions, final String param, final AdvVO banner) {
 //        if (actions != null && actions.size() > 0) {
 //            ActionParam actionParam = new ActionParam();
 //            actionParam.setAsync(true);

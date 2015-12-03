@@ -8,5 +8,6 @@
     <dimen name="aliwx_pull_down_toast_size">113dip</dimen>
     <dimen name="aliwx_column_up_unit_margin">10dip</dimen>
     <dimen name="aliwx_font_third_grade">12sp</dimen>
+    <dimen name="aliwx_second_text_size">12sp</dimen>
 
 </resources>

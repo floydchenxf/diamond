@@ -5,7 +5,7 @@ package com.floyd.diamond.biz.vo;
  */
 public class MoteInfoVO {
     public String nickname;//别名
-    public String avartUrl;//avatarUrl;//头像地址
+    public String avatarUrl;//avatarUrl;//头像地址
     public int orderNum;
     public int fenNum;
     public int fee;

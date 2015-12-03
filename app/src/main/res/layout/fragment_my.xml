@@ -13,7 +13,7 @@
         android:background="@drawable/head_lay"
         app:layout_heightPercent="40%">
 
-        <ImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/mine_touxiang"
             android:layout_width="0dp"
             android:layout_height="0dp"

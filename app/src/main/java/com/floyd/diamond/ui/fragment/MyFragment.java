@@ -22,10 +22,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+import com.floyd.diamond.IMChannel;
+import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
-import com.floyd.diamond.biz.manager.BitmapDownloadFactory;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -36,10 +41,8 @@ import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
-import com.floyd.diamond.channel.request.HttpMethod;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -61,7 +64,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     private TextView editHeadButton;
     private TextView editProfileButton;
     private TextView cancelButton;
-    private ImageView headView;
+    private NetworkImageView headView;
 
     private TextView careView;//我的关注
     private TextView taskView; //我的任务
@@ -91,6 +94,20 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private ProgressDialog avatorDialog;
 
+    private IMImageCache wxImageCache;
+    private ImageLoader mImageLoader;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
+        wxImageCache = IMImageCache.findOrCreateCache(
+                IMChannel.getApplication(), EnvConstants.imageRootPath);
+        mImageLoader = new ImageLoader(mQueue, wxImageCache);
+        mImageLoader.setBatchedResponseDelay(0);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,7 +127,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         setView.setOnClickListener(this);
 
 
-        headView = (ImageView) view.findViewById(R.id.mine_touxiang);
+        headView = (NetworkImageView) view.findViewById(R.id.mine_touxiang);
         nicknameView = (TextView) view.findViewById(R.id.mine_name);
         ywPopupWindow = new YWPopupWindow(this.getActivity());
         ywPopupWindow.initView(headView, R.layout.popup_edit_head, R.dimen.edit_head_bar_heigh, new YWPopupWindow.ViewInit() {
@@ -165,8 +182,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 nicknameView.setText(moteInfoVO.nickname);
                 qiangView.setText(moteInfoVO.fenNum);
                 placeView.setText(moteInfoVO.fee);
-                if (!TextUtils.isEmpty(moteInfoVO.avartUrl)) {
-                    ImageLoader.getInstance().displayImage(moteInfoVO.avartUrl, headView);
+                if (!TextUtils.isEmpty(moteInfoVO.avatarUrl)) {
+                    headView.setImageUrl(moteInfoVO.avatarUrl, mImageLoader);
                 }
             }
 
@@ -183,25 +200,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     qiangView.setText(moteInfoVO.fenNum);
                     placeView.setText(moteInfoVO.fee);
                     nicknameView.setText(moteInfoVO.nickname);
-                    if (!TextUtils.isEmpty(moteInfoVO.avartUrl)) {
-//                            ImageLoader.getInstance().displayImage(moteInfoVO.avartUrl, headView);
-                        BitmapDownloadFactory.getImage(moteInfoVO.avartUrl, null, HttpMethod.GET).startUI(new ApiCallback<Bitmap>() {
-                            @Override
-                            public void onError(int code, String errorInfo) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(Bitmap bitmap) {
-                                headView.setImageBitmap(bitmap);
-                                userInfoLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-
-                            @Override
-                            public void onProgress(int progress) {
-
-                            }
-                        });
+                    if (!TextUtils.isEmpty(moteInfoVO.avatarUrl)) {
+                        Bitmap bitmap = wxImageCache.getBitmap(moteInfoVO.avatarUrl);
+                        userInfoLayout.setBackground(new BitmapDrawable(bitmap));
                     }
 
                 }
@@ -220,7 +221,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 qiangView.setText(sellerInfoVO.orderNum + "");
                 placeView.setText(sellerInfoVO.area);
                 if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
-                    ImageLoader.getInstance().displayImage(sellerInfoVO.avartUrl, headView);
+                    headView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader);
                 }
             }
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
@@ -236,24 +237,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     qiangView.setText(vo.orderNum + "");
                     placeView.setText(vo.area);
                     if (!TextUtils.isEmpty(vo.avartUrl)) {
-                        BitmapDownloadFactory.getImage(vo.avartUrl, null, HttpMethod.GET).startUI(new ApiCallback<Bitmap>() {
-                            @Override
-                            public void onError(int code, String errorInfo) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(Bitmap bitmap) {
-                                headView.setImageBitmap(bitmap);
-                                userInfoLayout.setBackground(new BitmapDrawable(bitmap));
-                            }
-
-                            @Override
-                            public void onProgress(int progress) {
-
-                            }
-                        });
-//                            ImageLoader.getInstance().displayImage(vo.avartUrl, headView);
+                        Bitmap bitmap =wxImageCache.getBitmap(vo.avartUrl);
+                        userInfoLayout.setBackground(new BitmapDrawable(bitmap));
                     }
 
                 }

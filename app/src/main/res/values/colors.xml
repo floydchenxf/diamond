@@ -8,4 +8,5 @@
     <color name="gray">#929292</color>
     <color name="aliwx_top_grade_color">#ffffff</color>
     <color name="aliwx_refresh_head_color">#505253</color>
+    <color name="setting_line_color">#cccccc</color>
 </resources>
