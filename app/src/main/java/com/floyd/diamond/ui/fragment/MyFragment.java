@@ -49,9 +49,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by Administrator on 2015/11/25.
- */
 public class MyFragment extends BackHandledFragment implements View.OnClickListener {
 
     private static final String TAG = "MyFragment";

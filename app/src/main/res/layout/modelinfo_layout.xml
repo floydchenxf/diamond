@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#EEEEEE">
+    android:background="#EEEEEE"
+    android:orientation="vertical">
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="#ff00bb"
+        android:background="#d4377e"
         android:orientation="vertical"
         app:layout_heightPercent="25%">
 
@@ -25,8 +25,7 @@
                 android:layout_height="16dp"
                 android:layout_centerVertical="true"
                 android:background="@drawable/jiantou_back"
-                app:layout_marginLeftPercent="3%"
-                />
+                app:layout_marginLeftPercent="3%" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -42,8 +41,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:background="@drawable/share_nomal"
-                app:layout_marginRightPercent="3%"
-                 />
+                app:layout_marginRightPercent="3%" />
 
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
@@ -111,58 +109,37 @@
                 android:background="#ffffff"
                 android:gravity="center"
                 android:text="已关注"
-                android:textColor="#ff00dd"
+                android:textColor="#d4377e"
                 android:textSize="12sp"
                 app:layout_heightPercent="27%"
                 app:layout_marginLeftPercent="3%"
                 app:layout_widthPercent="23%" />
         </com.zhy.android.percent.support.PercentLinearLayout>
 
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            app:layout_marginLeftPercent="3%"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="已赚:"
-                android:textColor="#ffffff"
-                android:textSize="20sp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="2013"
-                android:textColor="#ffffff"
-                android:textSize="20sp"
-                />
-        </com.zhy.android.percent.support.PercentLinearLayout>
-
     </com.zhy.android.percent.support.PercentLinearLayout>
+
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_heightPercent="7%"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        app:layout_heightPercent="7%">
+
         <TextView
             android:id="@+id/moreInfo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:drawableRight="@drawable/jiantou_next"
+            android:gravity="center_vertical"
             android:text="更多详情"
             android:textSize="10sp"
-            android:gravity="center_vertical"
             app:layout_marginLeftPercent="2%"
-            app:layout_marginRightPercent="2%"
-            android:drawableRight="@drawable/jiantou_next"/>
+            app:layout_marginRightPercent="2%" />
     </com.zhy.android.percent.support.PercentLinearLayout>
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/m1"
-        app:layout_marginTopPercent="2%"
-        />
+        app:layout_marginTopPercent="2%" />
 
 </com.zhy.android.percent.support.PercentLinearLayout>
