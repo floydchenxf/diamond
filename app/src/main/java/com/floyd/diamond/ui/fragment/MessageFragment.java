@@ -12,8 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.floyd.diamond.R;
-import com.floyd.diamond.bean.*;
-import com.floyd.diamond.ui.MessageItemActivity;
+import com.floyd.diamond.ui.activity.MessageItemActivity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
 
 /**

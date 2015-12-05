@@ -1,9 +1,7 @@
 package com.floyd.diamond.ui.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,8 +19,8 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.JobFactory;
 import com.floyd.diamond.bean.SpacesItemDecoration;
-import com.floyd.diamond.ui.GuideActivity;
-import com.floyd.diamond.ui.HomeChooseActivity;
+import com.floyd.diamond.ui.activity.GuideActivity;
+import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.adapter.Adapter_WelcomeFragment;
 import com.floyd.diamond.ui.adapter.HomeSecondAdapter;
 import com.floyd.diamond.ui.adapter.SimpleAdapter;
