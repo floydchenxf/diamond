@@ -168,9 +168,6 @@ public class IMImageCache implements ImageLoader.ImageCache {
         if (mMemoryCache != null) {
             final Bitmap memBitmap = mMemoryCache.get(data);
             if (memBitmap != null) {
-                // if (BuildConfig.DEBUG) {
-                // Log.d(TAG, "Memory cache hit");
-                // }
                 return memBitmap;
             }
         }

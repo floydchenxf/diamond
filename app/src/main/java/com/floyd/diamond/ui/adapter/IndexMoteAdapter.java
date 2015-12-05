@@ -93,6 +93,10 @@ public class IndexMoteAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
+        holder.moteViewImage1.setDefaultImageResId(R.drawable.tuqian);
+        holder.moteViewImage2.setDefaultImageResId(R.drawable.tuqian);
+        holder.moteViewImage3.setDefaultImageResId(R.drawable.tuqian);
+
         int start = position * 3;
         int end = position * 3 + 2;
 

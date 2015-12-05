@@ -53,4 +53,6 @@
     <string name="aliwx_reload_again">重新加载</string>
     <string name="aliwx_last_update_time">上次刷新时间</string>
     <string name="lsloading">正在努力加载中&#8230;</string>
+    <string name="title_activity_mote_detail">MoteDetailActivity</string>
+    <string name="title_activity_mote_more_info">MoteMoreInfoActivity</string>
 </resources>

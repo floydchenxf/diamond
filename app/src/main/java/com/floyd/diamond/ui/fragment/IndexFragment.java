@@ -299,7 +299,9 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                         stopBannerAutoLoop();
                         startBannerAutoLoop();
                     }
-//                    gotoTop();
+                    if (needClear) {
+                        gotoTop();
+                    }
                 } else {
                     isShowBanner = false;
                     mHeaderView.findViewById(R.id.pager_layout).setVisibility(View.GONE);
@@ -591,6 +593,15 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 }
             }
             return (long) position;
+        }
+    }
+
+    /**
+     *跳转到ListView的最上方
+     */
+    public void gotoTop(){
+        if(mListView!=null){
+            mListView.setSelection(0);
         }
     }
 }

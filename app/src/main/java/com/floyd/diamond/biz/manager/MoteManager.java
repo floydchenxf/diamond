@@ -6,10 +6,11 @@ import android.util.Log;
 
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
+import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.biz.constants.APIConstants;
-import com.floyd.diamond.biz.func.AbstractJsonApiCallback;
 import com.floyd.diamond.biz.func.StringFunc;
+import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -58,24 +59,23 @@ public class MoteManager {
         String url = APIConstants.HOST + APIConstants.API_MY_MOTE_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", accessToken);
-        final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
-
-
-        return new AsyncJob<MoteInfoVO>() {
+        return HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc()).flatMap(new Func<String, AsyncJob<MoteInfoVO>>() {
             @Override
-            public void start(ApiCallback<MoteInfoVO> callback) {
-                httpJob.start(new AbstractJsonApiCallback<MoteInfoVO>(callback) {
+            public AsyncJob<MoteInfoVO> call(final String s) {
+                return new AsyncJob<MoteInfoVO>() {
                     @Override
-                    protected MoteInfoVO convert2Obj(String s, String data) throws JSONException {
-                        Log.i(TAG, "---fetchMoteInfoJob:" + data);
-                        Gson gson = new Gson();
-                        MoteInfoVO vo = gson.fromJson(data, MoteInfoVO.class);
-                        PrefsTools.setStringPrefs(context, MOTE_INFO, s);
-                        return vo;
+                    public void start(ApiCallback<MoteInfoVO> callback) {
+                        new AbstractJsonParser<MoteInfoVO>() {
+                            @Override
+                            protected MoteInfoVO convert2Obj(String data) {
+                                Gson gson = new Gson();
+                                return gson.fromJson(data, MoteInfoVO.class);
+                            }
+                        }.doParse(callback, s);
                     }
-                });
+                };
             }
-        };
+        });
     }
 
 
