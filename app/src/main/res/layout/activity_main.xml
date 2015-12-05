@@ -18,6 +18,7 @@
             android:button="@null"
             android:layout_weight="1.0"
             android:checked="true"
+            android:paddingTop="6dp"
             android:drawableTop="@drawable/home_selector"
             android:gravity="center"
             android:singleLine="true"
@@ -32,7 +33,7 @@
             android:layout_weight="1.0"
             android:drawableTop="@drawable/tg_selector"
             android:gravity="center"
-            android:paddingTop="3dp"
+            android:paddingTop="6dp"
             android:text="通告"
             android:textColor="@drawable/word_selector"/>
 
@@ -44,7 +45,7 @@
             android:button="@null"
             android:drawableTop="@drawable/my_selector"
             android:gravity="center"
-            android:paddingTop="3dp"
+            android:paddingTop="6dp"
             android:text="我的"
             android:textColor="@drawable/word_selector"/>
     </RadioGroup>

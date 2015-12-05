@@ -5,4 +5,8 @@
     <color name="blue">#4193c0</color>
     <color name="tips1">#ffffff</color>
     <color name="tips2">#ff00bb</color>
+    <color name="gray">#929292</color>
+    <color name="aliwx_top_grade_color">#ffffff</color>
+    <color name="aliwx_refresh_head_color">#505253</color>
+    <color name="setting_line_color">#cccccc</color>
 </resources>

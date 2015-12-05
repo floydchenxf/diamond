@@ -31,7 +31,7 @@ public class YWPopupWindow {
         if (menuBg == null) {
             View view = View.inflate(context, R.layout.common_popup_bg, null);
             menuBg = new PopupWindow(view, LayoutParams.MATCH_PARENT,
-                    screanHeight - dip2px(context, 50) - getStatusBarHeight(context)); //50dp是v的height
+                    screanHeight); //50dp是v的height
             view.setOnClickListener(new OnClickListener() {
 
                 @Override

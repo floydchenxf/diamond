@@ -21,6 +21,11 @@
     <string name="next_step">下一步</string>
     <string name="up_step">上一步</string>
 
+    <string name="crop_save_text">选取</string>
+    <string name="crop_discard_text">取消</string>
+
+    <string name="setting_hint">提示</string>
+    <string name="setting_updateing_avator">正在上传头像</string>
     <string name="pull_to_refresh_pull_label">Pull to refresh...</string>
     <string name="pull_to_refresh_release_label">Release to refresh...</string>
     <string name="pull_to_refresh_refreshing_label">Loading...</string>
@@ -30,4 +35,22 @@
     <string name="title_activity_phone_login">PhoneLoginActivity</string>
     <string name="title_activity_reset_password">ResetPasswordActivity</string>
     <string name="title_activity_reg2">Reg2Activity</string>
+    <string name="edit_profile">编辑个人信息</string>
+    <string name="edit_head">修改头像</string>
+    <string name="read_picture_error">载入图片失败</string>
+    <string name="runningFaceDetection">开始运行脸部检测</string>
+
+    <string name="aliwx_pull_to_refresh_pull_label">向下滑动加载更多&#8230;</string>
+    <string name="aliwx_pull_to_refresh_release_label">释放立即刷新&#8230;</string>
+    <string name="aliwx_pull_to_refresh_refreshing_label">正在加载&#8230;</string>
+    <string name="aliwx_pull_to_refresh_from_bottom_pull_label">向上滑动加载更多&#8230;</string>
+    <string name="aliwx_pull_to_refresh_from_bottom_release_label">@string/aliwx_pull_to_refresh_release_label</string>
+    <string name="aliwx_pull_to_refresh_from_bottom_refreshing_label">@string/aliwx_pull_to_refresh_refreshing_label</string>
+    <string name="aliwx_refresh_fail">刷新失败</string>
+    <string name="aliwx_refresh_success">刷新成功</string>
+    <string name="aliwx_release_stop_record">松开取消发送</string>
+    <string name="aliwx_releast_send">松开发送</string>
+    <string name="aliwx_reload_again">重新加载</string>
+    <string name="aliwx_last_update_time">上次刷新时间</string>
+    <string name="lsloading">正在努力加载中&#8230;</string>
 </resources>

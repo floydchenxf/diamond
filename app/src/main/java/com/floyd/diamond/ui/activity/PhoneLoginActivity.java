@@ -12,8 +12,7 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.AccountType;
-import com.floyd.diamond.biz.LoginManager;
+import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 
 public class PhoneLoginActivity extends Activity implements View.OnClickListener {
@@ -58,7 +57,7 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
                     return;
                 }
 
-                LoginManager.createLoginJob(userName, password, AccountType.COMMON, 1).startUI(new ApiCallback<LoginVO>() {
+                LoginManager.createLoginJob(this, userName, password, 1).startUI(new ApiCallback<LoginVO>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         Toast.makeText(PhoneLoginActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
@@ -66,9 +65,9 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
                     }
 
                     @Override
-                    public void onSuccess(LoginVO loginVO) {
-                        Toast.makeText(PhoneLoginActivity.this, loginVO.toString(), Toast.LENGTH_SHORT).show();
-                        Log.e(TAG, "----" + loginVO);
+                    public void onSuccess(LoginVO result) {
+                        Toast.makeText(PhoneLoginActivity.this, "登录成功!", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override

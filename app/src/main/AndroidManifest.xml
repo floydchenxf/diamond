@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.floyd.diamond">
+<<<<<<< HEAD
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -18,6 +19,8 @@
     - <!--  QQ、QQ空间所需权限-->
     <uses-permission android:name="android.permission.GET_TASKS" />
 
+=======
+>>>>>>> 2fb39d0ea023e4cf7a95cab8fe02c77109457f5a
 
     <application
         android:name=".DiamodApplication"
@@ -26,7 +29,11 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
+<<<<<<< HEAD
             android:name=".ui.activity.MainActivity"
+=======
+            android:name=".ui.MainActivity"
+>>>>>>> 2fb39d0ea023e4cf7a95cab8fe02c77109457f5a
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -52,6 +59,7 @@
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.activity.Reg2Activity"
+<<<<<<< HEAD
             android:label="@string/title_activity_reg2"></activity>
         <activity android:name=".ui.activity.HomeChooseActivity" />
         <activity android:name=".ui.activity.ChooseActivity" />
@@ -104,5 +112,38 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
 
+=======
+            android:label="@string/title_activity_reg2"
+            android:theme="@style/Transparent" />
+        <activity android:name=".ui.HomeChooseActivity" />
+        <activity android:name=".ui.ChooseActivity" />
+        <activity android:name=".ui.GuideActivity" />
+        <activity android:name=".ui.MessageItemActivity" />
+        <activity android:name=".ui.ModelInfoActivity" />
+        <activity android:name=".ui.ModelPersonActivity" />
+
+        <activity
+            android:name=".ui.graphic.CropImageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+
+    </application>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
+>>>>>>> 2fb39d0ea023e4cf7a95cab8fe02c77109457f5a
 
 </manifest>

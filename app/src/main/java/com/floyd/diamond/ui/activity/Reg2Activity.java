@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -11,9 +13,12 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.LoginManager;
+import com.floyd.diamond.biz.constants.AccountType;
+import com.floyd.diamond.biz.manager.LoginManager;
 
 public class Reg2Activity extends Activity implements View.OnClickListener {
+
+    private static final String TAG = "Reg2Activity";
 
     private TextView backView;
     private EditText checkCodeView;
@@ -32,7 +37,7 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reg2);
         phoneNumber = getIntent().getStringExtra("phoneNumber");
-        checkType = getIntent().getIntExtra("checkType", 0);
+        checkType = getIntent().getIntExtra("checkType", 1);
 
         backView = (TextView) findViewById(R.id.back);
         checkCodeView = (EditText) findViewById(R.id.check_code);
@@ -47,6 +52,25 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
 
     }
 
+
+    private void doUpdateTime(final int time) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int k = time;
+                if (k <= 0) {
+                    checkCodeButtonView.setEnabled(true);
+                    checkCodeButtonView.setBackgroundResource(R.drawable.common_round_blue_bg);
+                    checkCodeButtonView.setText("获取验证码");
+                    return;
+                }
+                k--;
+                checkCodeButtonView.setText(k + "秒后重新获取");
+                doUpdateTime(k);
+            }
+        }, 1000);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -55,7 +79,7 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                 break;
             case R.id.check_code_button:
                 checkCodeButtonView.setEnabled(false);
-                LoginManager.fetchVerifyCodeJob(phoneNumber).startUI(new ApiCallback<String>() {
+                LoginManager.fetchVerifyCodeJob(phoneNumber).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         Toast.makeText(Reg2Activity.this, errorInfo, Toast.LENGTH_SHORT).show();
@@ -63,27 +87,12 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                     }
 
                     @Override
-                    public void onSuccess(String s) {
-                        Toast.makeText(Reg2Activity.this, s, Toast.LENGTH_SHORT).show();
-                        checkCodeButtonView.setEnabled(false);
-                        checkCodeButtonView.setBackgroundResource(R.drawable.common_round_bg);
-                        checkCodeButtonView.setText("60秒后重新获取");
-                        time = 60;
-                        while (time >= 0) {
-                            mHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (time <= 0) {
-                                        checkCodeButtonView.setEnabled(true);
-                                        checkCodeButtonView.setBackgroundResource(R.drawable.common_round_blue_bg);
-                                        checkCodeButtonView.setText("获取验证码");
-                                        return;
-                                    }
-                                    time--;
-                                    checkCodeButtonView.setText(time + "秒后重新获取");
-
-                                }
-                            }, 1000);
+                    public void onSuccess(Boolean s) {
+                        if (s) {
+                            checkCodeButtonView.setEnabled(false);
+                            checkCodeButtonView.setBackgroundResource(R.drawable.common_round_bg);
+                            checkCodeButtonView.setText("60秒后重新获取");
+                            doUpdateTime(60);
                         }
                     }
 
@@ -94,8 +103,48 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                 });
                 break;
             case R.id.next_step:
-                //TODO 需要扩展
-//                LoginManager.createLoginJob(phoneNumber,)
+                AccountType type = AccountType.COMMON;
+                if (checkType == 1) {
+                    type = AccountType.COMMON;
+                } else if (checkType == 2) {
+                    type = AccountType.SELLER;
+                }
+
+                String usernick = userNickView.getText().toString();
+                if (TextUtils.isEmpty(usernick)) {
+                    Toast.makeText(this, "请输入别名", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String password = passwordView.getText().toString();
+                if (TextUtils.isEmpty(password)) {
+                    Toast.makeText(this, "请输入密码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String smsCode = checkCodeView.getText().toString();
+                if (TextUtils.isEmpty(smsCode)) {
+                    Toast.makeText(this, "请输入校验码", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                LoginManager.regUserJob(phoneNumber, usernick, password, type, smsCode).startUI(new ApiCallback<Boolean>() {
+                    @Override
+                    public void onError(int code, String errorInfo) {
+                        Toast.makeText(Reg2Activity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "--------" + code + "----" + errorInfo);
+                    }
+
+                    @Override
+                    public void onSuccess(Boolean s) {
+                        Toast.makeText(Reg2Activity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onProgress(int progress) {
+
+                    }
+                });
                 break;
         }
     }

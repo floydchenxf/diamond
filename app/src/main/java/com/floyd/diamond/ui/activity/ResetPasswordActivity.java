@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.LoginManager;
+import com.floyd.diamond.biz.manager.LoginManager;
 
 public class ResetPasswordActivity extends Activity implements View.OnClickListener {
 
@@ -46,6 +46,24 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
         finishButtonView.setOnClickListener(this);
     }
 
+    private void doUpdateTime(final int time) {
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int k = time;
+                if (k <= 0) {
+                    checkCodeButtonView.setEnabled(true);
+                    checkCodeButtonView.setBackgroundResource(R.drawable.common_round_blue_bg);
+                    checkCodeButtonView.setText("获取验证码");
+                    return;
+                }
+                k--;
+                checkCodeButtonView.setText(k + "秒后重新获取");
+                doUpdateTime(k);
+            }
+        }, 1000);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -58,7 +76,7 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
                     return;
                 }
 
-                LoginManager.fetchVerifyCodeJob(phoneNumber).startUI(new ApiCallback<String>() {
+                LoginManager.fetchVerifyCodeJob(phoneNumber).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         Toast.makeText(ResetPasswordActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
@@ -66,29 +84,12 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
                     }
 
                     @Override
-                    public void onSuccess(String s) {
-                        Toast.makeText(ResetPasswordActivity.this, s, Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Boolean s) {
+                        Toast.makeText(ResetPasswordActivity.this, s+"", Toast.LENGTH_SHORT).show();
                         checkCodeButtonView.setEnabled(false);
                         checkCodeButtonView.setBackgroundResource(R.drawable.common_round_bg);
                         checkCodeButtonView.setText("60秒后重新获取");
-                        time = 60;
-                        while(time >= 0) {
-                            mHandler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    if (time <= 0) {
-                                        checkCodeButtonView.setEnabled(true);
-                                        checkCodeButtonView.setBackgroundResource(R.drawable.common_round_blue_bg);
-                                        checkCodeButtonView.setText("获取验证码");
-                                        return;
-                                    }
-                                    time--;
-                                    checkCodeButtonView.setText(time + "秒后重新获取");
-
-                                }
-                            }, 1000);
-                        }
-
+                        doUpdateTime(60);
                     }
 
                     @Override
@@ -116,15 +117,16 @@ public class ResetPasswordActivity extends Activity implements View.OnClickListe
                     return;
                 }
 
-                LoginManager.fetchResetPwdJob(pn1, newPwd, smsCode).startUI(new ApiCallback<String>() {
+                LoginManager.fetchResetPwdJob(pn1, newPwd, smsCode).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, final String errorInfo) {
                         Toast.makeText(ResetPasswordActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onSuccess(String s) {
-                        Toast.makeText(ResetPasswordActivity.this, s, Toast.LENGTH_SHORT).show();
+                    public void onSuccess(Boolean s) {
+                        Toast.makeText(ResetPasswordActivity.this, "重置密码成功", Toast.LENGTH_SHORT).show();
+                        finish();
                     }
 
                     @Override

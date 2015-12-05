@@ -22,7 +22,6 @@ import java.security.cert.X509Certificate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.zip.GZIPInputStream;
 
@@ -34,19 +33,18 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-
 /**
  * 抽象的WEB请求实现<br>
  *
  * @author floydchenxf
  */
 public abstract class AbstractWebUtils {
-	
-	public static final int DOWN_PROGRESS = 2;
-	public static final int UPLOAD_PROGRESS = 1;
-	public static final int ALL_PROGRESS = 0;
-	
-	private static final String TAG = AbstractWebUtils.class.getSimpleName();
+
+    public static final int DOWN_PROGRESS = 2;
+    public static final int UPLOAD_PROGRESS = 1;
+    public static final int ALL_PROGRESS = 0;
+
+    private static final String TAG = AbstractWebUtils.class.getSimpleName();
 
     public static final String DEFAULT_CHARSET = "UTF-8";
 
@@ -107,30 +105,30 @@ public abstract class AbstractWebUtils {
         }
         return doPost(url, ctype, content, headers, connectTimeout, readTimeout);
     }
-    
+
     /**
-	 * 执行带文件上传的HTTP POST请求
-	 * @param url
-	 * @param params
-	 * @param headers
-	 * @param fileParams
-	 * @param connectTimeout
-	 * @param readTimeout
-	 * @return
-	 * @throws IOException
-	 */
-	public Response doPost(String url, Map<String, String> params,
-			Map<String, String> headers, Map<String, FileItem> fileParams,
-			int connectTimeout, int readTimeout) throws IOException {
-		Log.i(TAG, "post Url:" + url);
-		if (fileParams == null || fileParams.isEmpty()) {
-			return doPost(url, params, headers, DEFAULT_CHARSET, connectTimeout,
-					readTimeout);
-		} else {
-			return doPost(url, params, headers, fileParams, DEFAULT_CHARSET,
-					connectTimeout, readTimeout);
-		}
-	}
+     * 执行带文件上传的HTTP POST请求
+     * @param url
+     * @param params
+     * @param headers
+     * @param fileParams
+     * @param connectTimeout
+     * @param readTimeout
+     * @return
+     * @throws IOException
+     */
+    public Response doPost(String url, Map<String, String> params,
+                           Map<String, String> headers, Map<String, FileItem> fileParams,
+                           int connectTimeout, int readTimeout) throws IOException {
+        Log.i(TAG, "post Url:" + url);
+        if (fileParams == null || fileParams.isEmpty()) {
+            return doPost(url, params, headers, DEFAULT_CHARSET, connectTimeout,
+                    readTimeout);
+        } else {
+            return doPost(url, params, headers, fileParams, DEFAULT_CHARSET,
+                    connectTimeout, readTimeout);
+        }
+    }
 
     /**
      * 执行Post请求
@@ -156,9 +154,9 @@ public abstract class AbstractWebUtils {
                 conn.setConnectTimeout(connectTimeout);
                 conn.setReadTimeout(readTimeout);
             } catch (IOException e) {
-            	throw e;
+                throw e;
             }
-            
+
             try {
                 out = conn.getOutputStream();
                 out.write(content);
@@ -194,131 +192,131 @@ public abstract class AbstractWebUtils {
     public Response doPost(String url,Map<String, String> params,
                            Map<String, String> headers,Map<String, FileItem> fileParams,String charset,
                            int connectTimeout, int readTimeout) throws IOException {
-    	String boundary = System.currentTimeMillis() + ""; // 随机分隔线
-    	HttpURLConnection conn = null;
-    	OutputStream out = null;
-    	Response rsp = null;
-    	try {
-    		try {
-    			String ctype = "multipart/form-data;charset=" + charset	+ ";boundary=" + boundary;
-    			conn = getConnection(new URL(url), HttpMethod.POST.name(), ctype);
-    			addHeaders(headers, conn);
-    			conn.setConnectTimeout(connectTimeout);
-    			conn.setReadTimeout(readTimeout);
-    		} catch (IOException e) {
-    			throw e;
-    		}
+        String boundary = System.currentTimeMillis() + ""; // 随机分隔线
+        HttpURLConnection conn = null;
+        OutputStream out = null;
+        Response rsp = null;
+        try {
+            try {
+                String ctype = "multipart/form-data;charset=" + charset	+ ";boundary=" + boundary;
+                conn = getConnection(new URL(url), HttpMethod.POST.name(), ctype);
+                addHeaders(headers, conn);
+                conn.setConnectTimeout(connectTimeout);
+                conn.setReadTimeout(readTimeout);
+            } catch (IOException e) {
+                throw e;
+            }
 
-    		try {
-    			out = conn.getOutputStream();
+            try {
+                out = conn.getOutputStream();
 
-    			byte[] entryBoundaryBytes = ("\r\n--" + boundary + "\r\n")
-    					.getBytes(charset);
+                byte[] entryBoundaryBytes = ("\r\n--" + boundary + "\r\n")
+                        .getBytes(charset);
 
-    			// 组装文本请求参数
-    			Set<Entry<String, String>> textEntrySet = params.entrySet();
-    			for (Entry<String, String> textEntry : textEntrySet) {
-    				byte[] textBytes = getTextEntry(textEntry.getKey(),
-    						textEntry.getValue(), charset);
-    				out.write(entryBoundaryBytes);
-    				out.write(textBytes);
-    			}
+                // 组装文本请求参数
+                Set<Map.Entry<String, String>> textEntrySet = params.entrySet();
+                for (Map.Entry<String, String> textEntry : textEntrySet) {
+                    byte[] textBytes = getTextEntry(textEntry.getKey(),
+                            textEntry.getValue(), charset);
+                    out.write(entryBoundaryBytes);
+                    out.write(textBytes);
+                }
 
-    			// 组装文件请求参数
-    			Set<Entry<String, FileItem>> fileEntrySet = fileParams
-    					.entrySet();
-    			int totalSize = this.getFilesTotalSize(fileParams.values());
-    			int currentPos = 0;
-    			int progress = 0;
-    			if (totalSize > 0) {
-					invokeProgress(UPLOAD_PROGRESS, 0);
-				}
-    			for (Entry<String, FileItem> fileEntry : fileEntrySet) {
-    				FileItem fileItem = fileEntry.getValue();
-    				byte[] fileBytes = getFileEntry(fileEntry.getKey(),
-    						fileItem.getFileName(), fileItem.getMimeType(),
-    						charset);
-    				out.write(entryBoundaryBytes);
-    				out.write(fileBytes);
-    				
-					// 支持字节流上传
-					byte[] content = fileItem.getContent();
-					if (content != null) {
-						out.write(content);
-						continue;
-					}
-    				
-    				File file = fileItem.getFile();
-    				if (file != null && file.exists()) {
-    					InputStream in = null;
-    					try {
-    						in = new FileInputStream(file);
-    						int num = 0;
-    						byte[] block = new byte[1024];
-    						while ((num = in.read(block)) != -1) {
-    							out.write(block, 0, num);
-								currentPos += num;
-								if (totalSize > 0) {
-									progress = currentPos * 100 / totalSize;
-									invokeProgress(UPLOAD_PROGRESS, progress);
-								}
-    						}
-    					} finally {
-    						if (in != null) {
-    							in.close();
-    						}
-    					}
-    				}
-    			}
+                // 组装文件请求参数
+                Set<Map.Entry<String, FileItem>> fileEntrySet = fileParams
+                        .entrySet();
+                int totalSize = this.getFilesTotalSize(fileParams.values());
+                int currentPos = 0;
+                int progress = 0;
+                if (totalSize > 0) {
+                    invokeProgress(UPLOAD_PROGRESS, 0);
+                }
+                for (Map.Entry<String, FileItem> fileEntry : fileEntrySet) {
+                    FileItem fileItem = fileEntry.getValue();
+                    byte[] fileBytes = getFileEntry(fileEntry.getKey(),
+                            fileItem.getFileName(), fileItem.getMimeType(),
+                            charset);
+                    out.write(entryBoundaryBytes);
+                    out.write(fileBytes);
 
-    			// 添加请求结束标志
-    			byte[] endBoundaryBytes = ("\r\n--" + boundary + "--\r\n")
-    					.getBytes(charset);
-    			out.write(endBoundaryBytes);
-    			rsp = getResponse(conn);
-    		} catch (IOException e) {
-    			throw e;
-    		}
+                    // 支持字节流上传
+                    byte[] content = fileItem.getContent();
+                    if (content != null) {
+                        out.write(content);
+                        continue;
+                    }
 
-    	} finally {
-    		if (out != null) {
-    			out.close();
-    		}
-    		if (conn != null) {
-    			conn.disconnect();
-    		}
-    	}
+                    File file = fileItem.getFile();
+                    if (file != null && file.exists()) {
+                        InputStream in = null;
+                        try {
+                            in = new FileInputStream(file);
+                            int num = 0;
+                            byte[] block = new byte[1024];
+                            while ((num = in.read(block)) != -1) {
+                                out.write(block, 0, num);
+                                currentPos += num;
+                                if (totalSize > 0) {
+                                    progress = currentPos * 100 / totalSize;
+                                    invokeProgress(UPLOAD_PROGRESS, progress);
+                                }
+                            }
+                        } finally {
+                            if (in != null) {
+                                in.close();
+                            }
+                        }
+                    }
+                }
 
-    	return rsp;
+                // 添加请求结束标志
+                byte[] endBoundaryBytes = ("\r\n--" + boundary + "--\r\n")
+                        .getBytes(charset);
+                out.write(endBoundaryBytes);
+                rsp = getResponse(conn);
+            } catch (IOException e) {
+                throw e;
+            }
+
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+
+        return rsp;
     }
-    
+
     private int getFilesTotalSize(Collection<FileItem> fileItems) {
-    	int totalSize = 0;
-    	if (fileItems.isEmpty()) {
-    		return totalSize;
-    	}
-    	for (FileItem fileItem : fileItems) {
-    		File file = fileItem.getFile();
-    		if (file == null || !file.exists()) {
-    			continue;
-    		}
-			totalSize += fileItem.getFile().length();
-		}
-    	
-    	return totalSize;
-    	
+        int totalSize = 0;
+        if (fileItems.isEmpty()) {
+            return totalSize;
+        }
+        for (FileItem fileItem : fileItems) {
+            File file = fileItem.getFile();
+            if (file == null || !file.exists()) {
+                continue;
+            }
+            totalSize += fileItem.getFile().length();
+        }
+
+        return totalSize;
+
     }
 
     private static byte[] getTextEntry(String fieldName, String fieldValue,
-    		String charset) throws IOException {
-    	StringBuilder entry = new StringBuilder();
-    	entry.append("Content-Disposition:form-data;name=\"");
-    	entry.append(fieldName);
-    	entry.append("\"\r\nContent-Type:text/plain\r\n\r\n");
-    	entry.append(fieldValue);
-    	return entry.toString().getBytes(charset);
+                                       String charset) throws IOException {
+        StringBuilder entry = new StringBuilder();
+        entry.append("Content-Disposition:form-data;name=\"");
+        entry.append(fieldName);
+        entry.append("\"\r\nContent-Type:text/plain\r\n\r\n");
+        entry.append(fieldValue);
+        return entry.toString().getBytes(charset);
     }
-    
+
     private void addHeaders(Map<String, String> headers,
                             HttpURLConnection conn) {
         if (headers != null) {
@@ -330,18 +328,18 @@ public abstract class AbstractWebUtils {
     }
 
     private static byte[] getFileEntry(String fieldName, String fileName,
-			String mimeType, String charset) throws IOException {
-		StringBuilder entry = new StringBuilder();
-		entry.append("Content-Disposition:form-data;name=\"");
-		entry.append(fieldName);
-		entry.append("\";filename=\"");
-		entry.append(fileName);
-		entry.append("\"\r\nContent-Type:");
-		entry.append(mimeType);
-		entry.append("\r\n\r\n");
-		return entry.toString().getBytes(charset);
-	}
-    
+                                       String mimeType, String charset) throws IOException {
+        StringBuilder entry = new StringBuilder();
+        entry.append("Content-Disposition:form-data;name=\"");
+        entry.append(fieldName);
+        entry.append("\";filename=\"");
+        entry.append(fileName);
+        entry.append("\"\r\nContent-Type:");
+        entry.append(mimeType);
+        entry.append("\r\n\r\n");
+        return entry.toString().getBytes(charset);
+    }
+
     /**
      * 执行HTTP GET请求。
      *
@@ -385,7 +383,7 @@ public abstract class AbstractWebUtils {
                 conn.setConnectTimeout(connectTimeout);
                 conn.setReadTimeout(readTimeout);
             } catch (IOException e) {
-            	throw e;
+                throw e;
             }
 
             try {
@@ -529,10 +527,10 @@ public abstract class AbstractWebUtils {
         }
 
         StringBuilder query = new StringBuilder();
-        Set<Entry<String, String>> entries = params.entrySet();
+        Set<Map.Entry<String, String>> entries = params.entrySet();
         boolean hasParam = false;
 
-        for (Entry<String, String> entry : entries) {
+        for (Map.Entry<String, String> entry : entries) {
             String name = entry.getKey();
             String value = entry.getValue();
             // 忽略参数名或参数值为空的参数
@@ -576,10 +574,10 @@ public abstract class AbstractWebUtils {
         int totalSize = 0;
         String fileLength = conn.getHeaderField("Content-Length");
         if (!TextUtils.isEmpty(fileLength)) {
-        	totalSize = Integer.parseInt(fileLength);
+            totalSize = Integer.parseInt(fileLength);
         }
-		Log.i(TAG, "download file length:" + totalSize);
-        
+        Log.i(TAG, "download file length:" + totalSize);
+
         InputStream es = conn.getErrorStream();
         //没有返回http错误信息
         if (es == null) {
@@ -614,20 +612,20 @@ public abstract class AbstractWebUtils {
             int progress = 0;
             int start = 0;
             if (totalSize > 0) {
-            	progress = start * 100 / totalSize;  
-            	invokeProgress(DOWN_PROGRESS, progress);
+                progress = start * 100 / totalSize;
+                invokeProgress(DOWN_PROGRESS, progress);
             }
             byte[] block = new byte[2048];
             int count = 0;
             while((count = stream.read(block)) != -1) {
-            	baos.write(block, 0, count);
-            	start +=count;
-            	if (totalSize > 0) {
-					progress = start * 100 / totalSize;
-            		invokeProgress(DOWN_PROGRESS, progress);
-            	}
+                baos.write(block, 0, count);
+                start +=count;
+                if (totalSize > 0) {
+                    progress = start * 100 / totalSize;
+                    invokeProgress(DOWN_PROGRESS, progress);
+                }
             }
-            
+
             return baos.toByteArray();
         } finally {
             if (stream != null) {
@@ -755,7 +753,7 @@ public abstract class AbstractWebUtils {
                 throws CertificateException {
         }
     }
-    
+
     public abstract void invokeProgress(int progressType, int progress);
 
 }
