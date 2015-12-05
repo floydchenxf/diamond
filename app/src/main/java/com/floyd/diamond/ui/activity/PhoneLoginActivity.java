@@ -14,6 +14,9 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.event.LoginEvent;
+
+import de.greenrobot.event.EventBus;
 
 public class PhoneLoginActivity extends Activity implements View.OnClickListener {
     private static final String TAG = "PhoneLoginActivity";
@@ -67,6 +70,11 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
                     @Override
                     public void onSuccess(LoginVO result) {
                         Toast.makeText(PhoneLoginActivity.this, "登录成功!", Toast.LENGTH_SHORT).show();
+                        LoginEvent loginEvent = new LoginEvent();
+                        loginEvent.id = result.id;
+                        loginEvent.usernick = result.nickname;
+                        loginEvent.token = result.token;
+                        EventBus.getDefault().post(loginEvent);
                         finish();
                     }
 

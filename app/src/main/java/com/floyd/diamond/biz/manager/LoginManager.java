@@ -1,6 +1,7 @@
 package com.floyd.diamond.biz.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -15,6 +16,7 @@ import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.channel.request.HttpMethod;
+import com.floyd.diamond.ui.activity.LoginActivity;
 import com.google.gson.Gson;
 
 import org.json.JSONException;
@@ -173,6 +175,17 @@ public class LoginManager {
         };
 
         return resultJob;
+    }
+
+    public static boolean isLogin(Context context) {
+        LoginVO loginVO = LoginManager.getLoginInfo(context);
+        if (loginVO == null) {
+            Intent it = new Intent(context, LoginActivity.class);
+            context.startActivity(it);
+            return false;
+        }
+
+        return true;
     }
 
 }

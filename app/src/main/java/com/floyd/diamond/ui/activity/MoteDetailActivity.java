@@ -11,8 +11,12 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
+import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
 
 public class MoteDetailActivity extends Activity implements View.OnClickListener {
 
@@ -26,6 +30,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private CheckedTextView guanzhuView;
     private TextView emptyView;
     private Dialog loadingDialog;
+    private TextView backView;
 
 
     @Override
@@ -35,6 +40,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         loadingDialog = new Dialog(this, R.style.data_load_dialog);
         headBgView = (NetworkImageView) findViewById(R.id.head_bg);
         headView = (NetworkImageView) findViewById(R.id.head);
+        backView = (TextView) findViewById(R.id.back);
         jinyanView = (TextView) findViewById(R.id.jinyan);
         agreeView = (TextView) findViewById(R.id.agree);
         guanzhuView = (CheckedTextView) findViewById(R.id.guanzhu);
@@ -58,11 +64,29 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         guanzhuView.setOnClickListener(this);
         moreInfoView.setOnClickListener(this);
 
+        backView.setOnClickListener(this);
+
         loadingDialog.show();
         loadData();
     }
 
     private void loadData() {
+        final CountDownLatch countDownLatch = new CountDownLatch(2);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    countDownLatch.await(2000, TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                }
+
+                loadingDialog.dismiss();
+
+            }
+        }).start();
+
+
+
 
     }
 
@@ -79,11 +103,16 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
                 doGuanzhu();
                 break;
+            case R.id.back:
+                this.finish();
+                break;
         }
 
     }
 
     private void doGuanzhu() {
+        if (LoginManager.isLogin(this)) {
 
+        }
     }
 }

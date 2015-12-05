@@ -37,6 +37,7 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
+import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
@@ -273,6 +274,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
                 break;
             case R.id.edit_profile:
+                break;
+            case R.id.set:
+                PrefsTools.setStringPrefs(this.getActivity(), LoginManager.LOGIN_INFO, "");
                 break;
         }
     }

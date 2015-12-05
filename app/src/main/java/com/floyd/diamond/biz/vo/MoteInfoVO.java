@@ -4,6 +4,7 @@ package com.floyd.diamond.biz.vo;
  * Created by floyd on 15-11-28.
  */
 public class MoteInfoVO {
+    public long id;
     public String nickname;//别名
     public String avatarUrl;//avatarUrl;//头像地址
     public int orderNum;

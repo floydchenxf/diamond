@@ -1,6 +1,7 @@
 package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.activity.MoteDetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +33,7 @@ public class IndexMoteAdapter extends BaseAdapter {
     private ImageLoader imageLoader;
 
     private boolean isEnd;
+    private Context mContext;
 
     public IndexMoteAdapter(Context context, List<MoteInfoVO> args) {
         RequestQueue mQueue = Volley.newRequestQueue(context);
@@ -40,6 +43,7 @@ public class IndexMoteAdapter extends BaseAdapter {
         infalter = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mList.addAll(args);
+        mContext = context;
     }
 
     public void add(MoteInfoVO k) {
@@ -53,6 +57,10 @@ public class IndexMoteAdapter extends BaseAdapter {
         }
         mList.addAll(motes);
         this.notifyDataSetChanged();
+    }
+
+    public List<MoteInfoVO> getMoteList() {
+        return mList;
     }
 
     @Override
@@ -100,34 +108,83 @@ public class IndexMoteAdapter extends BaseAdapter {
         int start = position * 3;
         int end = position * 3 + 2;
 
+
         if (mList.size() - 1 >= end) {
-            MoteInfoVO mote1 = mList.get(start);
+            final MoteInfoVO mote1 = mList.get(start);
             holder.moteViewImage1.setImageUrl(mote1.avatarUrl, imageLoader);
             holder.moteNickView1.setText(mote1.nickname);
             holder.layout1.setVisibility(View.VISIBLE);
-            MoteInfoVO mote2 = mList.get(start + 1);
+            holder.layout1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent it = new Intent(mContext, MoteDetailActivity.class);
+                    it.putExtra("moteId", mote1.id);
+                    mContext.startActivity(it);
+
+                }
+            });
+            final MoteInfoVO mote2 = mList.get(start + 1);
             holder.moteViewImage2.setImageUrl(mote2.avatarUrl, imageLoader);
             holder.moteNickView2.setText(mote2.nickname);
             holder.layout2.setVisibility(View.VISIBLE);
-            MoteInfoVO mote3 = mList.get(start + 2);
+            holder.layout2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent it = new Intent(mContext, MoteDetailActivity.class);
+                    it.putExtra("moteId", mote2.id);
+                    mContext.startActivity(it);
+
+                }
+            });
+            final MoteInfoVO mote3 = mList.get(start + 2);
             holder.moteViewImage3.setImageUrl(mote3.avatarUrl, imageLoader);
             holder.moteNickView3.setText(mote3.nickname);
             holder.layout3.setVisibility(View.VISIBLE);
+            holder.layout3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent it = new Intent(mContext, MoteDetailActivity.class);
+                    it.putExtra("moteId", mote3.id);
+                    mContext.startActivity(it);
+
+                }
+            });
         } else {
-            MoteInfoVO mote1 = mList.get(start);
+            final MoteInfoVO mote1 = mList.get(start);
             holder.moteViewImage1.setImageUrl(mote1.avatarUrl, imageLoader);
             holder.moteNickView1.setText(mote1.nickname);
             holder.layout1.setVisibility(View.VISIBLE);
+            holder.layout1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent it = new Intent(mContext, MoteDetailActivity.class);
+                    it.putExtra("moteId", mote1.id);
+                    mContext.startActivity(it);
+
+                }
+            });
 
             if (mList.size() - 1 < start + 1) {
-                holder.layout1.setVisibility(View.INVISIBLE);
-                holder.layout1.setVisibility(View.INVISIBLE);
+                holder.layout2.setVisibility(View.INVISIBLE);
+                holder.layout3.setVisibility(View.INVISIBLE);
+                holder.layout2.setOnClickListener(null);
+                holder.layout3.setOnClickListener(null);
             } else {
-                MoteInfoVO mote2 = mList.get(start + 1);
+                final MoteInfoVO mote2 = mList.get(start + 1);
                 holder.moteViewImage2.setImageUrl(mote2.avatarUrl, imageLoader);
                 holder.moteNickView2.setText(mote2.nickname);
                 holder.layout2.setVisibility(View.VISIBLE);
-                holder.layout1.setVisibility(View.INVISIBLE);
+                holder.layout2.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent it = new Intent(mContext, MoteDetailActivity.class);
+                        it.putExtra("moteId", mote2.id);
+                        mContext.startActivity(it);
+
+                    }
+                });
+                holder.layout3.setVisibility(View.INVISIBLE);
+                holder.layout3.setOnClickListener(null);
             }
         }
 
