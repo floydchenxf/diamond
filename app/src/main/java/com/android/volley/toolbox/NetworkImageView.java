@@ -16,6 +16,7 @@
 package com.android.volley.toolbox;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.ViewGroup.LayoutParams;
@@ -57,6 +58,8 @@ public class NetworkImageView extends ImageView {
         this(context, attrs, 0);
     }
 
+    private BitmapProcessor processor;
+
     public NetworkImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
     }
@@ -73,11 +76,16 @@ public class NetworkImageView extends ImageView {
      * @param url The URL that should be loaded into this ImageView.
      * @param imageLoader ImageLoader that will be used to make the request.
      */
-    public void setImageUrl(String url, ImageLoader imageLoader) {
+    public void setImageUrl(String url, ImageLoader imageLoader,BitmapProcessor processor) {
+        this.processor = processor;
         mUrl = url;
         mImageLoader = imageLoader;
         // The URL has potentially changed. See if we need to load it.
         loadImageIfNecessary(false);
+    }
+
+    public void setImageUrl(String url, ImageLoader imageLoader) {
+        this.setImageUrl(url, imageLoader, null);
     }
 
     /**
@@ -172,7 +180,11 @@ public class NetworkImageView extends ImageView {
                         }
 
                         if (response.getBitmap() != null) {
-                            setImageBitmap(response.getBitmap());
+                            Bitmap bitmap = response.getBitmap();
+                            if (processor != null) {
+                                bitmap = processor.processBitmpa(bitmap);
+                            }
+                            setImageBitmap(bitmap);
                         } else if (mDefaultImageId != 0) {
                             setImageResource(mDefaultImageId);
                         }

@@ -12,14 +12,21 @@ import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
+import com.floyd.diamond.biz.vo.MoteDetailInfoHelpVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -78,5 +85,39 @@ public class MoteManager {
         });
     }
 
+    public static AsyncJob<Boolean> addFollow(long moteId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("moteId", moteId+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
 
+    public static AsyncJob<Boolean> cancelFollow(long moteId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("moteId", moteId+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    public static AsyncJob<MoteDetailInfoHelpVO> fetchMoteDetailInfo(long moteId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", moteId+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteDetailInfoHelpVO.class);
+    }
+
+    public static AsyncJob<List<Map<String, List<MoteTaskPicVO>>>> fetchMoteTaskPics(long moteId, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_PICS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", moteId + "");
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        Type type = new TypeToken<ArrayList<LinkedHashMap<String, ArrayList<MoteTaskPicVO>>>>() {
+        }.getType();
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
+    }
 }

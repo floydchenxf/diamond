@@ -140,8 +140,11 @@
     <TextView
         android:id="@+id/empty_info"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
         android:layout_below="@+id/more_info"
+        android:gravity="center"
         android:text="暂无数据"
         android:visibility="gone" />
 

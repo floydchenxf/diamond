@@ -3,6 +3,7 @@ package com.floyd.diamond.biz.manager;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.biz.constants.APIConstants;
+import com.floyd.diamond.biz.vo.AdvDetailVO;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -52,6 +53,13 @@ public class IndexManager {
 
     class Motes {
         public List<MoteInfoVO> moteVOs;
+    }
+
+    public static AsyncJob<AdvDetailVO> fetchAdvDetail(long advId) {
+        String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", advId+"");
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params, HttpMethod.POST,AdvDetailVO.class);
     }
 }
 

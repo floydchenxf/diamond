@@ -11,10 +11,13 @@ public class APIConstants {
     public static final String API_REG_USER = "api/user/register";//注册
     public static final String API_MY_MOTE_INFO = "api/user/myMoteInfo";//模特信息
     public static final String API_MY_SELLER_INFO = "api/user/mySellerInfo";//卖家信息
-
     public static final String API_UPDATE_MONTE_AVART = "api/user/updateMoteAvart";//更新头像
-
     public static final String API_GET_ADVERT_LIST = "api/index/getAdvertList";//获取广告
-
     public static final String API_GET_MOTE_LIST = "api/index/getMoteList"; //获取首页模特信息
+    public static final String API_ADD_FOLLOW = "api/follow/addFollow"; //关注模特
+    public static final String API_CANCEL_FOLLOW = "api/follow/acancelFollow"; //取消关注模特
+    public static final String API_ADV_DETAIL_INFO = "api/index/getAdvertDetail";//广告详情
+    public static final String API_MOTE_DETAIL_INFO = "api/user/getMoteInfo";//模特详情
+    public static final String API_MOTE_TASK_PICS = "api/taskPic/getMoteTaskPics";
+
 }

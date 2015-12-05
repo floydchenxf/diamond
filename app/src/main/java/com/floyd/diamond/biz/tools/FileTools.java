@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -129,6 +130,52 @@ public class FileTools {
 				}
 			}
 		}
+	}
+
+	public static Bitmap decodeBitmap(String localName) {
+		return decodeBitmap(localName, null);
+	}
+
+	public static Bitmap decodeBitmap(String localName,BitmapFactory.Options options) {
+
+		Bitmap bitmap = null;
+		int tryTime = 0;
+
+		while (bitmap == null && tryTime < 3) {
+			try {
+				bitmap = readBitmap(localName, options);
+			} catch (OutOfMemoryError oe) {
+				Log.e(TAG, "decodeBitmap", oe);
+			} catch (Throwable throwable) {
+				Log.e(TAG, "decodeBitmap", throwable);
+			}
+
+			tryTime++;
+		}
+		return bitmap;
+	}
+
+	public static Bitmap decodeBitmap(byte[] data) {
+		return decodeBitmap(data, null);
+	}
+
+	public static Bitmap decodeBitmap(byte[] data, BitmapFactory.Options options) {
+
+		Bitmap bitmap = null;
+		int tryTime = 0;
+
+		ByteArrayInputStream bais = new ByteArrayInputStream(data);
+
+		while (bitmap == null && tryTime < 3) {
+			try {
+				bitmap = BitmapFactory.decodeStream(bais);
+			} catch (OutOfMemoryError oe) {
+				Log.e(TAG, "decodeBitmap", oe);
+//				BitmapCache.clearCache();
+			}
+			tryTime++;
+		}
+		return bitmap;
 	}
 
 	/**
