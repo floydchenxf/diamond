@@ -53,4 +53,14 @@
         <item name="android:shadowColor">#bfffffff</item>
     </style>
 
+    <style name="data_load_dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@drawable/alpha_black_box</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

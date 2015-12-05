@@ -1,5 +1,6 @@
 package com.floyd.diamond.ui.fragment;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -44,7 +46,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private static final String TAG = "IndexFragment";
 
-    private static  int BANNER_HEIGHT_IN_DP = 300;
+    private static int BANNER_HEIGHT_IN_DP = 300;
     public static final int CHANGE_BANNER_HANDLER_MSG_WHAT = 51;
 
     private PullToRefreshListView mPullToRefreshListView;
@@ -81,12 +83,26 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private IndexMoteAdapter indexMoteAdapter;
 
+    private Dialog loadDialog;
+
+    private int moteType = 1;
+    private int pageNo = 1;
+    private int PAGE_SIZE  = 18;
+
+    private boolean needClear;
+
+    private CheckedTextView femaleView1, femaleview2;
+
+    private CheckedTextView maleView1, maleView2;
+
+    private CheckedTextView babyView1, babyView2;
+
     private Handler mChangeViewPagerHandler = new Handler() {
         @Override
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case CHANGE_BANNER_HANDLER_MSG_WHAT:
-                    if(mTopBannerList !=null) {
+                    if (mTopBannerList != null) {
                         if (mTopBannerList != null && mTopBannerList.size() > 0 && mHeaderViewPager != null) {
                             int totalcount = mTopBannerList.size();//autoChangeViewPager.getChildCount();
                             int currentItem = mHeaderViewPager.getCurrentItem();
@@ -113,6 +129,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mTopBannerList = new ArrayList<AdvVO>();
+        loadDialog = new Dialog(this.getActivity(), R.style.data_load_dialog);
     }
 
     @Override
@@ -121,7 +138,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         final View view = inflater.inflate(R.layout.fragment_index, container, false);
 
 
-        if(mActLsloading == null){
+        if (mActLsloading == null) {
             mActLsloading = (FrameLayout) view.findViewById(R.id.act_lsloading);
         }
         //一些错误和空页面
@@ -147,8 +164,12 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pic_list);
         mListView = mPullToRefreshListView.getRefreshableView();
         mListView.setOnScrollListener(this);
-        mFakeNavigationContainer = (LinearLayout)view.findViewById(R.id.fake_navigation_container);
+        mFakeNavigationContainer = (LinearLayout) view.findViewById(R.id.fake_navigation_container);
+
+
         initListViewHeader();
+
+        initButton();
 
         startLoading();
 
@@ -186,18 +207,22 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
+                needClear = false;
+                loadData();
                 mPullToRefreshListView.onRefreshComplete(true, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
+                needClear = false;
+                loadData();
                 mPullToRefreshListView.onRefreshComplete(true, true);
             }
         });
 
         mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
 
-            float y1=0, y2=0;
+            float y1 = 0, y2 = 0;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -205,7 +230,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     case MotionEvent.ACTION_DOWN:
                         break;
                     case MotionEvent.ACTION_MOVE:
-                        if( y1 == 0){
+                        if (y1 == 0) {
                             y1 = event.getRawY();
                         }
                         y2 = event.getRawY();
@@ -226,16 +251,37 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         return view;
     }
 
+    private void initButton() {
+
+        femaleView1 = (CheckedTextView) mFakeNavigationContainer.findViewById(R.id.female_colther_new);
+        femaleview2 = (CheckedTextView) mNavigationContainer.findViewById(R.id.female_colther);
+        maleView1 = (CheckedTextView) mFakeNavigationContainer.findViewById(R.id.male_colther_new);
+        maleView2 = (CheckedTextView) mNavigationContainer.findViewById(R.id.male_colther);
+        babyView1 = (CheckedTextView) mFakeNavigationContainer.findViewById(R.id.baby_colther_new);
+        babyView2 = (CheckedTextView) mNavigationContainer.findViewById(R.id.baby_colther);
+
+        femaleView1.setOnClickListener(this);
+        femaleview2.setOnClickListener(this);
+        maleView1.setOnClickListener(this);
+        maleView2.setOnClickListener(this);
+        babyView1.setOnClickListener(this);
+        babyView2.setOnClickListener(this);
+
+        femaleView1.setChecked(true);
+        femaleview2.setChecked(true);
+    }
+
     private void loadData() {
 
         IndexManager.fetchAdvLists(5).startUI(new ApiCallback<List<AdvVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
-                Log.e(TAG, "code:"+code +"---error:"+errorInfo);
+                Log.e(TAG, "code:" + code + "---error:" + errorInfo);
             }
 
             @Override
             public void onSuccess(List<AdvVO> advVOs) {
+                mTopBannerList.clear();
                 mTopBannerList.addAll(advVOs);
                 mBannerImageAdapter.addItems(mTopBannerList);
 
@@ -270,15 +316,18 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             }
         });
 
-        IndexManager.fetchMoteList(1, 1, 18).startUI(new ApiCallback<List<MoteInfoVO>>() {
+        IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
                 loadFail();
+                loadDialog.hide();
             }
 
             @Override
             public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
-                indexMoteAdapter.addAll(moteInfoVOs);
+                loadDialog.hide();
+                ++pageNo;
+                indexMoteAdapter.addAll(moteInfoVOs, needClear);
                 loadSuccess();
             }
 
@@ -335,7 +384,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     /**
      * 数据加载成功
      */
-    private void loadSuccess(){
+    private void loadSuccess() {
         mActLsloading.setVisibility(View.GONE);
         mActLsFailLayoutView.setVisibility(View.GONE);
         stopLoading();
@@ -344,7 +393,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     /**
      * 数据加载失败
      */
-    private void loadFail(){
+    private void loadFail() {
         mActLsloading.setVisibility(View.VISIBLE);
         mActLsFailLayoutView.setVisibility(View.VISIBLE);
         stopLoading();
@@ -353,8 +402,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     /**
      * 开始显示加载动画
      */
-    private void startLoading(){
-        if(mActLsloading != null){
+    private void startLoading() {
+        if (mActLsloading != null) {
             mActLsloading.setVisibility(View.VISIBLE);
             mLoading_container.setVisibility(View.VISIBLE);
             mLsLoadingView.startAnimation();
@@ -365,21 +414,22 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     /**
      * 结束显示加载动画
      */
-    private void stopLoading(){
-        if(mActLsloading != null){
+    private void stopLoading() {
+        if (mActLsloading != null) {
             mLoading_container.setVisibility(View.GONE);
             mLsLoadingView.stopAnimation();
         }
     }
 
 
-    public void stopBannerAutoLoop(){
-        if(mChangeViewPagerHandler!=null){
+    public void stopBannerAutoLoop() {
+        if (mChangeViewPagerHandler != null) {
             mChangeViewPagerHandler.removeCallbacksAndMessages(null);
         }
     }
-    public void startBannerAutoLoop(){
-        if(mChangeViewPagerHandler!=null && !mChangeViewPagerHandler.hasMessages(CHANGE_BANNER_HANDLER_MSG_WHAT)){
+
+    public void startBannerAutoLoop() {
+        if (mChangeViewPagerHandler != null && !mChangeViewPagerHandler.hasMessages(CHANGE_BANNER_HANDLER_MSG_WHAT)) {
             mChangeViewPagerHandler.sendEmptyMessageDelayed(CHANGE_BANNER_HANDLER_MSG_WHAT, 5000);
         }
     }
@@ -408,7 +458,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             startBannerAutoLoop();
         }
 
-        if(mNavigationContainer!=null && mTitleLayout!=null && mFakeNavigationContainer!=null){
+        if (mNavigationContainer != null && mTitleLayout != null && mFakeNavigationContainer != null) {
 
             int[] navigationLocation = new int[2];
             mNavigationContainer.getLocationOnScreen(navigationLocation);
@@ -422,7 +472,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 isShowFakeNavigationTips = false;
             }
 
-            if((firstVisibleItem+visibleItemCount )== totalItemCount) { //滑到底
+            if ((firstVisibleItem + visibleItemCount) == totalItemCount) { //滑到底
                 mListView.setSelection(totalItemCount - 1);
             }
 
@@ -437,6 +487,58 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.female_colther:
+            case R.id.female_colther_new:
+                loadDialog.show();
+                femaleView1.setChecked(true);
+                femaleview2.setChecked(true);
+                maleView2.setChecked(false);
+                maleView1.setChecked(false);
+                babyView1.setChecked(false);
+                babyView2.setChecked(false);
+                moteType = 1;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+
+            case R.id.male_colther:
+            case R.id.male_colther_new:
+                loadDialog.show();
+                femaleView1.setChecked(false);
+                femaleview2.setChecked(false);
+                maleView2.setChecked(true);
+                maleView1.setChecked(true);
+                babyView1.setChecked(false);
+                babyView2.setChecked(false);
+                moteType = 2;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+
+            case R.id.baby_colther:
+            case R.id.baby_colther_new:
+                loadDialog.show();
+                femaleView1.setChecked(false);
+                femaleview2.setChecked(false);
+                maleView2.setChecked(false);
+                maleView1.setChecked(false);
+                babyView1.setChecked(true);
+                babyView2.setChecked(true);
+                moteType = 3;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+            case R.id.act_ls_fail_layout:
+                moteType = 1;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+        }
 
     }
 
@@ -447,12 +549,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
         public BannerImageAdapter(FragmentManager fm, List<AdvVO> dataList) {
             super(fm);
-            if (dataList!=null && !dataList.isEmpty()) {
+            if (dataList != null && !dataList.isEmpty()) {
                 this.dataLists.addAll(dataList);
             }
         }
 
         public void addItems(List<AdvVO> dataList) {
+            this.dataLists.clear();
             this.dataLists.addAll(dataList);
             this.notifyDataSetChanged();
         }
@@ -466,6 +569,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             args.putInt(BannerFragment.Height, BANNER_HEIGHT_IN_DP);
             return BannerFragment.newInstance(args);
         }
+
         @Override
         public int getCount() {
             if (dataLists != null) {

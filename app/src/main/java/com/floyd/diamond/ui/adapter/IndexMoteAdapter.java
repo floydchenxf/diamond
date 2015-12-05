@@ -47,7 +47,10 @@ public class IndexMoteAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
-    public void addAll(List<MoteInfoVO> motes) {
+    public void addAll(List<MoteInfoVO> motes, boolean needClear) {
+        if (needClear) {
+            mList.clear();
+        }
         mList.addAll(motes);
         this.notifyDataSetChanged();
     }
