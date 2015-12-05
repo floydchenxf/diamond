@@ -26,7 +26,12 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.floyd.diamond.biz.constants.EnvConstants;
+import com.floyd.diamond.biz.tools.FileTools;
+import com.floyd.diamond.channel.threadpool.WxDefaultExecutor;
 import com.floyd.diamond.utils.WXUtil;
+
+import java.io.File;
 
 
 /**
@@ -209,7 +214,13 @@ public class IMImageCache implements ImageLoader.ImageCache {
 //					.getExternalStorageDirectory().getAbsolutePath()+"/wangxin/", "test.jpg", memBitmap);
             return memBitmap;
         } else {
-            Log.d("test1", "bitmap memory cache not hit");
+            Log.d("test1", "bitmap memory cache not hit load from sdcard");
+            memBitmap = FileTools.readBitmap(EnvConstants.imageRootPath+ File.separator + md5Name);
+            if (memBitmap == null) {
+                Log.d("test1", "bitmap memory cache not hit");
+            }
+            return memBitmap;
+
         }
 
 //		final Object object = new Object();
@@ -255,7 +266,6 @@ public class IMImageCache implements ImageLoader.ImageCache {
 //		if (memBitmap != null) {
 //			return memBitmap;
 //		}
-        return null;
     }
 
 //	public Bitmap getBitmap(String url, boolean value) {
@@ -281,8 +291,8 @@ public class IMImageCache implements ImageLoader.ImageCache {
 //	}
 
     @Override
-    public void putBitmap(String url, Bitmap bitmap) {
-        String md5Name = WXUtil.getMD5Value(url);
+    public void putBitmap(String url, final Bitmap bitmap) {
+        final String md5Name = WXUtil.getMD5Value(url);
 
         if (md5Name == null || bitmap == null) {
             return;
@@ -292,6 +302,14 @@ public class IMImageCache implements ImageLoader.ImageCache {
         if (mMemoryCache != null && mMemoryCache.get(md5Name) == null) {
             mMemoryCache.put(md5Name, bitmap);
         }
+
+
+        WxDefaultExecutor.getInstance().submitHighPriority(new Runnable() {
+            @Override
+            public void run() {
+                FileTools.writeBitmap(EnvConstants.imageRootPath, md5Name, bitmap);
+            }
+        });
 
     }
 
