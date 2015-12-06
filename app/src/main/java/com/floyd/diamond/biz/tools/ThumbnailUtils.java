@@ -60,6 +60,23 @@ public class ThumbnailUtils {
         return type;
     }
 
+    public static Bitmap rotateBitmap(Bitmap b, int degrees) {
+        if (degrees != 0 && b != null) {
+            Matrix m = new Matrix();
+            m.setRotate(degrees, b.getWidth() / 2, b.getHeight() / 2);
+            try {
+                Bitmap b2 = Bitmap.createBitmap(b, 0, 0, b.getWidth(),
+                        b.getHeight(), m, true);
+                return b2;
+            } catch (Exception e) {
+                e.printStackTrace();
+            } catch (Throwable ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
     public static Bitmap getImageThumbnail(File file, int width, int height,
                                            String saveName, boolean needRotate) {
         if (file != null && file.exists()) {

@@ -27,15 +27,19 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.MoteDetailInfoHelpVO;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
+import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.floyd.diamond.event.LoginEvent;
+import com.floyd.diamond.ui.adapter.TaskPicAdapter;
+import com.floyd.diamond.ui.multiimage.MultiImageActivity;
+import com.floyd.diamond.ui.multiimage.base.MulitImageVO;
+import com.floyd.diamond.ui.multiimage.base.PicViewObject;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -61,6 +65,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private ImageLoader mImageLoader;
     private TextView usernickView;
 
+    private List<TaskPicsVO> taskPicsList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +79,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
         mImageLoader.setBatchedResponseDelay(0);
 
-        moteId = getIntent().getLongExtra("moteId",0);
+        moteId = getIntent().getLongExtra("moteId", 0);
         loadingDialog = new Dialog(this, R.style.data_load_dialog);
         headBgView = (NetworkImageView) findViewById(R.id.head_bg);
         headView = (NetworkImageView) findViewById(R.id.head);
@@ -90,12 +96,13 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
+                mPullToRefreshListView.onRefreshComplete(false, true);
 
             }
 
             @Override
             public void onPullUpToRefresh() {
-
+                mPullToRefreshListView.onRefreshComplete(false, true);
             }
         });
 
@@ -127,18 +134,19 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         if (!LoginManager.isLogin(this)) {
             countDownLatch.countDown();
+            countDownLatch.countDown();
         } else {
             LoginVO vo = LoginManager.getLoginInfo(this);
-            MoteManager.fetchMoteDetailInfo(moteId,vo.token).startUI(new ApiCallback<MoteDetailInfoHelpVO>() {
+            MoteManager.fetchMoteDetailInfo(moteId, vo.token).startUI(new ApiCallback<MoteDetailInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     countDownLatch.countDown();
                 }
 
                 @Override
-                public void onSuccess(MoteDetailInfoHelpVO moteDetailInfoVO) {
+                public void onSuccess(MoteDetailInfoVO vo) {
                     countDownLatch.countDown();
-                    MoteDetailInfoVO vo = moteDetailInfoVO.moteInfo;
+//                    MoteDetailInfoVO vo = moteDetailInfoVO.moteInfo;
                     String imageUrl = vo.avartUrl;
                     if (!TextUtils.isEmpty(imageUrl)) {
                         headView.setDefaultImageResId(R.drawable.head);
@@ -154,17 +162,16 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                     usernickView.setText(vo.nickname);
 
-                    boolean isFollow = moteDetailInfoVO.isFollow;
+                    boolean isFollow = vo.isFollow;
                     if (isFollow) {
                         guanzhuView.setText("已关注");
                         guanzhuView.setChecked(true);
                     } else {
                         int num = vo.followNum;
-                        guanzhuView.setText("关注度:"+num);
+                        guanzhuView.setText("关注度:" + num);
                         guanzhuView.setChecked(false);
                         guanzhuView.setOnClickListener(MoteDetailActivity.this);
                     }
-
 
 
                 }
@@ -174,23 +181,51 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                 }
             });
-            MoteManager.fetchMoteTaskPics(moteId, 1, 10, vo.token).startUI(new ApiCallback<List<Map<String, List<MoteTaskPicVO>>>>() {
+            MoteManager.fetchMoteTaskPics(moteId, 1, 10, vo.token).startUI(new ApiCallback<List<TaskPicsVO>>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     countDownLatch.countDown();
                 }
 
                 @Override
-                public void onSuccess(List<Map<String, List<MoteTaskPicVO>>> maps) {
+                public void onSuccess(List<TaskPicsVO> taskPicsVOs) {
                     countDownLatch.countDown();
-                    if (maps == null||maps.isEmpty()) {
+                    MoteDetailActivity.this.taskPicsList = taskPicsVOs;
+                    if (taskPicsVOs == null || taskPicsVOs.isEmpty()) {
                         emptyView.setVisibility(View.VISIBLE);
                         mPullToRefreshListView.setVisibility(View.GONE);
                     } else {
                         emptyView.setVisibility(View.GONE);
                         mPullToRefreshListView.setVisibility(View.VISIBLE);
                     }
-                    Log.i(TAG, "kkkk--------------map:"+maps);
+
+                    TaskPicAdapter taskPicAdapter = new TaskPicAdapter(MoteDetailActivity.this, taskPicsVOs, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
+                        @Override
+                        public void onItemClick(int position, View v) {
+                            TaskPicsVO taskPicsVO = taskPicsList.get(position);
+                            List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
+                            List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
+                            for (MoteTaskPicVO taskPic:pics) {
+                                PicViewObject picViewObject = new PicViewObject();
+                                picViewObject.setPicId(taskPic.id);
+                                picViewObject.setPicPreViewUrl(taskPic.imgUrl);
+                                picViewObject.setPicUrl(taskPic.imgUrl);
+                                picViewObject.setPicType(PicViewObject.IMAGE);
+                                picViewList.add(picViewObject);
+                            }
+                            MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
+                            Intent it = new Intent(MoteDetailActivity.this, MultiImageActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);
+                            it.putExtra(MultiImageActivity.MULIT_IMAGE_VO, bundle);
+                            it.putExtra(MultiImageActivity.MULIT_IMAGE_PICK_MODE,
+                                    MultiImageActivity.MULIT_IMAGE_PICK_MODE_PREVIEW);
+                            startActivity(it);
+
+                        }
+                    });
+                    mListView.setAdapter(taskPicAdapter);
+                    Log.i(TAG, "kkkk--------------map:" + taskPicsVOs);
                 }
 
                 @Override
@@ -199,10 +234,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
             });
         }
-
-
-
-
 
 
     }
@@ -234,10 +265,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private void doGuanzhu() {
         if (LoginManager.isLogin(this)) {
             LoginVO vo = LoginManager.getLoginInfo(this);
-            MoteManager.addFollow(moteId,vo.token).startUI(new ApiCallback<Boolean>() {
+            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    Toast.makeText(MoteDetailActivity.this, "关注失败:"+errorInfo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MoteDetailActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
                         loadingDialog.hide();
                     }

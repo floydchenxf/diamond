@@ -13,6 +13,9 @@ public class EnvConstants {
             .getExternalStorageDirectory().getAbsolutePath()
             + "/diamond/images";
 
+    public static final String thumbRootPath = Environment
+            .getExternalStorageDirectory().getAbsolutePath() + "/diamond/全名模特相册";
+
     static {
         File f = new File(imageRootPath);
         if (!f.exists()) {

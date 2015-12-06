@@ -3,6 +3,7 @@ package com.floyd.diamond.aync;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.channel.threadpool.WxDefaultExecutor;
 
 
@@ -33,6 +34,10 @@ public abstract class AsyncJob<T> {
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
+                        if (t == null) {
+                            callback.onError(APIError.API_CONTENT_EMPTY, "数据为空");
+                            return;
+                        }
                         callback.onSuccess(t);
                     }
                 });

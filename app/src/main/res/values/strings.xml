@@ -56,4 +56,9 @@
     <string name="title_activity_mote_detail">MoteDetailActivity</string>
     <string name="title_activity_mote_more_info">MoteMoreInfoActivity</string>
     <string name="insert_sdcard">请插入sdcard</string>
+    <string name="aliwx_multi_image_brower">%1$d/%2$d</string>
+    <string name="aliwx_multi_delete_image_title">图片%1$d/%2$d</string>
+    <string name="null_image">没有获取到图片</string>
+    <string name="image_saved">图片已经保存</string>
+    <string name="image_save_fail">图片保存失败</string>
 </resources>

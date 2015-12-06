@@ -24,6 +24,7 @@ public class MoteDetailInfoVO {
     public Double freezeFee;
     public int age;
     public int followNum;//粉丝数
+    public boolean isFollow;
 
 
 }
