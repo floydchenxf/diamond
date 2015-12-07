@@ -64,8 +64,11 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private long moteId;
     private ImageLoader mImageLoader;
     private TextView usernickView;
+    private int pageNo = 1;
+    private static int PAGE_SIZE = 10;
 
     private List<TaskPicsVO> taskPicsList;
+    TaskPicAdapter taskPicAdapter;
 
 
     @Override
@@ -96,15 +99,46 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
+                pageNo++;
                 mPullToRefreshListView.onRefreshComplete(false, true);
+                loadData();
 
             }
 
             @Override
             public void onPullUpToRefresh() {
+                pageNo++;
                 mPullToRefreshListView.onRefreshComplete(false, true);
+                loadData();
             }
         });
+
+
+        taskPicAdapter = new TaskPicAdapter(MoteDetailActivity.this, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
+            @Override
+            public void onItemClick(int position, View v) {
+                TaskPicsVO taskPicsVO = taskPicsList.get(position);
+                List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
+                List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
+                for (MoteTaskPicVO taskPic : pics) {
+                    PicViewObject picViewObject = new PicViewObject();
+                    picViewObject.setPicId(taskPic.id);
+                    picViewObject.setPicPreViewUrl(taskPic.imgUrl);
+                    picViewObject.setPicUrl(taskPic.imgUrl);
+                    picViewObject.setPicType(PicViewObject.IMAGE);
+                    picViewList.add(picViewObject);
+                }
+                MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
+                Intent it = new Intent(MoteDetailActivity.this, MultiImageActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);
+                it.putExtra(MultiImageActivity.MULIT_IMAGE_VO, bundle);
+                it.putExtra(MultiImageActivity.MULIT_IMAGE_PICK_MODE,
+                        MultiImageActivity.MULIT_IMAGE_PICK_MODE_PREVIEW);
+                startActivity(it);
+            }
+        });
+        mListView.setAdapter(taskPicAdapter);
 
         guanzhuView.setOnClickListener(this);
         moreInfoView.setOnClickListener(this);
@@ -146,7 +180,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 @Override
                 public void onSuccess(MoteDetailInfoVO vo) {
                     countDownLatch.countDown();
-//                    MoteDetailInfoVO vo = moteDetailInfoVO.moteInfo;
                     String imageUrl = vo.avartUrl;
                     if (!TextUtils.isEmpty(imageUrl)) {
                         headView.setDefaultImageResId(R.drawable.head);
@@ -181,17 +214,25 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                 }
             });
-            MoteManager.fetchMoteTaskPics(moteId, 1, 10, vo.token).startUI(new ApiCallback<List<TaskPicsVO>>() {
+            MoteManager.fetchMoteTaskPics(moteId, pageNo, PAGE_SIZE, vo.token).startUI(new ApiCallback<List<TaskPicsVO>>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     countDownLatch.countDown();
+                    if (MoteDetailActivity.this.taskPicsList == null || MoteDetailActivity.this.taskPicsList.isEmpty()) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        mPullToRefreshListView.setVisibility(View.GONE);
+                    } else {
+                        emptyView.setVisibility(View.GONE);
+                        mPullToRefreshListView.setVisibility(View.VISIBLE);
+                    }
                 }
 
                 @Override
                 public void onSuccess(List<TaskPicsVO> taskPicsVOs) {
                     countDownLatch.countDown();
-                    MoteDetailActivity.this.taskPicsList = taskPicsVOs;
-                    if (taskPicsVOs == null || taskPicsVOs.isEmpty()) {
+                    taskPicAdapter.addAll(taskPicsVOs, false);
+                    MoteDetailActivity.this.taskPicsList = taskPicAdapter.getData();
+                    if (MoteDetailActivity.this.taskPicsList == null || MoteDetailActivity.this.taskPicsList.isEmpty()) {
                         emptyView.setVisibility(View.VISIBLE);
                         mPullToRefreshListView.setVisibility(View.GONE);
                     } else {
@@ -199,32 +240,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                         mPullToRefreshListView.setVisibility(View.VISIBLE);
                     }
 
-                    TaskPicAdapter taskPicAdapter = new TaskPicAdapter(MoteDetailActivity.this, taskPicsVOs, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
-                        @Override
-                        public void onItemClick(int position, View v) {
-                            TaskPicsVO taskPicsVO = taskPicsList.get(position);
-                            List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
-                            List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
-                            for (MoteTaskPicVO taskPic:pics) {
-                                PicViewObject picViewObject = new PicViewObject();
-                                picViewObject.setPicId(taskPic.id);
-                                picViewObject.setPicPreViewUrl(taskPic.imgUrl);
-                                picViewObject.setPicUrl(taskPic.imgUrl);
-                                picViewObject.setPicType(PicViewObject.IMAGE);
-                                picViewList.add(picViewObject);
-                            }
-                            MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
-                            Intent it = new Intent(MoteDetailActivity.this, MultiImageActivity.class);
-                            Bundle bundle = new Bundle();
-                            bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);
-                            it.putExtra(MultiImageActivity.MULIT_IMAGE_VO, bundle);
-                            it.putExtra(MultiImageActivity.MULIT_IMAGE_PICK_MODE,
-                                    MultiImageActivity.MULIT_IMAGE_PICK_MODE_PREVIEW);
-                            startActivity(it);
-
-                        }
-                    });
-                    mListView.setAdapter(taskPicAdapter);
                     Log.i(TAG, "kkkk--------------map:" + taskPicsVOs);
                 }
 

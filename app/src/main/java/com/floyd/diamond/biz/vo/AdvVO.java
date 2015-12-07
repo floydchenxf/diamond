@@ -39,4 +39,14 @@ public class AdvVO implements Parcelable {
         dest.writeLong(updateTime);
         dest.writeInt(type);
     }
+
+    public static final Parcelable.Creator<AdvVO> CREATOR = new Parcelable.Creator<AdvVO>() {
+        public AdvVO createFromParcel(Parcel in) {
+            return new AdvVO(in);
+        }
+
+        public AdvVO[] newArray(int size) {
+            return new AdvVO[size];
+        }
+    };
 }
