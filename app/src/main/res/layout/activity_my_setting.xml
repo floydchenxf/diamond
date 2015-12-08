@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="#d4377e">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/jiantou_back"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="设置"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </com.zhy.android.percent.support.PercentFrameLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        app:layout_heightPercent="15%"
+        app:layout_marginTopPercent="1%">
+
+        <TextView
+            android:id="@+id/ziliao"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:drawableRight="@drawable/jiantou_next"
+            android:gravity="center_vertical"
+            android:text="个人资料"
+            app:layout_heightPercent="50%"
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000"
+            app:layout_marginLeftPercent="2%" />
+
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="手机号"
+                app:layout_marginLeftPercent="4%"
+                app:layout_marginRightPercent="4%" />
+            <TextView
+                android:id="@+id/phoneNum"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="15445102374"
+                android:textSize="10sp"
+                android:textColor="#7e7e7e"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                app:layout_marginRightPercent="4%"/>
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        app:layout_heightPercent="15%"
+        app:layout_marginTopPercent="2%">
+
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/message"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="消息通知"
+                app:layout_marginLeftPercent="4%"
+                app:layout_marginRightPercent="4%" />
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000"
+            app:layout_marginLeftPercent="2%" />
+        <com.zhy.android.percent.support.PercentRelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/clear"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="清除缓存"
+                app:layout_marginLeftPercent="4%"
+                app:layout_marginRightPercent="4%" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="12.5M"
+                android:textSize="10sp"
+                android:textColor="#7e7e7e"
+                android:layout_alignParentRight="true"
+                android:gravity="center_vertical"
+                app:layout_marginRightPercent="2%"/>
+
+        </com.zhy.android.percent.support.PercentRelativeLayout>
+
+
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        app:layout_heightPercent="22%"
+        app:layout_marginTopPercent="2%">
+
+        <TextView
+            android:id="@+id/suggest"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/jiantou_next"
+            android:gravity="center_vertical"
+            android:text="意见反馈"
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000"
+            app:layout_marginLeftPercent="2%" />
+
+        <TextView
+            android:id="@+id/tuijian"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/share_all"
+            android:gravity="center_vertical"
+            android:text="推荐给朋友"
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000"
+            app:layout_marginLeftPercent="2%" />
+
+        <TextView
+            android:id="@+id/aboutus"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/jiantou_next"
+            android:gravity="center_vertical"
+            android:text="关于我们"
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%" />
+
+    </com.zhy.android.percent.support.PercentLinearLayout>
+    
+    <TextView
+        android:id="@+id/noLogin"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:background="@drawable/common_round_blue_bg"
+        app:layout_marginLeftPercent="3%"
+        app:layout_marginRightPercent="3%"
+        app:layout_marginTopPercent="3%"
+        android:text="退出登录"
+        android:textColor="#ffffff"
+        android:textSize="13sp"
+        android:gravity="center"/>
+
+</com.zhy.android.percent.support.PercentLinearLayout>

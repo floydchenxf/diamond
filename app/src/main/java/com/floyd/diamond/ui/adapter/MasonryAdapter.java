@@ -103,4 +103,3 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
 
 }
-

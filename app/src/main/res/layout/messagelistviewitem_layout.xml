@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <ImageView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <com.floyd.diamond.bean.XCRoundRectImageView
         android:id="@+id/listview_img"
         android:layout_width="match_parent"
         android:layout_height="180dp"
-        android:background="@drawable/listviewitem_selector"
         android:scaleType="fitXY"
-        />
-
-</LinearLayout>
+        android:src="@drawable/m5"/>
+</RelativeLayout>

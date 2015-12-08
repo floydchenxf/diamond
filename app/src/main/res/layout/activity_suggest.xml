@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.zhy.android.percent.support.PercentFrameLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="#d4377e">
+
+        <TextView
+            android:id="@+id/left"
+            android:layout_width="10dp"
+            android:layout_height="16dp"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/jiantou_back"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="意见反馈"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+    </com.zhy.android.percent.support.PercentFrameLayout>
+
+    <com.zhy.android.percent.support.PercentRelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        app:layout_heightPercent="31%"
+        app:layout_marginLeftPercent="1%"
+        app:layout_widthPercent="98%">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:gravity="top"
+            android:hint="反馈信息"
+            android:textSize="13sp"
+            android:textColorHint="#cecece"
+            />
+    </com.zhy.android.percent.support.PercentRelativeLayout>
+    <TextView
+        android:id="@+id/noLogin"
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:background="@drawable/common_round_blue_bg"
+        app:layout_marginLeftPercent="3%"
+        app:layout_marginRightPercent="3%"
+        app:layout_marginTopPercent="3%"
+        android:text="提交"
+        android:textColor="#ffffff"
+        android:textSize="13sp"
+        android:gravity="center"/>
+
+
+</com.zhy.android.percent.support.PercentLinearLayout>

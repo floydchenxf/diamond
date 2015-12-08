@@ -1,4 +1,3 @@
-
 package com.floyd.pullrefresh.widget;
 
 import android.content.Context;

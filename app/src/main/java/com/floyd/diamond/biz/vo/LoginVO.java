@@ -26,3 +26,4 @@ public class LoginVO {
         return type == 1;
     }
 }
+

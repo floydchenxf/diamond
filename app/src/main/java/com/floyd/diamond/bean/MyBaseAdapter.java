@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2015/11/24.
  */
@@ -12,10 +14,10 @@ import android.widget.BaseAdapter;
 
 public abstract class MyBaseAdapter<T> extends BaseAdapter {
     private Context context;//上下文
-    private int[]list;//数据源
+    private List<Message.DataEntity>list;//数据源
     private  int layoutResId;//资源文件id
 
-    public MyBaseAdapter(Context context, int[] list, int layoutResId) {
+    public MyBaseAdapter(Context context, List<Message.DataEntity>list, int layoutResId) {
         this.context = context;
         this.list = list;
         this.layoutResId = layoutResId;
@@ -25,14 +27,14 @@ public abstract class MyBaseAdapter<T> extends BaseAdapter {
     public int getCount() {
 
         if (list != null) {
-            return  list.length;
+            return  list.size();
         }
         return 0;
     }
 
     @Override
     public Object getItem(int position) {
-        return list[position];
+        return list.get(position);
     }
 
     @Override

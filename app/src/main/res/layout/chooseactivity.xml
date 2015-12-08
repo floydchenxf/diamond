@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.zhy.android.percent.support.PercentFrameLayout
+    <FrameLayout
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
@@ -28,23 +28,25 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             />
-    </com.zhy.android.percent.support.PercentFrameLayout>
+    </FrameLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
-        <com.zhy.android.percent.support.PercentLinearLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_marginTopPercent="2%">
+            >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="12dip"
                 android:text="性别"
-                android:layout_marginLeft="11dp"
-                android:textColor="@drawable/text_selector"/>
+                android:layout_marginLeft="12dip"
+                android:textColor="#3d3d3d"
+                android:textSize="10sp"
+                />
             <RadioGroup
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,526 +54,813 @@
                 android:layout_marginTop="12dp"
                 android:gravity="center_vertical">
                 <RadioButton
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dip"
                     android:text="男"
                     android:button="@null"
                     android:background="@drawable/button_selector"
-                    android:layout_marginLeft="11dp"
+                    android:layout_marginLeft="12dp"
                     android:gravity="center"
                     android:clickable="true"
+                    android:textSize="10sp"
                     android:textColor="@drawable/text_selector"/>
                 <RadioButton
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dip"
                     android:text="女"
                     android:button="@null"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="12dp"
                     android:gravity="center"
                     android:clickable="true"
+                    android:textSize="10sp"
                     android:background="@drawable/button_selector"
                     android:textColor="@drawable/text_selector"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="12dp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="12dp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="12dp"/>
             </RadioGroup>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="年龄"
-                android:layout_marginLeft="11dp"
-                android:textColor="@drawable/text_selector"/>
+                android:textSize="10sp"
+                android:layout_marginLeft="12dp"
+                android:textColor="#3d3d3d"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:background="#d4377e"
                 android:layout_marginTop="12dp"
-                android:layout_marginLeft="11dp"/>
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="身高"
-                android:textColor="@drawable/text_selector"
-                android:layout_marginLeft="11dp"/>
+                android:textSize="10sp"
+                android:textColor="#3d3d3d"
+                android:layout_marginLeft="12dp"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:background="#d4377e"
                 android:layout_marginTop="12dp"
-                android:layout_marginLeft="11dp"/>
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="身型"
-                android:textColor="@drawable/text_selector"
-                android:layout_marginLeft="11dp"/>
-            <com.zhy.android.percent.support.PercentLinearLayout
+                android:textColor="#3d3d3d"
+                android:textSize="10sp"
+                android:layout_marginLeft="12dp"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:text="骨感"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:layout_marginLeft="11dp"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
                     android:layout_marginTop="12dp"/>
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:text="标志"
+                    android:textSize="10sp"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:layout_marginLeft="11dp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
                     android:layout_marginTop="12dp"
                     />
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:text="丰满"
+                    android:textSize="10sp"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:layout_marginLeft="11dp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
                     android:layout_marginTop="12dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="12dp"/>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="12dp"/>
+            </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="适合主题"
+                android:text="满意度%"
+                android:textSize="10sp"
                 android:layout_marginLeft="11dp"
-                android:textColor="@drawable/text_selector"/>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="日韩风"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:layout_marginLeft="11dp"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="欧美风"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="文艺风"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="12dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="学生风"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:layout_marginLeft="11dp"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="小清新"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="复古"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="街头混搭"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:layout_marginLeft="11dp"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="英伦风"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="独立个性"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="性感"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:layout_marginLeft="11dp"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="优雅"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-                <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
-                    android:text="嘻哈风"
-                    android:textColor="@drawable/text_selector"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="17%"
-                    android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="信誉度"
-                android:layout_marginLeft="11dp"
-                android:textColor="@drawable/text_selector"/>
+                android:textColor="#3d3d3d"/>
             <View
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:background="#d4377e"
                 android:layout_marginTop="12dp"
-                android:layout_marginLeft="11dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="级别"
-                android:layout_marginLeft="11dp"
-                android:textColor="@drawable/text_selector"/>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="3%"
-                    android:background="@drawable/hua1_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/hua2_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/hua3_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/hua4_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/hua5_selector"
-                    android:layout_marginTop="12dp"
-                    app:layout_marginRightPercent="3%"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="3%"
-                    android:background="@drawable/zuan1_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/zuan2_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/zuan3_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/zuan4_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/zuan5_selector"
-                    android:layout_marginTop="12dp"
-                    app:layout_marginRightPercent="3%"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="3%"
-                    android:background="@drawable/huangguan1_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/huangguan2_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/huangguan3_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/huangguan4_selector"
-                    android:layout_marginTop="12dp"/>
-                <CheckBox
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="29dp"
-                    android:button="@null"
-                    android:gravity="center"
-                    app:layout_marginLeftPercent="1%"
-                    android:background="@drawable/huangguan5_selector"
-                    android:layout_marginTop="12dp"
-                    app:layout_marginRightPercent="3%"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="地域"
-                android:layout_marginLeft="11dp"
-                android:textColor="@drawable/text_selector"/>
-            <com.zhy.android.percent.support.PercentLinearLayout
+                android:textSize="10sp"
+                android:layout_marginLeft="12dp"
+                android:textColor="#3d3d3d"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/beijing"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dip"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
                     android:text="北京"
-                    android:layout_marginLeft="11dp"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
+                    />
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/shanghai"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dip"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
                     android:text="上海"
-                    app:layout_marginLeftPercent="4%"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
+                    />
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/tianjin"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dip"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="浙江"
-                    app:layout_marginLeftPercent="4%"
+                    android:text="天津"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
+                    />
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/chongqing"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dip"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="江苏"
-                    app:layout_marginLeftPercent="4%"
+                    android:text="重庆"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
-            <com.zhy.android.percent.support.PercentLinearLayout
+                    />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                   >
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="12dp"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/jiangsu"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="山东"
-                    android:layout_marginLeft="11dp"
+                    android:text="江苏"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
+                    android:layout_marginTop="16dp"/>
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/zhejiang"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="广东"
-                    app:layout_marginLeftPercent="4%"
+                    android:text="浙江"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
+                    android:layout_marginTop="16dp"/>
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/liaoning"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="深圳"
-                    app:layout_marginLeftPercent="4%"
+                    android:text="辽宁"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
+                    android:layout_marginTop="16dp"/>
                 <CheckBox
-                    android:layout_width="64dp"
-                    android:layout_height="29dp"
+                    android:id="@+id/heilongjiang"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="28dp"
                     android:textColor="@drawable/text_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="福建"
-                    app:layout_marginLeftPercent="4%"
+                    android:text="黑龙江"
+                    android:textSize="10sp"
+                    android:layout_marginLeft="12dp"
                     android:background="@drawable/button_selector"
-                    android:layout_marginTop="25dp"/>
-            </com.zhy.android.percent.support.PercentLinearLayout>
+                    android:layout_marginTop="16dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="bottom"
+                    >
+                    <ImageView
+                        android:id="@+id/moreProvince"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/jiantou_down"
+                        android:layout_gravity="bottom"
+                        android:layout_marginLeft="12dp"
+                        />
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/changeProvince"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/jilin"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="吉林"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/shandong"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="山东"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/anhui"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="安徽"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/hebei"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="河北"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/henan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="河南"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/hubei"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="湖北"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/hunan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="湖南"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/jiangxi"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="江西"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/shanxi3"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="陕西"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/shanxi1"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="山西"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/sichuan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="四川"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/qinghai"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="青海"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/hainan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="海南"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/guangdong"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="广东"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/guizhou"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="贵州"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/fujian"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="福建"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/taiwan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="台湾"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/gansu"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="甘肃"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/yunnan"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="云南"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/neimenggu"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="内蒙古"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/ningxia"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="宁夏"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/xinjiang"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="新疆"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/xizang"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="西藏"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/guangxi"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="广西"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+                    <CheckBox
+                        android:id="@+id/xianggang"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="香港"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/aomen"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="澳门"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+                    <CheckBox
+                        android:id="@+id/allChoose"
+                        android:layout_width="0dp"
+                        android:layout_weight="2"
+                        android:layout_height="28dip"
+                        android:textColor="@drawable/text_selector"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:text="全选"
+                        android:textSize="10sp"
+                        android:layout_marginLeft="12dp"
+                        android:background="@drawable/button_selector"
+                        />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:gravity="bottom"
+                        >
+                        <ImageView
+                            android:id="@+id/jiantou_up"
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_gravity="bottom"
+                            android:layout_marginLeft="12dp"
+                            android:src="@drawable/jiantou_up"
+                            />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                app:layout_widthPercent="90%"
-                app:layout_heightPercent="6%"
-                app:layout_marginTopPercent="3%"
+                android:layout_width="match_parent"
+                android:layout_height="39dp"
+                android:layout_marginTop="20dp"
                 android:text="搜索"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:gravity="center"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginBottom="30dp"
                 android:background="@drawable/buttonpress_shape"/>
-        </com.zhy.android.percent.support.PercentLinearLayout>
+        </LinearLayout>
     </ScrollView>
 
 
-</com.zhy.android.percent.support.PercentLinearLayout>
+</LinearLayout>

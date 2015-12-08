@@ -64,11 +64,11 @@
                 app:layout_widthPercent="30%" />
 
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_marginLeftPercent="3%"
-                app:layout_widthPercent="39%">
+                >
 
                 <com.zhy.android.percent.support.PercentLinearLayout
                     android:layout_width="match_parent"
@@ -100,7 +100,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="信誉度："
+                        android:text="满意度："
                         android:textColor="#ffffff"
                         android:textSize="12sp" />
 
@@ -108,7 +108,7 @@
                         android:id="@+id/xinyudu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8.9"
+                        android:text="95%"
                         android:textColor="#ffffff"
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp" />
@@ -133,103 +133,17 @@
                 android:textSize="12sp"
                 app:layout_heightPercent="27%"
                 app:layout_marginLeftPercent="3%"
-                app:layout_widthPercent="23%" />
+                app:layout_widthPercent="25%" />
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </com.zhy.android.percent.support.PercentLinearLayout>
+
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_heightPercent="4%"
         android:background="#ffffff"
-        app:layout_marginTopPercent="1%">
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="信誉详情"
-            android:textSize="10sp"
-            android:gravity="center_vertical"
-            android:textColor="#7e7e7e"
-            app:layout_marginLeftPercent="3%"/>
-    </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-    <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#ffffff"
-        android:layout_marginTop="1dp"
         >
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="13%">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="任务完成"
-                android:textSize="12sp"
-                android:textColor="#7e7e7e"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="8.9"
-                android:textSize="12sp"
-                android:textColor="#7e7e7e"
-                app:layout_marginLeftPercent="3%"/>
-        </com.zhy.android.percent.support.PercentLinearLayout>
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="4%">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="推广值"
-                android:textSize="12sp"
-                android:textColor="#7e7e7e"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="8.9"
-                android:textSize="12sp"
-                android:textColor="#7e7e7e"
-                app:layout_marginLeftPercent="3%"/>
-        </com.zhy.android.percent.support.PercentLinearLayout>
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="4%">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="自购率"
-                android:textSize="12sp"
-                android:textColor="#7e7e7e"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="8.9"
-                android:textSize="12sp"
-                android:textColor="#7e7e7e"
-                app:layout_marginLeftPercent="3%"
-                />
-        </com.zhy.android.percent.support.PercentLinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_heightPercent="4%"/>
-
-    </com.zhy.android.percent.support.PercentLinearLayout>
-    <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_heightPercent="4%"
-        android:background="#ffffff"
-        app:layout_marginTopPercent="1%">
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -254,168 +168,105 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="性别"
-                android:textSize="10sp"
+                android:text="性        别"
+                android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="女"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
+                app:layout_marginLeftPercent="23%"
                 />
         </com.zhy.android.percent.support.PercentLinearLayout>
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="2%"
+            app:layout_marginTopPercent="6%"
             android:layout_marginTop="1dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="年龄"
-                android:textSize="10sp"
+                android:text="年        龄"
+                android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="24"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
+                app:layout_marginLeftPercent="23%"
                 />
         </com.zhy.android.percent.support.PercentLinearLayout>
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="2%"
+            app:layout_marginTopPercent="6%"
             android:layout_marginTop="1dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="身高"
-                android:textSize="10sp"
+                android:text="身        高"
+                android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="180"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
+                app:layout_marginLeftPercent="23%"
                 />
         </com.zhy.android.percent.support.PercentLinearLayout>
-        <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_marginLeftPercent="13%"
-        app:layout_marginTopPercent="2%"
-        android:layout_marginTop="1dp">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="体重"
-            android:textSize="10sp"
-            android:textColor="#989898"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="44kg"
-            android:textSize="10sp"
-            android:textColor="#505050"
-            app:layout_marginLeftPercent="3%"
-            />
-    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="2%"
+            app:layout_marginTopPercent="6%"
             android:layout_marginTop="1dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="三围"
-                android:textSize="10sp"
-                android:textColor="#989898"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="33—22-44"
-                android:textSize="10sp"
-                android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
-                />
-        </com.zhy.android.percent.support.PercentLinearLayout>
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="2%"
-            android:layout_marginTop="1dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="身型"
-                android:textSize="10sp"
+                android:text="身        型"
+                android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="苗条"
-                android:textSize="10sp"
+                android:textSize="12sp"
                 android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
+                app:layout_marginLeftPercent="23%"
                 />
         </com.zhy.android.percent.support.PercentLinearLayout>
+
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="2%"
+            app:layout_marginTopPercent="6%"
             android:layout_marginTop="1dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="职业"
-                android:textSize="10sp"
+                android:text="所属区域"
+                android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="文员"
-                android:textSize="10sp"
+                android:text="山东 济南"
+                android:textSize="12sp"
                 android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
-                />
-        </com.zhy.android.percent.support.PercentLinearLayout>
-        <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_marginLeftPercent="13%"
-            app:layout_marginTopPercent="2%"
-            android:layout_marginTop="1dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="适合主题"
-                android:textSize="10sp"
-                android:textColor="#989898"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="欧美风"
-                android:textSize="10sp"
-                android:textColor="#505050"
-                app:layout_marginLeftPercent="3%"
+                app:layout_marginLeftPercent="23%"
                 />
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </com.zhy.android.percent.support.PercentLinearLayout>
-
-
-
 </com.zhy.android.percent.support.PercentLinearLayout>
