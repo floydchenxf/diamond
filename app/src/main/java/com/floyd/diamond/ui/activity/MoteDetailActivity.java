@@ -285,7 +285,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MoteDetailActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
-                        loadingDialog.hide();
+                        loadingDialog.dismiss();
                     }
                 }
 
@@ -293,7 +293,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 public void onSuccess(Boolean aBoolean) {
                     Toast.makeText(MoteDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
-                        loadingDialog.hide();
+                        loadingDialog.dismiss();
                     }
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);

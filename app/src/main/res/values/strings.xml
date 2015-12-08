@@ -61,4 +61,9 @@
     <string name="null_image">没有获取到图片</string>
     <string name="image_saved">图片已经保存</string>
     <string name="image_save_fail">图片保存失败</string>
+    <string name="title_activity_product_type">ProductTypeActivity</string>
+    <string name="female_type">女装</string>
+    <string name="male_type">男装</string>
+    <string name="baby_type">童装</string>
+    <string name="multi_type">综合</string>
 </resources>

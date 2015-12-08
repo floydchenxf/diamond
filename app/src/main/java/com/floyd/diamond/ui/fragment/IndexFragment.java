@@ -1,6 +1,7 @@
 package com.floyd.diamond.ui.fragment;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.text.Html;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,8 +17,10 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CheckedTextView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.activity.ProductTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
 import com.floyd.diamond.ui.anim.LsLoadingView;
 import com.floyd.diamond.ui.pageindicator.CircleLoopPageIndicator;
@@ -93,12 +98,20 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private boolean needClear;
 
     private CheckedTextView femaleView1, femaleview2;
-
     private CheckedTextView maleView1, maleView2;
-
     private CheckedTextView babyView1, babyView2;
 
-    private LinearLayout productTypeLayout;
+    private ScrollView productTypeLayout;
+    private GestureDetector mGestureDetector;
+
+    //品类红点
+    private ImageView redHot1;
+    private ImageView redHot2;
+    private ImageView redHot3;
+    private ImageView redHot4;
+
+    private ImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
+
 
     private Handler mChangeViewPagerHandler = new Handler() {
         @Override
@@ -133,6 +146,42 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         super.onCreate(savedInstanceState);
         mTopBannerList = new ArrayList<AdvVO>();
         loadDialog = new Dialog(this.getActivity(), R.style.data_load_dialog);
+        mGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                Log.i(TAG, "-----onScroll----x:"+distanceX+"--------y:"+distanceY);
+                if (Math.abs(distanceX) > 30) {
+                    Toast.makeText(IndexFragment.this.getActivity(), "移动了", Toast.LENGTH_SHORT).show();
+                }
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                Log.i(TAG, "----onFling-----x:"+velocityX+"--------y:"+velocityY);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -325,12 +374,12 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             @Override
             public void onError(int code, String errorInfo) {
                 loadFail();
-                loadDialog.hide();
+                loadDialog.dismiss();
             }
 
             @Override
             public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
-                loadDialog.hide();
+                loadDialog.dismiss();
                 ++pageNo;
                 indexMoteAdapter.addAll(moteInfoVOs, needClear);
                 loadSuccess();
@@ -352,46 +401,16 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mViewPagerContainerLayoutParams.height = CommonUtil.dip2px(this.getActivity(), BANNER_HEIGHT_IN_DP);
         mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);
         mHeaderViewIndicator = (CircleLoopPageIndicator) mHeaderView.findViewById(R.id.indicator);
-        productTypeLayout = (LinearLayout) mHeaderView.findViewById(R.id.product_type);
+        productTypeLayout = (ScrollView) mHeaderView.findViewById(R.id.product_type_layout);
         productTypeLayout.setOnTouchListener(new View.OnTouchListener() {
-            float x1, x2;
-            boolean isScrollToRight = false;
-            boolean isScrollToLeft = false;
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        Log.i(TAG, "down x:"+x1);
-                        x1 = event.getRawX();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        x2 = event.getRawX();
-                        Log.i(TAG, "move x:"+x2);
-                        if (x2 - x1 > 30) {
-                            isScrollToRight = true;
-                        } else if (x2 - x1 < -60) {
-                            isScrollToLeft = true;
-                        }
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        Log.i(TAG, "up isScrollToLeft:"+isScrollToLeft+"--isScrollToRight:"+isScrollToRight);
-                        if (isScrollToLeft) {
-                            Toast.makeText(IndexFragment.this.getActivity(), "to left", Toast.LENGTH_SHORT).show();
-                            break;
-
-                        }
-                        if (isScrollToRight) {
-                            Toast.makeText(IndexFragment.this.getActivity(), "to right", Toast.LENGTH_SHORT).show();
-                        }
-
-                        break;
-
-                }
-                return false;
+;                return mGestureDetector.onTouchEvent(event);
             }
         });
+
+        initProductType();
+
 
         mNavigationContainer = (LinearLayout) mHeaderView.findViewById(R.id.navigation_container);
 
@@ -426,6 +445,23 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         });
 
 
+    }
+
+    private void initProductType() {
+
+        redHot1 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_1);
+        redHot2 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_2);
+        redHot3 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_3);
+        redHot4 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_4);
+        femaleProduct = (ImageView) productTypeLayout.findViewById(R.id.female_type);
+        maleProduct = (ImageView) productTypeLayout.findViewById(R.id.male_type);
+        babyProduct = (ImageView) productTypeLayout.findViewById(R.id.baby_type);
+        multiPriduct = (ImageView) productTypeLayout.findViewById(R.id.multi_type);
+
+        femaleProduct.setOnClickListener(this);
+        maleProduct.setOnClickListener(this);
+        babyProduct.setOnClickListener(this);
+        multiPriduct.setOnClickListener(this);
     }
 
     /**
@@ -584,6 +620,27 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 pageNo = 1;
                 needClear = true;
                 loadData();
+                break;
+            case R.id.female_type:
+                Intent it = new Intent(this.getActivity(), ProductTypeActivity.class);
+                it.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 1);
+                startActivity(it);
+                break;
+            case R.id.male_type:
+                Intent it2 = new Intent(this.getActivity(), ProductTypeActivity.class);
+                it2.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 2);
+                startActivity(it2);
+
+                break;
+            case R.id.baby_type:
+                Intent it3 = new Intent(this.getActivity(), ProductTypeActivity.class);
+                it3.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 3);
+                startActivity(it3);
+                break;
+            case R.id.multi_type:
+                Intent it4 = new Intent(this.getActivity(), ProductTypeActivity.class);
+                it4.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 4);
+                startActivity(it4);
                 break;
         }
 

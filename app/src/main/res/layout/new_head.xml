@@ -31,97 +31,104 @@
 
     </FrameLayout>
 
-
-    <LinearLayout
-        android:id="@+id/product_type"
+    <ScrollView
+        android:id="@+id/product_type_layout"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/pager_layout"
-        android:layout_marginTop="10dp"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:paddingBottom="14dp"
-        android:paddingTop="14dp">
+        android:scrollbars="none">
 
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+        <LinearLayout
+            android:id="@+id/product_type"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingBottom="14dp"
+            android:paddingTop="14dp">
 
-            <ImageView
-                android:id="@+id/read1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/female_type"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/weixinhaoyou" />
-        </RelativeLayout>
+                android:layout_weight="1">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/red_hot_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/read2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/female_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/weixinhaoyou" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/male_type"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/penyouquan" />
-        </RelativeLayout>
+                android:layout_weight="1">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/red_hot_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/read3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/male_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/penyouquan" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/baby_type"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/qqkonjing" />
-        </RelativeLayout>
+                android:layout_weight="1">
 
-        <RelativeLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+                <ImageView
+                    android:id="@+id/red_hot_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-            <ImageView
-                android:id="@+id/read4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                <ImageView
+                    android:id="@+id/baby_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/qqkonjing" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/multi_type"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:src="@drawable/tengxunweib" />
-        </RelativeLayout>
-    </LinearLayout>
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/red_hot_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/multi_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/tengxunweib" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/navigation_container"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/product_type"
+        android:layout_below="@+id/product_type_layout"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
         android:gravity="center_vertical"

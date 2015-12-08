@@ -1,16 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.floyd.diamond">
+    package="com.floyd.diamond" >
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
 
     <application
         android:name=".DiamodApplication"
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/app_name">
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,17 +55,15 @@
         <activity
             android:name=".ui.activity.Reg2Activity"
             android:label="@string/title_activity_reg2" />
-
         <activity
             android:name=".ui.activity.MoteMoreInfoActivity"
             android:label="@string/title_activity_mote_more_info"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay"/>
+            android:theme="@style/ContentOverlay" />
 
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="565a5babe0f55a49e7009efa" />
-
 
         <activity
             android:name=".ui.graphic.CropImageActivity"
@@ -59,28 +72,27 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.MoteDetailActivity"
-            android:label="@string/title_activity_mote_detail"/>
-
+            android:label="@string/title_activity_mote_detail" />
         <activity
-            android:name="com.floyd.diamond.ui.multiimage.MultiImageActivity"
+            android:name=".ui.multiimage.MultiImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-            
-            <activity android:name=".ui.activity.HomeChooseActivity" />
+        <activity android:name=".ui.activity.HomeChooseActivity" />
         <activity android:name=".ui.activity.ChooseActivity" />
         <activity android:name=".ui.activity.GuideActivity" />
         <activity android:name=".ui.activity.MessageItemActivity" />
         <activity android:name=".ui.activity.ModelInfoActivity" />
         <activity android:name=".ui.activity.ModelPersonActivity" />
-        <activity android:name=".ui.activity.DialogActivity" android:theme="@style/Theme.UMDialog"
-            />
+        <activity
+            android:name=".ui.activity.DialogActivity"
+            android:theme="@style/Theme.UMDialog" />
 
-        <!--  ###################添加UmengAppkey######################  -->
+        <!-- ###################添加UmengAppkey###################### -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="565a5babe0f55a49e7009efa" />
 
-        <!--  ###################注册SDK使用的Activity###################### -->
+        <!-- ###################注册SDK使用的Activity###################### -->
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
             android:configChanges="orientation|keyboard"
@@ -88,26 +100,24 @@
             android:noHistory="true"
             android:theme="@style/Theme.UMDialog"
             android:windowSoftInputMode="stateVisible|adjustResize" />
-
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!--  ############ QQ空间和QQ SSO授权的Activity注册 ############-->
+        <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true">
-
+            android:noHistory="true" >
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <!--  100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID-->
+                <!-- 100424468，如果你使用的公用账号，则不需要修改；否则修改成你在QQ开放平台申请的 APP ID -->
                 <data android:scheme="tencent100424468" />
             </intent-filter>
         </activity>
@@ -115,20 +125,10 @@
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".ui.activity.ProductTypeActivity"
+            android:label="@string/title_activity_product_type" >
+        </activity>
     </application>
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_SETTINGS" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
 </manifest>
