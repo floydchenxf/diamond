@@ -215,7 +215,7 @@ public class IMImageCache implements ImageLoader.ImageCache {
             return memBitmap;
         } else {
             Log.d("test1", "bitmap memory cache not hit load from sdcard");
-            memBitmap = FileTools.readBitmap(EnvConstants.imageRootPath+ File.separator + md5Name);
+            memBitmap = FileTools.readBitmap(EnvConstants.imageRootPath + File.separator + md5Name);
             if (memBitmap == null) {
                 Log.d("test1", "bitmap memory cache not hit");
             }
@@ -307,7 +307,7 @@ public class IMImageCache implements ImageLoader.ImageCache {
         WxDefaultExecutor.getInstance().submitHighPriority(new Runnable() {
             @Override
             public void run() {
-                FileTools.writeBitmap(EnvConstants.imageRootPath, md5Name, bitmap);
+                FileTools.writeBitmap(EnvConstants.imageRootPath + File.separator + md5Name, bitmap, 50);
             }
         });
 
