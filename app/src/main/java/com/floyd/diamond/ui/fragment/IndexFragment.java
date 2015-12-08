@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
@@ -96,6 +97,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private CheckedTextView maleView1, maleView2;
 
     private CheckedTextView babyView1, babyView2;
+
+    private LinearLayout productTypeLayout;
 
     private Handler mChangeViewPagerHandler = new Handler() {
         @Override
@@ -349,7 +352,49 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mViewPagerContainerLayoutParams.height = CommonUtil.dip2px(this.getActivity(), BANNER_HEIGHT_IN_DP);
         mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);
         mHeaderViewIndicator = (CircleLoopPageIndicator) mHeaderView.findViewById(R.id.indicator);
+        productTypeLayout = (LinearLayout) mHeaderView.findViewById(R.id.product_type);
+        productTypeLayout.setOnTouchListener(new View.OnTouchListener() {
+            float x1, x2;
+            boolean isScrollToRight = false;
+            boolean isScrollToLeft = false;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        Log.i(TAG, "down x:"+x1);
+                        x1 = event.getRawX();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        x2 = event.getRawX();
+                        Log.i(TAG, "move x:"+x2);
+                        if (x2 - x1 > 30) {
+                            isScrollToRight = true;
+                        } else if (x2 - x1 < -60) {
+                            isScrollToLeft = true;
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        Log.i(TAG, "up isScrollToLeft:"+isScrollToLeft+"--isScrollToRight:"+isScrollToRight);
+                        if (isScrollToLeft) {
+                            Toast.makeText(IndexFragment.this.getActivity(), "to left", Toast.LENGTH_SHORT).show();
+                            break;
+
+                        }
+                        if (isScrollToRight) {
+                            Toast.makeText(IndexFragment.this.getActivity(), "to right", Toast.LENGTH_SHORT).show();
+                        }
+
+                        break;
+
+                }
+                return false;
+            }
+        });
+
         mNavigationContainer = (LinearLayout) mHeaderView.findViewById(R.id.navigation_container);
+
         mBannerImageAdapter = new BannerImageAdapter(this.getActivity().getSupportFragmentManager(), null);
         mHeaderViewPager.setAdapter(mBannerImageAdapter);
         mHeaderViewPager.setOnPageChangeListener(new LoopViewPager.OnPageChangeListener() {
