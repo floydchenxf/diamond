@@ -60,7 +60,7 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
                     ft.add(fragmentContentId, fragment);
                 }
                 showTab(i); // 显示目标tab
-                ft.commit();
+                ft.commitAllowingStateLoss();
 
                 // 如果设置了切换tab额外功能功能接口
                 if (null != onRgsExtraCheckedChangedListener) {
@@ -87,7 +87,7 @@ public class FragmentTabAdapter implements RadioGroup.OnCheckedChangeListener {
             } else {
                 ft.hide(fragment);
             }
-            ft.commit();
+            ft.commitAllowingStateLoss();
         }
         currentTab = idx; // 更新目标tab为当前tab
     }

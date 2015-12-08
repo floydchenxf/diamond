@@ -61,31 +61,17 @@
                 app:layout_widthPercent="30%" />
 
             <com.zhy.android.percent.support.PercentLinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_marginLeftPercent="3%"
-                >
-                <com.zhy.android.percent.support.PercentLinearLayout
+                app:layout_widthPercent="39%">
+
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_marginTopPercent="7%">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="经验值："
-                        android:textColor="#ffffff"
-                        android:textSize="12sp" />
-
-                    <TextView
-                        android:id="@+id/jingyanzhi"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="8.9"
-                        android:textColor="#ffffff"
-                        android:textSize="12sp" />
-                </com.zhy.android.percent.support.PercentLinearLayout>
+                    android:layout_height="0dp"
+                    android:background="#fff"
+                    app:layout_heightPercent="15%" />
 
                 <com.zhy.android.percent.support.PercentLinearLayout
                     android:layout_width="match_parent"
@@ -95,7 +81,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="满意度："
+                        android:text="信誉度："
                         android:textColor="#ffffff"
                         android:textSize="12sp" />
 
@@ -118,8 +104,7 @@
                 app:layout_marginLeftPercent="3%" />
 
             <TextView
-                android:id="@+id/careCount"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#ffffff"
                 android:gravity="center"
@@ -127,8 +112,8 @@
                 android:textColor="#d4377e"
                 android:textSize="12sp"
                 app:layout_heightPercent="27%"
-                android:layout_marginLeft="8dp"
-                app:layout_widthPercent="25%" />
+                app:layout_marginLeftPercent="3%"
+                app:layout_widthPercent="23%" />
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </com.zhy.android.percent.support.PercentLinearLayout>

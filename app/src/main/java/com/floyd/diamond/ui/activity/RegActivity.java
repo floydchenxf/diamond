@@ -20,7 +20,7 @@ public class RegActivity extends Activity implements View.OnClickListener {
     private TextView backView;
     private TextView nextStepView;
 
-    private int checkType = 0;
+    private int checkType = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +46,12 @@ public class RegActivity extends Activity implements View.OnClickListener {
             case R.id.seller:
                 modelView.setChecked(false);
                 sellerView.setChecked(true);
-                checkType = 0;
+                checkType = 1;
                 break;
             case R.id.model:
                 modelView.setChecked(true);
                 sellerView.setChecked(false);
-                checkType = 1;
+                checkType = 2;
                 break;
             case R.id.next_step:
                 String phoneNumber = phoneNumberView.getText().toString();
@@ -64,6 +64,7 @@ public class RegActivity extends Activity implements View.OnClickListener {
                 it.putExtra("checkType", checkType);
                 it.putExtra("phoneNumber", phoneNumber);
                 startActivity(it);
+                finish();
                 break;
         }
 

@@ -1,17 +1,21 @@
-package com.floyd.diamond.ui.activity;
+package com.floyd.diamond.ui;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.LoginManager;
+import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.event.LoginEvent;
+import com.floyd.diamond.ui.activity.LoginActivity;
+import com.floyd.diamond.ui.fragment.BackHandledFragment;
 import com.floyd.diamond.ui.fragment.FragmentTabAdapter;
 import com.floyd.diamond.ui.fragment.IndexFragment;
 import com.floyd.diamond.ui.fragment.MessageFragment;
@@ -20,16 +24,23 @@ import com.floyd.diamond.ui.fragment.MyFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+
+public class MainActivity extends FragmentActivity implements View.OnClickListener, BackHandledInterface {
+
+    private static final String TAG = "MainActivity";
 
     private FragmentTransaction fragmentTransaction;
 
+    private BackHandledFragment mBackHandedFragment;
 
     private RadioGroup rgs;
 
     private RadioButton myButton;
-    public List<Fragment> fragments = new ArrayList<Fragment>();
+    private List<Fragment> fragments = new ArrayList<Fragment>();
+    private FragmentTabAdapter tabAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +56,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         rgs = (RadioGroup) findViewById(R.id.id_ly_bottombar);
 
-        FragmentTabAdapter tabAdapter = new FragmentTabAdapter(this, fragments, R.id.id_content, rgs);
+        tabAdapter = new FragmentTabAdapter(this, fragments, R.id.id_content, rgs);
         tabAdapter.setOnRgsExtraCheckedChangedListener(new FragmentTabAdapter.OnRgsExtraCheckedChangedListener() {
             @Override
             public void OnRgsExtraCheckedChanged(RadioGroup radioGroup, int checkedId, int index) {
@@ -66,6 +77,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
 
+        EventBus.getDefault().register(this);
+
     }
 
     @Override
@@ -82,5 +95,32 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             default:
         }
 
+    }
+
+    public void onBackPressed() {
+        if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
+            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+                super.onBackPressed();
+            } else {
+                getSupportFragmentManager().popBackStack();
+            }
+        }
+    }
+
+    @Override
+    public void setSelectedFragment(BackHandledFragment selectedFragment) {
+        this.mBackHandedFragment = selectedFragment;
+    }
+
+    @Subscribe
+    public void onEventMainThread(LoginEvent event) {
+        Log.i(TAG, "-----------login event fire");
+        tabAdapter.onCheckedChanged(rgs, R.id.tab_my);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

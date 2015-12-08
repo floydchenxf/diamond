@@ -1,37 +1,39 @@
 package com.floyd.diamond.ui.fragment;
 
-import android.content.Context;
-import android.content.Intent;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.AbsListView;
+import android.widget.CheckedTextView;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.aync.JobFactory;
-import com.floyd.diamond.bean.SpacesItemDecoration;
-import com.floyd.diamond.ui.activity.GuideActivity;
-import com.floyd.diamond.ui.activity.HomeChooseActivity;
-import com.floyd.diamond.ui.adapter.Adapter_WelcomeFragment;
-import com.floyd.diamond.ui.adapter.HomeSecondAdapter;
-import com.floyd.diamond.ui.adapter.SimpleAdapter;
+import com.floyd.diamond.biz.manager.IndexManager;
+import com.floyd.diamond.biz.vo.AdvVO;
+import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
+import com.floyd.diamond.ui.anim.LsLoadingView;
+import com.floyd.diamond.ui.pageindicator.CircleLoopPageIndicator;
+import com.floyd.diamond.ui.view.LoopViewPager;
+import com.floyd.diamond.utils.CommonUtil;
+import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,73 +42,94 @@ import java.util.TimerTask;
  * Use the {@link IndexFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class IndexFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+public class IndexFragment extends BackHandledFragment implements AbsListView.OnScrollListener, View.OnClickListener {
 
-    private PullToRefreshListView pullToRefreshListView;
-    private TextView textView;
+    private static final String TAG = "IndexFragment";
 
-    private ViewPager pager;//首页的广告条
-    private ImageView tips1, tips2, tips3, tips4, tips5;
-    private TextView choose;//筛选模特
-    private TextView guide;//操作指引
-    private int count=0;
-    private String[] mStrings = {
-            "Abbaye de Belloc", "Abbaye du Mont des Cats", "Abertam",
-            "Abondance", "Ackawi", "Acorn", "Adelost", "Affidelice au Chablis",
-            "Afuega'l Pitu", "Airag", "Airedale", "Aisy Cendre",
-            "Allgauer Emmentaler"};
+    private static int BANNER_HEIGHT_IN_DP = 300;
+    public static final int CHANGE_BANNER_HANDLER_MSG_WHAT = 51;
 
-    private List<String> mListItems = new LinkedList<String>();
+    private PullToRefreshListView mPullToRefreshListView;
+    private View mTitleLayout;
+    private ListView mListView;
 
-    private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4};
-    private String[]counts={"1","3","2","6"};
+    private View mHeaderView;
+    private View mViewPagerContainer;//整个广告
+    private LoopViewPager mHeaderViewPager;//广告
+    private CircleLoopPageIndicator mHeaderViewIndicator;//广告条索引
+    private LinearLayout mFakeNavigationContainer; //固定顶端的导航栏
+    private LinearLayout mNavigationContainer;//导航栏
+    private List<AdvVO> mTopBannerList;//最上部分左右循环广告条
 
-    private String mParam1;
-    private String mParam2;
+    private BannerImageAdapter mBannerImageAdapter;
 
-    private RecyclerView recyclerView;
-    //private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4};
+    private boolean isShowFakeNavigationTips;
 
-    private Context context;
-    private Handler handler=new Handler(){
+    private boolean isShowBanner;
+
+    private int mLastShowFakeNavigationItem = 0;
+
+    private boolean isScrollToUp = false; //ListView滚动的方向
+
+    private TextView mActLsFailTv;
+
+    private View mActLsFailLayoutView;
+
+    private FrameLayout mActLsloading;
+
+    private LsLoadingView mLsLoadingView;
+
+    private View mLoading_container;
+
+    private IndexMoteAdapter indexMoteAdapter;
+
+    private Dialog loadDialog;
+
+    private int moteType = 1;
+    private int pageNo = 1;
+    private int PAGE_SIZE  = 18;
+
+    private boolean needClear;
+
+    private CheckedTextView femaleView1, femaleview2;
+
+    private CheckedTextView maleView1, maleView2;
+
+    private CheckedTextView babyView1, babyView2;
+
+    private Handler mChangeViewPagerHandler = new Handler() {
         @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            pager.setCurrentItem(count,false);
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case CHANGE_BANNER_HANDLER_MSG_WHAT:
+                    if (mTopBannerList != null) {
+                        if (mTopBannerList != null && mTopBannerList.size() > 0 && mHeaderViewPager != null) {
+                            int totalcount = mTopBannerList.size();//autoChangeViewPager.getChildCount();
+                            int currentItem = mHeaderViewPager.getCurrentItem();
+                            int toItem = currentItem + 1 == totalcount ? 0 : currentItem + 1;
+                            mHeaderViewPager.setCurrentItem(toItem, true);
+                            //每5秒钟发送一个message，用于切换viewPager中的图片
+                            this.sendEmptyMessageDelayed(CHANGE_BANNER_HANDLER_MSG_WHAT, 5000);
+                        }
+                    }
+            }
         }
     };
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment IndexFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static IndexFragment newInstance(String param1, String param2) {
         IndexFragment fragment = new IndexFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     public IndexFragment() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        mTopBannerList = new ArrayList<AdvVO>();
+        loadDialog = new Dialog(this.getActivity(), R.style.data_load_dialog);
     }
 
     @Override
@@ -114,172 +137,308 @@ public class IndexFragment extends Fragment {
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_index, container, false);
 
-//        textView = (TextView) view.findViewById(R.id.aaaa);
-//        textView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                view.setBackgroundColor(Color.WHITE);
-//            }
-//        });
-        pullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pic_list);
 
-        //初始化
-        init(view);
+        if (mActLsloading == null) {
+            mActLsloading = (FrameLayout) view.findViewById(R.id.act_lsloading);
+        }
+        //一些错误和空页面
+        if (mActLsFailLayoutView == null) {
+            mActLsFailLayoutView = view.findViewById(R.id.act_ls_fail_layout);
+            mActLsFailLayoutView.setOnClickListener(this);
+            mActLsFailLayoutView.setVisibility(View.GONE);
+        }
 
-        //给首页的Recycle填充数据
-        setRecycleData();
+        if (mActLsFailTv == null) {
+            mActLsFailTv = (TextView) view.findViewById(R.id.act_ls_fail_tv);
+            mActLsFailTv.setText(Html.fromHtml("页面太调皮，跑丢了...<br>请<font color='#1fb4fc'>刷新</font>再试试吧^^"));
+        }
 
-        //给广告条填充数据
-        addPagerData();
 
-        mListItems.addAll(Arrays.asList(mStrings));
-        final SimpleAdapter adapter = new SimpleAdapter(this.getActivity(), mListItems);
-        pullToRefreshListView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
+        mLsLoadingView = (LsLoadingView) view.findViewById(R.id.ls_loading_image);
+        mLoading_container = view.findViewById(R.id.loading_container);
+        if (mLoading_container != null) {
+            mLoading_container.setVisibility(View.GONE);
+        }
+
+        mTitleLayout = view.findViewById(R.id.title);
+        mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pic_list);
+        mListView = mPullToRefreshListView.getRefreshableView();
+        mListView.setOnScrollListener(this);
+        mFakeNavigationContainer = (LinearLayout) view.findViewById(R.id.fake_navigation_container);
+
+
+        initListViewHeader();
+
+        initButton();
+
+        startLoading();
+
+        loadData();
+
+        mListView.addHeaderView(mHeaderView);
+
+        indexMoteAdapter = new IndexMoteAdapter(this.getActivity(), new ArrayList<MoteInfoVO>());
+        mListView.setAdapter(indexMoteAdapter);
+
+        mListView.setOnTouchListener(new View.OnTouchListener() {
+
+            float y1, y2;
+
             @Override
-            public void onRefresh() {
-                JobFactory.createJob("add after....").startUI(new ApiCallback<String>() {
-                    @Override
-                    public void onError(int code, String errorInfo) {
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        y1 = event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        y2 = event.getRawY();
+                        if (y2 - y1 > 30) {
+                            isScrollToUp = true;
+                        } else if (y2 - y1 < -60) {
+                            isScrollToUp = false;
+                        }
 
-                    }
+                        break;
+                }
+                return false;
+            }
+        });
+        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
+            @Override
+            public void onPullDownToRefresh() {
+                needClear = false;
+                loadData();
+                mPullToRefreshListView.onRefreshComplete(true, true);
+            }
 
-                    @Override
-                    public void onSuccess(String o) {
-                        adapter.add(o);
-                        pullToRefreshListView.onRefreshComplete();
-                    }
-
-                    @Override
-                    public void onProgress(int progress) {
-
-                    }
-                });
-
+            @Override
+            public void onPullUpToRefresh() {
+                needClear = false;
+                loadData();
+                mPullToRefreshListView.onRefreshComplete(true, true);
             }
         });
 
-        pullToRefreshListView.setAdapter(adapter);
+        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
 
-        new Timer().schedule(new TimerTask() {
+            float y1 = 0, y2 = 0;
 
             @Override
-            public void run() {
-                count = pager.getCurrentItem();
-                count++;
-                if (count == 5) {
-                    count = 0;
-                }
-                handler.sendEmptyMessage(2);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (y1 == 0) {
+                            y1 = event.getRawY();
+                        }
+                        y2 = event.getRawY();
 
+                        if (mPullToRefreshListView.isBeingDragged()) {
+                            if (mFakeNavigationContainer != null && mNavigationContainer != null) {
+                                mFakeNavigationContainer.setVisibility(View.GONE);
+                            }
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return false;
             }
-        }, 2000, 2000);
+        });
         return view;
     }
 
-    //初始化操作
-    public void init(View view) {
-        pager = ((ViewPager) view.findViewById(R.id.index_pager));
-        recyclerView= ((RecyclerView) view.findViewById(R.id.recycler_home));
-        recyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false));
-        //如果可以确定每个item的高度是固定的，设置这个选项可以提高性能
-        recyclerView.setHasFixedSize(true);
-        tips1 = (ImageView) view.findViewById(R.id.img_home_pager_tips1);
-        tips2 = (ImageView) view.findViewById(R.id.img_home_pager_tips2);
-        tips3 = (ImageView) view.findViewById(R.id.img_home_pager_tips3);
-        tips4 = (ImageView) view.findViewById(R.id.img_home_pager_tips4);
-        tips5 = (ImageView) view.findViewById(R.id.img_home_pager_tips5);
-        choose= ((TextView) view.findViewById(R.id.right));
-        guide= ((TextView) view.findViewById(R.id.guide));
-        //点击进入筛选模特界面
-        choose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), HomeChooseActivity.class);
-                startActivity(intent);
-            }
-        });
+    private void initButton() {
 
-        //点击进入操作指引界面
-        guide.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), GuideActivity.class));
-            }
-        });
-    }
-    //给首页的Recycle填充数据
-    public void setRecycleData(){
-        HomeSecondAdapter adapter=new HomeSecondAdapter(context,imgId,counts);
-        recyclerView.setAdapter(adapter);
-        //设置item之间的间隔
-        SpacesItemDecoration decoration=new SpacesItemDecoration(8);
-        recyclerView.addItemDecoration(decoration);
+        femaleView1 = (CheckedTextView) mFakeNavigationContainer.findViewById(R.id.female_colther_new);
+        femaleview2 = (CheckedTextView) mNavigationContainer.findViewById(R.id.female_colther);
+        maleView1 = (CheckedTextView) mFakeNavigationContainer.findViewById(R.id.male_colther_new);
+        maleView2 = (CheckedTextView) mNavigationContainer.findViewById(R.id.male_colther);
+        babyView1 = (CheckedTextView) mFakeNavigationContainer.findViewById(R.id.baby_colther_new);
+        babyView2 = (CheckedTextView) mNavigationContainer.findViewById(R.id.baby_colther);
 
+        femaleView1.setOnClickListener(this);
+        femaleview2.setOnClickListener(this);
+        maleView1.setOnClickListener(this);
+        maleView2.setOnClickListener(this);
+        babyView1.setOnClickListener(this);
+        babyView2.setOnClickListener(this);
+
+        femaleView1.setChecked(true);
+        femaleview2.setChecked(true);
     }
 
-    //给首页的广告条添加数据
-    public void addPagerData(){
-        ArrayList<IndexFragmentPager> list = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            IndexFragmentPager fragment = new IndexFragmentPager();
-            Bundle bundle = new Bundle();
-            bundle.putInt("imageid", (i + 1));
-            fragment.setArguments(bundle);
-            list.add(fragment);
-        }
-        Adapter_WelcomeFragment adapter = new Adapter_WelcomeFragment(
-                getFragmentManager(), list);
-        pager.setAdapter(adapter);
+    private void loadData() {
 
-        pager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        IndexManager.fetchAdvLists(5).startUI(new ApiCallback<List<AdvVO>>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                Log.e(TAG, "code:" + code + "---error:" + errorInfo);
+            }
 
             @Override
-            public void onPageSelected(int arg0) {
-                count = arg0;
-                tips1.setImageResource(R.color.tips1);
-                tips2.setImageResource(R.color.tips1);
-                tips3.setImageResource(R.color.tips1);
-                tips4.setImageResource(R.color.tips1);
-                tips5.setImageResource(R.color.tips1);
-                switch (count % 5) {
-                    case 0:
-                        tips1.setImageResource(R.color.tips2);
-                        break;
-                    case 1:
-                        tips2.setImageResource(R.color.tips2);
-                        break;
-                    case 2:
-                        tips3.setImageResource(R.color.tips2);
-                        break;
-                    case 3:
-                        tips4.setImageResource(R.color.tips2);
-                        break;
-                    case 4:
-                        tips5.setImageResource(R.color.tips2);
-                        break;
+            public void onSuccess(List<AdvVO> advVOs) {
+                mTopBannerList.clear();
+                mTopBannerList.addAll(advVOs);
+                mBannerImageAdapter.addItems(mTopBannerList);
 
-                    default:
-                        break;
+                if (mTopBannerList != null && mTopBannerList.size() > 0) {
+                    isShowBanner = true;
+                    int count = mBannerImageAdapter.getCount();
+                    mHeaderViewIndicator.setTotal(count);
+                    mHeaderViewIndicator.setIndex(0);
+                    mHeaderViewPager.setAdapter(mBannerImageAdapter);
+                    mBannerImageAdapter.notifyDataSetChanged();
+                    if (mTopBannerList.size() == 1) {
+                        mHeaderViewIndicator.setVisibility(View.GONE);
+                    } else {
+                        mHeaderViewIndicator.setVisibility(View.VISIBLE);
+                        stopBannerAutoLoop();
+                        startBannerAutoLoop();
+                    }
+                    if (needClear) {
+                        gotoTop();
+                    }
+                } else {
+                    isShowBanner = false;
+                    mHeaderView.findViewById(R.id.pager_layout).setVisibility(View.GONE);
+
                 }
+
+                mNavigationContainer.setVisibility(View.VISIBLE);
+
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+        IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                loadFail();
+                loadDialog.hide();
+            }
+
+            @Override
+            public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
+                loadDialog.hide();
+                ++pageNo;
+                indexMoteAdapter.addAll(moteInfoVOs, needClear);
+                loadSuccess();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+
+    }
+
+    private void initListViewHeader() {
+        mHeaderView = LayoutInflater.from(this.getActivity()).inflate(R.layout.new_head, mListView, false);
+        mViewPagerContainer = mHeaderView.findViewById(R.id.pager_layout);
+        ViewGroup.LayoutParams mViewPagerContainerLayoutParams = mViewPagerContainer.getLayoutParams();
+        mViewPagerContainerLayoutParams.height = CommonUtil.dip2px(this.getActivity(), BANNER_HEIGHT_IN_DP);
+        mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);
+        mHeaderViewIndicator = (CircleLoopPageIndicator) mHeaderView.findViewById(R.id.indicator);
+        mNavigationContainer = (LinearLayout) mHeaderView.findViewById(R.id.navigation_container);
+        mBannerImageAdapter = new BannerImageAdapter(this.getActivity().getSupportFragmentManager(), null);
+        mHeaderViewPager.setAdapter(mBannerImageAdapter);
+        mHeaderViewPager.setOnPageChangeListener(new LoopViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int index) {
+                mHeaderViewIndicator.setIndex(index);
             }
 
             @Override
             public void onPageScrolled(int arg0, float arg1, int arg2) {
-
             }
 
             @Override
             public void onPageScrollStateChanged(int arg0) {
-
             }
         });
 
+        mHeaderViewPager.setDispatchTouchEventListener(new LoopViewPager.DispatchTouchEventListener() {
+            @Override
+            public void dispatchTouchEvent(MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    stopBannerAutoLoop();
+
+                } else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_OUTSIDE
+                        || event.getAction() == MotionEvent.ACTION_UP) {
+                    startBannerAutoLoop();
+                }
+            }
+        });
+
+
+    }
+
+    /**
+     * 数据加载成功
+     */
+    private void loadSuccess() {
+        mActLsloading.setVisibility(View.GONE);
+        mActLsFailLayoutView.setVisibility(View.GONE);
+        stopLoading();
+    }
+
+    /**
+     * 数据加载失败
+     */
+    private void loadFail() {
+        mActLsloading.setVisibility(View.VISIBLE);
+        mActLsFailLayoutView.setVisibility(View.VISIBLE);
+        stopLoading();
+    }
+
+    /**
+     * 开始显示加载动画
+     */
+    private void startLoading() {
+        if (mActLsloading != null) {
+            mActLsloading.setVisibility(View.VISIBLE);
+            mLoading_container.setVisibility(View.VISIBLE);
+            mLsLoadingView.startAnimation();
+            mActLsFailLayoutView.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 结束显示加载动画
+     */
+    private void stopLoading() {
+        if (mActLsloading != null) {
+            mLoading_container.setVisibility(View.GONE);
+            mLsLoadingView.stopAnimation();
+        }
+    }
+
+
+    public void stopBannerAutoLoop() {
+        if (mChangeViewPagerHandler != null) {
+            mChangeViewPagerHandler.removeCallbacksAndMessages(null);
+        }
+    }
+
+    public void startBannerAutoLoop() {
+        if (mChangeViewPagerHandler != null && !mChangeViewPagerHandler.hasMessages(CHANGE_BANNER_HANDLER_MSG_WHAT)) {
+            mChangeViewPagerHandler.sendEmptyMessageDelayed(CHANGE_BANNER_HANDLER_MSG_WHAT, 5000);
+        }
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context=context;
+    public boolean onBackPressed() {
+        return false;
     }
 
 
@@ -288,5 +447,161 @@ public class IndexFragment extends Fragment {
         super.onDetach();
     }
 
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
 
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+        if (isShowBanner && firstVisibleItem >= mListView.getHeaderViewsCount()) {
+            stopBannerAutoLoop();
+        } else {
+            startBannerAutoLoop();
+        }
+
+        if (mNavigationContainer != null && mTitleLayout != null && mFakeNavigationContainer != null) {
+
+            int[] navigationLocation = new int[2];
+            mNavigationContainer.getLocationOnScreen(navigationLocation);
+            int[] titleLocation = new int[2];
+            mTitleLayout.getLocationOnScreen(titleLocation);
+
+            if ((navigationLocation[1] <= (titleLocation[1] + mTitleLayout.getHeight())) || (firstVisibleItem >= mListView.getHeaderViewsCount())) {
+                //快速滑动的时候第一个判断条件会失效,
+                isShowFakeNavigationTips = true;
+            } else {
+                isShowFakeNavigationTips = false;
+            }
+
+            if ((firstVisibleItem + visibleItemCount) == totalItemCount) { //滑到底
+                mListView.setSelection(totalItemCount - 1);
+            }
+
+            if (isShowFakeNavigationTips) {
+                mFakeNavigationContainer.setVisibility(View.VISIBLE);
+            } else {
+                mFakeNavigationContainer.setVisibility(View.GONE);
+            }
+        }
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.female_colther:
+            case R.id.female_colther_new:
+                loadDialog.show();
+                femaleView1.setChecked(true);
+                femaleview2.setChecked(true);
+                maleView2.setChecked(false);
+                maleView1.setChecked(false);
+                babyView1.setChecked(false);
+                babyView2.setChecked(false);
+                moteType = 1;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+
+            case R.id.male_colther:
+            case R.id.male_colther_new:
+                loadDialog.show();
+                femaleView1.setChecked(false);
+                femaleview2.setChecked(false);
+                maleView2.setChecked(true);
+                maleView1.setChecked(true);
+                babyView1.setChecked(false);
+                babyView2.setChecked(false);
+                moteType = 2;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+
+            case R.id.baby_colther:
+            case R.id.baby_colther_new:
+                loadDialog.show();
+                femaleView1.setChecked(false);
+                femaleview2.setChecked(false);
+                maleView2.setChecked(false);
+                maleView1.setChecked(false);
+                babyView1.setChecked(true);
+                babyView2.setChecked(true);
+                moteType = 3;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+            case R.id.act_ls_fail_layout:
+                moteType = 1;
+                pageNo = 1;
+                needClear = true;
+                loadData();
+                break;
+        }
+
+    }
+
+
+    public class BannerImageAdapter extends FragmentPagerAdapter {
+
+        List<AdvVO> dataLists = new ArrayList<AdvVO>();
+
+        public BannerImageAdapter(FragmentManager fm, List<AdvVO> dataList) {
+            super(fm);
+            if (dataList != null && !dataList.isEmpty()) {
+                this.dataLists.addAll(dataList);
+            }
+        }
+
+        public void addItems(List<AdvVO> dataList) {
+            this.dataLists.clear();
+            this.dataLists.addAll(dataList);
+            this.notifyDataSetChanged();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            Log.d("test", "BannerImageAdapter getItem");
+            Bundle args = new Bundle();
+            args.putParcelable(BannerFragment.Banner, dataLists.get(position));
+            args.putInt(BannerFragment.Position, position);
+            args.putInt(BannerFragment.Height, BANNER_HEIGHT_IN_DP);
+            return BannerFragment.newInstance(args);
+        }
+
+        @Override
+        public int getCount() {
+            if (dataLists != null) {
+                return dataLists.size();
+            }
+            return 0;
+        }
+
+        public int getItemPosition(Object object) {
+            return super.getItemPosition(object);
+        }
+
+        public long getItemId(int position) {
+            if (position >= 0 && position < dataLists.size()) {
+                AdvVO dataList = dataLists.get(position);
+                if (dataList != null) {
+                    long id = dataList.id;
+                    return id;
+                }
+            }
+            return (long) position;
+        }
+    }
+
+    /**
+     *跳转到ListView的最上方
+     */
+    public void gotoTop(){
+        if(mListView!=null){
+            mListView.setSelection(0);
+        }
+    }
 }

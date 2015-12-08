@@ -27,7 +27,7 @@ public class ModelInfoActivity extends Activity {
     public void initdata(){
         moreInfo= ((TextView) findViewById(R.id.moreInfo));//头像
         back= ((TextView) findViewById(R.id.back));//返回箭头
-        care= ((TextView) findViewById(R.id.careCount));//关注次数
+//        care= ((TextView) findViewById(R.id.careCount));//关注次数
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
