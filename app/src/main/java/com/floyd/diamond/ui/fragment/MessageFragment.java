@@ -1,20 +1,36 @@
 package com.floyd.diamond.ui.fragment;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
-import com.floyd.diamond.bean.*;
-import com.floyd.diamond.ui.MessageItemActivity;
+import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.Message;
+import com.floyd.diamond.ui.URl;
+import com.floyd.diamond.ui.activity.MessageItemActivity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
+import com.google.gson.Gson;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -33,9 +49,37 @@ public class MessageFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private RequestQueue mQueue;
+    private Context context;
+    private ListView listView;
 
-    private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5};
+    private SwipeRefreshLayout swipeRefreshLayout;
 
+
+    private List<Message.DataEntity>messageList;//通告项目列表
+   // private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5};
+    private Handler handler=new Handler(){
+       @Override
+       public void handleMessage(android.os.Message msg) {
+           super.handleMessage(msg);
+
+           MessageAdapter adapter=new MessageAdapter(context,messageList,R.layout.messagelistviewitem_layout);
+           listView.setAdapter(adapter);//适配器适配
+
+          // swipeRefreshLayout.setRefreshing(false);
+
+           //点击跳入通告详细信息界面
+           listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+               @Override
+               public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   Intent intent=new Intent(getActivity(), MessageItemActivity.class);
+                   intent.putExtra("imgUrl",messageList.get(position).getImgUrl());
+                   startActivity(intent);
+               }
+           });
+
+       }
+   };
 
     /**
      * Use this factory method to create a new instance of
@@ -71,31 +115,79 @@ public class MessageFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        mQueue = Volley.newRequestQueue(context);
+        messageList=new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-        ListView listView = ((ListView) view.findViewById(R.id.listview));
-        SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+        listView = ((ListView) view.findViewById(R.id.listview));
+        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
         //设置刷新时动画的颜色，可以设置4个
         swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-
-        MessageAdapter adapter=new MessageAdapter(getActivity(),imgId,R.layout.messagelistviewitem_layout);
-        listView.setAdapter(adapter);
-        //点击跳入通告详细信息界面
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //设置监听，刷新界面
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                startActivity(new Intent(getActivity(), MessageItemActivity.class));
+            public void onRefresh() {
+                setData();
+                //数据重新获取之后隐藏进度条
+                swipeRefreshLayout.setRefreshing(false);
             }
         });
+        setData();
         return view;
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.context=context;
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    //获取数据
+    public void setData() {
+        String messageUrl= URl.BASEURL+ URl.TGLIST;
+        StringRequest request = new StringRequest(Request.Method.POST,messageUrl, new Response.Listener<String>() {
+
+            //数据请求成功的回调
+            @Override
+            public void onResponse(String response) {
+
+                if (GlobalParams.isDebug){
+                    Log.e("TAG",response);
+                }
+
+                Gson gson=new Gson();
+                Message message=gson.fromJson(response,Message.class);
+
+                messageList=message.getData();
+
+                handler.sendEmptyMessage(1);
+
+            }
+        }, new Response.ErrorListener() {
+
+            //数据请求错误的回调
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(HomeChooseActivity.this, "请检查网络连接..."+error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                Log.e("TAG","请检查网络连接..."+error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> params = new HashMap<>();
+                params.put("pageNo","1");
+                params.put("pageSize","10");
+                return params;
+            }
+        };
+
+        mQueue.add(request);
     }
 }

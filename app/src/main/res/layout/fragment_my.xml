@@ -47,41 +47,91 @@
             android:layout_height="match_parent"
             android:layout_below="@id/view"
             android:gravity="center">
-
-            <TextView
+            <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="19"
-                android:textColor="#dddddd"
-                />
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_widthPercent="16%"
+                    app:layout_heightPercent="16%w"
+                    android:gravity="center"
+                    android:background="@drawable/logo_qiang"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="19"
+                    android:textColor="#dddddd"
+                    android:textSize="12sp"
+                    app:layout_marginLeftPercent="8%"
+                    />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#dddddd" />
 
-            <TextView
+            <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="20"
-                android:textColor="#dddddd" />
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_widthPercent="16%"
+                    app:layout_heightPercent="16%w"
+                    android:gravity="center"
+                    android:background="@drawable/logo_fen"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="20"
+                    android:textColor="#dddddd"
+                    android:textSize="12sp"
+                    app:layout_marginLeftPercent="8%"
+                    />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:background="#dddddd" />
 
-            <TextView
+            <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="黑龙江"
-                android:textColor="#dddddd" />
+                android:gravity="center">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_widthPercent="16%"
+                    app:layout_heightPercent="16%w"
+                    android:gravity="center"
+                    android:background="@drawable/logo_zhuan"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="2013"
+                    android:textColor="#dddddd"
+                    android:textSize="12sp"
+                    app:layout_marginLeftPercent="8%"
+                    />
+
+            </com.zhy.android.percent.support.PercentLinearLayout>
         </com.zhy.android.percent.support.PercentLinearLayout>
     </com.zhy.android.percent.support.PercentRelativeLayout>
     <com.zhy.android.percent.support.PercentLinearLayout
@@ -99,9 +149,9 @@
             app:layout_heightPercent="50%"
             android:text="我的关注"
             android:gravity="center_vertical"
-            app:layout_marginLeftPercent="2%"
+            app:layout_marginLeftPercent="4%"
             android:drawableRight="@drawable/jiantou_next"
-            app:layout_marginRightPercent="2%"/>
+            app:layout_marginRightPercent="4%"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -116,8 +166,8 @@
             android:text="我的任务"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/jiantou_next"
-            app:layout_marginLeftPercent="2%"
-            app:layout_marginRightPercent="2%"/>
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%"/>
 
     </com.zhy.android.percent.support.PercentLinearLayout>
     <com.zhy.android.percent.support.PercentLinearLayout
@@ -136,8 +186,8 @@
             android:text="我的图库"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/jiantou_next"
-            app:layout_marginLeftPercent="2%"
-            app:layout_marginRightPercent="2%"/>
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -152,8 +202,8 @@
             android:text="我的钱包"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/jiantou_next"
-            app:layout_marginLeftPercent="2%"
-            app:layout_marginRightPercent="2%"/>
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%"/>
 
     </com.zhy.android.percent.support.PercentLinearLayout>
     <com.zhy.android.percent.support.PercentLinearLayout
@@ -171,8 +221,8 @@
             android:text="设置"
             android:gravity="center_vertical"
             android:drawableRight="@drawable/jiantou_next"
-            app:layout_marginLeftPercent="2%"
-            app:layout_marginRightPercent="2%"/>
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%"/>
 
 
     </com.zhy.android.percent.support.PercentLinearLayout>
