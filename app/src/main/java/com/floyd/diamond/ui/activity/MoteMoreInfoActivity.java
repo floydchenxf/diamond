@@ -1,13 +1,13 @@
 package com.floyd.diamond.ui.activity;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.floyd.diamond.R;
 
-public class MoteMoreInfoActivity extends ActionBarActivity {
+public class MoteMoreInfoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

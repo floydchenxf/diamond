@@ -20,22 +20,32 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.activity.RegActivity"
             android:label="@string/title_activity_reg"
+            android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.activity.PhoneLoginActivity"
             android:label="@string/title_activity_phone_login"
+            android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.activity.ResetPasswordActivity"
             android:label="@string/title_activity_reset_password"
+            android:screenOrientation="portrait"
             android:theme="@style/Transparent" />
         <activity
             android:name=".ui.activity.Reg2Activity"
             android:label="@string/title_activity_reg2" />
+
+        <activity
+            android:name=".ui.activity.MoteMoreInfoActivity"
+            android:label="@string/title_activity_mote_more_info"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"/>
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -49,12 +59,7 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.MoteDetailActivity"
-            android:label="@string/title_activity_mote_detail"></activity>
-        <activity
-            android:name=".ui.activity.MoteMoreInfoActivity"
-            android:label="@string/title_activity_mote_more_info"
-            android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay"></activity>
+            android:label="@string/title_activity_mote_detail"/>
 
         <activity
             android:name="com.floyd.diamond.ui.multiimage.MultiImageActivity"
