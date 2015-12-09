@@ -1,9 +1,11 @@
 package com.floyd.diamond.biz.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by floyd on 15-12-9.
  */
-public class TaskItemVO {
+public class TaskItemVO implements Serializable{
     public long id;
     public String userId;
     public String title;

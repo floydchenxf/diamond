@@ -88,14 +88,13 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.productItemLayout1.setVisibility(View.GONE);
             holder.productItemLayout1.setOnClickListener(null);
         } else {
-
-            TaskItemVO itemVO1 = vo.productItemVO1;
+            final TaskItemVO itemVO1 = vo.productItemVO1;
             holder.productItemLayout1.setVisibility(View.VISIBLE);
             holder.productItemLayout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (MoteTaskTypeAdapter.this.itemClickListener != null) {
-                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, position);
+                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, itemVO1);
                     }
                 }
             });
@@ -103,30 +102,20 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.addressView1.setText(itemVO1.areaid+"");
             holder.priductImage1.setImageUrl(itemVO1.imgUrl, mImageLoader);
             holder.priceView11.setText(itemVO1.price+"");
-            holder.priceView12.setText(itemVO1.totalFee+"");
+            holder.priceView12.setText(itemVO1.shotFee+"");
         }
 
         if (vo.productItemVO2 == null) {
             holder.productItemLayout2.setVisibility(View.GONE);
-            holder.productItemLayout1.setOnClickListener(null);
+            holder.productItemLayout2.setOnClickListener(null);
         } else {
-            holder.productItemLayout2.setVisibility(View.VISIBLE);
-            holder.productItemLayout1.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (MoteTaskTypeAdapter.this.itemClickListener != null) {
-                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, position);
-                    }
-                }
-            });
-
-            TaskItemVO itemVO2 = vo.productItemVO2;
+            final TaskItemVO itemVO2 = vo.productItemVO2;
             holder.productItemLayout2.setVisibility(View.VISIBLE);
             holder.productItemLayout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (MoteTaskTypeAdapter.this.itemClickListener != null) {
-                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, position);
+                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, itemVO2);
                     }
                 }
             });
@@ -134,14 +123,14 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.addressView2.setText(itemVO2.areaid+"");
             holder.productImage2.setImageUrl(itemVO2.imgUrl, mImageLoader);
             holder.priceView21.setText(itemVO2.price+"");
-            holder.priceView22.setText(itemVO2.totalFee+"");
+            holder.priceView22.setText(itemVO2.shotFee+"");
         }
 
         return convertView;
     }
 
     public interface OnItemClickListener {
-        public void onItemClick(View v, int position);
+        public void onItemClick(View v, TaskItemVO taskItemVO);
     }
 
     public static class ViewHolder {

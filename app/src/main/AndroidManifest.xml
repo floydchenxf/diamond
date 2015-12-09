@@ -129,6 +129,10 @@
             android:name=".ui.activity.MoteTaskTypeActivity"
             android:label="@string/title_activity_product_type" >
         </activity>
+        <activity
+            android:name=".ui.activity.NewTaskActivity"
+            android:label="@string/title_activity_new_task" >
+        </activity>
     </application>
 
 </manifest>

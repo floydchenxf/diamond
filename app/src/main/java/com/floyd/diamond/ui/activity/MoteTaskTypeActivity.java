@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -101,8 +102,10 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         mListView = mPullToRefreshListView.getRefreshableView();
         moteTaskTypeAdapter = new MoteTaskTypeAdapter(this, mImageLoader, new MoteTaskTypeAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(View v, int position) {
-
+            public void onItemClick(View v, TaskItemVO taskItemVO) {
+                Intent it = new Intent(MoteTaskTypeActivity.this, NewTaskActivity.class);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, taskItemVO);
+                MoteTaskTypeActivity.this.startActivity(it);
             }
         });
 

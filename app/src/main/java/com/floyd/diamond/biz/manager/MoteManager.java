@@ -52,12 +52,6 @@ public class MoteManager {
             String data = json.getString("data");
             Gson gson = new Gson();
             vo = gson.fromJson(data, MoteInfoVO.class);
-//            vo.nickname = data.getString("nickname");
-//            vo.orderNum = data.getInt("orderNum");
-//            vo.authenPic1 = data.getString("authenPic1");
-//            vo.authenPic2 = data.getString("authenPic2");
-//            vo.authenPic3 = data.getString("authenPic3");
-//            vo.authenStatus = data.getString("authenStatus");
         } catch (JSONException e) {
             Log.e(TAG, "parse json cause error:", e);
             return null;
@@ -88,6 +82,13 @@ public class MoteManager {
         });
     }
 
+    /**
+     * 关注模特儿
+     *
+     * @param moteId
+     * @param token
+     * @return
+     */
     public static AsyncJob<Boolean> addFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
@@ -96,6 +97,13 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
+    /**
+     * 取消关注模特儿
+     *
+     * @param moteId
+     * @param token
+     * @return
+     */
     public static AsyncJob<Boolean> cancelFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
@@ -104,6 +112,13 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
+    /**
+     * 获取模特的详细信息
+     *
+     * @param moteId
+     * @param token
+     * @return
+     */
     public static AsyncJob<MoteDetailInfoVO> fetchMoteDetailInfo(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
         Map<String, String> params = new HashMap<String, String>();
@@ -112,6 +127,15 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteDetailInfoVO.class);
     }
 
+    /**
+     * 获取模特的任务图片
+     *
+     * @param moteId
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
     public static AsyncJob<List<TaskPicsVO>> fetchMoteTaskPics(long moteId, int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_PICS;
         Map<String, String> params = new HashMap<String, String>();
@@ -145,6 +169,15 @@ public class MoteManager {
         });
     }
 
+    /**
+     * 按照类型查询模特任务
+     *
+     * @param moteType
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
     public static AsyncJob<MoteTaskVO> fetchTaskList(int moteType, int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_SEARCH;
         Map<String, String> params = new HashMap<String, String>();
@@ -154,4 +187,21 @@ public class MoteManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskVO.class);
     }
+
+    /**
+     * 模特儿接单
+     *
+     * @param taskId
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> fetchNewTask(long taskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_NEW_MOTE_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("taskId", taskId + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+
 }

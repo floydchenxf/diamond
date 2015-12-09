@@ -18,8 +18,8 @@ public abstract class AbstractJsonParser<T> implements Parser<T> {
         try {
             j = new JSONObject(s);
             boolean success = j.getBoolean("success");
-            String data = j.getString("data");
             if (success) {
+                String data = j.getString("data");
                 T r = convert2Obj(data);
                 apiCallback.onSuccess(r);
             } else {
