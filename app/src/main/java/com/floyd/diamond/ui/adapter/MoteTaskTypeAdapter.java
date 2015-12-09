@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.vo.ProductItemVO;
-import com.floyd.diamond.biz.vo.ProductTypeVO;
+import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.biz.vo.MoteTypeTaskVO;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,29 +18,29 @@ import java.util.List;
 /**
  * Created by floyd on 15-12-9.
  */
-public class ProductTypeAdapter extends BaseAdapter {
+public class MoteTaskTypeAdapter extends BaseAdapter {
 
-    private List<ProductTypeVO> productTypeVOs = new ArrayList<ProductTypeVO>();
+    private List<MoteTypeTaskVO> productTypeVOs = new ArrayList<MoteTypeTaskVO>();
     private Context mContext;
     private OnItemClickListener itemClickListener;
     private ImageLoader mImageLoader;
 
-    public ProductTypeAdapter(Context context, ImageLoader imageLoader, OnItemClickListener itemClickListener) {
+    public MoteTaskTypeAdapter(Context context, ImageLoader imageLoader, OnItemClickListener itemClickListener) {
         this.mContext = context;
         this.mImageLoader = imageLoader;
         this.itemClickListener = itemClickListener;
     }
 
-    public void addAll(List<ProductTypeVO> productTypeVOs, boolean isClear) {
+    public void addAll(List<MoteTypeTaskVO> productTypeVOs, boolean isClear) {
         if (isClear) {
             productTypeVOs.clear();
         }
 
-        productTypeVOs.addAll(productTypeVOs);
+        this.productTypeVOs.addAll(productTypeVOs);
         this.notifyDataSetChanged();
     }
 
-    public List<ProductTypeVO> getData() {
+    public List<MoteTypeTaskVO> getData() {
         return this.productTypeVOs;
     }
 
@@ -50,7 +50,7 @@ public class ProductTypeAdapter extends BaseAdapter {
     }
 
     @Override
-    public ProductTypeVO getItem(int position) {
+    public MoteTypeTaskVO getItem(int position) {
         return productTypeVOs.get(position);
     }
 
@@ -83,27 +83,27 @@ public class ProductTypeAdapter extends BaseAdapter {
         }
 
         holder = (ViewHolder) convertView.getTag();
-        ProductTypeVO vo = getItem(position);
+        MoteTypeTaskVO vo = getItem(position);
         if (vo.productItemVO1 == null) {
             holder.productItemLayout1.setVisibility(View.GONE);
             holder.productItemLayout1.setOnClickListener(null);
         } else {
 
-            ProductItemVO itemVO1 = vo.productItemVO1;
+            TaskItemVO itemVO1 = vo.productItemVO1;
             holder.productItemLayout1.setVisibility(View.VISIBLE);
             holder.productItemLayout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ProductTypeAdapter.this.itemClickListener != null) {
-                        ProductTypeAdapter.this.itemClickListener.onItemClick(v, position);
+                    if (MoteTaskTypeAdapter.this.itemClickListener != null) {
+                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, position);
                     }
                 }
             });
 
-            holder.addressView1.setText(itemVO1.address);
-            holder.priductImage1.setImageUrl(itemVO1.imageUrl, mImageLoader);
-            holder.priceView11.setText(itemVO1.price);
-            holder.priceView12.setText(itemVO1.price2);
+            holder.addressView1.setText(itemVO1.areaid+"");
+            holder.priductImage1.setImageUrl(itemVO1.imgUrl, mImageLoader);
+            holder.priceView11.setText(itemVO1.price+"");
+            holder.priceView12.setText(itemVO1.totalFee+"");
         }
 
         if (vo.productItemVO2 == null) {
@@ -114,27 +114,27 @@ public class ProductTypeAdapter extends BaseAdapter {
             holder.productItemLayout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ProductTypeAdapter.this.itemClickListener != null) {
-                        ProductTypeAdapter.this.itemClickListener.onItemClick(v, position);
+                    if (MoteTaskTypeAdapter.this.itemClickListener != null) {
+                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, position);
                     }
                 }
             });
 
-            ProductItemVO itemVO2 = vo.productItemVO2;
+            TaskItemVO itemVO2 = vo.productItemVO2;
             holder.productItemLayout2.setVisibility(View.VISIBLE);
             holder.productItemLayout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ProductTypeAdapter.this.itemClickListener != null) {
-                        ProductTypeAdapter.this.itemClickListener.onItemClick(v, position);
+                    if (MoteTaskTypeAdapter.this.itemClickListener != null) {
+                        MoteTaskTypeAdapter.this.itemClickListener.onItemClick(v, position);
                     }
                 }
             });
 
-            holder.addressView2.setText(itemVO2.address);
-            holder.productImage2.setImageUrl(itemVO2.imageUrl, mImageLoader);
-            holder.priceView21.setText(itemVO2.price);
-            holder.priceView22.setText(itemVO2.price2);
+            holder.addressView2.setText(itemVO2.areaid+"");
+            holder.productImage2.setImageUrl(itemVO2.imgUrl, mImageLoader);
+            holder.priceView21.setText(itemVO2.price+"");
+            holder.priceView22.setText(itemVO2.totalFee+"");
         }
 
         return convertView;

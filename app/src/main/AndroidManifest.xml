@@ -126,7 +126,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".ui.activity.ProductTypeActivity"
+            android:name=".ui.activity.MoteTaskTypeActivity"
             android:label="@string/title_activity_product_type" >
         </activity>
     </application>

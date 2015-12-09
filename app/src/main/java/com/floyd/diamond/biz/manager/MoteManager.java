@@ -15,6 +15,7 @@ import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
+import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
@@ -90,7 +91,7 @@ public class MoteManager {
     public static AsyncJob<Boolean> addFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteId", moteId+"");
+        params.put("moteId", moteId + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
@@ -98,7 +99,7 @@ public class MoteManager {
     public static AsyncJob<Boolean> cancelFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteId", moteId+"");
+        params.put("moteId", moteId + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
@@ -106,7 +107,7 @@ public class MoteManager {
     public static AsyncJob<MoteDetailInfoVO> fetchMoteDetailInfo(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("id", moteId+"");
+        params.put("id", moteId + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteDetailInfoVO.class);
     }
@@ -129,10 +130,10 @@ public class MoteManager {
                 }
 
                 List<TaskPicsVO> pics = new ArrayList<TaskPicsVO>();
-                for (Map<String, List<MoteTaskPicVO>> ele:taskPicList) {
+                for (Map<String, List<MoteTaskPicVO>> ele : taskPicList) {
                     TaskPicsVO taskPicsVO = new TaskPicsVO();
-                    if (ele !=null) {
-                        for(Map.Entry<String, List<MoteTaskPicVO>> ent:ele.entrySet()) {
+                    if (ele != null) {
+                        for (Map.Entry<String, List<MoteTaskPicVO>> ent : ele.entrySet()) {
                             taskPicsVO.dateTime = ent.getKey();
                             taskPicsVO.taskPics = ent.getValue();
                             pics.add(taskPicsVO);
@@ -142,5 +143,15 @@ public class MoteManager {
                 return pics;
             }
         });
+    }
+
+    public static AsyncJob<MoteTaskVO> fetchTaskList(int moteType, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_SEARCH;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("moteType", moteType + "");
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskVO.class);
     }
 }

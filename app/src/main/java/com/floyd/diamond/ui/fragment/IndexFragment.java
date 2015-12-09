@@ -29,7 +29,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
-import com.floyd.diamond.ui.activity.ProductTypeActivity;
+import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
 import com.floyd.diamond.ui.anim.LsLoadingView;
 import com.floyd.diamond.ui.pageindicator.CircleLoopPageIndicator;
@@ -622,24 +622,24 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 loadData();
                 break;
             case R.id.female_type:
-                Intent it = new Intent(this.getActivity(), ProductTypeActivity.class);
-                it.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 1);
+                Intent it = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
+                it.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 1);
                 startActivity(it);
                 break;
             case R.id.male_type:
-                Intent it2 = new Intent(this.getActivity(), ProductTypeActivity.class);
-                it2.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 2);
+                Intent it2 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
+                it2.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 2);
                 startActivity(it2);
 
                 break;
             case R.id.baby_type:
-                Intent it3 = new Intent(this.getActivity(), ProductTypeActivity.class);
-                it3.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 3);
+                Intent it3 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
+                it3.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 3);
                 startActivity(it3);
                 break;
             case R.id.multi_type:
-                Intent it4 = new Intent(this.getActivity(), ProductTypeActivity.class);
-                it4.putExtra(ProductTypeActivity.PRODUCT_TYPE_KEY, 4);
+                Intent it4 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
+                it4.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 4);
                 startActivity(it4);
                 break;
         }

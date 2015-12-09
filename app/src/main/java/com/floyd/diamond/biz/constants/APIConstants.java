@@ -19,5 +19,6 @@ public class APIConstants {
     public static final String API_ADV_DETAIL_INFO = "api/index/getAdvertDetail";//广告详情
     public static final String API_MOTE_DETAIL_INFO = "api/user/getMoteInfo";//模特详情
     public static final String API_MOTE_TASK_PICS = "api/taskPic/getMoteTaskPics";
+    public static final String API_MOTE_TASK_SEARCH = "api/task/search";//任务查询
 
 }
