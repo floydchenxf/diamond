@@ -9,20 +9,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
-import com.floyd.diamond.IMChannel;
-import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.MoteTypeTaskVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.MoteTaskTypeAdapter;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
@@ -61,11 +57,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         setContentView(R.layout.activity_product_type);
         findViewById(R.id.title_back).setOnClickListener(this);
 
-        RequestQueue mQueue = Volley.newRequestQueue(this);
-        IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
-                IMChannel.getApplication(), EnvConstants.imageRootPath);
-        this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
-        mImageLoader.setBatchedResponseDelay(0);
+        this.mImageLoader = ImageLoaderFactory.createImageLoader();
 
         loadingDialog = new Dialog(this, R.style.data_load_dialog);
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.product_type_list);

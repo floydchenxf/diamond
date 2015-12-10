@@ -21,5 +21,6 @@ public class APIConstants {
     public static final String API_MOTE_TASK_PICS = "api/taskPic/getMoteTaskPics";
     public static final String API_MOTE_TASK_SEARCH = "api/task/search";//任务查询
     public static final String API_NEW_MOTE_TASK = "api/task/newMoteTask"; //模特接单
+    public static final String API_MOTE_MY_TASK = "api/motetask/getMyTaskList";//模特我的任务
 
 }

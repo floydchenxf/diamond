@@ -1,7 +1,9 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +26,7 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 
 public class NewTaskActivity extends Activity implements View.OnClickListener {
 
@@ -132,8 +135,19 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
                         newTaskBUtton.setChecked(false);
                         newTaskBUtton.setEnabled(false);
-                        Toast.makeText(NewTaskActivity.this, "抢单成功", Toast.LENGTH_SHORT).show();
 
+                        UIAlertDialog.Builder builder = new UIAlertDialog.Builder(NewTaskActivity.this);
+                        builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
+                                .setCancelable(true)
+                                .setPositiveButton(R.string.confirm,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int id) {
+                                                dialog.dismiss();
+                                            }
+                                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
 
                     @Override

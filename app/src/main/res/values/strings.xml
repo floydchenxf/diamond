@@ -67,4 +67,6 @@
     <string name="baby_type">童装</string>
     <string name="multi_type">综合</string>
     <string name="title_activity_new_task">NewTaskActivity</string>
+    <string name="confirm">确认</string>
+    <string name="title_activity_my_task">MyTaskActivity</string>
 </resources>

@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/title"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="#d4377e">
+
+        <TextView
+            android:id="@+id/title_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dip"
+            android:background="@drawable/jiantou_back"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/product_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|center_horizontal"
+            android:text="我的任务"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/status_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/title"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <CheckedTextView
+            android:id="@+id/all_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/blue_line_button_bg"
+            android:gravity="center"
+            android:checked="true"
+            android:text="全部"
+            android:textColor="#666666" />
+
+        <CheckedTextView
+            android:id="@+id/doing_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/blue_line_button_bg"
+            android:gravity="center"
+            android:text="进行中"
+            android:textColor="#666666" />
+
+        <CheckedTextView
+            android:id="@+id/confirm_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/blue_line_button_bg"
+            android:gravity="center"
+            android:text="待确定"
+            android:textColor="#666666" />
+
+        <CheckedTextView
+            android:id="@+id/done_status"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/blue_line_button_bg"
+            android:gravity="center"
+            android:text="已结束"
+            android:textColor="#666666" />
+    </LinearLayout>
+
+    <com.floyd.pullrefresh.widget.PullToRefreshListView
+        android:id="@+id/my_task_list"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/status_layout"
+        android:background="#eeeeee"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:listSelector="#00000000" />
+
+</RelativeLayout>

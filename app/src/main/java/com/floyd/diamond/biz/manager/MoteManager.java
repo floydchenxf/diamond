@@ -9,6 +9,7 @@ import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.biz.constants.APIConstants;
+import com.floyd.diamond.biz.constants.MoteTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
@@ -201,6 +202,24 @@ public class MoteManager {
         params.put("taskId", taskId + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    /**
+     * 获取模特我的任务
+     * @param type　类型1 全部 2进行中 3待确认 4 已经结束
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
+    public static AsyncJob<MoteTaskVO> fetchMyTasks(MoteTaskStatus type, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_MOTE_MY_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", type.code + "");
+        params.put("pageNo", pageNo+"");
+        params.put("pageSize", pageSize+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskVO.class);
     }
 
 

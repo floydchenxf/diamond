@@ -187,6 +187,5 @@ public class LoginManager {
 
         return true;
     }
-
 }
 
