@@ -1,5 +1,6 @@
 package com.floyd.diamond.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,6 +25,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.Message;
 import com.floyd.diamond.ui.URl;
+import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.activity.MessageItemActivity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
 import com.google.gson.Gson;
@@ -50,7 +53,6 @@ public class MessageFragment extends Fragment {
     private String mParam2;
 
     private RequestQueue mQueue;
-    private Context context;
     private ListView listView;
 
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -63,7 +65,7 @@ public class MessageFragment extends Fragment {
        public void handleMessage(android.os.Message msg) {
            super.handleMessage(msg);
 
-           MessageAdapter adapter=new MessageAdapter(context,messageList,R.layout.messagelistviewitem_layout);
+           MessageAdapter adapter=new MessageAdapter(getActivity(),messageList,R.layout.messagelistviewitem_layout);
            listView.setAdapter(adapter);//适配器适配
 
           // swipeRefreshLayout.setRefreshing(false);
@@ -116,7 +118,7 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        mQueue = Volley.newRequestQueue(context);
+        mQueue = Volley.newRequestQueue(getActivity());
         messageList=new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_message, container, false);
         listView = ((ListView) view.findViewById(R.id.listview));
@@ -130,6 +132,7 @@ public class MessageFragment extends Fragment {
                 setData();
                 //数据重新获取之后隐藏进度条
                 swipeRefreshLayout.setRefreshing(false);
+
             }
         });
         setData();
@@ -137,9 +140,8 @@ public class MessageFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        this.context=context;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
     }
 
     @Override
@@ -173,9 +175,9 @@ public class MessageFragment extends Fragment {
             //数据请求错误的回调
             @Override
             public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(HomeChooseActivity.this, "请检查网络连接..."+error.getMessage(), Toast.LENGTH_SHORT).show();
 
-                Log.e("TAG","请检查网络连接..."+error.getMessage());
+                Toast.makeText(getActivity(), "请检查网络连接..." + error.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         }) {
             @Override

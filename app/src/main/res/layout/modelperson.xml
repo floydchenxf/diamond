@@ -86,7 +86,7 @@
                         android:id="@+id/jingyanzhi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="8.9"
+                        android:text="89"
                         android:textColor="#ffffff"
                         android:layout_marginLeft="10dp"
                         android:textSize="12sp" />
@@ -123,12 +123,14 @@
                 app:layout_heightPercent="52%"
                 app:layout_marginLeftPercent="3%" />
 
-            <TextView
+            <CheckBox
+                android:id="@+id/careCount2"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:background="#ffffff"
                 android:gravity="center"
                 android:text="已关注"
+                android:button="@null"
                 android:textColor="#d4377e"
                 android:textSize="12sp"
                 app:layout_heightPercent="27%"

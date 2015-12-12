@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
@@ -11,11 +12,13 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners;
+import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 /**
  * Created by Administrator on 2015/11/26.
@@ -24,6 +27,7 @@ public class ModelPersonActivity extends Activity {
     private UMSocialService mShare;
     private TextView share;
     private SocializeListeners.UMShareBoardListener listener;
+    private CheckBox careCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,14 +37,15 @@ public class ModelPersonActivity extends Activity {
         // 得到UM的社会化分享组件
         mShare = UMServiceFactory.getUMSocialService("com.umeng.share");
 
-        //setShareContent();
+        setShareContent();
 
         init();
     }
 
-    public void init(){
-        TextView back= ((TextView) findViewById(R.id.back));//返回
-        share= ((TextView) findViewById(R.id.share));//分享按钮
+    public void init() {
+        TextView back = ((TextView) findViewById(R.id.back));//返回
+        share = ((TextView) findViewById(R.id.share));//分享按钮
+        careCount= ((CheckBox) findViewById(R.id.careCount2));//关注次数
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,14 +75,26 @@ public class ModelPersonActivity extends Activity {
         }
     }
 
-//    // 设置分享内容的方法
-//    private void setShareContent() {
-//        // 分享字符串
-//        mShare.setShareContent("来自“全民模特”的分享");
-//        // 设置分享图片, 参数2为图片的url地址
+       // 设置分享内容的方法
+    private void setShareContent() {
+        // 分享字符串
+        mShare.setShareContent("来自“全民模特”的分享");
+        // 设置分享图片, 参数2为图片的url地址
+        mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
+                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+//        //设置微信分享的内容
+//        WeiXinShareContent weiXinShareContent=new WeiXinShareContent();
+//        weiXinShareContent.setShareContent("来自“全民模特”的分享");
 //        mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
-//                "http://www.umeng.com/images/pic/banner_module_social.png"));
-//    }
+//                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+//        mShare.setShareMedia(weiXinShareContent);
+//        //设置QQ分享的内容
+//        QQShareContent qqShareContent=new QQShareContent();
+//        qqShareContent.setShareContent("来自“全民模特”的分享");
+//        mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
+//                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+//        mShare.setShareMedia(qqShareContent);
+    }
 
 
     // 用来配置各个平台的SDKF
@@ -96,8 +113,8 @@ public class ModelPersonActivity extends Activity {
 
 
         // 打开分享面板
-      //mShare.openShare(this, false);//系统默认的
-     startActivity(new Intent(ModelPersonActivity.this, DialogActivity.class));
+        mShare.openShare(this, false);//系统默认的
+      // startActivity(new Intent(ModelPersonActivity.this, DialogActivity.class));
 
 
     }
@@ -108,12 +125,12 @@ public class ModelPersonActivity extends Activity {
     // 要分享标题 summary : 要分享的文字概述 image url : 图片地址 [以上三个参数至少填写一个] targetUrl
     // 用户点击该分享时跳转到的目标地址 [必填] ( 若不填写则默认设置为友盟主页 )
     private void addQQZonePlatform() {
-        String appId = "1104989140";
-        String appKey = "3RstMR8HzDsG4lzl";
+        String appId = "100424468";
+        String appKey = "c7394704798a158208a74ab60104f0ba";
         // 添加QQ支持, 并且设置QQ分享内容的target url
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(ModelPersonActivity.this,
                 appId, appKey);
-        qqSsoHandler.setTargetUrl("http://www.umeng.com");
+        qqSsoHandler.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
         qqSsoHandler.addToSocialSDK();
 
         // 添加QZone平台
@@ -128,8 +145,11 @@ public class ModelPersonActivity extends Activity {
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
         // String appId = "wx967daebe835fbeac";
         // String appSecret = "5bb696d9ccd75a38c8a0bfe0675559b3";
-        String appId = "wxd570a10aaf918fa7";
-        String appSecret = "d4624c36b6795d1d99dcf0547af5443d";
+        String appId="wx6f4a5ebb3d2cd11e";
+        String appSecret="9603f3903c1dab2b494de93c04c9026a";
+//        String appId="wxd570a10aaf918fa7";
+//        String appSecret="d4624c36b6795d1 d99dcf0547af5443d";
+
         // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(ModelPersonActivity.this, appId,
                 appSecret);
@@ -140,7 +160,6 @@ public class ModelPersonActivity extends Activity {
         wxCircleHandler.setToCircle(true);
         wxCircleHandler.addToSocialSDK();
     }
-
 
 
 }

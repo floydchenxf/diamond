@@ -117,7 +117,7 @@ public class DialogActivity extends Activity {
         mShare.setShareContent("来自“全民模特”的分享");
         // 设置分享图片, 参数2为图片的url地址
         mShare.setShareMedia(new UMImage(DialogActivity.this,
-                "http://www.umeng.com/images/pic/banner_module_social.png"));
+                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
     }
 
     /**

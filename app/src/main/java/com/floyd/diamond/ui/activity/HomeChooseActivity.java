@@ -75,44 +75,41 @@ public class HomeChooseActivity extends Activity {
         //设置layoutManager
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         //设置adapter
-        MasonryAdapter adapter = new MasonryAdapter(imgId, HomeChooseActivity.this, new MasonryAdapter.ChangeText() {
-            @Override
-            public void setText(String tag, boolean isChecked) {
-                CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
-                if (cb != null) {
-                    if (isChecked) {
-                        cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
-                        isChoosed=true;
-                        if (GlobalParams.isDebug){
-                            Log.e("checked-t",isChoosed+"");
-                        }
-                    } else {
-                        cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
-                        isChoosed=false;
-                        if (GlobalParams.isDebug){
-                            Log.e("checked-f",isChoosed+"");
+            MasonryAdapter adapter = new MasonryAdapter(imgId, HomeChooseActivity.this, new MasonryAdapter.ChangeText() {
+                @Override
+                public void setText(String tag, boolean isChecked) {
+                    CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
+                    if (cb != null) {
+                        if (isChecked) {
+                            cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+                            if (GlobalParams.isDebug){
+                                Log.e("checked-t",isChoosed+"");
+                            }
+                        } else {
+                            cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                            if (GlobalParams.isDebug){
+                                Log.e("checked-f",isChoosed+"");
+                            }
                         }
                     }
                 }
-            }
-        });
-        recyclerView.setAdapter(adapter);
-        //设置item之间的间隔
-        SpacesItemDecoration decoration = new SpacesItemDecoration(6);
-        recyclerView.addItemDecoration(decoration);
+            });
+            recyclerView.setAdapter(adapter);
 
-        //点击跳转到模特界面
-        adapter.setMyOnItemClickListener(new MasonryAdapter.MyOnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int postion) {
-                Intent intent=new Intent(HomeChooseActivity.this, ModelInfoActivity.class);
-                intent.putExtra("isChecked",isChoosed);//需改进
-                startActivity(intent);
-            }
-        });
+            //设置item之间的间隔
+            SpacesItemDecoration decoration = new SpacesItemDecoration(6);
+            recyclerView.addItemDecoration(decoration);
+
+            //点击跳转到模特界面
+            adapter.setMyOnItemClickListener(new MasonryAdapter.MyOnItemClickListener() {
+                @Override
+                public void onItemClick(View view, int postion) {
+                    Intent intent = new Intent(HomeChooseActivity.this, ModelInfoActivity.class);
+                    intent.putExtra("likeCount", imgId[postion]+"");
+                    startActivity(intent);
+                }
+            });
 
     }
-
-
 
 }

@@ -87,7 +87,6 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
             //此处处理具体点击
             if (myOnItemClickListener != null) {
                 myOnItemClickListener.onItemClick(v, layoutPosition);
-                // Toast.makeText(context,"你眼瞎啊，没看见点击的是第"+layoutPosition+"条Message啊",Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
@@ -12,8 +13,9 @@ import com.floyd.diamond.R;
 /**
  * Created by Administrator on 2015/11/26.
  */
-public class ModelInfoActivity extends Activity {
-    private TextView back,moreInfo,care;
+public class ModelInfoActivity extends Activity{
+    private TextView back,moreInfo;
+    private CheckBox careCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +29,7 @@ public class ModelInfoActivity extends Activity {
     public void initdata(){
         moreInfo= ((TextView) findViewById(R.id.moreInfo));//头像
         back= ((TextView) findViewById(R.id.back));//返回箭头
-//        care= ((TextView) findViewById(R.id.careCount));//关注次数
+        careCount= ((CheckBox) findViewById(R.id.careCount));//关注次数
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,13 +48,7 @@ public class ModelInfoActivity extends Activity {
     }
 
     public void setData(){
-        boolean isChecked=getIntent().getBooleanExtra("isChecked",false);
-        if (isChecked){
-            care.setText("已选中");
-            care.setBackgroundColor(Color.BLACK);
-        }else{
-            care.setText("关注度");
-            care.setBackgroundColor(Color.BLACK);
-        }
+        String likecount=getIntent().getStringExtra("likeCount");//获取上个界面传过来的关注次数
+        careCount.setText("关注度"+192);
     }
 }

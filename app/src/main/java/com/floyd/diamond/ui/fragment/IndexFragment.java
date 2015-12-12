@@ -29,6 +29,8 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.activity.GuideActivity;
+import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
 import com.floyd.diamond.ui.anim.LsLoadingView;
@@ -112,6 +114,9 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private ImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
 
+    private TextView shuaixuan;//筛选模特
+    private TextView guide;//操作指引
+
 
     private Handler mChangeViewPagerHandler = new Handler() {
         @Override
@@ -125,7 +130,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                             int toItem = currentItem + 1 == totalcount ? 0 : currentItem + 1;
                             mHeaderViewPager.setCurrentItem(toItem, true);
                             //每5秒钟发送一个message，用于切换viewPager中的图片
-                            this.sendEmptyMessageDelayed(CHANGE_BANNER_HANDLER_MSG_WHAT, 5000);
+                            this.sendEmptyMessageDelayed(CHANGE_BANNER_HANDLER_MSG_WHAT, 3000);
                         }
                     }
             }
@@ -227,6 +232,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
         loadData();
 
+        init(view);
+
         mListView.addHeaderView(mHeaderView);
 
         indexMoteAdapter = new IndexMoteAdapter(this.getActivity(), new ArrayList<MoteInfoVO>());
@@ -301,6 +308,26 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             }
         });
         return view;
+    }
+
+    public void  init(View view){
+        guide= ((TextView) view.findViewById(R.id.guide));
+        shuaixuan= ((TextView) view.findViewById(R.id.right));
+        //跳转到操作指引界面
+        guide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), GuideActivity.class));
+            }
+        });
+
+        //跳转到筛选模特界面
+        shuaixuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), HomeChooseActivity.class));
+            }
+        });
     }
 
     private void initButton() {
