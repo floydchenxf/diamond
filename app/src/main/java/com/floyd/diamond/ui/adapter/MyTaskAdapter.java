@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.floyd.diamond.R;
 import com.floyd.diamond.biz.vo.TaskItemVO;
 
 import java.util.ArrayList;
@@ -55,6 +56,14 @@ public class MyTaskAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return null;
+        if (convertView == null) {
+            convertView = View.inflate(mContext, R.layout.my_task_layout, null);
+        }
+        return convertView;
+    }
+
+
+    public static class ViewHolder {
+
     }
 }

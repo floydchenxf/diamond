@@ -21,12 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
-import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
@@ -43,6 +40,7 @@ import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
+import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
@@ -99,12 +97,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        RequestQueue mQueue = Volley.newRequestQueue(this.getActivity());
-        wxImageCache = IMImageCache.findOrCreateCache(
-                IMChannel.getApplication(), EnvConstants.imageRootPath);
-        mImageLoader = new ImageLoader(mQueue, wxImageCache);
-        mImageLoader.setBatchedResponseDelay(0);
+        mImageLoader = ImageLoaderFactory.createImageLoader();
     }
 
     @Nullable
