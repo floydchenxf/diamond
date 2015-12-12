@@ -2,6 +2,7 @@ package com.floyd.diamond.utils;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -109,6 +110,36 @@ public class CommonUtil {
             return (today == lastDay && toMonth == lastMonth && toYear == lastYear);
         }
         return false;
+    }
+
+    public static String getImageType(String url, String type) {
+        if (TextUtils.isEmpty(url)) {
+            return null;
+        }
+
+        return url.concat(type);
+    }
+
+    /**
+     * 获取图片100X100
+     * @param url
+     * @return
+     */
+    public static String getImage_100(String url) {
+        return getImageType(url, "!v1");
+    }
+
+    /**
+     * 获取图片800X800
+     * @param url
+     * @return
+     */
+    public static String getImage_800(String url) {
+        return getImageType(url, "!v2");
+    }
+
+    public static String getImage_400(String url) {
+        return getImageType(url, "!v3");
     }
 
 }

@@ -95,7 +95,7 @@ public class TaskPicAdapter extends BaseAdapter {
                 NetworkImageView imageView = new NetworkImageView(mContext);
                 imageView.setLayoutParams(lp);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                imageView.setImageUrl(vo.imgUrl, imageLoader);
+                imageView.setImageUrl(vo.getPreviewImageUrl(), imageLoader);
                 holder.imageLayout.addView(imageView);
             }
         }

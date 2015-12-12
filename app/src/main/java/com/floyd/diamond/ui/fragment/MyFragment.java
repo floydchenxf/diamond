@@ -180,14 +180,14 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 nicknameView.setText(moteInfoVO.nickname);
                 qiangView.setText(moteInfoVO.fenNum);
                 placeView.setText(moteInfoVO.fee);
-                if (!TextUtils.isEmpty(moteInfoVO.avatarUrl)) {
-                    headView.setImageUrl(moteInfoVO.avatarUrl, mImageLoader, new BitmapProcessor() {
+                if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
+                    headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
                             return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    bgHeadView.setImageUrl(moteInfoVO.avatarUrl, mImageLoader);
+                    bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader);
                 }
             }
 
@@ -204,14 +204,14 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     qiangView.setText(moteInfoVO.fenNum);
                     placeView.setText(moteInfoVO.fee);
                     nicknameView.setText(moteInfoVO.nickname);
-                    if (!TextUtils.isEmpty(moteInfoVO.avatarUrl)) {
-                        headView.setImageUrl(moteInfoVO.avatarUrl, mImageLoader, new BitmapProcessor() {
+                    if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
+                        headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(moteInfoVO.avatarUrl, mImageLoader);
+                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader);
                     }
                 }
 

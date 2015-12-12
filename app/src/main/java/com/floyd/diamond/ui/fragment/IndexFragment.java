@@ -360,6 +360,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             @Override
             public void onSuccess(List<AdvVO> advVOs) {
+                mViewPagerContainer.setVisibility(View.VISIBLE);
                 mTopBannerList.clear();
                 mTopBannerList.addAll(advVOs);
                 mBannerImageAdapter.addItems(mTopBannerList);
@@ -424,6 +425,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private void initListViewHeader() {
         mHeaderView = LayoutInflater.from(this.getActivity()).inflate(R.layout.new_head, mListView, false);
         mViewPagerContainer = mHeaderView.findViewById(R.id.pager_layout);
+        mViewPagerContainer.setVisibility(View.GONE);
         ViewGroup.LayoutParams mViewPagerContainerLayoutParams = mViewPagerContainer.getLayoutParams();
         mViewPagerContainerLayoutParams.height = CommonUtil.dip2px(this.getActivity(), BANNER_HEIGHT_IN_DP);
         mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);

@@ -123,8 +123,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 for (MoteTaskPicVO taskPic : pics) {
                     PicViewObject picViewObject = new PicViewObject();
                     picViewObject.setPicId(taskPic.id);
-                    picViewObject.setPicPreViewUrl(taskPic.imgUrl);
-                    picViewObject.setPicUrl(taskPic.imgUrl);
+                    picViewObject.setPicPreViewUrl(taskPic.getPreviewImageUrl());
+                    picViewObject.setPicUrl(taskPic.getDetailImageUrl());
                     picViewObject.setPicType(PicViewObject.IMAGE);
                     picViewList.add(picViewObject);
                 }
@@ -180,7 +180,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 @Override
                 public void onSuccess(MoteDetailInfoVO vo) {
                     countDownLatch.countDown();
-                    String imageUrl = vo.avartUrl;
+                    String imageUrl = vo.getPreviewImageUrl();
                     if (!TextUtils.isEmpty(imageUrl)) {
                         headView.setDefaultImageResId(R.drawable.head);
                         headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
@@ -190,7 +190,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                             }
                         });
                         headBgView.setDefaultImageResId(R.drawable.head);
-                        headBgView.setImageUrl(imageUrl, mImageLoader);
+                        headBgView.setImageUrl(vo.getDetailImageUrl(), mImageLoader);
                     }
 
                     usernickView.setText(vo.nickname);

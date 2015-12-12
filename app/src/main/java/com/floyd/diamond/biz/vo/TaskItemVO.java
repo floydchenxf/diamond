@@ -1,5 +1,7 @@
 package com.floyd.diamond.biz.vo;
 
+import com.floyd.diamond.utils.CommonUtil;
+
 import java.io.Serializable;
 
 /**
@@ -14,7 +16,7 @@ public class TaskItemVO implements Serializable{
     public int priceFen;
     public float shotFee;
     public int shotFeeFen;
-    public String imgUrl;
+    private String imgUrl;
     public float selfBuyOff;
     public String shotDesc;
     public int gender;
@@ -36,4 +38,12 @@ public class TaskItemVO implements Serializable{
     public String oldUrl;
     public int acceptNumber;
     public int followNum;
+
+    public String getPreviewImageUrl() {
+        return CommonUtil.getImage_400(this.imgUrl);
+    }
+
+    public String getDetailImageUrl() {
+        return CommonUtil.getImage_800(this.imgUrl);
+    }
 }

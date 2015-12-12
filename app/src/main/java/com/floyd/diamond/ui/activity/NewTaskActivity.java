@@ -87,7 +87,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
         newTaskBUtton = (CheckedTextView) findViewById(R.id.new_task_button);
         newTaskBUtton.setOnClickListener(this);
-        imageUrl = taskItemVO.imgUrl;
+        imageUrl = taskItemVO.getDetailImageUrl();
         taskId = taskItemVO.id;
     }
 

@@ -111,7 +111,7 @@ public class IndexMoteAdapter extends BaseAdapter {
 
         if (mList.size() - 1 >= end) {
             final MoteInfoVO mote1 = mList.get(start);
-            holder.moteViewImage1.setImageUrl(mote1.avatarUrl, imageLoader);
+            holder.moteViewImage1.setImageUrl(mote1.getHeadUrl(), imageLoader);
             holder.moteNickView1.setText(mote1.nickname);
             holder.layout1.setVisibility(View.VISIBLE);
             holder.layout1.setOnClickListener(new View.OnClickListener() {
@@ -124,7 +124,7 @@ public class IndexMoteAdapter extends BaseAdapter {
                 }
             });
             final MoteInfoVO mote2 = mList.get(start + 1);
-            holder.moteViewImage2.setImageUrl(mote2.avatarUrl, imageLoader);
+            holder.moteViewImage2.setImageUrl(mote2.getHeadUrl(), imageLoader);
             holder.moteNickView2.setText(mote2.nickname);
             holder.layout2.setVisibility(View.VISIBLE);
             holder.layout2.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +137,7 @@ public class IndexMoteAdapter extends BaseAdapter {
                 }
             });
             final MoteInfoVO mote3 = mList.get(start + 2);
-            holder.moteViewImage3.setImageUrl(mote3.avatarUrl, imageLoader);
+            holder.moteViewImage3.setImageUrl(mote3.getHeadUrl(), imageLoader);
             holder.moteNickView3.setText(mote3.nickname);
             holder.layout3.setVisibility(View.VISIBLE);
             holder.layout3.setOnClickListener(new View.OnClickListener() {
@@ -151,7 +151,7 @@ public class IndexMoteAdapter extends BaseAdapter {
             });
         } else {
             final MoteInfoVO mote1 = mList.get(start);
-            holder.moteViewImage1.setImageUrl(mote1.avatarUrl, imageLoader);
+            holder.moteViewImage1.setImageUrl(mote1.getHeadUrl(), imageLoader);
             holder.moteNickView1.setText(mote1.nickname);
             holder.layout1.setVisibility(View.VISIBLE);
             holder.layout1.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +171,7 @@ public class IndexMoteAdapter extends BaseAdapter {
                 holder.layout3.setOnClickListener(null);
             } else {
                 final MoteInfoVO mote2 = mList.get(start + 1);
-                holder.moteViewImage2.setImageUrl(mote2.avatarUrl, imageLoader);
+                holder.moteViewImage2.setImageUrl(mote2.getHeadUrl(), imageLoader);
                 holder.moteNickView2.setText(mote2.nickname);
                 holder.layout2.setVisibility(View.VISIBLE);
                 holder.layout2.setOnClickListener(new View.OnClickListener() {

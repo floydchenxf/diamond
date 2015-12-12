@@ -89,7 +89,7 @@ public class BannerFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 List<String> actions = new ArrayList<String>();
-                actions.add(mDataList.imgUrl);
+                actions.add(mDataList.getImgUrl());
                 callAction(actions, "BANNER", mDataList);
             }
         });
@@ -97,7 +97,7 @@ public class BannerFragment extends BaseFragment {
         mImageView.setErrorImageResId(R.drawable.pic_loading);
         mImageView.setDefaultImageResId(R.drawable.pic_loading);
         if (mDataList != null) {
-            String fullUrl = mDataList.imgUrl;
+            String fullUrl = mDataList.getImgUrl();
             mImageView.setImageUrl(fullUrl, mImageLoader);
         }
         return mImageView;

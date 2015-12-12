@@ -3,13 +3,15 @@ package com.floyd.diamond.biz.vo;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.floyd.diamond.utils.CommonUtil;
+
 /**
  * Created by floyd on 15-12-3.
  */
 public class AdvVO implements Parcelable {
     public long id;
     public String title;
-    public String imgUrl;
+    private String imgUrl;
     public long createTime;
     public long updateTime;
     public int type;
@@ -23,6 +25,14 @@ public class AdvVO implements Parcelable {
         updateTime = in.readLong();
         type = in.readInt();
         content = in.readString();
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
+
+    public String getImgUrl() {
+        return CommonUtil.getImage_800(this.imgUrl);
     }
 
     @Override

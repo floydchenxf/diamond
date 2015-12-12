@@ -1,12 +1,14 @@
 package com.floyd.diamond.biz.vo;
 
+import com.floyd.diamond.utils.CommonUtil;
+
 /**
  * Created by floyd on 15-12-5.
  */
 public class MoteDetailInfoVO {
     public long id;
     public String phoneNumber;
-    public String avartUrl;//头像
+    private String avartUrl;//头像
     public String nickname;//别名
     public String birdthdayStr;//生日
     public int gender; //性别
@@ -25,6 +27,14 @@ public class MoteDetailInfoVO {
     public int age;
     public int followNum;//粉丝数
     public boolean isFollow;
+
+    public String getPreviewImageUrl() {
+        return CommonUtil.getImage_100(this.avartUrl);
+    }
+
+    public String getDetailImageUrl() {
+        return CommonUtil.getImage_800(this.avartUrl);
+    }
 
 
 }

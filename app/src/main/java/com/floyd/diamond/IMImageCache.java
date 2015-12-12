@@ -222,73 +222,7 @@ public class IMImageCache implements ImageLoader.ImageCache {
             return memBitmap;
 
         }
-
-//		final Object object = new Object();
-//		mHandler.postDelayed(new Runnable() {
-//			@Override
-//			public void run() {
-//				synchronized (object) {
-//					object.notify();
-//				}
-//			}
-//		}, delayMillis);
-//
-//		WXThreadPoolMgr.getInstance().doAsyncRun(new Runnable() {
-//			@Override
-//			public void run() {
-//				long startTime = System.currentTimeMillis();
-//				Bitmap diskBitmap = getBitmapFromDiskCache(url);
-//				Log.d("test1",
-//						"getBitmapFromDiskCache time:"
-//								+ (System.currentTimeMillis() - startTime));
-//				if (diskBitmap != null) {
-//					if (mMemoryCache != null) {
-//						mMemoryCache.put(md5Name, diskBitmap);
-//					}
-//				} else {
-//					Log.w("test1", "bitmap disk cache not hit "+url);
-//				}
-//				synchronized (object) {
-//					object.notify();
-//				}
-//			}
-//		});
-//
-//		try {
-//			synchronized (object) {
-//				object.wait(delayMillis);
-//			}
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//
-//		memBitmap = getBitmapFromMemCache(md5Name);
-//		if (memBitmap != null) {
-//			return memBitmap;
-//		}
     }
-
-//	public Bitmap getBitmap(String url, boolean value) {
-//		String md5Name = WXUtil.getMD5Value(url);
-//
-//		Bitmap memBitmap = getBitmapFromMemCache(md5Name);
-//		if (memBitmap != null) {
-//			return memBitmap;
-//		} else {
-//			Log.e("test1", "bitmap memory cache not hit");
-//		}
-//		long startTime = System.currentTimeMillis();
-//		Bitmap diskBitmap = getBitmapFromDiskCache(url);
-//		Log.d("test1",
-//				"getBitmapFromDiskCache time:"
-//						+ (System.currentTimeMillis() - startTime)+ (diskBitmap!=null));
-//		if (diskBitmap != null) {
-//			return diskBitmap;
-//		} else {
-//			Log.e("test1", "bitmap disk cache not hit1:"+url);
-//		}
-//		return null;
-//	}
 
     @Override
     public void putBitmap(String url, final Bitmap bitmap) {
@@ -307,7 +241,7 @@ public class IMImageCache implements ImageLoader.ImageCache {
         WxDefaultExecutor.getInstance().submitHighPriority(new Runnable() {
             @Override
             public void run() {
-                FileTools.writeBitmap(EnvConstants.imageRootPath + File.separator + md5Name, bitmap, 50);
+                FileTools.writeBitmap(EnvConstants.imageRootPath + File.separator + md5Name, bitmap, 100);
             }
         });
 
