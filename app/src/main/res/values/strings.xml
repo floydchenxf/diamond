@@ -71,4 +71,6 @@
     <string name="title_activity_my_task">MyTaskActivity</string>
     <string name="title_activity_task_process">TaskProcessActivity</string>
     <string name="title_activity_my_pic">MyPicActivity</string>
+    <string name="net_null">哎呀，怎么没网络了，请联网后试试！</string>
+    <string name="aliwx_send_original">原图</string>
 </resources>

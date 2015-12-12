@@ -15,6 +15,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
 
 /**
  * Created by floyd on 15-11-29.
@@ -356,6 +357,41 @@ public class ThumbnailUtils {
         return null;
     }
 
+    public static Bitmap getCropAndScaledBitmap(Bitmap oriBitmap,
+                                                int desiredWidth, int desiredHeight, int resizedWidth,
+                                                int resizedHeight, boolean recycle) {
+        Bitmap cropBitmap = null;
+        int width = oriBitmap.getWidth();
+        int height = oriBitmap.getHeight();
+        resizedWidth = Math.min(resizedWidth, width);
+        resizedHeight = Math.min(resizedHeight, height);
+        if (width == resizedWidth && height == resizedHeight) {
+            cropBitmap = oriBitmap;
+        } else {
+            int x = Math.max((width - resizedWidth) / 2, 0);
+            int y = Math.max((height - resizedHeight) / 2, 0);
+            cropBitmap = Bitmap.createBitmap(oriBitmap, x, y, resizedWidth,
+                    resizedHeight);
+            if (cropBitmap != oriBitmap && recycle) {
+                oriBitmap.recycle();
+            }
+        }
+        Bitmap scalebBitmap = null;
+        // If necessary, scale down to the maximal acceptable size.
+        if (cropBitmap != null
+                && (cropBitmap.getWidth() != desiredWidth || cropBitmap
+                .getHeight() != desiredHeight)) {
+            scalebBitmap = Bitmap.createScaledBitmap(cropBitmap, desiredWidth,
+                    desiredHeight, true);
+            if (cropBitmap != scalebBitmap && recycle) {
+                cropBitmap.recycle();
+            }
+        } else {
+            scalebBitmap = cropBitmap;
+        }
+        return scalebBitmap;
+    }
+
     static int findBestSampleSize(int actualWidth, int actualHeight,
                                   int desiredWidth, int desiredHeight) {
         double wr = (double) actualWidth / desiredWidth;
@@ -366,5 +402,24 @@ public class ThumbnailUtils {
             n *= 2;
         }
         return (int) n;
+    }
+
+    /**
+     * byte(字节)根据长度转成kb(千字节)和mb(兆字节)
+     *
+     * @param bytes
+     * @return
+     */
+    public static String bytes2KOrM(long bytes) {
+        BigDecimal filesize = new BigDecimal(bytes);
+        BigDecimal megabyte = new BigDecimal(1024 * 1024);
+        float returnValue = filesize.divide(megabyte, 2, BigDecimal.ROUND_UP)
+                .floatValue();
+        if (returnValue > 1)
+            return (returnValue + "M");
+        BigDecimal kilobyte = new BigDecimal(1024);
+        returnValue = filesize.divide(kilobyte, 2, BigDecimal.ROUND_UP)
+                .floatValue();
+        return (returnValue + "K");
     }
 }
