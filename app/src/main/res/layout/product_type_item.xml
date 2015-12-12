@@ -15,7 +15,7 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/product_pic_1"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
             android:src="@drawable/tuqian" />
 
@@ -45,7 +45,8 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/goodslist_money"
                 android:drawablePadding="4dp"
-                android:gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
                 android:text="80"
                 android:textColor="@color/white" />
 
@@ -61,8 +62,16 @@
                 android:gravity="center_vertical"
                 android:text="黑龙."
                 android:textColor="@color/white" />
-
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/finish_status_view1"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#44000000"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="已接完"/>
 
     </RelativeLayout>
 
@@ -78,7 +87,7 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/product_pic_2"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="180dp"
             android:scaleType="centerCrop"
             android:src="@drawable/tuqian" />
 
@@ -108,7 +117,8 @@
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/goodslist_money"
                 android:drawablePadding="4dp"
-                android:gravity="center_vertical"
+                android:layout_marginLeft="4dp"
+                android:gravity="center"
                 android:text="80"
                 android:textColor="@color/white" />
 
@@ -126,6 +136,15 @@
                 android:textColor="@color/white" />
 
         </RelativeLayout>
+
+        <TextView
+            android:id="@+id/finish_status_view2"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="#44000000"
+            android:textSize="30sp"
+            android:gravity="center"
+            android:text="已接完"/>
 
     </RelativeLayout>
 

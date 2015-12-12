@@ -40,6 +40,18 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void updateAcceptStatus(long taskId) {
+        for (MoteTypeTaskVO vo:productTypeVOs) {
+            if (vo.productItemVO1 != null && vo.productItemVO1.id == taskId) {
+                vo.productItemVO1.isAccepted = true;
+            }
+
+            if (vo.productItemVO2 != null && vo.productItemVO2.id == taskId) {
+                vo.productItemVO2.isAccepted = true;
+            }
+        }
+    }
+
     public List<MoteTypeTaskVO> getData() {
         return this.productTypeVOs;
     }
@@ -65,6 +77,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.product_type_item, null);
             holder = new ViewHolder();
+            holder.finishStatusView1 = (TextView) convertView.findViewById(R.id.finish_status_view1);
+            holder.finishStatusView2 = (TextView) convertView.findViewById(R.id.finish_status_view2);
             holder.productItemLayout1 = convertView.findViewById(R.id.product_type_item_1);
             holder.productItemLayout2 = convertView.findViewById(R.id.product_type_item_2);
 
@@ -87,8 +101,15 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         if (vo.productItemVO1 == null) {
             holder.productItemLayout1.setVisibility(View.GONE);
             holder.productItemLayout1.setOnClickListener(null);
+            holder.finishStatusView1.setVisibility(View.GONE);
         } else {
             final TaskItemVO itemVO1 = vo.productItemVO1;
+            if (itemVO1.isFinish()) {
+                holder.finishStatusView1.setVisibility(View.VISIBLE);
+            } else {
+                holder.finishStatusView1.setVisibility(View.GONE);
+            }
+
             holder.productItemLayout1.setVisibility(View.VISIBLE);
             holder.productItemLayout1.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -108,6 +129,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         if (vo.productItemVO2 == null) {
             holder.productItemLayout2.setVisibility(View.GONE);
             holder.productItemLayout2.setOnClickListener(null);
+            holder.finishStatusView2.setVisibility(View.GONE);
         } else {
             final TaskItemVO itemVO2 = vo.productItemVO2;
             holder.productItemLayout2.setVisibility(View.VISIBLE);
@@ -119,6 +141,12 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                     }
                 }
             });
+
+            if (itemVO2.isFinish()) {
+                holder.finishStatusView2.setVisibility(View.VISIBLE);
+            } else {
+                holder.finishStatusView2.setVisibility(View.GONE);
+            }
 
             holder.addressView2.setText(itemVO2.areaid+"");
             holder.productImage2.setImageUrl(itemVO2.getPreviewImageUrl(), mImageLoader);
@@ -148,6 +176,9 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         public TextView priceView21;
         public TextView priceView22;
         public TextView addressView2;
+
+        public TextView finishStatusView1;
+        public TextView finishStatusView2;
 
 
     }

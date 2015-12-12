@@ -26,7 +26,10 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.event.AcceptTaskEvent;
 import com.floyd.diamond.ui.view.UIAlertDialog;
+
+import de.greenrobot.event.EventBus;
 
 public class NewTaskActivity extends Activity implements View.OnClickListener {
 
@@ -40,11 +43,12 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
     private TextView priceView;
     private TextView shotFeeView;
     private TextView shotAreaIdView;
+    private TextView selfBuyRateView;
 
     private NetworkImageView taskImageView;
     private ImageView defaultImageView;
 
-    private CheckedTextView newTaskBUtton;
+    private CheckedTextView newTaskButton;
 
     private TaskItemVO taskItemVO;
     private Dialog loadingDialog;
@@ -56,6 +60,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
+
 
         RequestQueue mQueue = Volley.newRequestQueue(this);
         IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
@@ -73,20 +78,29 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         shotDescView.setText(taskItemVO.shotDesc);
 
         taskProductNameView = (TextView) findViewById(R.id.task_product_name);
+        taskProductNameView.setText(taskItemVO.title);
 
         priceView = (TextView) findViewById(R.id.price);
         shotFeeView = (TextView) findViewById(R.id.shot_fee);
         shotAreaIdView = (TextView) findViewById(R.id.shot_area_id);
+        selfBuyRateView = (TextView) findViewById(R.id.self_buy_rate);
 
-        priceView.setText(taskItemVO.price+"");
-        shotFeeView.setText(taskItemVO.shotFee+"");
-        shotAreaIdView.setText(taskItemVO.shotAreaId+"");
+        priceView.setText(taskItemVO.price + "");
+        shotFeeView.setText(taskItemVO.shotFee + "");
+        shotAreaIdView.setText(taskItemVO.shotAreaId + "");
+        selfBuyRateView.setText(taskItemVO.selfBuyRate + "");
+
 
         defaultImageView = (ImageView) findViewById(R.id.default_image);
         taskImageView = (NetworkImageView) findViewById(R.id.task_image);
 
-        newTaskBUtton = (CheckedTextView) findViewById(R.id.new_task_button);
-        newTaskBUtton.setOnClickListener(this);
+        newTaskButton = (CheckedTextView) findViewById(R.id.new_task_button);
+        if (!taskItemVO.isAccepted) {
+            newTaskButton.setOnClickListener(this);
+            newTaskButton.setChecked(true);
+        } else {
+            newTaskButton.setChecked(false);
+        }
         imageUrl = taskItemVO.getDetailImageUrl();
         taskId = taskItemVO.id;
     }
@@ -133,8 +147,9 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                             loadingDialog.dismiss();
                         }
 
-                        newTaskBUtton.setChecked(false);
-                        newTaskBUtton.setEnabled(false);
+                        newTaskButton.setChecked(false);
+                        newTaskButton.setEnabled(false);
+                        EventBus.getDefault().post(new AcceptTaskEvent(taskItemVO.id));
 
                         UIAlertDialog.Builder builder = new UIAlertDialog.Builder(NewTaskActivity.this);
                         builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
@@ -158,5 +173,9 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                 break;
         }
 
+    }
+
+    public void onDestory() {
+        super.onDestroy();
     }
 }

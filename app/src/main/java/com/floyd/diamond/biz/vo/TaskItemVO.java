@@ -39,11 +39,18 @@ public class TaskItemVO implements Serializable{
     public int acceptNumber;
     public int followNum;
 
+    public boolean isAccepted;
+    public int  finishStatus;
+
     public String getPreviewImageUrl() {
         return CommonUtil.getImage_400(this.imgUrl);
     }
 
     public String getDetailImageUrl() {
         return CommonUtil.getImage_800(this.imgUrl);
+    }
+
+    public boolean isFinish() {
+        return this.finishStatus == 1;
     }
 }

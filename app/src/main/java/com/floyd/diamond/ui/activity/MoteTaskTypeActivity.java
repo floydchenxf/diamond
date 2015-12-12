@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.MoteTypeTaskVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.event.AcceptTaskEvent;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.MoteTaskTypeAdapter;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
@@ -25,6 +27,9 @@ import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 public class MoteTaskTypeActivity extends Activity implements View.OnClickListener {
 
@@ -56,6 +61,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_type);
         findViewById(R.id.title_back).setOnClickListener(this);
+        EventBus.getDefault().register(this);
 
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
 
@@ -168,8 +174,19 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
 
     }
 
+
+    @Subscribe
+    public void onEventMainThread(AcceptTaskEvent event) {
+        Log.i(TAG, "-----------accept event fire");
+        if (!MoteTaskTypeActivity.this.isFinishing()) {
+            long taskId = event.taskId;
+            moteTaskTypeAdapter.updateAcceptStatus(taskId);
+        }
+    }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
