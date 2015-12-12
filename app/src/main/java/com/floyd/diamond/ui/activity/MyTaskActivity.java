@@ -2,10 +2,13 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -42,6 +45,8 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
     private MyTaskAdapter adapter;
     private boolean isClear;
 
+    private TextView emptyView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +63,13 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         doingStatusView.setOnClickListener(this);
         confirmStatusView.setOnClickListener(this);
         doneStatusView.setOnClickListener(this);
+
+        emptyView = (TextView) findViewById(R.id.empty_info);
+
+        allStatusView.setOnClickListener(this);
+        doingStatusView.setOnClickListener(this);
+        confirmStatusView.setOnClickListener(this);
+        doneStatusView.setOnClickListener(this);
         findViewById(R.id.title_back).setOnClickListener(this);
 
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.my_task_list);
@@ -68,6 +80,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo++;
                 isClear = false;
                 loadData();
+                mPullToRefreshListView.onRefreshComplete(false,false);
             }
 
             @Override
@@ -75,11 +88,21 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo++;
                 isClear = false;
                 loadData();
+                mPullToRefreshListView.onRefreshComplete(false, false);
             }
         });
 
         mListView = mPullToRefreshListView.getRefreshableView();
         adapter = new MyTaskAdapter(this, mImageLoader);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TaskItemVO itemVO = adapter.getData().get(position-1);
+                Intent it = new Intent(MyTaskActivity.this, NewTaskActivity.class);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
+                startActivity(it);
+            }
+        });
         mListView.setAdapter(adapter);
         loadData();
     }
@@ -105,7 +128,14 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 if (!MyTaskActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
                     List<TaskItemVO> tasks = moteTaskVO.dataList;
-                    adapter.addAll(tasks, isClear);
+                    if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
+                        emptyView.setVisibility(View.VISIBLE);
+                        mPullToRefreshListView.setVisibility(View.GONE);
+                    } else {
+                        mPullToRefreshListView.setVisibility(View.VISIBLE);
+                        emptyView.setVisibility(View.GONE);
+                        adapter.addAll(tasks, isClear);
+                    }
                 }
             }
 
@@ -128,6 +158,8 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 doneStatusView.setChecked(false);
                 pageNo = 1;
                 isClear = true;
+                dataLoadingDailog.show();
+                loadData();
                 break;
             case R.id.doing_status:
                 taskStatus = MoteTaskStatus.DOING;
@@ -137,6 +169,8 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 doneStatusView.setChecked(false);
                 pageNo = 1;
                 isClear = true;
+                dataLoadingDailog.show();
+                loadData();
                 break;
             case R.id.confirm_status:
                 taskStatus = MoteTaskStatus.CONFIRM;
@@ -146,6 +180,8 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 doneStatusView.setChecked(false);
                 pageNo = 1;
                 isClear = true;
+                dataLoadingDailog.show();
+                loadData();
                 break;
             case R.id.done_status:
                 taskStatus = MoteTaskStatus.DONE;
@@ -155,6 +191,8 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 doneStatusView.setChecked(true);
                 pageNo = 1;
                 isClear = true;
+                dataLoadingDailog.show();
+                loadData();
                 break;
             case R.id.title_back:
                 this.finish();

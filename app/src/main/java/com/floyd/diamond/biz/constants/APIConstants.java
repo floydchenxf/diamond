@@ -24,5 +24,10 @@ public class APIConstants {
     public static final String API_MOTE_MY_TASK = "api/motetask/getMyTaskList";//模特我的任务
 
     public static final String API_INDEX_INFO = "api/index/getIndexInfo";//获取首页导航栏目
-
+    public static final String API_ADD_ORDER_NO = "api/task/addOrderNo"; //模特添加订单
+    public static final String API_FINISH_SHOW_PIC = "api/task/finishShowPic";//模特儿完成晒图
+    public static final String API_SELF_BUY = "api/task/selfBuy";//模特儿自购商品
+    public static final String API_RETURN_ITEM = "api/task/returnItem";//模特儿退回商品
+    public static final String API_UPLOAD_IMAGE = "api/taskPic/uploadImage"; //模特儿上传照片
+    public static final String API_REMOVE_IMAGE_URL="api/taskPic/removeImageUrl";//模特儿删除图片
 }

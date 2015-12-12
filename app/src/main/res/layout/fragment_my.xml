@@ -24,7 +24,6 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/circle_shape"
             android:src="@drawable/head"
             app:layout_heightPercent="35%"
             app:layout_marginTopPercent="15%"

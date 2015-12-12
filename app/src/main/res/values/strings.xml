@@ -69,4 +69,6 @@
     <string name="title_activity_new_task">NewTaskActivity</string>
     <string name="confirm">确认</string>
     <string name="title_activity_my_task">MyTaskActivity</string>
+    <string name="title_activity_task_process">TaskProcessActivity</string>
+    <string name="title_activity_my_pic">MyPicActivity</string>
 </resources>
