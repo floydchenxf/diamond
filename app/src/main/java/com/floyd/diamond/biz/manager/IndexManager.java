@@ -5,6 +5,7 @@ import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.vo.AdvDetailVO;
 import com.floyd.diamond.biz.vo.AdvVO;
+import com.floyd.diamond.biz.vo.IndexVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.reflect.TypeToken;
@@ -61,5 +62,12 @@ public class IndexManager {
         params.put("id", advId+"");
         return JsonHttpJobFactory.getJsonAsyncJob(url,params, HttpMethod.POST,AdvDetailVO.class);
     }
+
+    public static AsyncJob<IndexVO> getIndexInfoJob() {
+        String url = APIConstants.HOST + APIConstants.API_INDEX_INFO;
+        return JsonHttpJobFactory.getJsonAsyncJob(url, null, HttpMethod.POST, IndexVO.class);
+
+    }
+
 }
 

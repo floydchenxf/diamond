@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.fragment;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -24,11 +25,18 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.BitmapProcessor;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.IndexManager;
+import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.AdvVO;
+import com.floyd.diamond.biz.vo.IndexItemVO;
+import com.floyd.diamond.biz.vo.IndexVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
 import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
@@ -112,10 +120,12 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private ImageView redHot3;
     private ImageView redHot4;
 
-    private ImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
+    private NetworkImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
 
     private TextView shuaixuan;//筛选模特
     private TextView guide;//操作指引
+
+    private ImageLoader mImageLoader;
 
 
     private Handler mChangeViewPagerHandler = new Handler() {
@@ -149,6 +159,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mImageLoader = ImageLoaderFactory.createImageLoader();
         mTopBannerList = new ArrayList<AdvVO>();
         loadDialog = new Dialog(this.getActivity(), R.style.data_load_dialog);
         mGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
@@ -267,14 +278,14 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             @Override
             public void onPullDownToRefresh() {
                 needClear = false;
-                loadData();
+                loadMoteInfo();
                 mPullToRefreshListView.onRefreshComplete(true, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
                 needClear = false;
-                loadData();
+                loadMoteInfo();
                 mPullToRefreshListView.onRefreshComplete(true, true);
             }
         });
@@ -350,18 +361,43 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         femaleview2.setChecked(true);
     }
 
-    private void loadData() {
-
-        IndexManager.fetchAdvLists(5).startUI(new ApiCallback<List<AdvVO>>() {
+    public void loadMoteInfo() {
+        IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
-                Log.e(TAG, "code:" + code + "---error:" + errorInfo);
+                loadFail();
+                loadDialog.dismiss();
             }
 
             @Override
-            public void onSuccess(List<AdvVO> advVOs) {
+            public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
+                loadDialog.dismiss();
+                ++pageNo;
+                indexMoteAdapter.addAll(moteInfoVOs, needClear);
+                loadSuccess();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+    }
+
+    private void loadData() {
+        IndexManager.getIndexInfoJob().startUI(new ApiCallback<IndexVO>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                loadFail();
+                loadDialog.dismiss();
+            }
+
+            @Override
+            public void onSuccess(IndexVO indexVO) {
                 mViewPagerContainer.setVisibility(View.VISIBLE);
                 mTopBannerList.clear();
+                List<AdvVO> advVOs = indexVO.advertList;
                 mTopBannerList.addAll(advVOs);
                 mBannerImageAdapter.addItems(mTopBannerList);
 
@@ -390,23 +426,48 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
                 mNavigationContainer.setVisibility(View.VISIBLE);
 
-            }
+                List<IndexItemVO> categoryPics = indexVO.categoryPics;
+                if (categoryPics == null||categoryPics.isEmpty()) {
+                    productTypeLayout.setVisibility(View.GONE);
+                } else {
+                    productTypeLayout.setVisibility(View.VISIBLE);
+                    for (IndexItemVO itemVO:categoryPics) {
+                        int type = itemVO.type;
+                        String url = itemVO.picUrl;
+                        if (type == 1) {
+                            femaleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
+                                @Override
+                                public Bitmap processBitmpa(Bitmap bitmap) {
+                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 20);
+                                }
+                            });
+                        } else if (type==2) {
+                            maleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
+                                @Override
+                                public Bitmap processBitmpa(Bitmap bitmap) {
+                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                }
+                            });
+                        } else if (type == 3) {
+                            babyProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
+                                @Override
+                                public Bitmap processBitmpa(Bitmap bitmap) {
+                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                }
+                            });
+                        } else if (type == 4) {
+                            multiPriduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
+                                @Override
+                                public Bitmap processBitmpa(Bitmap bitmap) {
+                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                }
+                            });
+                        }
+                    }
+                }
 
-            @Override
-            public void onProgress(int progress) {
 
-            }
-        });
-
-        IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                loadFail();
-                loadDialog.dismiss();
-            }
-
-            @Override
-            public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
+                List<MoteInfoVO> moteInfoVOs = indexVO.moteVOs;
                 loadDialog.dismiss();
                 ++pageNo;
                 indexMoteAdapter.addAll(moteInfoVOs, needClear);
@@ -482,10 +543,10 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         redHot2 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_2);
         redHot3 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_3);
         redHot4 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_4);
-        femaleProduct = (ImageView) productTypeLayout.findViewById(R.id.female_type);
-        maleProduct = (ImageView) productTypeLayout.findViewById(R.id.male_type);
-        babyProduct = (ImageView) productTypeLayout.findViewById(R.id.baby_type);
-        multiPriduct = (ImageView) productTypeLayout.findViewById(R.id.multi_type);
+        femaleProduct = (NetworkImageView) productTypeLayout.findViewById(R.id.female_type);
+        maleProduct = (NetworkImageView) productTypeLayout.findViewById(R.id.male_type);
+        babyProduct = (NetworkImageView) productTypeLayout.findViewById(R.id.baby_type);
+        multiPriduct = (NetworkImageView) productTypeLayout.findViewById(R.id.multi_type);
 
         femaleProduct.setOnClickListener(this);
         maleProduct.setOnClickListener(this);
@@ -584,9 +645,9 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 isShowFakeNavigationTips = false;
             }
 
-            if ((firstVisibleItem + visibleItemCount) == totalItemCount) { //滑到底
-                mListView.setSelection(totalItemCount - 1);
-            }
+//            if ((firstVisibleItem + visibleItemCount) == totalItemCount) { //滑到底
+//                mListView.setSelection(totalItemCount - 1);
+//            }
 
             if (isShowFakeNavigationTips) {
                 mFakeNavigationContainer.setVisibility(View.VISIBLE);
@@ -612,7 +673,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 1;
                 pageNo = 1;
                 needClear = true;
-                loadData();
+                loadMoteInfo();
                 break;
 
             case R.id.male_colther:
@@ -627,7 +688,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 2;
                 pageNo = 1;
                 needClear = true;
-                loadData();
+                loadMoteInfo();
                 break;
 
             case R.id.baby_colther:
@@ -642,13 +703,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 3;
                 pageNo = 1;
                 needClear = true;
-                loadData();
+                loadMoteInfo();
                 break;
             case R.id.act_ls_fail_layout:
                 moteType = 1;
                 pageNo = 1;
                 needClear = true;
-                loadData();
+                loadMoteInfo();
                 break;
             case R.id.female_type:
                 Intent it = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
