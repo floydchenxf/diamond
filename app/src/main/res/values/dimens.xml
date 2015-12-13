@@ -15,4 +15,5 @@
     <dimen name="aliwx_common_text_size">15sp</dimen>
     <dimen name="aliwx_title_middle_margin">60dip</dimen>
     <dimen name="one_dp">1dp</dimen>
+    <dimen name="aliwx_popup_height">300dip</dimen>
 </resources>

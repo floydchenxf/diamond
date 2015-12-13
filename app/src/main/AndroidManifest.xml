@@ -103,7 +103,6 @@
             android:theme="@style/Theme.UMDialog"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
-
         <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
@@ -120,10 +119,10 @@
         </activity>
         <activity
             android:name=".ui.wxapi.WXEntryActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:screenOrientation="portrait"
@@ -139,6 +138,14 @@
         <activity
             android:name=".ui.activity.MyTaskActivity"
             android:label="@string/title_activity_my_task" >
+        </activity>
+        <activity
+            android:name=".ui.activity.TaskProcessActivity"
+            android:label="@string/title_activity_task_process" >
+        </activity>
+        <activity
+            android:name=".ui.activity.MyPicActivity"
+            android:label="@string/title_activity_my_pic" >
         </activity>
     </application>
 
