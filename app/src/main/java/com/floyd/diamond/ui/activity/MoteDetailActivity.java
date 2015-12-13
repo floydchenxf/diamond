@@ -257,7 +257,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.more_info:
-                Intent it = new Intent(this, MoteMoreInfoActivity.class);
+                Intent it = new Intent(this, ModelPersonActivity.class);
+                it.putExtra("moteId",moteId);
                 startActivity(it);
                 break;
             case R.id.guanzhu:

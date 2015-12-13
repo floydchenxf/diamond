@@ -22,7 +22,7 @@ public class APIConstants {
     public static final String API_MOTE_TASK_SEARCH = "api/task/search";//任务查询
     public static final String API_NEW_MOTE_TASK = "api/task/newMoteTask"; //模特接单
     public static final String API_MOTE_MY_TASK = "api/motetask/getMyTaskList";//模特我的任务
-
+    public static final String CHOOSEMOTE="api/index/filterMote";//筛选模特
     public static final String API_INDEX_INFO = "api/index/getIndexInfo";//获取首页导航栏目
 
 }

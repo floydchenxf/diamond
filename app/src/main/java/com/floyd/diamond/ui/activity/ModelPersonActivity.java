@@ -1,13 +1,35 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.BitmapProcessor;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
+import com.floyd.diamond.IMChannel;
+import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.biz.constants.EnvConstants;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.tools.ImageUtils;
+import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
+import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -20,6 +42,12 @@ import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
+import org.w3c.dom.Text;
+
+import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Administrator on 2015/11/26.
  */
@@ -28,6 +56,11 @@ public class ModelPersonActivity extends Activity {
     private TextView share;
     private SocializeListeners.UMShareBoardListener listener;
     private CheckBox careCount;
+    private Dialog loadingDialog;
+    private NetworkImageView headView,headView_bg;
+    private long moteId;
+    private TextView nickname;
+    private ImageLoader mImageLoader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,12 +73,31 @@ public class ModelPersonActivity extends Activity {
         setShareContent();
 
         init();
+
+        loadData();
     }
 
     public void init() {
+
+        RequestQueue mQueue = Volley.newRequestQueue(this);
+        IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
+                IMChannel.getApplication(), EnvConstants.imageRootPath);
+        this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
+        mImageLoader.setBatchedResponseDelay(0);
+
         TextView back = ((TextView) findViewById(R.id.back));//返回
         share = ((TextView) findViewById(R.id.share));//分享按钮
         careCount= ((CheckBox) findViewById(R.id.careCount2));//关注次数
+        careCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                doGuanzhu();
+            }
+        });
+        headView= ((NetworkImageView) findViewById(R.id.touxiang));//头像
+        headView_bg= ((NetworkImageView) findViewById(R.id.touxiang_bg));//头像背景
+        nickname= ((TextView) findViewById(R.id.nickname2));//昵称
+        loadingDialog = new Dialog(this, R.style.data_load_dialog);
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,6 +112,79 @@ public class ModelPersonActivity extends Activity {
                 configPlatform();
             }
         });
+
+    }
+
+    private void loadData() {
+        moteId=getIntent().getLongExtra("moteId",0);
+
+        if (GlobalParams.isDebug){
+            Log.e("moteId",moteId+"");
+        }
+        final CountDownLatch countDownLatch = new CountDownLatch(2);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    countDownLatch.await(2000, TimeUnit.MILLISECONDS);
+                } catch (InterruptedException e) {
+                }
+
+                loadingDialog.dismiss();
+
+            }
+        }).start();
+
+
+        if (!LoginManager.isLogin(this)) {
+            countDownLatch.countDown();
+            countDownLatch.countDown();
+        } else {
+            LoginVO vo = LoginManager.getLoginInfo(this);
+            MoteManager.fetchMoteDetailInfo(moteId, vo.token).startUI(new ApiCallback<MoteDetailInfoVO>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    countDownLatch.countDown();
+                }
+
+                @Override
+                public void onSuccess(MoteDetailInfoVO vo) {
+                    countDownLatch.countDown();
+                    String imageUrl = vo.getPreviewImageUrl();
+                    if (!TextUtils.isEmpty(imageUrl)) {
+                        headView.setDefaultImageResId(R.drawable.head);
+                        headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
+                            @Override
+                            public Bitmap processBitmpa(Bitmap bitmap) {
+                                return ImageUtils.getCircleBitmap(bitmap, ModelPersonActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
+                            }
+                        });
+                        headView_bg.setDefaultImageResId(R.drawable.head);
+                        headView_bg.setImageUrl(vo.getDetailImageUrl(), mImageLoader);
+                    }
+
+                    nickname.setText(vo.nickname);
+
+                    boolean isFollow = vo.isFollow;
+                    if (isFollow) {
+                        careCount.setText("已关注");
+                        careCount.setChecked(true);
+                    } else {
+                        int num = vo.followNum;
+                        careCount.setText("关注度:" + num);
+                        careCount.setChecked(false);
+                       // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
+                    }
+
+
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+        }
 
     }
 
@@ -82,18 +207,6 @@ public class ModelPersonActivity extends Activity {
         // 设置分享图片, 参数2为图片的url地址
         mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
                 "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
-//        //设置微信分享的内容
-//        WeiXinShareContent weiXinShareContent=new WeiXinShareContent();
-//        weiXinShareContent.setShareContent("来自“全民模特”的分享");
-//        mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
-//                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
-//        mShare.setShareMedia(weiXinShareContent);
-//        //设置QQ分享的内容
-//        QQShareContent qqShareContent=new QQShareContent();
-//        qqShareContent.setShareContent("来自“全民模特”的分享");
-//        mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
-//                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
-//        mShare.setShareMedia(qqShareContent);
     }
 
 
@@ -159,6 +272,39 @@ public class ModelPersonActivity extends Activity {
         UMWXHandler wxCircleHandler = new UMWXHandler(ModelPersonActivity.this, appId, appSecret);
         wxCircleHandler.setToCircle(true);
         wxCircleHandler.addToSocialSDK();
+    }
+
+    private void doGuanzhu() {
+        if (LoginManager.isLogin(this)) {
+            LoginVO vo = LoginManager.getLoginInfo(this);
+            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(ModelPersonActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                    if (!ModelPersonActivity.this.isFinishing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    Toast.makeText(ModelPersonActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                    if (!ModelPersonActivity.this.isFinishing()) {
+                        loadingDialog.dismiss();
+                    }
+                    careCount.setText("已关注");
+                    careCount.setChecked(true);
+                    careCount.setOnClickListener(null);
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+
+
+        }
     }
 
 

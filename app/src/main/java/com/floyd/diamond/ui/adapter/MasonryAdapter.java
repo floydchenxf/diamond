@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +11,12 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.Model;
+import com.floyd.diamond.bean.MyImageLoader;
 
 import java.util.List;
 
@@ -19,15 +24,14 @@ import java.util.List;
  * Created by Administrator on 2015/11/24.
  */
 public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> implements CompoundButton.OnCheckedChangeListener{
-    //private List<Model> modles;
-    private int[] modles;
-    private int[] counts = {1024, 521, 354, 16, 256, 690, 32, 154, 2356, 154, 222, 1024, 521, 354, 555};
     private ChangeText changeText;
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
+    private List<Model.DataEntity> modelsList;
+    private RequestQueue queue;
 
-    public MasonryAdapter(int[] list,Context context,ChangeText changeText) {
-        this.modles = list;
+    public MasonryAdapter(List<Model.DataEntity>modelsList,Context context,ChangeText changeText) {
+        this.modelsList = modelsList;
         this.context=context;
         this.changeText=changeText;
     }
@@ -40,12 +44,20 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
     @Override
     public void onBindViewHolder(MasonryView masonryView, int position) {
-        masonryView.imageView.setImageResource(modles[position]);
-        masonryView.likecount.setText(counts[position] + "");
+        //masonryView.imageView.setImageResource(modelsList.get(position).getAvatarUrl());
+        masonryView.likecount.setText(modelsList.get(position).getFollowNum() + "");
         masonryView.likecount.setTag("cb" + position);
         masonryView.likecount.setOnCheckedChangeListener(this);
-        masonryView.name.setText("yoyo");
-        masonryView.place.setText("黑龙江");
+        masonryView.name.setText(modelsList.get(position).getNickname());
+        masonryView.place.setText(modelsList.get(position).getArea()+"");
+        String imgUrl=modelsList.get(position).getAvatarUrl();
+        if (GlobalParams.isDebug){
+            Log.e("TAG",imgUrl+"");
+        }
+        if (imgUrl!=null){
+            queue= Volley.newRequestQueue(context);
+            MyImageLoader loader=new MyImageLoader(queue,imgUrl,masonryView.imageView,context);
+        }
     }
 
     @Override
@@ -62,7 +74,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
     @Override
     public int getItemCount() {
-        return modles.length;
+        return modelsList.size();
     }
 
     public class MasonryView extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -97,7 +109,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
 
     public static interface ChangeText{
-        void setText(String tag,boolean isChecked);
+        void setText(String tag, boolean isChecked);
     }
 
 

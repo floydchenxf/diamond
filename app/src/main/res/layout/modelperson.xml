@@ -6,14 +6,21 @@
     android:orientation="vertical"
     android:background="#EEEEEE">
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <com.zhy.android.percent.support.PercentRelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="#d4377e"
         android:orientation="vertical"
         app:layout_heightPercent="25%">
+        <com.android.volley.toolbox.NetworkImageView
+            android:id="@+id/touxiang_bg"
+            android:layout_width="fill_parent"
+            android:layout_height="136dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/head" />
 
         <com.zhy.android.percent.support.PercentRelativeLayout
+            android:id="@+id/lin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -29,6 +36,7 @@
                 />
 
             <TextView
+                android:id="@+id/nickname2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
@@ -54,14 +62,16 @@
             android:gravity="center_vertical"
             app:layout_heightPercent="52%"
             app:layout_marginLeftPercent="3%"
-            app:layout_widthPercent="72%">
+            app:layout_widthPercent="72%"
+            android:layout_below="@id/lin">
 
-            <ImageView
-                android:id="@+id/touxaing"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/circle_shape"
-                app:layout_widthPercent="30%" />
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/touxiang"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginLeft="10dip"
+                android:scaleType="centerCrop"
+                android:src="@drawable/head" />
 
             <com.zhy.android.percent.support.PercentLinearLayout
                 android:layout_width="wrap_content"
@@ -138,7 +148,7 @@
                 app:layout_widthPercent="25%" />
         </com.zhy.android.percent.support.PercentLinearLayout>
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+    </com.zhy.android.percent.support.PercentRelativeLayout>
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"

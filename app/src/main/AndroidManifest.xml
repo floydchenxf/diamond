@@ -84,7 +84,6 @@
         <activity android:name=".ui.activity.ChooseActivity" />
         <activity android:name=".ui.activity.GuideActivity" />
         <activity android:name=".ui.activity.MessageItemActivity" />
-        <activity android:name=".ui.activity.ModelInfoActivity" />
         <activity android:name=".ui.activity.ModelPersonActivity" />
         <activity
             android:name=".ui.activity.DialogActivity"
