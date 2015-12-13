@@ -18,7 +18,7 @@ public class MoteInfoVO {
     public String authenStatus;//验证状态
 
     public String getHeadUrl() {
-        return CommonUtil.getImage_100(this.avatarUrl);
+        return CommonUtil.getImage_200(this.avatarUrl);
     }
 
     public String getDetailUrl() {

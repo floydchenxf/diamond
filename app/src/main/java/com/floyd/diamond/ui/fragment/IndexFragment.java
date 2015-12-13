@@ -253,15 +253,18 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mListView.setOnTouchListener(new View.OnTouchListener() {
 
             float y1, y2;
+            float x1, x2;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         y1 = event.getRawY();
+                        x1 = event.getRawX();
                         break;
                     case MotionEvent.ACTION_MOVE:
                         y2 = event.getRawY();
+                        x2 = event.getRawX();
                         if (y2 - y1 > 30) {
                             isScrollToUp = true;
                         } else if (y2 - y1 < -60) {
@@ -709,7 +712,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 1;
                 pageNo = 1;
                 needClear = true;
-                loadMoteInfo();
+                loadData();
                 break;
             case R.id.female_type:
                 Intent it = new Intent(this.getActivity(), MoteTaskTypeActivity.class);

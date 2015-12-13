@@ -125,8 +125,8 @@ public class CommonUtil {
      * @param url
      * @return
      */
-    public static String getImage_100(String url) {
-        return getImageType(url, "!v1");
+    public static String getImage_200(String url) {
+        return getImageType(url, "!v200");
     }
 
     /**
@@ -135,11 +135,11 @@ public class CommonUtil {
      * @return
      */
     public static String getImage_800(String url) {
-        return getImageType(url, "!v2");
+        return getImageType(url, "!v800");
     }
 
     public static String getImage_400(String url) {
-        return getImageType(url, "!v3");
+        return getImageType(url, "!v400");
     }
 
 }
