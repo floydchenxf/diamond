@@ -111,7 +111,6 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
 
 
     private boolean titleButtonVisable = true;
-    private String mUserId;
     private RelativeLayout mLeftButton;
     private boolean mUseOrignal = false;
     private ImageView mSendOriginalCheck;
@@ -208,6 +207,36 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
                 } else {
                     titleButton.setVisibility(View.GONE);
                 }
+
+            } else if (mMode == MULIT_IMAGE_PICK_MODE_SELECT) {
+                mImagePageLayout = findViewById(R.id.multi_image_textview_layout);
+                mImagePageLayout.setVisibility(View.INVISIBLE);
+                mSelectMultiImageLayout = findViewById(R.id.select_multi_image_layout);
+                mSelectMultiImageLayout.setVisibility(View.VISIBLE);
+                mSelectedCount = (TextView) findViewById(R.id.selected_count);
+                mSelectFinish=(Button)findViewById(R.id.select_finish);
+                mSelectFinish.setOnClickListener(this);
+                mSelectLayout = findViewById(R.id.selectLayout);
+
+                initLeftBottomButton();
+                mPreview=findViewById(R.id.preview);
+                mPreview.setVisibility(View.VISIBLE);
+                mSelectLayout.setVisibility(View.VISIBLE);
+
+
+                mMaxCount = getIntent().getIntExtra(MAX_COUNT, -1);
+                mMaxToast = getIntent().getStringExtra(MAX_TOAST);
+
+                findViewById(R.id.select_title_back).setOnClickListener(this);
+                mImageCheck = (ImageView) findViewById(R.id.image_check);
+                mImageCheck.setOnClickListener(this);
+                updateCheckedCount();
+
+                if (mCheckedList != null) {
+                    mPreCheckedListCopy = new ArrayList<String>(mCheckedList);
+                } else {
+                    mPreCheckedListCopy = new ArrayList<String>();
+                }
             } else if (mMode == MULIT_IMAGE_PICK_MODE_DELETE) {
                 mDeleteMultiImageLayout = findViewById(R.id.delete_multi_image_layout);
                 mDeleteMultiImageLayout.setVisibility(View.VISIBLE);
@@ -245,6 +274,17 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
                     mCurrentPage + 1, mImageViewList.size()));
         }
 
+    }
+
+    private void updateCheckedCount(){
+        int size = mCheckedList.size();
+        if (size > 0) {
+            String sentText = new StringBuilder("发送").append("(").append(size).append(")").toString();
+            mSelectFinish.setText(sentText);
+        } else {
+            String sentText = new StringBuilder("发送").toString();
+            mSelectFinish.setText(sentText);
+        }
     }
 
     private void initLeftBottomButton() {

@@ -75,16 +75,37 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.MoteDetailActivity"
-            android:label="@string/title_activity_mote_detail" />
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.multiimage.MultiImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-        <activity android:name=".ui.activity.HomeChooseActivity" />
-        <activity android:name=".ui.activity.ChooseActivity" />
-        <activity android:name=".ui.activity.GuideActivity" />
-        <activity android:name=".ui.activity.MessageItemActivity" />
-        <activity android:name=".ui.activity.ModelPersonActivity" />
+        <activity
+            android:name=".ui.activity.HomeChooseActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity android:name=".ui.activity.ChooseActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"/>
+        <activity
+            android:name=".ui.activity.GuideActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.activity.MessageItemActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.activity.ModelPersonActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.DialogActivity"
             android:theme="@style/Theme.UMDialog" />
@@ -129,24 +150,43 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name=".ui.activity.MoteTaskTypeActivity"
-            android:label="@string/title_activity_product_type" >
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay">
         </activity>
         <activity
             android:name=".ui.activity.NewTaskActivity"
-            android:label="@string/title_activity_new_task" >
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" >
         </activity>
         <activity
             android:name=".ui.activity.MyTaskActivity"
-            android:label="@string/title_activity_my_task" >
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" >
         </activity>
         <activity
             android:name=".ui.activity.TaskProcessActivity"
-            android:label="@string/title_activity_task_process" >
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay">
         </activity>
         <activity
             android:name=".ui.activity.MyPicActivity"
-            android:label="@string/title_activity_my_pic" >
-        </activity>
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"/>
+        <activity
+            android:name="com.floyd.diamond.ui.multiimage.MultiPickAlbumActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.multiimage.MultiPickGalleryActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
     </application>
 
 </manifest>

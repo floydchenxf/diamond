@@ -154,6 +154,38 @@
                 android:textSize="16sp" />
         </RelativeLayout>
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/aliwx_column_up_unit_margin" >
+
+            <Button
+                android:id="@+id/select_finish"
+                android:layout_width="70dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="9dp"
+                android:background="@drawable/aliwx_common_blue_btn_bg"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="发送"
+                android:textColor="@color/aliwx_color_white"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/selected_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:background="@drawable/aliwx_news_background"
+                android:gravity="center"
+                android:visibility="gone"
+                android:includeFontPadding="false"
+                android:textSize="11sp" />
+        </RelativeLayout>
+
     </RelativeLayout>
 
     

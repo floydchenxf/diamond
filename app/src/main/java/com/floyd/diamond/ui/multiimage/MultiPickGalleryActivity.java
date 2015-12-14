@@ -655,7 +655,7 @@ public class MultiPickGalleryActivity extends Activity implements
 
 			}
 		if(totalFileSize>0){
-			StringBuilder sendOriginalText = new StringBuilder(R.string.aliwx_send_original).append("(共").append(ThumbnailUtils.bytes2KOrM(totalFileSize)).append(")");
+			StringBuilder sendOriginalText = new StringBuilder(this.getResources().getString(R.string.aliwx_send_original)).append("(共").append(ThumbnailUtils.bytes2KOrM(totalFileSize)).append(")");
 			return sendOriginalText.toString();
 		}
 		return  new StringBuilder(R.string.aliwx_send_original).toString();

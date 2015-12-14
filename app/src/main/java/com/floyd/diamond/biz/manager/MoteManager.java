@@ -329,7 +329,7 @@ public class MoteManager {
                 picsString.append(picId).append(",");
             }
 
-            String picIdsParams = picIds.toString().substring(0, picIds.toString().length() - 1);
+            String picIdsParams = picIds.toString().substring(1, picIds.toString().length() - 1);
             params.put("taskPicIds", picIdsParams);
         }
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
