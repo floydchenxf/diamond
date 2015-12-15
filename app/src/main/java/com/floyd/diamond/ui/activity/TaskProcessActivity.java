@@ -30,6 +30,7 @@ import com.floyd.diamond.biz.vo.TaskItemVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.anim.LsLoadingView;
+import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessGoodsOperateFragment;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 
@@ -216,18 +217,23 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         if (goodsProcessFragment == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             goodsProcessFragment = ProcessGoodsOperateFragment.newInstance(taskProcessVO);
-            fragmentTransaction.add(R.id.upload_pic, goodsProcessFragment);
+            fragmentTransaction.add(R.id.goods_process, goodsProcessFragment);
             fragmentTransaction.commit();
         }
     }
 
 
-    private void initAndFillUploadPic(TaskProcessVO taskProcessVO) {
+    private void initAndFillUploadPic(final TaskProcessVO taskProcessVO) {
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
         if (uploadPicFragment == null) {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO);
+            uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+                @Override
+                public void doFinish() {
+                    initAndFillGoodsOperate(taskProcessVO);
+                }
+            });
             fragmentTransaction.add(R.id.upload_pic, uploadPicFragment);
             fragmentTransaction.commit();
         }

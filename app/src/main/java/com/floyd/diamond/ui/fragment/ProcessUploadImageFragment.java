@@ -20,6 +20,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.process.ProcessPicVO;
@@ -41,14 +42,18 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
     private GridLayout uploadPicLayout;
     private TextView deletePicButton;
     private TextView confirmPicButton;
+    private TextView uploadPicTimeView;
 
     private List<ProcessPicVO> picList = new ArrayList<ProcessPicVO>();
 
-    public static ProcessUploadImageFragment newInstance(TaskProcessVO taskProcessVO) {
+    private FinishCallback callback;
+
+    public static ProcessUploadImageFragment newInstance(TaskProcessVO taskProcessVO, FinishCallback callback) {
         ProcessUploadImageFragment fragment = new ProcessUploadImageFragment();
         Bundle args = new Bundle();
         args.putSerializable(TASK_PROCESS_VO, taskProcessVO);
         fragment.setArguments(args);
+        fragment.callback = callback;
         return fragment;
     }
 
@@ -73,6 +78,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         uploadPicLayout = (GridLayout) v.findViewById(R.id.upload_pic_layout);
         deletePicButton = (TextView) v.findViewById(R.id.delete_pic_button);
         confirmPicButton = (TextView) v.findViewById(R.id.confirm_pic_button);
+        uploadPicTimeView = (TextView) v.findViewById(R.id.upload_pic_time);
         deletePicButton.setOnClickListener(this);
         confirmPicButton.setOnClickListener(this);
 
@@ -82,18 +88,26 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
             confirmPicButton.setVisibility(View.GONE);
             if (status == 2) {
                 //填写订单，但是未上传图片．
+                String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
+                uploadPicTimeView.setText(dateStr);
                 drawPicLayout(this.picList, false, true);
             } else if (status > 4) {
                 //FIXME 已经上传图片了．不能修改
+                long time = this.taskProcessVO.moteTask.uploadPicTime;
+                uploadPicTimeView.setText(DateUtil.getDateStr(time));
                 drawPicLayout(this.picList, false, true);
             }
         } else {
+            long time = this.taskProcessVO.moteTask.uploadPicTime;
+            uploadPicTimeView.setText(DateUtil.getDateStr(time));
             if (status > 4) {
                 //已经上传图片了．不能修改
+                drawPicLayout(this.picList, false, false);
+            } else if (status == 4){
                 drawPicLayout(this.picList, false, true);
+                deletePicButton.setVisibility(View.VISIBLE);
+                confirmPicButton.setVisibility(View.GONE);
             }
-            deletePicButton.setVisibility(View.VISIBLE);
-            confirmPicButton.setVisibility(View.GONE);
         }
 
 
@@ -197,6 +211,9 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 drawPicLayout(this.picList, false, true);
                 deletePicButton.setVisibility(View.VISIBLE);
                 confirmPicButton.setVisibility(View.GONE);
+                if (this.callback != null) {
+                    this.callback.doFinish();
+                }
                 break;
             case R.id.add_pic_layout:
                 Intent picIntent = new Intent(this.getActivity(), MultiPickGalleryActivity.class);
@@ -204,6 +221,10 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 picIntent.putExtra(MultiPickGalleryActivity.MAX_TOAST, "最多选择6张图片");
                 this.startActivityForResult(picIntent, MULIT_PIC_CHOOSE_WITH_DATA);
                 break;
+            //TODO
+//            if (this.callback != null) {
+//                this.callback.finishUpload("finish");
+//            }
         }
 
     }
@@ -249,5 +270,4 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         }
 
     }
-
 }

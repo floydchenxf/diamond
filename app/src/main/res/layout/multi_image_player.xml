@@ -123,36 +123,6 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         android:background="@color/aliwx_color_blue_dark" >
-        <RelativeLayout
-            android:id="@+id/left_button"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/aliwx_send_original_check_left_margin"
-            android:visibility="gone">
-            <ImageView
-                android:id="@+id/send_original_check"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="1dp"
-                android:src="@drawable/aliwx_send_original_btn_off"
-                android:gravity="center" />
-            <TextView
-                android:id="@+id/send_original"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_toRightOf="@+id/send_original_check"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="5dp"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="原图"
-                android:textColor="@color/aliwx_color_gray_02"
-                android:textSize="16sp" />
-        </RelativeLayout>
 
         <RelativeLayout
             android:layout_width="wrap_content"

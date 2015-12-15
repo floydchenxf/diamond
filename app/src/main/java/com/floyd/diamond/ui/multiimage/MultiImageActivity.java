@@ -77,7 +77,6 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
     public static final String SEND_ORIGINAL = "send_orginal";
 
 
-    //	public static List<ImageDetailFragment> mImageFragmentInstanceList;
     public static Map<Long, Boolean> mFailImageMap;
 
     private int mCurrentPage = 0;
@@ -113,7 +112,7 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
     private boolean titleButtonVisable = true;
     private RelativeLayout mLeftButton;
     private boolean mUseOrignal = false;
-    private ImageView mSendOriginalCheck;
+//    private ImageView mSendOriginalCheck;
     private TextView mSendOriginal;
     private View mPreview;
     private Button mSelectFinish;
@@ -288,11 +287,11 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
     }
 
     private void initLeftBottomButton() {
-        mLeftButton = (RelativeLayout) findViewById(R.id.left_button);
-        mLeftButton.setVisibility(View.VISIBLE);
-        mLeftButton.setOnClickListener(this);
-        mSendOriginalCheck = (ImageView) findViewById(R.id.send_original_check);
-        mSendOriginal = (TextView) findViewById(R.id.send_original);
+//        mLeftButton = (RelativeLayout) findViewById(R.id.left_button);
+//        mLeftButton.setVisibility(View.VISIBLE);
+//        mLeftButton.setOnClickListener(this);
+//        mSendOriginalCheck = (ImageView) findViewById(R.id.send_original_check);
+//        mSendOriginal = (TextView) findViewById(R.id.send_original);
     }
 
     @Override
@@ -447,10 +446,10 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
             }
 //            updateCheckedCount();
             checkAndUpdateSendOrignalState();
-//        } else if (id == R.id.select_finish) {
-//            Intent intent = getSelectResultIntent();
-//            setResult(RESULT_OK, intent);
-//            finish();
+        } else if (id == R.id.select_finish) {
+            Intent intent = getSelectResultIntent();
+            setResult(RESULT_OK, intent);
+            finish();
         } else if (id == R.id.delete_image_btn) {
             boolean needRemove = false;
             int c = 0;
@@ -478,7 +477,7 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
             }
         } else if (id == R.id.delete_title_back) {
             setDeleteResult();
-        } else if (id == R.id.left_button) {
+//        } else if (id == R.id.left_button) {
 //            changeSendOrignalState();
         } else {
         }

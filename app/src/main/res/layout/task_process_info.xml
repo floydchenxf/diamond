@@ -14,7 +14,7 @@
         android:drawableRight="@drawable/jiantou_down"
         android:gravity="center"
         android:text="任务详情"
-        android:textColor="@color/black"
+        android:textColor="#666666"
         android:textSize="14sp" />
 
 
@@ -77,6 +77,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:ellipsize="end"
+                android:textColor="#666666"
                 android:text="任务要求"
                 android:textSize="10sp" />
 
@@ -102,6 +103,7 @@
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/goodslist_money_black"
                     android:drawablePadding="4dp"
+                    android:textColor="#666666"
                     android:text="70"
                     android:textSize="10sp" />
 
@@ -112,6 +114,7 @@
                     android:layout_weight="1"
                     android:drawableLeft="@drawable/goodslist_address_black"
                     android:drawablePadding="4dp"
+                    android:textColor="#666666"
                     android:text="黑龙江"
                     android:textSize="10sp" />
 

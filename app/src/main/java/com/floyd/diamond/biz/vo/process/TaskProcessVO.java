@@ -29,4 +29,5 @@ public class TaskProcessVO implements Serializable {
     public TaskItemVO task;
     public int picNum;
     public List<ProcessPicVO> picList;
+    public ProcessSellerVO seller;
 }
