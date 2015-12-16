@@ -265,12 +265,12 @@ public class MoteManager {
      * @param expressNo　快递单号
      * @return
      */
-    public static AsyncJob<Boolean> returnGoods(long moteTaskId, String token, long expressCompanyId, String expressNo) {
+    public static AsyncJob<Boolean> returnGoods(long moteTaskId, String token, String expressCompanyId, String expressNo) {
         String url = APIConstants.HOST + APIConstants.API_RETURN_ITEM;
         Map<String, String> params = new HashMap<String, String>();
         params.put("moteTaskId", moteTaskId + "");
         params.put("token", token);
-        params.put("expressCompanyId", expressCompanyId+"");
+        params.put("expressCompanyId", expressCompanyId);
         params.put("expressNo", expressNo);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }

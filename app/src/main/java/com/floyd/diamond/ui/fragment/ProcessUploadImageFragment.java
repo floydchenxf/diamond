@@ -121,11 +121,11 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         final float eachWidth = (width - 32 * ondp) / 3;
         if (pics != null) {
             for (ProcessPicVO vo : pics) {
-                View picItemView = View.inflate(this.getActivity(), R.layout.process_upload_pic_item, null);
                 GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
                 lp.setMargins(0, (int) (4 * ondp), (int) (4 * ondp), 0);
                 lp.width = (int)eachWidth;
                 lp.height = (int)eachWidth;
+                View picItemView = View.inflate(this.getActivity(), R.layout.process_upload_pic_item, null);
                 picItemView.setLayoutParams(lp);
 
                 NetworkImageView networkImage = (NetworkImageView)picItemView.findViewById(R.id.task_pic_item);
