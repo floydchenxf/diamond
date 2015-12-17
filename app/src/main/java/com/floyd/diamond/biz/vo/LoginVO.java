@@ -7,23 +7,20 @@ public class LoginVO {
 
     public long id;//用户id
     public String token;//token
-    public String phoneNumber;//手机号码
-    public String avartUrl;//头像地址
-    public String nickname;//别名
-    public int type;
+    public UserVO user;
 
 
     public String toString() {
         StringBuilder sb = new StringBuilder("id:").append(id+"");
-        sb.append("---").append("phoneNumber:").append(phoneNumber);
-        sb.append("---").append("avartUrl:").append(avartUrl);
-        sb.append("---").append("nickname:").append(nickname);
-        sb.append("---").append("accountType").append(type+"");
+        sb.append("---").append("phoneNumber:").append(user.phoneNumber);
+        sb.append("---").append("avartUrl:").append(user.avartUrl);
+        sb.append("---").append("nickname:").append(user.nickname);
+        sb.append("---").append("accountType").append(user.type+"");
         return sb.toString();
     }
 
     public boolean isModel() {
-        return type == 1;
+        return user.type == 1;
     }
 }
 

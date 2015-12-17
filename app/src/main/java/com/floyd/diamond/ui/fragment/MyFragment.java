@@ -35,13 +35,13 @@ import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
-import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
+import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 
@@ -169,10 +169,10 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             //模特儿
             MoteInfoVO moteInfoVO = MoteManager.getMoteInfo(this.getActivity());
             if (moteInfoVO != null) {
-                shopView.setText(moteInfoVO.orderNum);
+                shopView.setText(moteInfoVO.orderNum + "");
                 nicknameView.setText(moteInfoVO.nickname);
-                qiangView.setText(moteInfoVO.fenNum);
-                placeView.setText(moteInfoVO.fee);
+                qiangView.setText(moteInfoVO.fenNum + "");
+                placeView.setText(moteInfoVO.fee + "");
                 if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
                     headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
@@ -193,9 +193,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 @Override
                 public void onSuccess(MoteInfoVO moteInfoVO) {
                     Log.i(TAG, "---" + moteInfoVO);
-                    shopView.setText(moteInfoVO.orderNum);
-                    qiangView.setText(moteInfoVO.fenNum);
-                    placeView.setText(moteInfoVO.fee);
+                    shopView.setText(moteInfoVO.orderNum +"");
+                    qiangView.setText(moteInfoVO.fenNum + "");
+                    placeView.setText(moteInfoVO.fee + "");
                     nicknameView.setText(moteInfoVO.nickname);
                     if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
                         headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
@@ -290,7 +290,10 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             case R.id.edit_profile:
                 break;
             case R.id.set:
-                PrefsTools.setStringPrefs(this.getActivity(), LoginManager.LOGIN_INFO, "");
+//                PrefsTools.setStringPrefs(this.getActivity(), LoginManager.LOGIN_INFO, "");
+                Intent settingIntent = new Intent(this.getActivity(), SettingPersonInfoActivity.class);
+                settingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(settingIntent);
                 break;
             case R.id.task:
                 Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);

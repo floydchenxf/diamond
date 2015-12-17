@@ -343,4 +343,27 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, TaskProcessVO.class);
     }
 
+    /**
+     * 放弃已接单任务
+     * @param taskId
+     * @param token
+     * @return
+     */
+    public static final AsyncJob<Boolean> giveupTask(long taskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GIVE_UP_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        params.put("taskId", taskId + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    public static final AsyncJob<Boolean> giveupUnAcceptTask(long taskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GIVE_UP_UNACCEPT_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        params.put("taskId", taskId + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+
 }
