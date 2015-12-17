@@ -112,7 +112,7 @@ public class MyTaskAdapter extends BaseAdapter {
 
         holder = (ViewHolder) convertView.getTag();
 
-        TaskItemVO taskItemVO = getItem(position);
+        final TaskItemVO taskItemVO = getItem(position);
         holder.taskPicView.setImageUrl(taskItemVO.getPreviewImageUrl(), mImageLoader);
         holder.titleView.setText(taskItemVO.title);
         holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
@@ -131,6 +131,7 @@ public class MyTaskAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(mContext, TaskProcessActivity.class);
+                it.putExtra(TaskProcessActivity.MOTE_TASK_ID, taskItemVO.id);
                 mContext.startActivity(it);
             }
         });

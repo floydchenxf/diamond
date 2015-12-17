@@ -36,6 +36,7 @@ import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 
 public class TaskProcessActivity extends Activity implements View.OnClickListener {
 
+    public static final String MOTE_TASK_ID = "moteTaskId";
     //-----------------------任务信息---------------------//
     private TextView taskInfoSummaryView;
     private View taskInfoDetailLayout;
@@ -57,6 +58,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private EditText confirmOrderNoEditView; //输入订单状态
     private TextView confirmButton;
     private TextView confirmTimeView; //确认时间
+    private TextView dropOrderNoView; //放弃订单
 
     //-----------------图片-------------------------//
 
@@ -73,6 +75,8 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
 
     private ImageLoader mImageLoader;
 
+    private Long moteTaskId;
+
     private Handler mHandler = new Handler();
 
     private Runnable timer = new Runnable() {
@@ -85,11 +89,13 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 //
                 editConfirmOrderNoLayout.setVisibility(View.GONE);
                 confirmOrderNoTextView.setVisibility(View.VISIBLE);
-                confirmTimeView.setText("任务终止");
+                dropOrderNoView.setVisibility(View.GONE);
+                confirmOrderNoTextView.setText("任务终止");
                 return;
             }
 
             confirmTimeView.setText("请在<font color=\"red\">" + leftTimes + "</font>秒内完成下单并输入订单号");
+            dropOrderNoView.setVisibility(View.VISIBLE);
             mHandler.postDelayed(this, 1000);
         }
     };
@@ -99,6 +105,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_process);
+        moteTaskId = getIntent().getLongExtra(MOTE_TASK_ID, 0l);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         dataLoadingDailog = new Dialog(this, R.style.data_load_dialog);
         findViewById(R.id.title_back).setOnClickListener(this);
@@ -115,7 +122,9 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         confirmButton = (TextView) findViewById(R.id.confirm_order_button);
         confirmTimeView = (TextView) findViewById(R.id.confirm_time);
         confirmOrderNoTextView = (TextView) findViewById(R.id.confirm_order_id);
+        dropOrderNoView = (TextView) findViewById(R.id.drop_order);
         confirmButton.setOnClickListener(this);
+        dropOrderNoView.setOnClickListener(this);
     }
 
     private void initAcceptView() {
@@ -260,6 +269,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             String orderNo = taskProcessVO.moteTask.orderNo;
             editConfirmOrderNoLayout.setVisibility(View.GONE);
             confirmOrderNoTextView.setVisibility(View.VISIBLE);
+            dropOrderNoView.setVisibility(View.GONE);
             confirmTimeView.setText(dateStr);
             confirmOrderNoTextView.setText(orderNo);
         }
@@ -327,7 +337,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 this.finish();
                 break;
             case R.id.jiantou_up:
-                Drawable down = this.getDrawable(R.drawable.jiantou_down);
+                Drawable down = null;
+                if(android.os.Build.VERSION.SDK_INT >= 21){
+                    down = getResources().getDrawable(R.drawable.jiantou_down, getTheme());
+                } else {
+                    down = getResources().getDrawable(R.drawable.jiantou_down);
+                }
                 down.setBounds(0, 0, down.getMinimumWidth(), down.getMinimumHeight());
                 taskInfoSummaryView.setCompoundDrawables(null, null, down, null);
                 taskInfoDetailLayout.setVisibility(View.GONE);
@@ -361,6 +376,8 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 }
 
                 confirmOrderNo(moteTaskId, orderNo, token);
+                break;
+            case R.id.drop_order:
                 break;
         }
 

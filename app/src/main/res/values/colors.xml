@@ -20,4 +20,8 @@
     <color name="aliwx_color_white">#ffffff</color>
     <color name="aliwx_right_sliding_text_color">#ff333333</color>
     <color name="aliwx_multi_image_line">#7fcccccc</color>
+
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
 </resources>

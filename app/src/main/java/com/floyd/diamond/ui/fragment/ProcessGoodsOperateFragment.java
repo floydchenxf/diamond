@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.process.ProcessStatus;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.view.UIAlertDialog;
+import com.floyd.zxing.MipcaActivityCapture;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +40,8 @@ import com.floyd.diamond.ui.view.UIAlertDialog;
 public class ProcessGoodsOperateFragment extends Fragment implements View.OnClickListener {
 
     private static final String TASK_PROCESS_VO = "TASK_PROCESS_VO";
+
+    private static final int SCANNIN_GREQUEST_CODE = 100;
 
     private TaskProcessVO taskProcessVO;
 
@@ -360,7 +364,26 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                 initExpressGridLayout();
                 hiddenExpressInfo();
                 break;
+            case R.id.express_sao:
+                Intent intent = new Intent(ProcessGoodsOperateFragment.this.getActivity(), MipcaActivityCapture.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+                break;
         }
 
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SCANNIN_GREQUEST_CODE:
+                if (resultCode == Activity.RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    //显示扫描到的内容
+                    layoutExpressNoEditView.setText(bundle.getString("result"));
+//                    mImageView.setImageBitmap((Bitmap) data.getParcelableExtra("bitmap"));
+                }
+                break;
+        }
     }
 }
