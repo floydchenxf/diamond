@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,7 +54,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ModelPersonActivity extends Activity {
     private UMSocialService mShare;
-    private TextView share;
+    private LinearLayout share;
     private SocializeListeners.UMShareBoardListener listener;
     private CheckBox careCount;
     private Dialog loadingDialog;
@@ -85,8 +86,8 @@ public class ModelPersonActivity extends Activity {
         this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
         mImageLoader.setBatchedResponseDelay(0);
 
-        TextView back = ((TextView) findViewById(R.id.back));//返回
-        share = ((TextView) findViewById(R.id.share));//分享按钮
+        LinearLayout back = ((LinearLayout) findViewById(R.id.back));//返回
+        share = ((LinearLayout) findViewById(R.id.share));//分享按钮
         careCount= ((CheckBox) findViewById(R.id.careCount2));//关注次数
         careCount.setOnClickListener(new View.OnClickListener() {
             @Override

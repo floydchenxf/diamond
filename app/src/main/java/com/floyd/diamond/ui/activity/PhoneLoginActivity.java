@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +25,7 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
     private EditText userNameView;
     private EditText passwordView;
     private TextView loginView;
-    private TextView backView;
+    private LinearLayout backView;
     private TextView regView;
     private TextView forgotPwdView;
     private TextView regTextView;
@@ -34,7 +35,7 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_phone_login);
-        backView = (TextView) findViewById(R.id.back);
+        backView = (LinearLayout) findViewById(R.id.back);
         regView = (TextView) findViewById(R.id.regButton);
         userNameView = (EditText) findViewById(R.id.user_name);
         passwordView = (EditText) findViewById(R.id.password);

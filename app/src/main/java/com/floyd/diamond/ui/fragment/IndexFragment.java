@@ -123,7 +123,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private NetworkImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
 
     private TextView shuaixuan;//筛选模特
-    private TextView guide;//操作指引
+    private LinearLayout guide;//操作指引
 
     private ImageLoader mImageLoader;
 
@@ -322,7 +322,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     }
 
     public void  init(View view){
-        guide= ((TextView) view.findViewById(R.id.guide));
+        guide= ((LinearLayout) view.findViewById(R.id.guide));
         shuaixuan= ((TextView) view.findViewById(R.id.right));
         //跳转到操作指引界面
         guide.setOnClickListener(new View.OnClickListener() {

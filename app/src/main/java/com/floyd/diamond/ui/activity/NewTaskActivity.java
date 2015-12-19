@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,7 +37,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
     public static final String TASK_TYPE_ITEM_OBJECT = "task_type_item_object";
 
     private ImageLoader mImageLoader;
-    private TextView backView;
+    private LinearLayout backView;
     private TextView shotDescView;
     private TextView taskProductNameView;
 
@@ -71,7 +72,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         loadingDialog = new Dialog(this, R.style.data_load_dialog);
 
         taskItemVO = (TaskItemVO) getIntent().getSerializableExtra(TASK_TYPE_ITEM_OBJECT);
-        backView = (TextView) findViewById(R.id.back);
+        backView = (LinearLayout) findViewById(R.id.back);
         backView.setOnClickListener(this);
 
         shotDescView = (TextView) findViewById(R.id.task_shot_required);
