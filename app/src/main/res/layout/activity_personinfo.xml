@@ -15,12 +15,13 @@
             android:id="@+id/left"
             android:layout_width="80dp"
             android:layout_height="match_parent">
+
             <TextView
                 android:layout_width="10dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical|left"
                 android:layout_marginLeft="10dip"
-                android:background="@drawable/jiantou_back"/>
+                android:background="@drawable/jiantou_back" />
         </LinearLayout>
 
         <TextView
@@ -90,7 +91,7 @@
             android:layout_marginRight="12dp">
 
             <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="昵称"
@@ -99,12 +100,18 @@
 
             <EditText
                 android:id="@+id/nickname_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:background="@color/white"
+                android:focusable="true"
+                android:hint="未填写"
+                android:textColorHint="#cecece"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
                 android:text="yoyo"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -297,12 +304,17 @@
 
             <EditText
                 android:id="@+id/weixin_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical|right"
+                android:hint="未填写"
+                android:textColorHint="#cecece"
                 android:text="78260738"
                 android:textColor="@color/black"
                 android:textSize="14sp" />
@@ -329,12 +341,18 @@
 
             <EditText
                 android:id="@+id/alipay_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical|right"
+                android:hint="未填写"
+                android:textColorHint="#cecece"
+                android:singleLine="true"
                 android:text="78260738"
                 android:textColor="@color/black"
                 android:textSize="14sp" />

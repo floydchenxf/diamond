@@ -1,10 +1,16 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,17 +20,33 @@ import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.biz.constants.EnvConstants;
+import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.UserVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
+import com.floyd.pickview.LoopListener;
+import com.floyd.pickview.LoopView;
+import com.floyd.pickview.popwindow.DatePickerPopWin;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.UUID;
 
 /**
  * Created by Administrator on 2015/11/28.
  */
 public class PersonInfoActivity extends Activity implements View.OnClickListener {
+
+    private static final String TAG = "PersonInfoActivity";
+    private static final int TAKE_PICTURE = 1;
+    private static final int CROP_PICTURE_REQUEST = 2;
     private TextView rightView;
     private NetworkImageView personHeadView;
 
@@ -63,6 +85,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     private YWPopupWindow ywPopupWindow;
     private YWPopupWindow genderPopupWindow;
     private YWPopupWindow heightTypePopupWindow;
+    private YWPopupWindow heightPopupWindow;
 
     private TextView genderFemaleView;
     private TextView gendermaleView;
@@ -75,6 +98,17 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     private float oneDp;
 
+    private DatePickerPopWin pickerPopWin;
+
+    private InputMethodManager imm;
+
+    private int heightType;
+    private int genderType;
+
+    private File tempFile;
+
+    private Dialog dataLoadingDialog;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +116,8 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         setContentView(R.layout.activity_personinfo);
         oneDp = this.getResources().getDimension(R.dimen.one_dp);
         mImageLoader = ImageLoaderFactory.createImageLoader();
+        imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+        dataLoadingDialog = new Dialog(this, R.style.data_load_dialog);
         findViewById(R.id.left).setOnClickListener(this);
         rightView = (TextView) findViewById(R.id.right);
         rightView.setOnClickListener(this);
@@ -101,7 +137,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         personHeadView.setImageUrl(avatarUrl, mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {
-                return ImageUtils.getCircleBitmap(bitmap, 60*oneDp);
+                return ImageUtils.getCircleBitmap(bitmap, 60 * oneDp);
             }
         });
         alipayView.setText(userVO.alipayId);
@@ -182,6 +218,104 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 v.findViewById(R.id.cancel_button).setOnClickListener(PersonInfoActivity.this);
             }
         });
+
+        pickerPopWin = new DatePickerPopWin(this, new DatePickerPopWin.OnDatePickedListener() {
+            @Override
+            public void onDatePickCompleted(int year, int month, int day, String dateDesc) {
+                birthdayView.setText(dateDesc);
+            }
+        });
+
+        heightPopupWindow = new YWPopupWindow(this);
+        heightPopupWindow.initView(nicknameView, R.layout.popup_height_picker, (int) (210 * oneDp), new YWPopupWindow.ViewInit() {
+
+            private int one;
+            private int two;
+            private int three;
+
+            @Override
+            public void initView(View v) {
+                LoopView oneLoopView = (LoopView) v.findViewById(R.id.picker_one);
+                LoopView twoLoopView = (LoopView) v.findViewById(R.id.picker_two);
+                LoopView threeLoopView = (LoopView) v.findViewById(R.id.picker_three);
+
+                oneLoopView.setNotLoop();
+                twoLoopView.setNotLoop();
+                threeLoopView.setNotLoop();
+
+                oneLoopView.setTextSize(25);
+                twoLoopView.setTextSize(25);
+                threeLoopView.setTextSize(25);
+
+                oneLoopView.setListener(new LoopListener() {
+                    @Override
+                    public void onItemSelect(int item) {
+                        one = item;
+                    }
+                });
+                twoLoopView.setListener(new LoopListener() {
+                    @Override
+                    public void onItemSelect(int item) {
+                        two = item;
+                    }
+                });
+
+                twoLoopView.setInitPosition(5);
+                threeLoopView.setListener(new LoopListener() {
+                    @Override
+                    public void onItemSelect(int item) {
+                        three = item;
+                    }
+                });
+                ArrayList<String> oneList = new ArrayList<String>();
+                oneList.add("1");
+                oneList.add("2");
+                oneLoopView.setArrayList(oneList);
+                ArrayList<String> twoList = new ArrayList<String>();
+                for (int i = 0; i < 10; i++) {
+                    twoList.add(i + "");
+                }
+                twoLoopView.setArrayList(twoList);
+                threeLoopView.setArrayList(twoList);
+
+                v.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        heightView.setText(((one + 1) * 100 + two * 10 + three) + "");
+                        if (!PersonInfoActivity.this.isFinishing()) {
+                            heightPopupWindow.hidePopUpWindow();
+                        }
+                    }
+                });
+
+                v.findViewById(R.id.btn_cancel).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!PersonInfoActivity.this.isFinishing()) {
+                            heightPopupWindow.hidePopUpWindow();
+                        }
+                    }
+                });
+            }
+        });
+
+        disableEditable();
+    }
+
+    private void enableEditable() {
+        weixinView.setEnabled(true);
+        alipayView.setEnabled(true);
+        nicknameView.setEnabled(true);
+        weixinView.setOnClickListener(this);
+        alipayView.setOnClickListener(this);
+        nicknameView.setOnClickListener(this);
+
+    }
+
+    private void disableEditable() {
+        weixinView.setEnabled(false);
+        alipayView.setEnabled(false);
+        nicknameView.setEnabled(false);
     }
 
     private void hiddenPopup() {
@@ -235,11 +369,6 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     }
 
 
-    //跳转到个人资料修改界面
-    public void click(View view) {
-        startActivity(new Intent(this, PersonModifyActivity.class));
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -251,10 +380,14 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                     isEditorMode = false;
                     hiddenJiantou();
                     removeClickListener();
+                    disableEditable();
+                    rightView.setText("编辑");
                 } else {
                     isEditorMode = true;
                     showJiantou();
                     addClickListener();
+                    enableEditable();
+                    rightView.setText("保存");
                 }
                 break;
             case R.id.gender_layout:
@@ -264,8 +397,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.birthday_layout:
+                pickerPopWin.showPopWin(this);
                 break;
             case R.id.height_layout:
+                heightPopupWindow.showPopUpWindow();
                 break;
             case R.id.height_type_layout:
                 if (!this.isFinishing()) {
@@ -278,20 +413,42 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
             case R.id.auth_layout:
                 break;
             case R.id.edit_head:
+                String status = Environment.getExternalStorageState();
+                File saveFile = new File(EnvConstants.imageRootPath);
+
+                if (!status.equals(Environment.MEDIA_MOUNTED)) {
+                    Toast.makeText(this, R.string.insert_sdcard, Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (!saveFile.exists()) {
+                    saveFile.mkdir();
+                }
+
+                tempFile = new File(saveFile.getAbsolutePath() + File.separator + UUID.randomUUID().toString());
+
+                if (saveFile.exists()) {// 判断是否有SD卡
+                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Uri uri = Uri.fromFile(tempFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                    startActivityForResult(intent, TAKE_PICTURE);
+                } else if (saveFile == null || !saveFile.exists()) {
+                    Toast.makeText(this, R.string.insert_sdcard, Toast.LENGTH_SHORT).show();
+                }
                 //拍照
                 break;
             case R.id.edit_profile:
                 //从手机相册中选择
                 break;
             case R.id.gender_female:
-                userVO.gender = 2;
+                genderType = 2;
                 genderView.setText("女");
                 if (!this.isFinishing()) {
                     hiddenPopup();
                 }
                 break;
             case R.id.gender_male:
-                userVO.gender = 1;
+                genderType = 1;
                 genderView.setText("男");
                 if (!this.isFinishing()) {
                     hiddenPopup();
@@ -306,13 +463,34 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 break;
 
             case R.id.height_type_small:
+                heightType = 1;
+                heightTypeView.setText("骨感");
+                hiddenPopup();
                 break;
             case R.id.height_type_normal:
+                heightType = 2;
+                heightTypeView.setText("标致");
+                hiddenPopup();
                 break;
             case R.id.height_type_fat:
+                heightType = 3;
+                heightTypeView.setText("丰满");
+                hiddenPopup();
                 break;
             case R.id.cancel_button:
                 hiddenPopup();
+                break;
+            case R.id.weixin_view:
+                weixinView.requestFocus();
+                imm.showSoftInput(weixinView, 0);
+                break;
+            case R.id.nickname_view:
+                nicknameView.requestFocus();
+                imm.showSoftInput(nicknameView, 0);
+                break;
+            case R.id.alipay_view:
+                alipayView.requestFocus();
+                imm.showSoftInput(alipayView, 0);
                 break;
         }
 
@@ -329,5 +507,56 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         ywPopupWindow = null;
         genderPopupWindow = null;
         heightTypePopupWindow = null;
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == TAKE_PICTURE) {
+            if (resultCode == RESULT_OK) {
+                Intent intent = new Intent(this, CropImageActivity.class);
+                intent.setDataAndType(Uri.fromFile(tempFile), "image/*");// 设置要裁剪的图片
+                intent.putExtra("crop", "true");// crop=true
+                // 有这句才能出来最后的裁剪页面.
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
+                intent.putExtra("outputX", 720);
+                intent.putExtra("outputY", 720);
+                intent.putExtra("noFaceDetection", true);
+                intent.putExtra("return-data", true);
+                intent.putExtra("path", "avator_tmp.jpg");
+                intent.putExtra("outputFormat", "JPEG");// 返回格式
+                this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
+            }
+        } else if (requestCode == CROP_PICTURE_REQUEST && resultCode == Activity.RESULT_OK) {
+        final File newFile = new File(EnvConstants.imageRootPath, "avator_tmp.jpg");
+            dataLoadingDialog.show();
+            final LoginVO loginVO = LoginManager.getLoginInfo(this);
+
+        FileUploadManager.uploadFiles(loginVO.token, newFile).startUI(new ApiCallback<String>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                hiddenPopup();
+                dataLoadingDialog.hide();
+            }
+
+            @Override
+            public void onSuccess(String booleanApiResult) {
+                dataLoadingDialog.hide();
+                Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
+                personHeadView.setImageBitmap(bitmap);
+                loginVO.user.avartUrl = booleanApiResult;
+                LoginManager.saveLoginInfo(loginVO);
+                hiddenPopup();
+                newFile.delete();
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+    }
     }
 }

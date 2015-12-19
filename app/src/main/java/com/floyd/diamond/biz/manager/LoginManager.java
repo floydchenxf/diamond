@@ -54,7 +54,7 @@ public class LoginManager {
     }
 
     public static void saveLoginInfo(LoginVO vo) {
-
+        
     }
 
     public static void saveLoginInfo(Context context, String loginInfoJson) {
