@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.zhy.android.percent.support.PercentLinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.zhy.android.percent.support.PercentFrameLayout
+    <FrameLayout
         android:id="@+id/title"
         android:layout_width="fill_parent"
         android:layout_height="50dip"
@@ -31,235 +31,402 @@
 
         <TextView
             android:id="@+id/right"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
             android:layout_gravity="right|center_vertical"
             android:layout_marginRight="10dip"
+            android:gravity="right|center_vertical"
             android:text="编辑"
             android:textColor="@color/white"
             android:textSize="12sp" />
-    </com.zhy.android.percent.support.PercentFrameLayout>
+    </FrameLayout>
 
-    <com.zhy.android.percent.support.PercentLinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:background="#ffffff"
         android:orientation="vertical"
-        app:layout_heightPercent="31%"
-        app:layout_marginTopPercent="1%">
+        android:paddingLeft="12dp">
 
-        <com.zhy.android.percent.support.PercentRelativeLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_heightPercent="35%">
+            android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/touxiang_personinfo"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:text="头像"
-                app:layout_marginLeftPercent="4%"
-                android:onClick="click"/>
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/touxiang_personinfo"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/circle_shape"
-                app:layout_heightPercent="87%"
-                app:layout_marginRightPercent="4%"
-                app:layout_widthPercent="15%"
-                android:onClick="click"/>
+                android:layout_marginBottom="4dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/head" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="昵称"
-            app:layout_marginLeftPercent="4%" />
+        </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
+            android:layout_height="1px"
+            android:background="#33000000" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/jiantou_next"
-            android:gravity="center_vertical"
-            android:text="性别"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%"
-            android:onClick="click"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/jiantou_next"
-            android:gravity="center_vertical"
-            android:text="出生年月"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%"
-            android:onClick="click"/>
-
-    </com.zhy.android.percent.support.PercentLinearLayout>
-
-    <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#ffffff"
-        android:orientation="vertical"
-        app:layout_heightPercent="20%"
-        app:layout_marginTopPercent="2%">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="身型"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%"
-            android:drawableRight="@drawable/jiantou_next"
-            android:onClick="click"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="职业"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%"
-            android:drawableRight="@drawable/jiantou_next"
-            android:onClick="click"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="适合主题"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%"
-            android:drawableRight="@drawable/jiantou_next"
-            android:onClick="click"/>
-
-    </com.zhy.android.percent.support.PercentLinearLayout>
-
-    <com.zhy.android.percent.support.PercentLinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="#ffffff"
-        android:orientation="vertical"
-        app:layout_heightPercent="25%"
-        app:layout_marginTopPercent="2%">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="微信号"
-            app:layout_marginLeftPercent="4%" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="支付宝账号"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="收货地址"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%"
-            android:drawableRight="@drawable/jiantou_next"
-            android:onClick="click"/>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
-
-        <com.zhy.android.percent.support.PercentRelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+        <RelativeLayout
+            android:id="@+id/nickname_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="40dp"
                 android:gravity="center_vertical"
-                android:text="实名认证"
-                app:layout_marginLeftPercent="4%"
-                app:layout_marginRightPercent="4%" />
+                android:text="昵称"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/nickname_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:background="@color/white"
+                android:text="yoyo"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#33000000" />
+
+        <RelativeLayout
+            android:id="@+id/gender_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
 
             <TextView
-                android:id="@+id/renzheng"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
                 android:gravity="center_vertical"
+                android:text="性别"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/gender_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:text="男"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/gender_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jiantou_next" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000" />
+
+
+        <RelativeLayout
+            android:id="@+id/birthday_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="出生年月"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/birthday_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:text="1970-11-11"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/birthday_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jiantou_next" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingLeft="12dp">
+
+        <RelativeLayout
+            android:id="@+id/height_type_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="身型"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/height_type_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:text="骨感"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/height_type_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jiantou_next" />
+
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000" />
+
+        <RelativeLayout
+            android:id="@+id/height_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="身高"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/height_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:text="170"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/height_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jiantou_next" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:paddingLeft="12dp">
+
+        <RelativeLayout
+            android:id="@+id/weixin_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="微信"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/weixin_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:background="@color/white"
+                android:text="78260738"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000" />
+
+        <RelativeLayout
+            android:id="@+id/alipay_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="支付宝"
+                android:textColor="@color/black" />
+
+            <EditText
+                android:id="@+id/alipay_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
+                android:background="@color/white"
+                android:text="78260738"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000" />
+
+        <RelativeLayout
+            android:id="@+id/goods_address_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center_vertical"
+                android:text="收货地址"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/goods_city_view"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="18dp"
+                android:gravity="center_vertical"
+                android:text="78260738"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/goods_address_view"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/goods_city_view"
+                android:layout_marginRight="18dp"
+                android:gravity="center_vertical"
+                android:text="78260738"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/goods_address_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jiantou_next" />
+        </RelativeLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#33000000" />
+
+        <RelativeLayout
+            android:id="@+id/auth_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:gravity="center_vertical"
+                android:text="实名认证"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/auth_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="18dp"
                 android:text="未认证"
-                android:textColor="#d0021b"
-                android:textSize="10sp"
-                app:layout_marginRightPercent="4%" />
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
-        </com.zhy.android.percent.support.PercentRelativeLayout>
+            <ImageView
+                android:id="@+id/auth_jiantou"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/jiantou_next" />
 
-    </com.zhy.android.percent.support.PercentLinearLayout>
+        </RelativeLayout>
 
-</com.zhy.android.percent.support.PercentLinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

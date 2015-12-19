@@ -164,7 +164,7 @@ public class MultiPickGalleryActivity extends Activity implements
 		int popupLayoutId = R.layout.aliwx_multi_pick_album;
 		int dd = R.dimen.aliwx_popup_height;
 		float a = this.getResources().getDimension(dd);
-		ywPopupWindow.initView(picDirView, popupLayoutId, dd, new YWPopupWindow.ViewInit() {
+		ywPopupWindow.initView(picDirView, popupLayoutId, (int)a, new YWPopupWindow.ViewInit() {
 			@Override
 			public void initView(View v) {
 				int albumListViewId = R.id.album_list;
