@@ -23,7 +23,7 @@ import java.util.List;
  * Created by Administrator on 2015/11/24.
  */
 public class MessageAdapter extends MyBaseAdapter {
-    private List<Message.DataEntity> messageList;
+    private List<Message.DataEntity>allMessage;
     private RequestQueue queue;
     private Context context;
 
@@ -31,14 +31,14 @@ public class MessageAdapter extends MyBaseAdapter {
 
     public MessageAdapter(Context context, List list, int layoutResId) {
         super(context, list, layoutResId);
-        this.messageList = list;
+        this.allMessage = list;
         this.context = context;
     }
 
     @Override
     public void fillData(MyViewHolder myViewHolder, int position) {
         ImageView imageView = ((ImageView) myViewHolder.findViewById(R.id.listview_img));//获取控件
-        String imgUrl = messageList.get(position).getImgUrl();//图片的地址
+        String imgUrl = allMessage.get(position).getImgUrl();//图片的地址
         if (GlobalParams.isDebug){
             Log.e("TAG",imgUrl);
         }

@@ -6,7 +6,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <FrameLayout
             android:id="@+id/act_lsloading"
             android:layout_width="match_parent"
@@ -175,6 +174,7 @@
                 android:paddingBottom="6dp"
                 android:text="sssss"
                 android:textColor="@color/black" />
+>>>>>>> 8fe59581e639a40eb16f505e35f8eac22ed4db46
         </LinearLayout>
 
         <TextView

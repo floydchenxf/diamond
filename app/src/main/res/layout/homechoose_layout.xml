@@ -10,13 +10,18 @@
         android:layout_height="50dip"
         android:background="#d4377e">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/left"
-            android:layout_width="10dp"
-            android:layout_height="16dp"
-            android:layout_gravity="center_vertical|left"
-            android:layout_marginLeft="10dip"
-            android:background="@drawable/jiantou_back"/>
+            android:layout_width="80dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/jiantou_back"/>
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/center"
@@ -26,21 +31,34 @@
             android:text="筛选模特"
             android:textColor="@color/white"
             android:textSize="16sp" />
-
-        <TextView
+        <LinearLayout
             android:id="@+id/right"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="10dip"
-            android:background="@drawable/search"/>
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center">
+            <TextView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center|right"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/search"/>
+        </LinearLayout>
+
+
 
     </com.zhy.android.percent.support.PercentFrameLayout>
+    <com.floyd.pullrefresh.widget.PullToRefreshListView
+        android:id="@+id/swipe_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tv">
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="5dp"/>
+    </com.floyd.pullrefresh.widget.PullToRefreshListView>
 
 </com.zhy.android.percent.support.PercentLinearLayout>

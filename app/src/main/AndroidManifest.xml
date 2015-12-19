@@ -193,6 +193,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateAlwaysHidden" >
         </activity>
+        <activity android:name=".ui.activity.ChooseResultActivity"/>
         <activity
             android:name=".ui.activity.SettingPersonInfoActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -204,8 +205,6 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-
-
     </application>
 
 </manifest>

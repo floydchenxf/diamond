@@ -1,14 +1,13 @@
 package com.floyd.diamond.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -25,9 +24,10 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.Message;
 import com.floyd.diamond.ui.URl;
-import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.activity.MessageItemActivity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
+import com.floyd.pullrefresh.widget.PullToRefreshBase;
+import com.floyd.pullrefresh.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -53,19 +53,24 @@ public class MessageFragment extends Fragment {
     private String mParam2;
 
     private RequestQueue mQueue;
-    private ListView listView;
+    private ListView mListView;
+    private int currentpage=1;
 
-    private SwipeRefreshLayout swipeRefreshLayout;
+    private PullToRefreshListView mPullToRefreshListView;
+    private boolean needClear;
+    private MessageAdapter adapter;
 
 
     private List<Message.DataEntity>messageList;//通告项目列表
+    private List<Message.DataEntity>allMessage; //所有的通告
    // private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5};
     private Handler handler=new Handler(){
        @Override
        public void handleMessage(android.os.Message msg) {
            super.handleMessage(msg);
 
-           MessageAdapter adapter=new MessageAdapter(getActivity(),messageList,R.layout.messagelistviewitem_layout);
+           adapter=new MessageAdapter(getActivity(),allMessage,R.layout.messagelistviewitem_layout);
+           ListView listView = mPullToRefreshListView.getRefreshableView();
            listView.setAdapter(adapter);//适配器适配
 
           // swipeRefreshLayout.setRefreshing(false);
@@ -75,7 +80,7 @@ public class MessageFragment extends Fragment {
                @Override
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    Intent intent=new Intent(getActivity(), MessageItemActivity.class);
-                   intent.putExtra("imgUrl",messageList.get(position).getImgUrl());
+                   intent.putExtra("imgUrl",allMessage.get(position).getImgUrl());
                    startActivity(intent);
                }
            });
@@ -120,19 +125,69 @@ public class MessageFragment extends Fragment {
 
         mQueue = Volley.newRequestQueue(getActivity());
         messageList=new ArrayList<>();
+        allMessage=new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-        listView = ((ListView) view.findViewById(R.id.listview));
-        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-        //设置刷新时动画的颜色，可以设置4个
-        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-        //设置监听，刷新界面
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        //listView = ((ListView) view.findViewById(R.id.listview));
+        mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.listview);
+       // mListView = mPullToRefreshListView.getRefreshableView();
+//        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
+//        //设置刷新时动画的颜色，可以设置4个
+//        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+//        //设置监听，刷新界面
+//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+//                setData();
+//                //数据重新获取之后隐藏进度条
+//                swipeRefreshLayout.setRefreshing(false);
+//                Toast.makeText(getActivity(),"刷新完成",Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
-            public void onRefresh() {
+            public void onPullDownToRefresh() {
+                needClear = false;
+                currentpage=1;
                 setData();
-                //数据重新获取之后隐藏进度条
-                swipeRefreshLayout.setRefreshing(false);
+                mPullToRefreshListView.onRefreshComplete(true, true);
+                allMessage.clear();
+                //messageList.clear();
+                //handler.sendEmptyMessage(1);
+            }
 
+            @Override
+            public void onPullUpToRefresh() {
+                needClear = false;
+                mPullToRefreshListView.onRefreshComplete(true, true);
+                currentpage++;
+                setData();
+                //adapter.notifyDataSetChanged();
+               // handler.sendEmptyMessage(1);
+            }
+        });
+
+        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
+
+            float y1 = 0, y2 = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        if (y1 == 0) {
+                            y1 = event.getRawY();
+                        }
+                        y2 = event.getRawY();
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        break;
+                }
+                return false;
             }
         });
         setData();
@@ -167,6 +222,8 @@ public class MessageFragment extends Fragment {
 
                 messageList=message.getData();
 
+                allMessage.addAll(messageList);
+
                 handler.sendEmptyMessage(1);
 
             }
@@ -184,7 +241,7 @@ public class MessageFragment extends Fragment {
             protected Map<String, String> getParams() {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
-                params.put("pageNo","1");
+                params.put("pageNo",currentpage+"");
                 params.put("pageSize","10");
                 return params;
             }

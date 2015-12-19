@@ -7,6 +7,7 @@ import android.os.MessageQueue;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,7 +32,7 @@ import java.util.Map;
 public class MessageItemActivity extends Activity {
     private ImageView imageView;
     private RequestQueue queue;
-    private TextView back;//返回
+    private LinearLayout back;//返回
 
    @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +49,7 @@ public class MessageItemActivity extends Activity {
     public void init(){
         imageView= ((ImageView) findViewById(R.id.image_message));
         queue= Volley.newRequestQueue(MessageItemActivity.this);
-        back= ((TextView) findViewById(R.id.back));
+        back= ((LinearLayout) findViewById(R.id.back));
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -27,11 +27,11 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     private ChangeText changeText;
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
-    private List<Model.DataEntity> modelsList;
+    private List<Model.DataEntity>allModel;
     private RequestQueue queue;
 
-    public MasonryAdapter(List<Model.DataEntity>modelsList,Context context,ChangeText changeText) {
-        this.modelsList = modelsList;
+    public MasonryAdapter(List<Model.DataEntity>allModel,Context context,ChangeText changeText) {
+        this.allModel = allModel;
         this.context=context;
         this.changeText=changeText;
     }
@@ -45,12 +45,12 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     @Override
     public void onBindViewHolder(MasonryView masonryView, int position) {
         //masonryView.imageView.setImageResource(modelsList.get(position).getAvatarUrl());
-        masonryView.likecount.setText(modelsList.get(position).getFollowNum() + "");
+        masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
         masonryView.likecount.setTag("cb" + position);
         masonryView.likecount.setOnCheckedChangeListener(this);
-        masonryView.name.setText(modelsList.get(position).getNickname());
-        masonryView.place.setText(modelsList.get(position).getArea()+"");
-        String imgUrl=modelsList.get(position).getAvatarUrl();
+        masonryView.name.setText(allModel.get(position).getNickname());
+        masonryView.place.setText(allModel.get(position).getArea()+"");
+        String imgUrl=allModel.get(position).getAvatarUrl();
         if (GlobalParams.isDebug){
             Log.e("TAG",imgUrl+"");
         }
@@ -74,7 +74,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
     @Override
     public int getItemCount() {
-        return modelsList.size();
+        return allModel.size();
     }
 
     public class MasonryView extends RecyclerView.ViewHolder implements View.OnClickListener {

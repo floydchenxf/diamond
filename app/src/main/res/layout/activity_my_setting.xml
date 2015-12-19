@@ -11,8 +11,17 @@
         android:layout_height="50dip"
         android:background="#d4377e">
 
-        <TextView
+        <LinearLayout
             android:id="@+id/left"
+            android:layout_width="80dp"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/jiantou_back"/>
+        </LinearLayout>
             android:layout_width="40dp"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical|left"

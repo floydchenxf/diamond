@@ -3,6 +3,7 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
@@ -20,7 +21,7 @@ public class GuideActivity extends Activity {
     }
 
     public void init(){
-        TextView back= ((TextView) findViewById(R.id.left));
+        LinearLayout back= ((LinearLayout) findViewById(R.id.left));
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,7 +12,7 @@
         <TextView
             android:id="@+id/login"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginBottom="10dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
@@ -24,7 +24,7 @@
         <TextView
             android:id="@+id/regest"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:background="@drawable/aliwx_btn_disable"
