@@ -15,7 +15,7 @@
         <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/touxiang_bg"
             android:layout_width="fill_parent"
-            android:layout_height="136dp"
+            android:layout_height="match_parent"
             android:scaleType="centerCrop"
             android:src="@drawable/head" />
 
