@@ -8,7 +8,7 @@ import com.floyd.diamond.utils.CommonUtil;
 public class MoteInfoVO {
     public long id;
     public String nickname;//别名
-    private String avatarUrl;//avatarUrl;//头像地址
+    private String avartUrl;//avatarUrl;//头像地址
     public int orderNum;
     public int fenNum;
     public int fee;
@@ -18,11 +18,11 @@ public class MoteInfoVO {
     public String authenStatus;//验证状态
 
     public String getHeadUrl() {
-        return CommonUtil.getImage_100(this.avatarUrl);
+        return CommonUtil.getImage_200(this.avartUrl);
     }
 
     public String getDetailUrl() {
-        return CommonUtil.getImage_800(this.avatarUrl);
+        return CommonUtil.getImage_800(this.avartUrl);
     }
 
 }

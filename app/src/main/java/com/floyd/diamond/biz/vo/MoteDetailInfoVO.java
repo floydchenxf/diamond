@@ -29,7 +29,7 @@ public class MoteDetailInfoVO {
     public boolean isFollow;
 
     public String getPreviewImageUrl() {
-        return CommonUtil.getImage_100(this.avartUrl);
+        return CommonUtil.getImage_200(this.avartUrl);
     }
 
     public String getDetailImageUrl() {

@@ -22,6 +22,12 @@
                 android:layout_marginLeft="10dip"
                 android:background="@drawable/jiantou_back"/>
         </LinearLayout>
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical|left"
+            android:layout_marginLeft="10dip"
+            android:drawableLeft="@drawable/jiantou_back"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/center"
@@ -193,7 +199,7 @@
             app:layout_marginRightPercent="4%" />
 
     </com.zhy.android.percent.support.PercentLinearLayout>
-    
+
     <TextView
         android:id="@+id/noLogin"
         android:layout_width="match_parent"

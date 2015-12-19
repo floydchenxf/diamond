@@ -18,6 +18,7 @@ import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.TaskPicsVO;
+import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
@@ -228,15 +229,15 @@ public class MoteManager {
     /**
      * 模特录入订单号
      *
-     * @param taskId
+     * @param moteTaskId
      * @param orderNo
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> addOrderNo(long taskId, String orderNo, String token) {
+    public static AsyncJob<Boolean> addOrderNo(long moteTaskId, String orderNo, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_ORDER_NO;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteTaskId", taskId + "");
+        params.put("moteTaskId", moteTaskId + "");
         params.put("orderNo", orderNo);
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
@@ -244,61 +245,61 @@ public class MoteManager {
 
     /**
      * 模特儿上传完成图片
-     * @param taskId
+     * @param moteTaskId
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> finishPicShow(long taskId, String token) {
+    public static AsyncJob<Boolean> finishPicShow(long moteTaskId, String token) {
         String url = APIConstants.HOST + APIConstants.API_FINISH_SHOW_PIC;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteTaskId", taskId + "");
+        params.put("moteTaskId", moteTaskId + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
     /**
      * 模特儿退回商品
-     * @param taskId 任务id
+     * @param moteTaskId 任务id
      * @param token 用户token
      * @param expressCompanyId　快递公司Id
      * @param expressNo　快递单号
      * @return
      */
-    public static AsyncJob<Boolean> returnGoods(long taskId, String token, long expressCompanyId, String expressNo) {
+    public static AsyncJob<Boolean> returnGoods(long moteTaskId, String token, String expressCompanyId, String expressNo) {
         String url = APIConstants.HOST + APIConstants.API_RETURN_ITEM;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteTaskId", taskId + "");
+        params.put("moteTaskId", moteTaskId + "");
         params.put("token", token);
-        params.put("expressCompanyId", expressCompanyId+"");
+        params.put("expressCompanyId", expressCompanyId);
         params.put("expressNo", expressNo);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
     /**
      *模特儿自购商品
-     * @param taskId
+     * @param moteTaskId
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> selfBuy(long taskId, String token) {
+    public static AsyncJob<Boolean> selfBuy(long moteTaskId, String token) {
         String url = APIConstants.HOST + APIConstants.API_SELF_BUY;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteTaskId", taskId + "");
+        params.put("moteTaskId", moteTaskId + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
     /**
      * 模特儿上传图片
-     * @param taskId
+     * @param moteTaskId
      * @param pics
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> uploadPics(long taskId, List<File> pics, String token) {
+    public static AsyncJob<Boolean> uploadPics(long moteTaskId, List<File> pics, String token) {
         String url = APIConstants.HOST + APIConstants.API_UPLOAD_IMAGE;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteTaskId", taskId + "");
+        params.put("moteTaskId", moteTaskId + "");
         params.put("token", token);
         Map<String, FileItem> files = new HashMap<String, FileItem>();
         if (pics != null && !pics.isEmpty()) {
@@ -328,10 +329,41 @@ public class MoteManager {
                 picsString.append(picId).append(",");
             }
 
-            String picIdsParams = picIds.toString().substring(0, picIds.toString().length() - 1);
+            String picIdsParams = picIds.toString().substring(1, picIds.toString().length() - 1);
             params.put("taskPicIds", picIdsParams);
         }
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
+
+    public static final AsyncJob<TaskProcessVO> fetchTaskProcess(long moteTaskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_TASK_PROCESS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        params.put("moteTaskId", moteTaskId + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, TaskProcessVO.class);
+    }
+
+    /**
+     * 放弃已接单任务
+     * @param taskId
+     * @param token
+     * @return
+     */
+    public static final AsyncJob<Boolean> giveupTask(long taskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GIVE_UP_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        params.put("taskId", taskId + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    public static final AsyncJob<Boolean> giveupUnAcceptTask(long taskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GIVE_UP_UNACCEPT_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        params.put("taskId", taskId + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
 
 }

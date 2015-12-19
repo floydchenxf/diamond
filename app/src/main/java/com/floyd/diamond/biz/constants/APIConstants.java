@@ -30,4 +30,8 @@ public class APIConstants {
     public static final String API_RETURN_ITEM = "api/task/returnItem";//模特儿退回商品
     public static final String API_UPLOAD_IMAGE = "api/taskPic/uploadImage"; //模特儿上传照片
     public static final String API_REMOVE_IMAGE_URL="api/taskPic/removeImageUrl";//模特儿删除图片
+
+    public static final String API_TASK_PROCESS="api/task/getMoteTaskProcess";//模特任务进程
+    public static final String API_GIVE_UP_TASK = "api/task/giveUpTask";//放弃已接任务
+    public static final String API_GIVE_UP_UNACCEPT_TASK = "api/task/giveUpUnAcceptTask"; //放弃未接的任务
 }

@@ -17,7 +17,6 @@ import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
@@ -96,16 +95,15 @@ public class MultiPickGalleryActivity extends Activity implements
 
 	private Button finish;
 	private boolean mNeddCompress=true;
-	private RelativeLayout mLeftButton;
-	private ImageView mSendOriginalCheck;
-	private TextView mSendOriginal;
-	private boolean mUseOrignal =false;
+//	private RelativeLayout mLeftButton;
+//	private ImageView mSendOriginalCheck;
+//	private TextView mSendOriginal;
+//	private boolean mUseOrignal =false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-//		setContentView(ResourceLoader.getIdByName(this, "layout", "aliwx_multi_pick_gallery"));
 		int layoutId = R.layout.aliwx_multi_pick_gallery;
 		setContentView(layoutId);;
 
@@ -263,7 +261,7 @@ public class MultiPickGalleryActivity extends Activity implements
 			}
 		});
 
-		initLeftBottomButton();
+//		initLeftBottomButton();
 
 //		} else {
 //			List<String> selectedSet = photoChooseHelper.getSelectedList();
@@ -413,8 +411,7 @@ public class MultiPickGalleryActivity extends Activity implements
 		if (id == R.id.title_back) {
 			onback();
 		} else if (id == R.id.finish) {
-
-			setResult(null,!mUseOrignal);
+			setResult(null,true);
 		} else if (id == R.id.preview) {
 			List<String> selectedList = PhotoChooseHelper.getHelper()
 					.getSelectedList();
@@ -472,8 +469,8 @@ public class MultiPickGalleryActivity extends Activity implements
 				}
 				ywPopupWindow.showPopUpWindow();
 			}
-		}else if (id == R.id.left_button) {
-			changeSendOrignalState();
+//		}else if (id == R.id.left_button) {
+//			changeSendOrignalState();
 		}
 
 	}
@@ -538,7 +535,7 @@ public class MultiPickGalleryActivity extends Activity implements
 	@Override
 	public void OnCheckChanged() {
 		updateSelectedCountView();
-		checkAndUpdateSendOrignalState();
+//		checkAndUpdateSendOrignalState();
 	}
 
 	private void setResult(Intent data,boolean needCompress) {
@@ -602,44 +599,44 @@ public class MultiPickGalleryActivity extends Activity implements
 		}
 
 	}
-	private void initLeftBottomButton() {
-		mLeftButton = (RelativeLayout) findViewById(R.id.left_button);
-		mLeftButton.setVisibility(View.VISIBLE);
-		mLeftButton.setOnClickListener(this);
-		mSendOriginalCheck = (ImageView) findViewById(R.id.send_original_check);
-		mSendOriginal = (TextView) findViewById(R.id.send_original);
-	}
+//	private void initLeftBottomButton() {
+//		mLeftButton = (RelativeLayout) findViewById(R.id.left_button);
+//		mLeftButton.setVisibility(View.VISIBLE);
+//		mLeftButton.setOnClickListener(this);
+//		mSendOriginalCheck = (ImageView) findViewById(R.id.send_original_check);
+//		mSendOriginal = (TextView) findViewById(R.id.send_original);
+//	}
 	/**
 	 * 切换［原图］按钮开启状态
 	 */
-	private void changeSendOrignalState() {
-		if(mLeftButton.getVisibility()== View.VISIBLE&&!mUseOrignal){
-			mSendOriginal.setText(getCurrentTotalPicSize());
-			mSendOriginal.setTextColor(R.color.aliwx_color_blue);
-			mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_on);
-			mUseOrignal =true;
-		}else if(mLeftButton.getVisibility()== View.VISIBLE&& mUseOrignal){
-			mSendOriginal.setText(getCurrentTotalPicSize());
-			mSendOriginal.setTextColor(R.color.aliwx_color_gray_02);
-			mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_off);
-			mUseOrignal =false;
-		}
-	}
+//	private void changeSendOrignalState() {
+//		if(mLeftButton.getVisibility()== View.VISIBLE&&!mUseOrignal){
+//			mSendOriginal.setText(getCurrentTotalPicSize());
+//			mSendOriginal.setTextColor(R.color.aliwx_color_blue);
+//			mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_on);
+//			mUseOrignal =true;
+//		}else if(mLeftButton.getVisibility()== View.VISIBLE&& mUseOrignal){
+//			mSendOriginal.setText(getCurrentTotalPicSize());
+//			mSendOriginal.setTextColor(R.color.aliwx_color_gray_02);
+//			mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_off);
+//			mUseOrignal =false;
+//		}
+//	}
 
 	/**
 	 * 更新［原图］按钮状态
 	 */
-	private void checkAndUpdateSendOrignalState() {
-		if(mLeftButton.getVisibility()== View.VISIBLE&& mUseOrignal){
-			mSendOriginal.setText(getCurrentTotalPicSize());
-			mSendOriginal.setTextColor(R.color.aliwx_color_blue);
-					mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_on);
-		}else if(mLeftButton.getVisibility()== View.VISIBLE&&!mUseOrignal){
-			mSendOriginal.setText(getCurrentTotalPicSize());
-			mSendOriginal.setTextColor(R.color.aliwx_color_gray_02);
-					mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_off);
-		}
-	}
+//	private void checkAndUpdateSendOrignalState() {
+//		if(mLeftButton.getVisibility()== View.VISIBLE&& mUseOrignal){
+//			mSendOriginal.setText(getCurrentTotalPicSize());
+//			mSendOriginal.setTextColor(R.color.aliwx_color_blue);
+//					mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_on);
+//		}else if(mLeftButton.getVisibility()== View.VISIBLE&&!mUseOrignal){
+//			mSendOriginal.setText(getCurrentTotalPicSize());
+//			mSendOriginal.setTextColor(R.color.aliwx_color_gray_02);
+//					mSendOriginalCheck.setImageResource(R.drawable.aliwx_send_original_btn_off);
+//		}
+//	}
 	//FIXME shuheng 获取所有图片的大小
 	private String getCurrentTotalPicSize(){
 		long totalFileSize=0;
@@ -655,7 +652,7 @@ public class MultiPickGalleryActivity extends Activity implements
 
 			}
 		if(totalFileSize>0){
-			StringBuilder sendOriginalText = new StringBuilder(R.string.aliwx_send_original).append("(共").append(ThumbnailUtils.bytes2KOrM(totalFileSize)).append(")");
+			StringBuilder sendOriginalText = new StringBuilder(this.getResources().getString(R.string.aliwx_send_original)).append("(共").append(ThumbnailUtils.bytes2KOrM(totalFileSize)).append(")");
 			return sendOriginalText.toString();
 		}
 		return  new StringBuilder(R.string.aliwx_send_original).toString();

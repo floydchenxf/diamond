@@ -73,7 +73,7 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
                         Toast.makeText(PhoneLoginActivity.this, "登录成功!", Toast.LENGTH_SHORT).show();
                         LoginEvent loginEvent = new LoginEvent();
                         loginEvent.id = result.id;
-                        loginEvent.usernick = result.nickname;
+                        loginEvent.usernick = result.user.nickname;
                         loginEvent.token = result.token;
                         EventBus.getDefault().post(loginEvent);
                         finish();

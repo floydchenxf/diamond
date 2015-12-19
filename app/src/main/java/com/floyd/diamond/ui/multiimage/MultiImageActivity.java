@@ -77,7 +77,6 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
     public static final String SEND_ORIGINAL = "send_orginal";
 
 
-    //	public static List<ImageDetailFragment> mImageFragmentInstanceList;
     public static Map<Long, Boolean> mFailImageMap;
 
     private int mCurrentPage = 0;
@@ -111,10 +110,9 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
 
 
     private boolean titleButtonVisable = true;
-    private String mUserId;
     private RelativeLayout mLeftButton;
     private boolean mUseOrignal = false;
-    private ImageView mSendOriginalCheck;
+//    private ImageView mSendOriginalCheck;
     private TextView mSendOriginal;
     private View mPreview;
     private Button mSelectFinish;
@@ -208,6 +206,36 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
                 } else {
                     titleButton.setVisibility(View.GONE);
                 }
+
+            } else if (mMode == MULIT_IMAGE_PICK_MODE_SELECT) {
+                mImagePageLayout = findViewById(R.id.multi_image_textview_layout);
+                mImagePageLayout.setVisibility(View.INVISIBLE);
+                mSelectMultiImageLayout = findViewById(R.id.select_multi_image_layout);
+                mSelectMultiImageLayout.setVisibility(View.VISIBLE);
+                mSelectedCount = (TextView) findViewById(R.id.selected_count);
+                mSelectFinish=(Button)findViewById(R.id.select_finish);
+                mSelectFinish.setOnClickListener(this);
+                mSelectLayout = findViewById(R.id.selectLayout);
+
+                initLeftBottomButton();
+                mPreview=findViewById(R.id.preview);
+                mPreview.setVisibility(View.VISIBLE);
+                mSelectLayout.setVisibility(View.VISIBLE);
+
+
+                mMaxCount = getIntent().getIntExtra(MAX_COUNT, -1);
+                mMaxToast = getIntent().getStringExtra(MAX_TOAST);
+
+                findViewById(R.id.select_title_back).setOnClickListener(this);
+                mImageCheck = (ImageView) findViewById(R.id.image_check);
+                mImageCheck.setOnClickListener(this);
+                updateCheckedCount();
+
+                if (mCheckedList != null) {
+                    mPreCheckedListCopy = new ArrayList<String>(mCheckedList);
+                } else {
+                    mPreCheckedListCopy = new ArrayList<String>();
+                }
             } else if (mMode == MULIT_IMAGE_PICK_MODE_DELETE) {
                 mDeleteMultiImageLayout = findViewById(R.id.delete_multi_image_layout);
                 mDeleteMultiImageLayout.setVisibility(View.VISIBLE);
@@ -247,12 +275,23 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
 
     }
 
+    private void updateCheckedCount(){
+        int size = mCheckedList.size();
+        if (size > 0) {
+            String sentText = new StringBuilder("发送").append("(").append(size).append(")").toString();
+            mSelectFinish.setText(sentText);
+        } else {
+            String sentText = new StringBuilder("发送").toString();
+            mSelectFinish.setText(sentText);
+        }
+    }
+
     private void initLeftBottomButton() {
-        mLeftButton = (RelativeLayout) findViewById(R.id.left_button);
-        mLeftButton.setVisibility(View.VISIBLE);
-        mLeftButton.setOnClickListener(this);
-        mSendOriginalCheck = (ImageView) findViewById(R.id.send_original_check);
-        mSendOriginal = (TextView) findViewById(R.id.send_original);
+//        mLeftButton = (RelativeLayout) findViewById(R.id.left_button);
+//        mLeftButton.setVisibility(View.VISIBLE);
+//        mLeftButton.setOnClickListener(this);
+//        mSendOriginalCheck = (ImageView) findViewById(R.id.send_original_check);
+//        mSendOriginal = (TextView) findViewById(R.id.send_original);
     }
 
     @Override
@@ -407,10 +446,10 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
             }
 //            updateCheckedCount();
             checkAndUpdateSendOrignalState();
-//        } else if (id == R.id.select_finish) {
-//            Intent intent = getSelectResultIntent();
-//            setResult(RESULT_OK, intent);
-//            finish();
+        } else if (id == R.id.select_finish) {
+            Intent intent = getSelectResultIntent();
+            setResult(RESULT_OK, intent);
+            finish();
         } else if (id == R.id.delete_image_btn) {
             boolean needRemove = false;
             int c = 0;
@@ -438,7 +477,7 @@ public class MultiImageActivity extends FragmentActivity implements ImageDetailF
             }
         } else if (id == R.id.delete_title_back) {
             setDeleteResult();
-        } else if (id == R.id.left_button) {
+//        } else if (id == R.id.left_button) {
 //            changeSendOrignalState();
         } else {
         }

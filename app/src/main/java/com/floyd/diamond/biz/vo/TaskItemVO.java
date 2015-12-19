@@ -25,6 +25,7 @@ public class TaskItemVO implements Serializable{
     public int ageMin;
     public int ageMax;
     public int areaid;
+    public String areaName;
     public int modelerLevel;
     public int selfBuyRate;
     public int number;

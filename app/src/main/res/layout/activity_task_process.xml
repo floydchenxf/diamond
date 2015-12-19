@@ -1,34 +1,214 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/title"
-        android:layout_width="fill_parent"
-        android:layout_height="50dip"
-        android:background="#d4377e">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/act_lsloading"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:visibility="gone">
 
-        <LinearLayout
-            android:id="@+id/title_back"
-            android:layout_width="80dp"
-            android:layout_height="match_parent">
+            <include layout="@layout/ls_common_loading_view" />
+
+            <LinearLayout
+                android:id="@+id/act_ls_fail_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/act_ls_fail_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@drawable/ls_common_fail_bg" />
+
+                <TextView
+                    android:id="@+id/act_ls_fail_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:textColor="@color/setting_line_color"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </FrameLayout>
+
+
+        <FrameLayout
+            android:id="@+id/title"
+            android:layout_width="fill_parent"
+            android:layout_height="50dip"
+            android:background="#d4377e">
+
             <TextView
-                android:layout_width="10dp"
-                android:layout_height="16dp"
+                android:id="@+id/title_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|left"
                 android:layout_marginLeft="10dip"
-                android:background="@drawable/jiantou_back"/>
+                android:background="@drawable/jiantou_back"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/product_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|center_horizontal"
+                android:text="任务进度"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </FrameLayout>
+
+        <!--任务信息 -->
+        <LinearLayout
+            android:id="@+id/task_detail_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title">
+
+            <include layout="@layout/task_process_info" />
+        </LinearLayout>
+
+        <!--接单状态-->
+        <LinearLayout
+            android:id="@+id/accept_status_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/task_detail_layout"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/accept_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="2015-10-10"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:text="已接单"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <View
+            android:id="@+id/line1"
+            android:layout_width="1px"
+            android:layout_height="10dp"
+            android:layout_below="@+id/accept_status_layout"
+            android:layout_centerInParent="true"
+            android:background="@color/black"></View>
+
+        <!-- 确认订单　-->
+        <LinearLayout
+            android:id="@+id/confirm_order_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/line1"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/confirm_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:text="2015-10-11"
+                android:textColor="@color/black"
+                android:textSize="12sp" />
+
+            <LinearLayout
+                android:id="@+id/edit_confirm_order_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="horizontal"
+                android:paddingBottom="6dp"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/order_no"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/confirm_order_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/common_gray_round_bord_bg"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingTop="4dp"
+                    android:text="确认" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/confirm_order_id"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingBottom="6dp"
+                android:text="sssss"
+                android:textColor="@color/black" />
+>>>>>>> 8fe59581e639a40eb16f505e35f8eac22ed4db46
         </LinearLayout>
 
         <TextView
-            android:id="@+id/product_type"
-            android:layout_width="wrap_content"
+            android:id="@+id/drop_order"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:text="任务进度"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/common_round_blue_bg"
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:layout_below="@+id/confirm_order_layout"
+            android:text="放弃任务"
             android:textColor="@color/white"
-            android:textSize="18sp" />
-    </FrameLayout>
+            android:textSize="14sp" />
 
-</RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/upload_pic"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/drop_order"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/goods_process"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/upload_pic"
+            android:orientation="vertical" />
+
+
+    </RelativeLayout>
+</ScrollView>

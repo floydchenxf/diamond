@@ -51,7 +51,7 @@
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:screenOrientation">portrait</item>
-        <item name="android:windowBackground">@null</item>
+        <item name="android:windowBackground">@color/bg_gray</item>
         <item name="android:windowAnimationStyle">@style/WXAnimation.Activity</item>
     </style>
 

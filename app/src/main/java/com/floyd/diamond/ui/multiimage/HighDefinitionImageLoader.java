@@ -224,7 +224,30 @@ public class HighDefinitionImageLoader {
                     } else {
                         return false;
                     }
+                } else {
+                    file = new File(url);
+                    if (file.exists()) {
+                        boolean flag = decodeImage(file.getAbsolutePath());
+                        if (flag) {
+                            int degree = ImageUtils.getOrientation(file.getAbsolutePath(), null, null);
+                            //旋转图片
+                            Bitmap b2 = ThumbnailUtils.rotateBitmap(bitmap, degree);
+                            if (b2 != null) {
+                                if (bitmap != b2) {
+                                    Log.d(TAG + "@originalPic", "旋转图片并创造了新的图片");
+                                    try {
+                                        bitmap.recycle();
+                                    } catch (Exception e) {
+                                    } catch (Error e) {
+                                    }
+                                    bitmap = b2;
+                                }
+                            }
+                        }
+                        return flag;
+                    }
                 }
+
             }
             if (!URLUtil.isValidUrl(url)) {
                 return false;

@@ -16,7 +16,7 @@ public class MoteTaskPicVO {
     public long taskId;
 
     public String getPreviewImageUrl() {
-        return CommonUtil.getImage_100(this.imgUrl);
+        return CommonUtil.getImage_200(this.imgUrl);
     }
 
     public String getDetailImageUrl() {
