@@ -40,6 +40,7 @@ import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
+import com.floyd.diamond.ui.activity.PersonInfoActivity;
 import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
@@ -287,6 +288,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
                 break;
             case R.id.edit_profile:
+                Intent editProfileIntent = new Intent(this.getActivity(), PersonInfoActivity.class);
+                startActivity(editProfileIntent);
                 break;
             case R.id.set:
 //                PrefsTools.setStringPrefs(this.getActivity(), LoginManager.LOGIN_INFO, "");

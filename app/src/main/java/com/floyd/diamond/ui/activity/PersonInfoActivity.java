@@ -4,11 +4,14 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -24,8 +27,10 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
+import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.UserVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
@@ -36,6 +41,9 @@ import com.floyd.pickview.LoopView;
 import com.floyd.pickview.popwindow.DatePickerPopWin;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
 
@@ -45,8 +53,13 @@ import java.util.UUID;
 public class PersonInfoActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "PersonInfoActivity";
+    private String tempImage = "image_temp";
+    private String tempImageCompress = "image_tmp";
+    private int avatorSize = 720;
+    private String avatorTmp = "avator_tmp.jpg";
     private static final int TAKE_PICTURE = 1;
     private static final int CROP_PICTURE_REQUEST = 2;
+    private static final int CODE_GALLERY_REQUEST = 3;
     private TextView rightView;
     private NetworkImageView personHeadView;
 
@@ -439,6 +452,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 break;
             case R.id.edit_profile:
                 //从手机相册中选择
+                Intent intentFromGallery = new Intent();
+                intentFromGallery.setType("image/*");
+                intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
                 break;
             case R.id.gender_female:
                 genderType = 2;
@@ -519,44 +536,165 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 // 有这句才能出来最后的裁剪页面.
                 intent.putExtra("aspectX", 1);
                 intent.putExtra("aspectY", 1);
-                intent.putExtra("outputX", 720);
-                intent.putExtra("outputY", 720);
+                intent.putExtra("outputX", avatorSize);
+                intent.putExtra("outputY", avatorSize);
                 intent.putExtra("noFaceDetection", true);
                 intent.putExtra("return-data", true);
-                intent.putExtra("path", "avator_tmp.jpg");
+                intent.putExtra("path", avatorTmp);
                 intent.putExtra("outputFormat", "JPEG");// 返回格式
                 this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
             }
         } else if (requestCode == CROP_PICTURE_REQUEST && resultCode == Activity.RESULT_OK) {
-        final File newFile = new File(EnvConstants.imageRootPath, "avator_tmp.jpg");
+            final File newFile = new File(EnvConstants.imageRootPath, "avator_tmp.jpg");
             dataLoadingDialog.show();
             final LoginVO loginVO = LoginManager.getLoginInfo(this);
 
-        FileUploadManager.uploadFiles(loginVO.token, newFile).startUI(new ApiCallback<String>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+            FileUploadManager.uploadFiles(loginVO.token, newFile).startUI(new ApiCallback<String>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    hiddenPopup();
+                    dataLoadingDialog.hide();
+                }
+
+                @Override
+                public void onSuccess(String booleanApiResult) {
+                    dataLoadingDialog.hide();
+                    Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
+                    bitmap = ImageUtils.getCircleBitmap(bitmap, 60 * oneDp);
+                    personHeadView.setImageBitmap(bitmap);
+                    LoginVO loginVo = LoginManager.getLoginInfo(PersonInfoActivity.this);
+                    loginVo.user.avartUrl = booleanApiResult;
+                    LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVo);
+                    hiddenPopup();
+                    newFile.delete();
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+
+        } else if (requestCode == CODE_GALLERY_REQUEST) {
+            if (!this.isFinishing()) {
                 hiddenPopup();
-                dataLoadingDialog.hide();
             }
 
-            @Override
-            public void onSuccess(String booleanApiResult) {
-                dataLoadingDialog.hide();
-                Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
-                personHeadView.setImageBitmap(bitmap);
-                loginVO.user.avartUrl = booleanApiResult;
-                LoginManager.saveLoginInfo(loginVO);
-                hiddenPopup();
-                newFile.delete();
+            if (resultCode == Activity.RESULT_OK) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    InputStream in = null;
+                    String type = "";
+                    byte[] tmpData = null;
+                    try {
+                        in = this.getContentResolver().openInputStream(uri);
+                        tmpData = new byte[10];
+                        in.read(tmpData);
+                        type = ThumbnailUtils.getType(tmpData);
+                    } catch (FileNotFoundException e) {
+                        Log.w(TAG, e);
+                        Log.w(TAG, e);
+                    } catch (IOException e) {
+                        Log.w(TAG, e);
+                        Log.w(TAG, e);
+                    } finally {
+                        if (in != null) {
+                            try {
+                                in.close();
+                            } catch (IOException e) {
+                                Log.w(TAG, e);
+                            }
+                        }
+                    }
+
+                    if ("GIF".equals(type)) {
+                        try {
+                            in = this.getContentResolver().openInputStream(
+                                    uri);
+                            tmpData = new byte[in.available()];
+                            in.read(tmpData);
+                        } catch (FileNotFoundException e) {
+                            Log.w(TAG, e);
+                            Log.w(TAG, e);
+                        } catch (IOException e) {
+                            Log.w(TAG, e);
+                            Log.w(TAG, e);
+                        } finally {
+                            if (in != null) {
+                                try {
+                                    in.close();
+                                } catch (IOException e) {
+                                    Log.w(TAG, e);
+                                }
+                            }
+                        }
+                        Bitmap bitmap = null;
+                        try {
+                            bitmap = BitmapFactory.decodeByteArray(tmpData, 0,
+                                    tmpData.length);
+                        } catch (OutOfMemoryError e) {
+                            Log.e(TAG, e.getMessage(), e);
+                            bitmap = BitmapFactory.decodeByteArray(tmpData, 0,
+                                    tmpData.length);
+                        }
+                        FileTools.writeBitmap(EnvConstants.imageRootPath,
+                                tempImage, bitmap);
+                        File newFile = new File(EnvConstants.imageRootPath, tempImage);
+                        bitmap = ThumbnailUtils.getImageThumbnail(newFile,
+                                avatorSize, avatorSize, tempImageCompress,
+                                false);
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                            bitmap = null;
+                        }
+                    } else {
+                        // tempImageCompress 是tmpFile的文件名
+                        int orientation = 0;
+                        Cursor cursor = null;
+                        try {
+                            cursor = DataBaseUtils.doContentResolverQueryWrapper(this, uri,
+                                    new String[]{MediaStore.Images.ImageColumns.ORIENTATION},
+                                    null, null, null);
+                            if (cursor != null) {
+                                if (cursor.moveToFirst()) {
+                                    orientation = cursor.getInt(0);
+                                }
+                            }
+                        } catch (RuntimeException e) {
+                            Log.w(TAG, e);
+                        } finally {
+                            if (cursor != null) {
+                                cursor.close();
+                                cursor = null;
+                            }
+                        }
+
+                        Bitmap bitmap = ThumbnailUtils.getImageThumbnailFromAlbum(this, uri, avatorSize, avatorSize, tempImageCompress, orientation);
+
+                        if (bitmap != null) {
+                            bitmap.recycle();
+                            bitmap = null;
+                        }
+                    }
+                    tmpData = null;
+
+                    File tmpFile = new File(EnvConstants.imageRootPath+File.separator+tempImageCompress);
+                    Intent intent = new Intent(this, CropImageActivity.class);
+                    intent.setDataAndType(Uri.fromFile(tmpFile), "image/*");// 设置要裁剪的图片
+                    intent.putExtra("crop", "true");// crop=true
+                    // 有这句才能出来最后的裁剪页面.
+                    intent.putExtra("aspectX", 1);
+                    intent.putExtra("aspectY", 1);
+                    intent.putExtra("outputX", avatorSize);
+                    intent.putExtra("outputY", avatorSize);
+                    intent.putExtra("noFaceDetection", true);
+                    intent.putExtra("return-data", true);
+                    intent.putExtra("path", avatorTmp);
+                    intent.putExtra("outputFormat", "JPEG");// 返回格式
+                    this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
+                }
             }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
-
-    }
+        }
     }
 }
