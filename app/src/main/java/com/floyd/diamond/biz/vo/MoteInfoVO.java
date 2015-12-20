@@ -1,5 +1,7 @@
 package com.floyd.diamond.biz.vo;
 
+import android.text.TextUtils;
+
 import com.floyd.diamond.utils.CommonUtil;
 
 /**
@@ -9,6 +11,7 @@ public class MoteInfoVO {
     public long id;
     public String nickname;//别名
     private String avartUrl;//avatarUrl;//头像地址
+    private String avatarUrl;
     public int orderNum;
     public int fenNum;
     public int fee;
@@ -18,11 +21,27 @@ public class MoteInfoVO {
     public String authenStatus;//验证状态
 
     public String getHeadUrl() {
-        return CommonUtil.getImage_200(this.avartUrl);
+        if (!TextUtils.isEmpty(this.avartUrl)) {
+            return CommonUtil.getImage_200(this.avartUrl);
+        }
+
+        if (!TextUtils.isEmpty(this.avatarUrl)) {
+            return CommonUtil.getImage_200(this.avatarUrl);
+        }
+
+        return null;
     }
 
     public String getDetailUrl() {
-        return CommonUtil.getImage_800(this.avartUrl);
+        if (!TextUtils.isEmpty(this.avartUrl)) {
+            return CommonUtil.getImage_800(this.avartUrl);
+        }
+
+        if (!TextUtils.isEmpty(this.avatarUrl)) {
+            return CommonUtil.getImage_800(this.avatarUrl);
+        }
+
+        return null;
     }
 
 }

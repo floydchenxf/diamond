@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
@@ -92,7 +91,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private ProgressDialog avatorDialog;
 
-    private IMImageCache wxImageCache;
     private ImageLoader mImageLoader;
 
     @Override
@@ -123,7 +121,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         bgHeadView = (NetworkImageView) view.findViewById(R.id.bg_head_lay);
         nicknameView = (TextView) view.findViewById(R.id.mine_name);
         ywPopupWindow = new YWPopupWindow(this.getActivity());
-        ywPopupWindow.initView(headView, R.layout.popup_edit_head, R.dimen.edit_head_bar_heigh, new YWPopupWindow.ViewInit() {
+        float height = this.getActivity().getResources().getDimension(R.dimen.edit_head_bar_heigh);
+        ywPopupWindow.initView(headView, R.layout.popup_edit_head, (int)height, new YWPopupWindow.ViewInit() {
             @Override
             public void initView(View v) {
                 editHeadButton = (TextView) v.findViewById(R.id.edit_head);

@@ -53,6 +53,10 @@ public class LoginManager {
         return loginVO;
     }
 
+    public static void saveLoginInfo(LoginVO vo) {
+
+    }
+
     public static void saveLoginInfo(Context context, String loginInfoJson) {
         PrefsTools.setStringPrefs(context, LOGIN_INFO, loginInfoJson);
     }

@@ -46,8 +46,8 @@ public class YWPopupWindow {
             if (viewInit != null) {
                 viewInit.initView(view);
             }
-            int h = (int) v.getContext().getResources().getDimension(height);
-            menu = new PopupWindow(view, LayoutParams.MATCH_PARENT, h);
+//            int h = (int) v.getContext().getResources().getDimension(height);
+            menu = new PopupWindow(view, LayoutParams.MATCH_PARENT, height);
         }
     }
 
