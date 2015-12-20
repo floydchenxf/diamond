@@ -48,7 +48,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         this.findViewById(R.id.left).setOnClickListener(this);
 
         LoginVO vo = LoginManager.getLoginInfo(this);
-        Log.i(TAG, vo.toString());
+        //Log.i(TAG, vo.toString());
         phoneNum.setText(vo.user.phoneNumber);
     }
 

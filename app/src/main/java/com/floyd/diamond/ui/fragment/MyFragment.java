@@ -40,6 +40,7 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.CareActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
@@ -298,6 +299,10 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             case R.id.task:
                 Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.care:
+                Intent intent1=new Intent(this.getActivity(), CareActivity.class);
+                startActivity(intent1);
                 break;
         }
     }
