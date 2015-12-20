@@ -27,10 +27,12 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
+import com.floyd.diamond.biz.vo.AreaDetailVO;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.UserVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
@@ -60,6 +62,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     private static final int TAKE_PICTURE = 1;
     private static final int CROP_PICTURE_REQUEST = 2;
     private static final int CODE_GALLERY_REQUEST = 3;
+    private static final int CODE_ADDRESS_REQUEST = 4;
     private TextView rightView;
     private NetworkImageView personHeadView;
 
@@ -122,6 +125,8 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     private Dialog dataLoadingDialog;
 
+    private AreaDetailVO areaDetailVO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -159,7 +164,15 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         genderView.setText(userVO.getGender());
         weixinView.setText(userVO.weixin);
         nicknameView.setText(userVO.nickname);
-
+        goodsCityView.setText(userVO.getAddressSummary());
+        goodsAddressView.setText(userVO.address);
+        if (userVO.shape == 1) {
+            heightTypeView.setText("骨感");
+        } else if (userVO.shape == 2) {
+            heightTypeView.setText("标致");
+        } else if (userVO.shape == 3) {
+            heightTypeView.setText("丰满");
+        }
     }
 
     private void initView() {
@@ -395,6 +408,55 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                     removeClickListener();
                     disableEditable();
                     rightView.setText("编辑");
+                    dataLoadingDialog.show();
+                    String weixin = weixinView.getText().toString();
+                    String alipayId = alipayView.getText().toString();
+                    String birthdayStr = birthdayView.getText().toString();
+                    String nicknameStr = nicknameView.getText().toString();
+                    int gender = genderType;
+                    String height = heightView.getText().toString();
+
+
+                    userVO.gender = genderType;
+                    userVO.height = Integer.parseInt(height);
+                    userVO.shape = heightType;
+                    if (areaDetailVO != null) {
+                        userVO.address = areaDetailVO.addressDetail;
+                        userVO.provinceId = areaDetailVO.provideId;
+                        userVO.cityId = areaDetailVO.cityId;
+                        userVO.districtId = areaDetailVO.districtId;
+                    }
+
+                    userVO.nickname = nicknameStr;
+                    userVO.birdthdayStr = birthdayStr;
+                    userVO.weixin = weixin;
+                    userVO.alipayId = alipayId;
+
+                    String token = LoginManager.getLoginInfo(this).token;
+                    MoteManager.updateMoteInfo(userVO, token).startUI(new ApiCallback<UserVO>() {
+                        @Override
+                        public void onError(int code, String errorInfo) {
+                            if (!PersonInfoActivity.this.isFinishing()) {
+                                dataLoadingDialog.dismiss();
+                            }
+                        }
+
+                        @Override
+                        public void onSuccess(UserVO userVO) {
+                            if (!PersonInfoActivity.this.isFinishing()) {
+                                dataLoadingDialog.dismiss();
+                            }
+
+                            LoginVO loginVO = LoginManager.getLoginInfo(PersonInfoActivity.this);
+                            loginVO.user = userVO;
+                            LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
+                        }
+
+                        @Override
+                        public void onProgress(int progress) {
+
+                        }
+                    });
                 } else {
                     isEditorMode = true;
                     showJiantou();
@@ -422,6 +484,9 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.goods_address_layout:
+                Intent addressIntent = new Intent(PersonInfoActivity.this, ProfileAddressActivity.class);
+                addressIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivityForResult(addressIntent, CODE_ADDRESS_REQUEST);
                 break;
             case R.id.auth_layout:
                 break;
@@ -695,6 +760,12 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                     this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
                 }
             }
+        } else if (requestCode == CODE_ADDRESS_REQUEST && resultCode == RESULT_OK) {
+            areaDetailVO = data.getParcelableExtra(ProfileAddressActivity.AREA_DETAIL_INFO);
+            String addressSummary = areaDetailVO.addressSummary;
+            String addressDetail = areaDetailVO.addressDetail;
+            goodsCityView.setText(addressSummary);
+            goodsAddressView.setText(addressDetail);
         }
     }
 }

@@ -13,11 +13,13 @@ import com.floyd.diamond.biz.constants.MoteTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
+import com.floyd.diamond.biz.vo.AreaVO;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.TaskPicsVO;
+import com.floyd.diamond.biz.vo.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -364,6 +366,36 @@ public class MoteManager {
         params.put("taskId", taskId + "");
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
+
+    public static final AsyncJob<List<AreaVO>> getAreaListByPid(long pid) {
+        String url = APIConstants.HOST + APIConstants.API_AREA_LEST_BY_PID;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pid", pid + "");
+        Type type = new TypeToken<ArrayList<AreaVO>>() {
+        }.getType();
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
+    }
+
+    public static final AsyncJob<UserVO> updateMoteInfo(UserVO userVO, String token) {
+        String url = APIConstants.HOST + APIConstants.API_UPDATE_MOTE;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("avartUrl", userVO.avartUrl);
+        params.put("nickname", userVO.nickname);
+        params.put("gender", userVO.gender + "");
+        params.put("birdthdayStr", userVO.birdthdayStr);
+        params.put("shape", userVO.shape + "");
+        params.put("height", userVO.height + "");
+        params.put("provineId", userVO.provinceId + "");
+        params.put("cityId", userVO.cityId + "");
+        params.put("districtId", userVO.districtId + "");
+        params.put("address", userVO.address);
+        params.put("weixin", userVO.weixin);
+        params.put("alipayId", userVO.alipayId);
+        params.put("msgSwitch", userVO.msgSwitch + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UserVO.class);
+    }
+
 
 
 }

@@ -34,4 +34,9 @@ public class APIConstants {
     public static final String API_TASK_PROCESS="api/task/getMoteTaskProcess";//模特任务进程
     public static final String API_GIVE_UP_TASK = "api/task/giveUpTask";//放弃已接任务
     public static final String API_GIVE_UP_UNACCEPT_TASK = "api/task/giveUpUnAcceptTask"; //放弃未接的任务
+
+    public static final String API_AREA_LEST_BY_PID = "api/common/getAreaListByPid";//获取地址
+    public static final String API_UPDATE_MOTE = "api/user/updateMote";
+
+
 }
