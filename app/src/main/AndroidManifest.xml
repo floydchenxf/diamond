@@ -209,6 +209,10 @@
             android:name=".ui.activity.ProfileAddressActivity"
             android:label="@string/title_activity_profile_address" >
         </activity>
+        <activity
+            android:name=".ui.activity.MoteAuthActivity"
+            android:label="@string/title_activity_mote_auth" >
+        </activity>
     </application>
 
 </manifest>

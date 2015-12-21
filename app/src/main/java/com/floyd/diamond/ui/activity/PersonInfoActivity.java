@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -173,6 +174,13 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         } else if (userVO.shape == 3) {
             heightTypeView.setText("丰满");
         }
+
+        if (userVO.authenStatus == 0) {
+            authView.setText("未认证");
+            authView.setTextColor(Color.RED);
+        } else {
+            authView.setText("已认证");
+        }
     }
 
     private void initView() {
@@ -201,6 +209,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         alipayView = (EditText) findViewById(R.id.alipay_view);
         weixinView = (EditText) findViewById(R.id.weixin_view);
         authView = (TextView) findViewById(R.id.auth_view);
+        authView.setOnClickListener(this);
         hiddenJiantou();
         removeClickListener();
 
@@ -573,6 +582,11 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
             case R.id.alipay_view:
                 alipayView.requestFocus();
                 imm.showSoftInput(alipayView, 0);
+                break;
+            case R.id.auth_view:
+                Intent authIntent = new Intent(this, MoteAuthActivity.class);
+                authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(authIntent);
                 break;
         }
 

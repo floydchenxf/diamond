@@ -247,6 +247,7 @@ public class MoteManager {
 
     /**
      * 模特儿上传完成图片
+     *
      * @param moteTaskId
      * @param token
      * @return
@@ -261,10 +262,11 @@ public class MoteManager {
 
     /**
      * 模特儿退回商品
-     * @param moteTaskId 任务id
-     * @param token 用户token
-     * @param expressCompanyId　快递公司Id
-     * @param expressNo　快递单号
+     *
+     * @param moteTaskId       任务id
+     * @param token            用户token
+     * @param expressCompanyId 　快递公司Id
+     * @param expressNo        　快递单号
      * @return
      */
     public static AsyncJob<Boolean> returnGoods(long moteTaskId, String token, String expressCompanyId, String expressNo) {
@@ -278,7 +280,8 @@ public class MoteManager {
     }
 
     /**
-     *模特儿自购商品
+     * 模特儿自购商品
+     *
      * @param moteTaskId
      * @param token
      * @return
@@ -293,6 +296,7 @@ public class MoteManager {
 
     /**
      * 模特儿上传图片
+     *
      * @param moteTaskId
      * @param pics
      * @param token
@@ -317,11 +321,12 @@ public class MoteManager {
 
     /**
      * 删除模特图片
+     *
      * @param picIds
      * @param token
      * @return
      */
-    public static final AsyncJob<Boolean> reomveImageUrl(List<Long> picIds, String token) {
+    public static AsyncJob<Boolean> reomveImageUrl(List<Long> picIds, String token) {
         String url = APIConstants.HOST + APIConstants.API_REMOVE_IMAGE_URL;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
@@ -337,7 +342,7 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
-    public static final AsyncJob<TaskProcessVO> fetchTaskProcess(long moteTaskId, String token) {
+    public static AsyncJob<TaskProcessVO> fetchTaskProcess(long moteTaskId, String token) {
         String url = APIConstants.HOST + APIConstants.API_TASK_PROCESS;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
@@ -347,11 +352,12 @@ public class MoteManager {
 
     /**
      * 放弃已接单任务
+     *
      * @param taskId
      * @param token
      * @return
      */
-    public static final AsyncJob<Boolean> giveupTask(long taskId, String token) {
+    public static AsyncJob<Boolean> giveupTask(long taskId, String token) {
         String url = APIConstants.HOST + APIConstants.API_GIVE_UP_TASK;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
@@ -359,7 +365,14 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
-    public static final AsyncJob<Boolean> giveupUnAcceptTask(long taskId, String token) {
+    /**
+     * 放弃接收任务
+     *
+     * @param taskId
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> giveupUnAcceptTask(long taskId, String token) {
         String url = APIConstants.HOST + APIConstants.API_GIVE_UP_UNACCEPT_TASK;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
@@ -367,7 +380,13 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
-    public static final AsyncJob<List<AreaVO>> getAreaListByPid(long pid) {
+    /**
+     * 获取地区信息
+     *
+     * @param pid
+     * @return
+     */
+    public static AsyncJob<List<AreaVO>> getAreaListByPid(long pid) {
         String url = APIConstants.HOST + APIConstants.API_AREA_LEST_BY_PID;
         Map<String, String> params = new HashMap<String, String>();
         params.put("pid", pid + "");
@@ -376,7 +395,14 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
     }
 
-    public static final AsyncJob<UserVO> updateMoteInfo(UserVO userVO, String token) {
+    /**
+     * 更新模特信息
+     *
+     * @param userVO
+     * @param token
+     * @return
+     */
+    public static AsyncJob<UserVO> updateMoteInfo(UserVO userVO, String token) {
         String url = APIConstants.HOST + APIConstants.API_UPDATE_MOTE;
         Map<String, String> params = new HashMap<String, String>();
         params.put("avartUrl", userVO.avartUrl);
@@ -396,6 +422,63 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UserVO.class);
     }
 
+    /**
+     * 图片点赞
+     *
+     * @param picId
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> picUpVote(long picId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_PIC_UPVOTE;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", picId + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    /**
+     * 取消图片点赞
+     *
+     * @param picId
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> cancelPicUpVote(long picId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_CANCEL_PIC_UPVOTE;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", picId + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    public static AsyncJob<Boolean> updateMoteAuthenInfo() {
+        return null;
+    }
+
+    public static AsyncJob<String> uploadCommonFile(File file, String token) {
+        String url = APIConstants.HOST + APIConstants.API_COMMON_UPLOAD;
+        Map<String, FileItem> fileParams = new HashMap<String, FileItem>();
+        fileParams.put("image", new FileItem(file));
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token",token);
+        return HttpJobFactory.createFileJob(url, params, fileParams, HttpMethod.POST).map(new StringFunc()).flatMap(new Func<String, AsyncJob<String>>() {
+            @Override
+            public AsyncJob<String> call(final String s) {
+                return new AsyncJob<String>() {
+                    @Override
+                    public void start(ApiCallback<String> callback) {
+                        new AbstractJsonParser<String>() {
+                            @Override
+                            protected String convert2Obj(String data) {
+                                return data;
+                            }
+                        }.doParse(callback, s);
+                    }
+                };
+            }
+        });
+    }
 
 
 }

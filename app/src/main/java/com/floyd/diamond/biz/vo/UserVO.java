@@ -35,8 +35,28 @@ public class UserVO {
     public int msgSwitch;
     public int type;
 
+    public int authenStatus; //验证状态
+    public String authenPic1; //验证图片1
+    public String authenPic2; //验证图片2
+    public String authenPic3; //验证图片3
+    public String idcardPic; //身份证图片
+    public String idNumber; //身份证
+    public String realName; //真实姓名
+
     public String getPreviewUrl() {
         return CommonUtil.getImage_200(avartUrl);
+    }
+
+    public String getAuthPicPreview1() {
+        return CommonUtil.getImage_400(authenPic1);
+    }
+
+    public String getAuthPicPreview2() {
+        return CommonUtil.getImage_400(authenPic2);
+    }
+
+    public String getAuthPicPreview3() {
+        return CommonUtil.getImage_400(authenPic3);
     }
 
     public String getGender() {
