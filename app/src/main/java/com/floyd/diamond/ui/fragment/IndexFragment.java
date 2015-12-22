@@ -282,14 +282,14 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             public void onPullDownToRefresh() {
                 needClear = false;
                 loadMoteInfo();
-                mPullToRefreshListView.onRefreshComplete(true, true);
+                mPullToRefreshListView.onRefreshComplete(false, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
                 needClear = false;
                 loadMoteInfo();
-                mPullToRefreshListView.onRefreshComplete(true, true);
+                mPullToRefreshListView.onRefreshComplete(false, true);
             }
         });
 
