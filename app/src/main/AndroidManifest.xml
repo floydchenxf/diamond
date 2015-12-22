@@ -213,6 +213,10 @@
             android:name=".ui.activity.MoteAuthActivity"
             android:label="@string/title_activity_mote_auth" >
         </activity>
+        <activity
+            android:name=".ui.activity.MoteCardActivity"
+            android:label="@string/title_activity_mote_card" >
+        </activity>
     </application>
 
 </manifest>

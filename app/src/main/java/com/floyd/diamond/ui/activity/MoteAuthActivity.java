@@ -134,6 +134,10 @@ public class MoteAuthActivity extends Activity implements View.OnClickListener {
                 int pics = (Integer) v.getTag();
                 if (pics == 0) {
                     //TODO next activity
+                    Intent cardIntent = new Intent(this, MoteCardActivity.class);
+                    cardIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(cardIntent);
+                    this.finish();
                 }
                 break;
             case R.id.auth_pic_1_mask:

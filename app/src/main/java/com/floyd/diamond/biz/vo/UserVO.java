@@ -59,6 +59,10 @@ public class UserVO {
         return CommonUtil.getImage_400(authenPic3);
     }
 
+    public String getIdCardPicPreview() {
+        return CommonUtil.getImage_400(this.idcardPic);
+    }
+
     public String getGender() {
         if (gender == 1) {
             return "男";

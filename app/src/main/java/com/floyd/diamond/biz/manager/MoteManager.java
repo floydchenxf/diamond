@@ -452,8 +452,17 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
-    public static AsyncJob<Boolean> updateMoteAuthenInfo() {
-        return null;
+    public static AsyncJob<Boolean> updateMoteAuthenInfo(UserVO userVO, String token) {
+        String url = APIConstants.HOST + APIConstants.API_UPDATE_MOTE_AUTHEN_INFO;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("authenPic1", userVO.authenPic1);
+        params.put("authenPic2", userVO.authenPic2);
+        params.put("authenPic3", userVO.authenPic3);
+        params.put("idcardPic", userVO.idcardPic);
+        params.put("realName", userVO.realName);
+        params.put("idNumber", userVO.idNumber);
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
     public static AsyncJob<String> uploadCommonFile(File file, String token) {

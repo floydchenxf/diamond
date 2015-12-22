@@ -80,4 +80,5 @@
     <string name="scan_text">将二维码放入框内, 即可自动扫描</string>
     <string name="title_activity_profile_address">ProfileAddressActivity</string>
     <string name="title_activity_mote_auth">MoteAuthActivity</string>
+    <string name="title_activity_mote_card">MoteCardActivity</string>
 </resources>
