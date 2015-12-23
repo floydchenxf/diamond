@@ -32,6 +32,7 @@ import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.UIAlertDialog;
@@ -82,7 +83,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
         mImageLoader = ImageLoaderFactory.createImageLoader();
         oneDp = this.getResources().getDimension(R.dimen.one_dp);
         loginVO = LoginManager.getLoginInfo(this);
-        dataLoadingDialog = new Dialog(this, R.style.data_load_dialog);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         findViewById(R.id.title_back).setOnClickListener(this);
 

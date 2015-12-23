@@ -18,6 +18,7 @@ import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
+import com.floyd.diamond.biz.vo.MoteWalletVO;
 import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.floyd.diamond.biz.vo.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
@@ -452,6 +453,13 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
+    /**
+     * 更新模特儿验证信息
+     *
+     * @param userVO
+     * @param token
+     * @return
+     */
     public static AsyncJob<Boolean> updateMoteAuthenInfo(UserVO userVO, String token) {
         String url = APIConstants.HOST + APIConstants.API_UPDATE_MOTE_AUTHEN_INFO;
         Map<String, String> params = new HashMap<String, String>();
@@ -488,6 +496,38 @@ public class MoteManager {
             }
         });
     }
+
+    /**
+     * 获取模特儿钱包
+     * @param token
+     * @return
+     */
+    public static AsyncJob<MoteWalletVO> getMoteWallet(String token) {
+        String url = APIConstants.HOST + APIConstants.API_MOTE_WALLET;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteWalletVO.class);
+    }
+
+    /**
+     * 申请提现
+     * @param money
+     * @param smsCode
+     * @param password
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> applyReduceCash(String money, String smsCode, String password,String token) {
+        String url = APIConstants.HOST + APIConstants.API_REDUCE_CASH_APPLY;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("money", money);
+        params.put("smsCode", smsCode);
+        params.put("password", password);
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+
 
 
 }

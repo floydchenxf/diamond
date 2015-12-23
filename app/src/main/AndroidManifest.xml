@@ -217,6 +217,10 @@
             android:name=".ui.activity.MoteCardActivity"
             android:label="@string/title_activity_mote_card" >
         </activity>
+        <activity
+            android:name=".ui.activity.AlipayActivity"
+            android:label="@string/title_activity_alipay" >
+        </activity>
     </application>
 
 </manifest>

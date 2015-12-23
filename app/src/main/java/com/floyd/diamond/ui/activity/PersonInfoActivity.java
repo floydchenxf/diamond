@@ -36,6 +36,7 @@ import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.AreaDetailVO;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.UserVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
@@ -136,7 +137,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         oneDp = this.getResources().getDimension(R.dimen.one_dp);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
-        dataLoadingDialog = new Dialog(this, R.style.data_load_dialog);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
         findViewById(R.id.left).setOnClickListener(this);
         rightView = (TextView) findViewById(R.id.right);
         rightView.setOnClickListener(this);

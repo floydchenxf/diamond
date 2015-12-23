@@ -18,6 +18,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.AreaDetailVO;
 import com.floyd.diamond.biz.vo.AreaVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.adapter.AreaAdapter;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class ProfileAddressActivity extends Activity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_address);
-        dataLoadingDialog = new Dialog(this, R.style.data_load_dialog);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         initView();
         fillData(0l, new AreaCompleteCallback() {

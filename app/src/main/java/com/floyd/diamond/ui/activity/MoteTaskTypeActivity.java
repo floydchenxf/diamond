@@ -20,6 +20,7 @@ import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.MoteTypeTaskVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
 import com.floyd.diamond.event.AcceptTaskEvent;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.MoteTaskTypeAdapter;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
@@ -65,7 +66,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
 
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
 
-        loadingDialog = new Dialog(this, R.style.data_load_dialog);
+        loadingDialog = DialogCreator.createDataLoadingDialog(this);
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.product_type_list);
         mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
