@@ -170,7 +170,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             @Override
             public void run() {
                 try {
-                    countDownLatch.await(2000, TimeUnit.MILLISECONDS);
+                    countDownLatch.await(10000, TimeUnit.MILLISECONDS);
                 } catch (InterruptedException e) {
                 }
 

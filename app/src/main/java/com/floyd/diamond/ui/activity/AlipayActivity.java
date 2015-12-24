@@ -18,6 +18,8 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteWalletVO;
 import com.floyd.diamond.ui.DialogCreator;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 
 public class AlipayActivity extends Activity implements View.OnClickListener {
 
@@ -36,6 +38,8 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
 
     private LoginVO loginVO;
     private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private DataLoadingView dataLoadingView;
 
     private void doUpdateTime(final int time) {
         mHandler.postDelayed(new Runnable() {
@@ -61,6 +65,8 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alipay);
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         loginVO = LoginManager.getLoginInfo(this);
 
         findViewById(R.id.title_back).setOnClickListener(this);
@@ -85,19 +91,19 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
     }
 
     private void fillData() {
-        dataLoadingDialog.show();
+        dataLoadingView.startLoading();
         MoteManager.getMoteWallet(loginVO.token).startUI(new ApiCallback<MoteWalletVO>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!AlipayActivity.this.isFinishing()) {
-                    dataLoadingDialog.dismiss();
+                    dataLoadingView.loadFail();
                 }
             }
 
             @Override
             public void onSuccess(MoteWalletVO moteWalletVO) {
                 if (!AlipayActivity.this.isFinishing()) {
-                    dataLoadingDialog.dismiss();
+                    dataLoadingView.loadSuccess();
                     alipayIdView.setText("支付宝帐号:" + loginVO.user.alipayId);
                     remindMoneyView.setText("余额:" + moteWalletVO.remindFee);
                 }
@@ -188,6 +194,9 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
                     }
                 });
 
+                break;
+            case R.id.act_ls_fail_layout:
+                fillData();
                 break;
         }
 
