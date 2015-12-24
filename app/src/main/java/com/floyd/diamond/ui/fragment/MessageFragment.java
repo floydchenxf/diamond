@@ -23,6 +23,7 @@ import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.Message;
+import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.ui.URl;
 import com.floyd.diamond.ui.activity.MessageItemActivity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
@@ -80,7 +81,7 @@ public class MessageFragment extends Fragment {
                @Override
                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    Intent intent=new Intent(getActivity(), MessageItemActivity.class);
-                   intent.putExtra("imgUrl",allMessage.get(position).getImgUrl());
+                   intent.putExtra("imgUrl",allMessage.get(position-1).getImgUrl());
                    startActivity(intent);
                }
            });
@@ -206,7 +207,7 @@ public class MessageFragment extends Fragment {
 
     //获取数据
     public void setData() {
-        String messageUrl= URl.BASEURL+ URl.TGLIST;
+        String messageUrl= URl.BASEURL+ APIConstants.API_GET_ADVERT_LIST;
         StringRequest request = new StringRequest(Request.Method.POST,messageUrl, new Response.Listener<String>() {
 
             //数据请求成功的回调
@@ -241,8 +242,8 @@ public class MessageFragment extends Fragment {
             protected Map<String, String> getParams() {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
-                params.put("pageNo",currentpage+"");
-                params.put("pageSize","10");
+                params.put("type",2+"");
+                params.put("count",10+"");
                 return params;
             }
         };

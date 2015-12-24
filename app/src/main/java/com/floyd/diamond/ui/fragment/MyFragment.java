@@ -301,6 +301,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 break;
             case R.id.care:
                 Intent intent1=new Intent(this.getActivity(), CareActivity.class);
+                intent1.putExtra("num",1);
                 startActivity(intent1);
                 break;
         }

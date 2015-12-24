@@ -9,31 +9,32 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.Model;
 import com.floyd.diamond.bean.MyImageLoader;
 
 import java.util.List;
 
 /**
- * Created by Administrator on 2015/11/24.
+ * Created by Administrator on 2015/12/20.
  */
-public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> implements CompoundButton.OnCheckedChangeListener{
-    private ChangeText changeText;
+public class CareAdapter extends RecyclerView.Adapter<CareAdapter.MasonryView>{
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
-    private List<Model.DataEntity>allModel;
+    private List<Care.DataEntity.DataListEntity> allModel;
     private RequestQueue queue;
+    private List<String>deleteModel;//取消关注的模特
 
-    public MasonryAdapter(List<Model.DataEntity>allModel,Context context,ChangeText changeText) {
+    public CareAdapter(List<Care.DataEntity.DataListEntity> allModel, Context context,List<String>deleteModel) {
         this.allModel = allModel;
-        this.context=context;
-        this.changeText=changeText;
+        this.context = context;
+        this.deleteModel=deleteModel;
     }
 
     @Override
@@ -43,28 +44,22 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     }
 
     @Override
-    public void onBindViewHolder(MasonryView masonryView, int position) {
+    public void onBindViewHolder(final MasonryView masonryView, int position) {
         //masonryView.imageView.setImageResource(modelsList.get(position).getAvatarUrl());
-        masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
-        masonryView.likecount.setTag("cb" + position);
-        masonryView.likecount.setOnCheckedChangeListener(this);
+        // masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
+        // masonryView.likecount.setTag("cb" + position);
+        // masonryView.likecount.setOnCheckedChangeListener(this);
+        masonryView.bg_recycle.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
+        masonryView.bg_recycle.setTag("bg" + position);
         masonryView.name.setText(allModel.get(position).getNickname());
-        masonryView.place.setText(allModel.get(position).getArea()+"");
-        String imgUrl=allModel.get(position).getAvatarUrl();
-        if (GlobalParams.isDebug){
-            Log.e("TAG",imgUrl+"");
+        // masonryView.place.setText(allModel.get(position).g);
+        String imgUrl = allModel.get(position).getAvartUrl();
+        if (GlobalParams.isDebug) {
+            Log.e("TAG", imgUrl + "");
         }
-        if (imgUrl!=null){
-            queue= Volley.newRequestQueue(context);
-            MyImageLoader loader=new MyImageLoader(queue,imgUrl,masonryView.imageView,context);
-        }
-    }
-
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (changeText!=null){
-
-            changeText.setText((String) buttonView.getTag(),isChecked);
+        if (imgUrl != null) {
+            queue = Volley.newRequestQueue(context);
+            MyImageLoader loader = new MyImageLoader(queue, imgUrl, masonryView.imageView, context);
         }
     }
 
@@ -77,12 +72,15 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
         return allModel.size();
     }
 
+
+
     public class MasonryView extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageView;//模特图片
         CheckBox likecount;//收藏次数
         TextView name;//姓名
         TextView place;//归属地
+        TextView bg_recycle;//删除时弹出的透明黑幕
 
         public MasonryView(View itemView) {
             super(itemView);
@@ -90,7 +88,18 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
             likecount = (CheckBox) itemView.findViewById(R.id.likecount);
             name = ((TextView) itemView.findViewById(R.id.name));
             place = ((TextView) itemView.findViewById(R.id.place));
+            bg_recycle = ((TextView) itemView.findViewById(R.id.bg_recycle));
             itemView.setOnClickListener(this);
+            bg_recycle.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    bg_recycle.setLayoutParams(new RelativeLayout.LayoutParams(0,0));
+
+                    deleteModel.remove(allModel.get(getLayoutPosition()));
+                }
+            });
+
         }
 
         @Override
@@ -101,17 +110,17 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
                 myOnItemClickListener.onItemClick(v, layoutPosition);
             }
 
+           // bg_recycle.setLayoutParams(new RelativeLayout.LayoutParams(v.getWidth(),v.getHeight()));
         }
     }
 
     public interface MyOnItemClickListener {
-        void onItemClick(View view, int postion);//具体的点击事件
+        void onItemClick(View view, int position);//具体的点击事件
     }
-
 
     public static interface ChangeText{
         void setText(String tag, boolean isChecked);
     }
 
-
 }
+

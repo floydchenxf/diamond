@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
+
     <ImageView
         android:id="@+id/masonry_item_img"
         android:layout_width="match_parent"
@@ -12,6 +13,11 @@
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:src="@drawable/m1" />
+    <TextView
+        android:id="@+id/bg_recycle"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/duihao_bg"/>
 
     <CheckBox
         android:id="@+id/likecount"
