@@ -5,6 +5,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -33,6 +35,8 @@ import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.floyd.diamond.event.LoginEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.adapter.TaskPicAdapter;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.multiimage.MultiImageActivity;
 import com.floyd.diamond.ui.multiimage.base.MulitImageVO;
 import com.floyd.diamond.ui.multiimage.base.PicViewObject;
@@ -71,6 +75,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private List<TaskPicsVO> taskPicsList;
     TaskPicAdapter taskPicAdapter;
 
+    private DataLoadingView dataLoadingView;
+
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private boolean success = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +95,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         moteId = getIntent().getLongExtra("moteId", 0);
         loadingDialog = DialogCreator.createDataLoadingDialog(this);
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         headBgView = (NetworkImageView) findViewById(R.id.head_bg);
         headView = (NetworkImageView) findViewById(R.id.head);
         backView = (TextView) findViewById(R.id.back);
@@ -147,11 +159,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         backView.setOnClickListener(this);
 
         EventBus.getDefault().register(this);
-        loadingDialog.show();
         loadData();
     }
 
     private void loadData() {
+        success = true;
+        dataLoadingView.startLoading();
         final CountDownLatch countDownLatch = new CountDownLatch(2);
         new Thread(new Runnable() {
             @Override
@@ -161,8 +174,16 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 } catch (InterruptedException e) {
                 }
 
-                loadingDialog.dismiss();
-
+                mHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (success) {
+                            dataLoadingView.loadSuccess();
+                        } else {
+                            dataLoadingView.loadFail();
+                        }
+                    }
+                });
             }
         }).start();
 
@@ -176,6 +197,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 @Override
                 public void onError(int code, String errorInfo) {
                     countDownLatch.countDown();
+                    success = false;
                 }
 
                 @Override
@@ -219,6 +241,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 @Override
                 public void onError(int code, String errorInfo) {
                     countDownLatch.countDown();
+                    success = false;
                     if (MoteDetailActivity.this.taskPicsList == null || MoteDetailActivity.this.taskPicsList.isEmpty()) {
                         emptyView.setVisibility(View.VISIBLE);
                         mPullToRefreshListView.setVisibility(View.GONE);
@@ -263,13 +286,13 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 startActivity(it);
                 break;
             case R.id.guanzhu:
-                if (!this.isFinishing()) {
-                    loadingDialog.show();
-                }
                 doGuanzhu();
                 break;
             case R.id.back:
                 this.finish();
+                break;
+            case R.id.act_ls_fail_layout:
+                loadData();
                 break;
         }
 
@@ -281,6 +304,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
     private void doGuanzhu() {
         if (LoginManager.isLogin(this)) {
+            loadingDialog.show();
             LoginVO vo = LoginManager.getLoginInfo(this);
             MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
                 @Override

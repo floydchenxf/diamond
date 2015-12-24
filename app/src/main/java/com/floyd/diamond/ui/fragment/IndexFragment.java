@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.text.Html;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -17,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.CheckedTextView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -42,7 +40,8 @@ import com.floyd.diamond.ui.activity.GuideActivity;
 import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
-import com.floyd.diamond.ui.anim.LsLoadingView;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.pageindicator.CircleLoopPageIndicator;
 import com.floyd.diamond.ui.view.LoopViewPager;
 import com.floyd.diamond.utils.CommonUtil;
@@ -88,15 +87,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private boolean isScrollToUp = false; //ListView滚动的方向
 
-    private TextView mActLsFailTv;
-
-    private View mActLsFailLayoutView;
-
-    private FrameLayout mActLsloading;
-
-    private LsLoadingView mLsLoadingView;
-
-    private View mLoading_container;
+    private DataLoadingView dataLoadingView;
 
     private IndexMoteAdapter indexMoteAdapter;
 
@@ -206,28 +197,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_index, container, false);
 
-
-        if (mActLsloading == null) {
-            mActLsloading = (FrameLayout) view.findViewById(R.id.act_lsloading);
-        }
-        //一些错误和空页面
-        if (mActLsFailLayoutView == null) {
-            mActLsFailLayoutView = view.findViewById(R.id.act_ls_fail_layout);
-            mActLsFailLayoutView.setOnClickListener(this);
-            mActLsFailLayoutView.setVisibility(View.GONE);
-        }
-
-        if (mActLsFailTv == null) {
-            mActLsFailTv = (TextView) view.findViewById(R.id.act_ls_fail_tv);
-            mActLsFailTv.setText(Html.fromHtml("页面太调皮，跑丢了...<br>请<font color='#1fb4fc'>刷新</font>再试试吧^^"));
-        }
-
-
-        mLsLoadingView = (LsLoadingView) view.findViewById(R.id.ls_loading_image);
-        mLoading_container = view.findViewById(R.id.loading_container);
-        if (mLoading_container != null) {
-            mLoading_container.setVisibility(View.GONE);
-        }
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(view, this);
 
         mTitleLayout = view.findViewById(R.id.title);
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.pic_list);
@@ -240,7 +211,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
         initButton();
 
-        startLoading();
+        dataLoadingView.startLoading();
 
         loadData();
 
@@ -369,7 +340,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
-                loadFail();
+                dataLoadingView.loadFail();
                 loadDialog.dismiss();
             }
 
@@ -378,7 +349,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 loadDialog.dismiss();
                 ++pageNo;
                 indexMoteAdapter.addAll(moteInfoVOs, needClear);
-                loadSuccess();
+                dataLoadingView.loadSuccess();
             }
 
             @Override
@@ -393,7 +364,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         IndexManager.getIndexInfoJob().startUI(new ApiCallback<IndexVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                loadFail();
+                dataLoadingView.loadFail();
                 loadDialog.dismiss();
             }
 
@@ -475,7 +446,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 loadDialog.dismiss();
                 ++pageNo;
                 indexMoteAdapter.addAll(moteInfoVOs, needClear);
-                loadSuccess();
+                dataLoadingView.loadSuccess();
             }
 
             @Override
@@ -557,47 +528,6 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         babyProduct.setOnClickListener(this);
         multiPriduct.setOnClickListener(this);
     }
-
-    /**
-     * 数据加载成功
-     */
-    private void loadSuccess() {
-        mActLsloading.setVisibility(View.GONE);
-        mActLsFailLayoutView.setVisibility(View.GONE);
-        stopLoading();
-    }
-
-    /**
-     * 数据加载失败
-     */
-    private void loadFail() {
-        mActLsloading.setVisibility(View.VISIBLE);
-        mActLsFailLayoutView.setVisibility(View.VISIBLE);
-        stopLoading();
-    }
-
-    /**
-     * 开始显示加载动画
-     */
-    private void startLoading() {
-        if (mActLsloading != null) {
-            mActLsloading.setVisibility(View.VISIBLE);
-            mLoading_container.setVisibility(View.VISIBLE);
-            mLsLoadingView.startAnimation();
-            mActLsFailLayoutView.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 结束显示加载动画
-     */
-    private void stopLoading() {
-        if (mActLsloading != null) {
-            mLoading_container.setVisibility(View.GONE);
-            mLsLoadingView.stopAnimation();
-        }
-    }
-
 
     public void stopBannerAutoLoop() {
         if (mChangeViewPagerHandler != null) {

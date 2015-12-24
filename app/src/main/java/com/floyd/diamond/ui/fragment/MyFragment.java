@@ -10,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,6 +43,8 @@ import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.PersonInfoActivity;
 import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 
 import java.io.File;
@@ -94,16 +95,20 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private ImageLoader mImageLoader;
 
+    private DataLoadingView dataLoadingView;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImageLoader = ImageLoaderFactory.createImageLoader();
     }
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my, container, false);
+
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(view, this);
 
         careView = (TextView) view.findViewById(R.id.care);
         taskView = (TextView) view.findViewById(R.id.task);
@@ -160,11 +165,13 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             qiangPicView = (ImageView) view.findViewById(R.id.qiang_pic);
             placePicView = (ImageView) view.findViewById(R.id.place_pic);
         }
+
+        loadData();
         return view;
     }
 
-    public void onResume() {
-        super.onResume();
+    private void loadData() {
+        dataLoadingView.startLoading();
 
         if (loginVO.isModel()) {
             //模特儿
@@ -188,12 +195,14 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             MoteManager.fetchMoteInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<MoteInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
+                    dataLoadingView.loadFail();
+//                    Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(MoteInfoVO moteInfoVO) {
                     Log.i(TAG, "---" + moteInfoVO);
+                    dataLoadingView.loadSuccess();
                     shopView.setText(moteInfoVO.orderNum +"");
                     qiangView.setText(moteInfoVO.fenNum + "");
                     placeView.setText(moteInfoVO.fee + "");
@@ -235,11 +244,13 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
+                    dataLoadingView.loadFail();
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(SellerInfoVO vo) {
+                    dataLoadingView.loadSuccess();
                     shopView.setText(vo.shopName);
                     nicknameView.setText(vo.nickname);
                     qiangView.setText(vo.orderNum + "");
@@ -263,9 +274,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             });
 
         }
-
     }
-
 
     @Override
     public boolean onBackPressed() {
@@ -305,6 +314,10 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             case R.id.volley:
                 Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
                 startActivity(volleyIntent);
+                break;
+            case R.id.act_ls_fail_layout:
+                //加载失败刷新
+                loadData();
                 break;
         }
     }
