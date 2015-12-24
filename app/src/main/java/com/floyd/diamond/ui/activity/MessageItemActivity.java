@@ -20,6 +20,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.ImageLoader;
 import com.floyd.diamond.bean.MyImageLoader;
 import com.floyd.diamond.ui.URl;
 
@@ -88,6 +89,6 @@ public class MessageItemActivity extends Activity {
 //            }
 //        };
 //        queue.add(request);
- //   }
+//    }
 
 }

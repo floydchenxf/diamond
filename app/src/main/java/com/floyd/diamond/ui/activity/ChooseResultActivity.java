@@ -110,7 +110,7 @@ public class ChooseResultActivity extends Activity {
         queue= Volley.newRequestQueue(ChooseResultActivity.this);
         modelsList=new ArrayList<>();//用于存放每一页的模特
         allModel=new ArrayList<>();//用于存储所有的模特
-        mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
+       // mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
         // mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override

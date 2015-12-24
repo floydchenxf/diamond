@@ -131,7 +131,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                             int currentItem = mHeaderViewPager.getCurrentItem();
                             int toItem = currentItem + 1 == totalcount ? 0 : currentItem + 1;
                             mHeaderViewPager.setCurrentItem(toItem, true);
-                            //每5秒钟发送一个message，用于切换viewPager中的图片
+                            //每3秒钟发送一个message，用于切换viewPager中的图片
                             this.sendEmptyMessageDelayed(CHANGE_BANNER_HANDLER_MSG_WHAT, 3000);
                         }
                     }

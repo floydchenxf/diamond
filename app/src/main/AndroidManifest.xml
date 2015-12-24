@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.floyd.diamond" >
+    package="com.floyd.diamond">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -27,11 +27,12 @@
     <application
         android:name=".DiamodApplication"
         android:allowBackup="true"
-        android:icon="@drawable/head"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".ui.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -129,7 +130,7 @@
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -153,26 +154,22 @@
             android:name=".ui.activity.MoteTaskTypeActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" >
-        </activity>
+            android:theme="@style/ContentOverlay"></activity>
         <activity
             android:name=".ui.activity.NewTaskActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" >
-        </activity>
+            android:theme="@style/ContentOverlay"></activity>
         <activity
             android:name=".ui.activity.MyTaskActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" >
-        </activity>
+            android:theme="@style/ContentOverlay"></activity>
         <activity
             android:name=".ui.activity.TaskProcessActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" >
-        </activity>
+            android:theme="@style/ContentOverlay"></activity>
         <activity
             android:name=".ui.activity.MyPicActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -192,19 +189,23 @@
             android:name="com.floyd.zxing.MipcaActivityCapture"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden" >
-        </activity>
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
         <activity android:name=".ui.activity.ChooseResultActivity" />
         <activity
             android:name=".ui.activity.SettingPersonInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
+        <activity android:name=".ui.activity.CareActivity" />
+
         <activity
             android:name=".ui.activity.PersonInfoActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.activity.CareDialogActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
         <activity
             android:name=".ui.activity.ProfileAddressActivity"
             android:label="@string/title_activity_profile_address" >

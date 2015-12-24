@@ -110,53 +110,49 @@ public class HomeChooseActivity extends Activity {
         queue=Volley.newRequestQueue(HomeChooseActivity.this);
         modelsList=new ArrayList<>();//用于存放每一页的模特
         allModel=new ArrayList<>();//用于存储所有的模特
-        mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
-       // mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
-            @Override
-            public void onPullDownToRefresh() {
-                needClear = false;
-                pageNo=1;
-                setData();
-                mPullToRefreshListView.onRefreshComplete(true, true);
-                allModel.clear();
-                //messageList.clear();
-                //handler.sendEmptyMessage(1);
-            }
-
-            @Override
-            public void onPullUpToRefresh() {
-                needClear = false;
-                mPullToRefreshListView.onRefreshComplete(true, true);
-                pageNo++;
-                setData();
-                //adapter.notifyDataSetChanged();
-                // handler.sendEmptyMessage(1);
-            }
-        });
-
-        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
-
-            float y1 = 0, y2 = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (y1 == 0) {
-                            y1 = event.getRawY();
-                        }
-                        y2 = event.getRawY();
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                return false;
-            }
-        });
+//        mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
+//       // mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+//        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
+//            @Override
+//            public void onPullDownToRefresh() {
+//                needClear = false;
+//                pageNo=1;
+//                setData();
+//                mPullToRefreshListView.onRefreshComplete(true, true);
+//                allModel.clear();
+//            }
+//
+//            @Override
+//            public void onPullUpToRefresh() {
+//                needClear = false;
+//                mPullToRefreshListView.onRefreshComplete(true, true);
+//                pageNo++;
+//                setData();
+//            }
+//        });
+//
+//        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
+//
+//            float y1 = 0, y2 = 0;
+//
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                switch (event.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        break;
+//                    case MotionEvent.ACTION_MOVE:
+//                        if (y1 == 0) {
+//                            y1 = event.getRawY();
+//                        }
+//                        y2 = event.getRawY();
+//
+//                        break;
+//                    case MotionEvent.ACTION_UP:
+//                        break;
+//                }
+//                return false;
+//            }
+//        });
 
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {

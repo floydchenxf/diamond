@@ -54,8 +54,9 @@ public class ModelPersonActivity extends Activity {
     private Dialog loadingDialog;
     private NetworkImageView headView,headView_bg;
     private long moteId;
-    private TextView nickname;
+    private TextView nickname,jianyanzhi,manyidu,age,gender,height,shapes,area;
     private ImageLoader mImageLoader;
+    private MoteDetailInfoVO vo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class ModelPersonActivity extends Activity {
     }
 
     public void init() {
-
+        vo=new MoteDetailInfoVO();
         RequestQueue mQueue = Volley.newRequestQueue(this);
         IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
                 IMChannel.getApplication(), EnvConstants.imageRootPath);
@@ -92,6 +93,14 @@ public class ModelPersonActivity extends Activity {
         headView= ((NetworkImageView) findViewById(R.id.touxiang));//头像
         headView_bg= ((NetworkImageView) findViewById(R.id.touxiang_bg));//头像背景
         nickname= ((TextView) findViewById(R.id.nickname2));//昵称
+        jianyanzhi= ((TextView) findViewById(R.id.jingyanzhi));
+        manyidu= ((TextView) findViewById(R.id.manyidu));
+        gender= ((TextView) findViewById(R.id.gender_model));
+        age= ((TextView) findViewById(R.id.age_model));
+        height= ((TextView) findViewById(R.id.height_model));
+        shapes= ((TextView) findViewById(R.id.shapes_model));
+        area= ((TextView) findViewById(R.id.area_model));
+        loadingDialog = new Dialog(this, R.style.data_load_dialog);
         loadingDialog = DialogCreator.createDataLoadingDialog(this);
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
@@ -171,7 +180,13 @@ public class ModelPersonActivity extends Activity {
                        // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
                     }
 
-
+//                    age.setText(vo.getAge());
+//
+//                    gender.setText(vo.getGender());
+//
+//                    height.setText(vo.getHeight());
+//
+//                    area.setText(vo.getAddress());
                 }
 
                 @Override

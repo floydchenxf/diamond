@@ -38,6 +38,7 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.CareActivity;
 import com.floyd.diamond.ui.activity.AlipayActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.PersonInfoActivity;
@@ -311,6 +312,10 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
                 startActivity(intent);
                 break;
+            case R.id.care:
+                Intent intent1=new Intent(this.getActivity(), CareActivity.class);
+                intent1.putExtra("num",1);
+                startActivity(intent1);
             case R.id.volley:
                 Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
                 startActivity(volleyIntent);

@@ -121,7 +121,7 @@
                         android:textSize="12sp" />
 
                     <TextView
-                        android:id="@+id/xinyudu"
+                        android:id="@+id/manyidu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="95%"
@@ -190,6 +190,7 @@
                 android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
+                android:id="@+id/gender_model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="女"
@@ -211,6 +212,7 @@
                 android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
+                android:id="@+id/age_model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="24"
@@ -232,6 +234,7 @@
                 android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
+                android:id="@+id/height_model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="180"
@@ -255,6 +258,7 @@
                 android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
+                android:id="@+id/shapes_model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="苗条"
@@ -277,6 +281,7 @@
                 android:textSize="12sp"
                 android:textColor="#989898"/>
             <TextView
+                android:id="@+id/area_model"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="山东 济南"
