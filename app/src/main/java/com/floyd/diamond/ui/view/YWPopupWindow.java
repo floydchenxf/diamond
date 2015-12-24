@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,11 +28,12 @@ public class YWPopupWindow {
 
     public void initView(final View v, int layout, int height, ViewInit viewInit) {
         this.v = v;
-        screanHeight = context.getWindowManager().getDefaultDisplay().getHeight();
+//        screanHeight = context.getWindowManager().getDefaultDisplay().getHeight();
         if (menuBg == null) {
             View view = View.inflate(context, R.layout.common_popup_bg, null);
             menuBg = new PopupWindow(view, LayoutParams.MATCH_PARENT,
-                    screanHeight); //50dp是v的height
+                    LayoutParams.MATCH_PARENT); //50dp是v的height
+            menuBg.setBackgroundDrawable(new BitmapDrawable());
             view.setOnClickListener(new OnClickListener() {
 
                 @Override
@@ -57,9 +59,9 @@ public class YWPopupWindow {
         }
 
         menuBg.setAnimationStyle(R.style.common_popup_bg_animation);
-        menuBg.showAtLocation(v, Gravity.LEFT | Gravity.BOTTOM, 0, v.getHeight());
+        menuBg.showAtLocation(v, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
         menu.setAnimationStyle(R.style.messageactivity_menu_animation);
-        menu.showAtLocation(v, Gravity.LEFT | Gravity.BOTTOM, 0, v.getHeight());
+        menu.showAtLocation(v, Gravity.LEFT | Gravity.BOTTOM, 0, 0);
         isShow = true;
     }
 

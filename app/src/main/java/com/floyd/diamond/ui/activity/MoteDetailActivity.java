@@ -31,6 +31,7 @@ import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.floyd.diamond.event.LoginEvent;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.adapter.TaskPicAdapter;
 import com.floyd.diamond.ui.multiimage.MultiImageActivity;
 import com.floyd.diamond.ui.multiimage.base.MulitImageVO;
@@ -83,7 +84,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         mImageLoader.setBatchedResponseDelay(0);
 
         moteId = getIntent().getLongExtra("moteId", 0);
-        loadingDialog = new Dialog(this, R.style.data_load_dialog);
+        loadingDialog = DialogCreator.createDataLoadingDialog(this);
         headBgView = (NetworkImageView) findViewById(R.id.head_bg);
         headView = (NetworkImageView) findViewById(R.id.head);
         backView = (TextView) findViewById(R.id.back);

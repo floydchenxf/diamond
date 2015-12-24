@@ -35,4 +35,12 @@ public class APIConstants {
     public static final String API_TASK_PROCESS="api/task/getMoteTaskProcess";//模特任务进程
     public static final String API_GIVE_UP_TASK = "api/task/giveUpTask";//放弃已接任务
     public static final String API_GIVE_UP_UNACCEPT_TASK = "api/task/giveUpUnAcceptTask"; //放弃未接的任务
+    public static final String API_AREA_LEST_BY_PID = "api/common/getAreaListByPid";//获取地址
+    public static final String API_UPDATE_MOTE = "api/user/updateMote"; //更新mote信息
+    public static final String API_PIC_UPVOTE ="api/taskPic/picUpVote"; //图片点赞
+    public static final String API_CANCEL_PIC_UPVOTE = "api/taskPic/cancelPicUpVote"; //取消图片点赞
+    public static final String API_UPDATE_MOTE_AUTHEN_INFO = "api/user/updateMoteAuthenInfo"; //更信模特验证信息
+    public static final String API_COMMON_UPLOAD = "api/common/upload"; //通用图片上传
+    public static final String API_MOTE_WALLET = "api/user/getMyMoteWallet"; //获取模特儿钱包
+    public static final String API_REDUCE_CASH_APPLY = "api/cash/reduceCashApply";//申请提现
 }

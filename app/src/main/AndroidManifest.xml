@@ -69,7 +69,6 @@
             android:label="@string/title_activity_mote_more_info"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-
         <activity
             android:name=".ui.graphic.CropImageActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -177,7 +176,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
         <activity
-            android:name="com.floyd.diamond.ui.multiimage.MultiPickAlbumActivity"
+            android:name=".ui.multiimage.MultiPickAlbumActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
@@ -207,6 +206,22 @@
         <activity
             android:name=".ui.activity.CareDialogActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity
+            android:name=".ui.activity.ProfileAddressActivity"
+            android:label="@string/title_activity_profile_address" >
+        </activity>
+        <activity
+            android:name=".ui.activity.MoteAuthActivity"
+            android:label="@string/title_activity_mote_auth" >
+        </activity>
+        <activity
+            android:name=".ui.activity.MoteCardActivity"
+            android:label="@string/title_activity_mote_card" >
+        </activity>
+        <activity
+            android:name=".ui.activity.AlipayActivity"
+            android:label="@string/title_activity_alipay" >
+        </activity>
     </application>
 
 </manifest>

@@ -28,6 +28,7 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
 import com.floyd.diamond.event.AcceptTaskEvent;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 
 import de.greenrobot.event.EventBus;
@@ -69,7 +70,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
         mImageLoader.setBatchedResponseDelay(0);
 
-        loadingDialog = new Dialog(this, R.style.data_load_dialog);
+        loadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         taskItemVO = (TaskItemVO) getIntent().getSerializableExtra(TASK_TYPE_ITEM_OBJECT);
         backView = (LinearLayout) findViewById(R.id.back);

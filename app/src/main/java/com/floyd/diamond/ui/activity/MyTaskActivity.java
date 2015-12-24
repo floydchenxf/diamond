@@ -20,6 +20,7 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.MyTaskAdapter;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
@@ -52,7 +53,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_task);
 
-        dataLoadingDailog = new Dialog(this, R.style.data_load_dialog);
+        dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         allStatusView = (CheckedTextView) findViewById(R.id.all_status);
         doingStatusView = (CheckedTextView) findViewById(R.id.doing_status);

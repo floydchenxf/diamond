@@ -28,6 +28,7 @@ import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.anim.LsLoadingView;
 import com.floyd.diamond.ui.fragment.FinishCallback;
@@ -107,7 +108,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_task_process);
         moteTaskId = getIntent().getLongExtra(MOTE_TASK_ID, 0l);
         mImageLoader = ImageLoaderFactory.createImageLoader();
-        dataLoadingDailog = new Dialog(this, R.style.data_load_dialog);
+        dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         findViewById(R.id.title_back).setOnClickListener(this);
         initTaskInfoView();
         initAcceptView();

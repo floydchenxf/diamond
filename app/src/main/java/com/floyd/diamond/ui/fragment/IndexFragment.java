@@ -36,6 +36,7 @@ import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.IndexItemVO;
 import com.floyd.diamond.biz.vo.IndexVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
 import com.floyd.diamond.ui.activity.HomeChooseActivity;
@@ -161,7 +162,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         super.onCreate(savedInstanceState);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         mTopBannerList = new ArrayList<AdvVO>();
-        loadDialog = new Dialog(this.getActivity(), R.style.data_load_dialog);
+        loadDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
         mGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
@@ -282,14 +283,14 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             public void onPullDownToRefresh() {
                 needClear = false;
                 loadMoteInfo();
-                mPullToRefreshListView.onRefreshComplete(true, true);
+                mPullToRefreshListView.onRefreshComplete(false, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
                 needClear = false;
                 loadMoteInfo();
-                mPullToRefreshListView.onRefreshComplete(true, true);
+                mPullToRefreshListView.onRefreshComplete(false, true);
             }
         });
 

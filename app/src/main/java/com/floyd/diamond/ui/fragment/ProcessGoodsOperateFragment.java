@@ -27,6 +27,7 @@ import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.process.ProcessStatus;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.floyd.zxing.MipcaActivityCapture;
 
@@ -91,7 +92,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        dataLoadingDialog = new Dialog(this.getActivity(), R.style.data_load_dialog);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
         taskProcessVO = (TaskProcessVO) getArguments().getSerializable(TASK_PROCESS_VO);
     }
 

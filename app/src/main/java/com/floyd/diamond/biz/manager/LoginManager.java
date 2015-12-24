@@ -3,7 +3,6 @@ package com.floyd.diamond.biz.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
@@ -35,30 +34,21 @@ public class LoginManager {
     public static final String LOGIN_INFO = "LOGIN_INFO";
 
     public static LoginVO getLoginInfo(Context context) {
-        String loginInfo = PrefsTools.getStringPrefs(context, LOGIN_INFO, "");
-        if (TextUtils.isEmpty(loginInfo)) {
+        String data = PrefsTools.getStringPrefs(context, LOGIN_INFO, "");
+        if (TextUtils.isEmpty(data)) {
             return null;
         }
 
         LoginVO loginVO = new LoginVO();
-        try {
-            JSONObject json = new JSONObject(loginInfo);
-            String data = json.getString("data");
-            Gson gson = new Gson();
-            loginVO = gson.fromJson(data, LoginVO.class);
-        } catch (JSONException e) {
-            Log.e(TAG, "parse json cause error:", e);
-            return null;
-        }
+        Gson gson = new Gson();
+        loginVO = gson.fromJson(data, LoginVO.class);
         return loginVO;
     }
 
-    public static void saveLoginInfo(LoginVO vo) {
-
-    }
-
-    public static void saveLoginInfo(Context context, String loginInfoJson) {
-        PrefsTools.setStringPrefs(context, LOGIN_INFO, loginInfoJson);
+    public static void saveLoginInfo(Context context, LoginVO vo) {
+        Gson gson = new Gson();
+        String data = gson.toJson(vo);
+        PrefsTools.setStringPrefs(context, LOGIN_INFO, data);
     }
 
     public static AsyncJob<LoginVO> createLoginJob(final Context context, String phoneNum, String password, int loginType) {
@@ -78,7 +68,7 @@ public class LoginManager {
                     protected LoginVO convert2Obj(String s, String data) throws JSONException {
                         Gson gson = new Gson();
                         LoginVO loginVO = gson.fromJson(data, LoginVO.class);
-                        PrefsTools.setStringPrefs(context, LOGIN_INFO, s);
+                        saveLoginInfo(context, loginVO);
                         return loginVO;
                     }
                 });

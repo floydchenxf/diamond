@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,22 +29,17 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
-import com.floyd.diamond.biz.vo.TaskPicsVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners;
-import com.umeng.socialize.media.QQShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
-import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
-import org.w3c.dom.Text;
-
-import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -107,6 +101,7 @@ public class ModelPersonActivity extends Activity {
         shapes= ((TextView) findViewById(R.id.shapes_model));
         area= ((TextView) findViewById(R.id.area_model));
         loadingDialog = new Dialog(this, R.style.data_load_dialog);
+        loadingDialog = DialogCreator.createDataLoadingDialog(this);
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
