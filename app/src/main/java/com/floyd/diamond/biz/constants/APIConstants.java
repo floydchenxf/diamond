@@ -43,4 +43,5 @@ public class APIConstants {
     public static final String API_COMMON_UPLOAD = "api/common/upload"; //通用图片上传
     public static final String API_MOTE_WALLET = "api/user/getMyMoteWallet"; //获取模特儿钱包
     public static final String API_REDUCE_CASH_APPLY = "api/cash/reduceCashApply";//申请提现
+    public static final String API_QUERY_APPLY_LIST = "api/cash/queryApplyList"; //查询提现记录
 }

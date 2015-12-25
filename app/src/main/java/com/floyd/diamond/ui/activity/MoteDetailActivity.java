@@ -228,8 +228,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                         guanzhuView.setChecked(false);
                         guanzhuView.setOnClickListener(MoteDetailActivity.this);
                     }
-
-
                 }
 
                 @Override
