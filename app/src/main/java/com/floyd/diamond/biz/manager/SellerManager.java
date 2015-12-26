@@ -12,6 +12,7 @@ import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
+import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
@@ -48,6 +49,13 @@ public class SellerManager {
         return vo;
     }
 
+    /**
+     * 获取卖家信息
+     *
+     * @param context
+     * @param accessToken
+     * @return
+     */
     public static AsyncJob<SellerInfoVO> fetchSellerInfoJob(final Context context, String accessToken) {
         String url = APIConstants.HOST + APIConstants.API_MY_SELLER_INFO;
         Map<String, String> params = new HashMap<String, String>();
@@ -76,4 +84,25 @@ public class SellerManager {
             }
         });
     }
+
+    /**
+     * 获取商家任务
+     *
+     * @param type
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
+    public static AsyncJob<MoteTaskVO> getSellerTaskList(int type, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_LIST;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", type + "");
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskVO.class);
+    }
+
+
 }

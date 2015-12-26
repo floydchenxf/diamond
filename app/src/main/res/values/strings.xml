@@ -82,4 +82,5 @@
     <string name="title_activity_mote_auth">MoteAuthActivity</string>
     <string name="title_activity_mote_card">MoteCardActivity</string>
     <string name="title_activity_alipay">AlipayActivity</string>
+    <string name="title_activity_exit">exitActivity</string>
 </resources>

@@ -188,7 +188,7 @@ public class MoteManager {
     public static AsyncJob<MoteTaskVO> fetchTaskList(int moteType, int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_SEARCH;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteType", moteType + "");
+        params.put("itemType", moteType + "");
         params.put("pageNo", pageNo + "");
         params.put("pageSize", pageSize + "");
         params.put("token", token);

@@ -129,7 +129,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         nicknameView = (TextView) view.findViewById(R.id.mine_name);
         ywPopupWindow = new YWPopupWindow(this.getActivity());
         float height = this.getActivity().getResources().getDimension(R.dimen.edit_head_bar_heigh);
-        ywPopupWindow.initView(headView, R.layout.popup_edit_head, (int)height, new YWPopupWindow.ViewInit() {
+        ywPopupWindow.initView(headView, R.layout.popup_edit_head, (int) height, new YWPopupWindow.ViewInit() {
             @Override
             public void initView(View v) {
                 editHeadButton = (TextView) v.findViewById(R.id.edit_head);
@@ -171,6 +171,11 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         return view;
     }
 
+    public void onResume() {
+        super.onResume();
+
+    }
+
     private void loadData() {
         dataLoadingView.startLoading();
 
@@ -197,14 +202,13 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 @Override
                 public void onError(int code, String errorInfo) {
                     dataLoadingView.loadFail();
-//                    Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(MoteInfoVO moteInfoVO) {
                     Log.i(TAG, "---" + moteInfoVO);
                     dataLoadingView.loadSuccess();
-                    shopView.setText(moteInfoVO.orderNum +"");
+                    shopView.setText(moteInfoVO.orderNum + "");
                     qiangView.setText(moteInfoVO.fenNum + "");
                     placeView.setText(moteInfoVO.fee + "");
                     nicknameView.setText(moteInfoVO.nickname);
@@ -303,9 +307,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivity(editProfileIntent);
                 break;
             case R.id.set:
-//                PrefsTools.setStringPrefs(this.getActivity(), LoginManager.LOGIN_INFO, "");
                 Intent settingIntent = new Intent(this.getActivity(), SettingPersonInfoActivity.class);
-                settingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(settingIntent);
                 break;
             case R.id.task:
@@ -313,12 +315,18 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.care:
-                Intent intent1=new Intent(this.getActivity(), CareActivity.class);
-                intent1.putExtra("num",1);
+                Intent intent1 = new Intent(this.getActivity(), CareActivity.class);
+                intent1.putExtra("num", 1);
                 startActivity(intent1);
             case R.id.volley:
-                Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
-                startActivity(volleyIntent);
+                if (loginVO.isModel()) {
+                    //模特儿钱包
+                    Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
+                    startActivity(volleyIntent);
+                } else {
+                    //商家钱包
+
+                }
                 break;
             case R.id.act_ls_fail_layout:
                 //加载失败刷新

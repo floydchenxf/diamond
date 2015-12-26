@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class TaskItemVO implements Serializable{
     public long id;
-    public String userId;
+    public long userId;
     public String title;
     public String url;
     public float price;
