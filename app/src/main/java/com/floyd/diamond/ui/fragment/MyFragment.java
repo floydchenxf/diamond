@@ -311,8 +311,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivity(settingIntent);
                 break;
             case R.id.task:
-                Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
-                startActivity(intent);
+                if (loginVO.isModel()) {
+                    Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
+                    startActivity(intent);
+                } else {
+                    
+                }
                 break;
             case R.id.care:
                 Intent intent1 = new Intent(this.getActivity(), CareActivity.class);

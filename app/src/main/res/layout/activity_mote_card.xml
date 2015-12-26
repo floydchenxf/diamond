@@ -47,12 +47,19 @@
             android:paddingBottom="20dp"
             android:background="@drawable/common_white_button_bg">
 
+            <ImageView
+                android:id="@+id/default_id_card_photo"
+                android:layout_width="match_parent"
+                android:layout_height="240dp"
+                android:layout_margin="20dp"
+                android:src="@drawable/idcard"
+                android:scaleType="centerCrop" />
+
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/id_card_photo"
                 android:layout_width="match_parent"
                 android:layout_height="240dp"
                 android:layout_margin="20dp"
-                android:background="#cecece"
                 android:scaleType="centerCrop" />
 
             <ImageView

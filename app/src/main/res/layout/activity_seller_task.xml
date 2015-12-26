@@ -107,6 +107,4 @@
         android:text="暂无数据"
         android:visibility="gone" />
 
-    <include layout="@layout/diamod_data_loading" />
-
 </RelativeLayout>

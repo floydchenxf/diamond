@@ -1,4 +1,4 @@
-package com.floyd.diamond.ui.activity;
+package com.floyd.diamond.ui.seller;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -22,15 +22,14 @@ import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.TaskItemVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.NewTaskActivity;
 import com.floyd.diamond.ui.adapter.MyTaskAdapter;
-import com.floyd.diamond.ui.loading.DataLoadingView;
-import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.List;
 
-public class MyTaskActivity extends Activity implements View.OnClickListener {
+public class SellerTaskActivity extends Activity implements View.OnClickListener {
 
     private CheckedTextView allStatusView;
     private CheckedTextView doingStatusView;
@@ -40,7 +39,6 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
     private PullToRefreshListView mPullToRefreshListView;
     private ListView mListView;
     private Dialog dataLoadingDailog;
-    private DataLoadingView dataLoadingView;
     private ImageLoader mImageLoader;
 
     private MoteTaskStatus taskStatus = MoteTaskStatus.ALL;
@@ -54,11 +52,9 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_task);
+        setContentView(R.layout.activity_seller_task);
 
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
-        dataLoadingView = new DefaultDataLoadingView();
-        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         allStatusView = (CheckedTextView) findViewById(R.id.all_status);
         doingStatusView = (CheckedTextView) findViewById(R.id.doing_status);
@@ -104,7 +100,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItemVO itemVO = adapter.getData().get(position - 1);
-                Intent it = new Intent(MyTaskActivity.this, NewTaskActivity.class);
+                Intent it = new Intent(SellerTaskActivity.this, NewTaskActivity.class);
                 it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
                 startActivity(it);
             }
@@ -112,48 +108,6 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         mListView.setAdapter(adapter);
         loadData();
     }
-
-    private void firstLoadData() {
-        if (!LoginManager.isLogin(this)) {
-            return;
-        }
-
-        dataLoadingView.startLoading();
-        LoginVO loginVO = LoginManager.getLoginInfo(this);
-        MoteManager.fetchMyTasks(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                if (!MyTaskActivity.this.isFinishing()) {
-                    dataLoadingView.loadFail();
-                    Toast.makeText(MyTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onSuccess(MoteTaskVO moteTaskVO) {
-                if (!MyTaskActivity.this.isFinishing()) {
-                    dataLoadingView.loadSuccess();
-                    List<TaskItemVO> tasks = moteTaskVO.dataList;
-                    if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
-                        emptyView.setVisibility(View.VISIBLE);
-                        mPullToRefreshListView.setVisibility(View.GONE);
-                    } else {
-                        mPullToRefreshListView.setVisibility(View.VISIBLE);
-                        emptyView.setVisibility(View.GONE);
-                        adapter.addAll(tasks, isClear);
-                    }
-                }
-            }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
-
-
-    }
-
 
     private void loadData() {
         if (!LoginManager.isLogin(this)) {
@@ -165,15 +119,15 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         MoteManager.fetchMyTasks(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                if (!MyTaskActivity.this.isFinishing()) {
+                if (!SellerTaskActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
-                    Toast.makeText(MyTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onSuccess(MoteTaskVO moteTaskVO) {
-                if (!MyTaskActivity.this.isFinishing()) {
+                if (!SellerTaskActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
                     List<TaskItemVO> tasks = moteTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
@@ -244,9 +198,6 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 break;
             case R.id.title_back:
                 this.finish();
-                break;
-            case R.id.act_ls_fail_layout:
-                firstLoadData();
                 break;
         }
 

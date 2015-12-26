@@ -210,7 +210,7 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
                 this.finish();
                 break;
             case R.id.act_ls_fail_layout:
-                loadData();
+                firstLoadData();
                 break;
         }
 
