@@ -38,8 +38,8 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteInfoVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.activity.CareActivity;
 import com.floyd.diamond.ui.activity.AlipayActivity;
+import com.floyd.diamond.ui.activity.CareActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.PersonInfoActivity;
 import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
@@ -167,13 +167,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             placePicView = (ImageView) view.findViewById(R.id.place_pic);
         }
 
-        loadData();
         return view;
     }
 
     public void onResume() {
         super.onResume();
-
+        loadData();
     }
 
     private void loadData() {
@@ -261,14 +260,14 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     qiangView.setText(vo.orderNum + "");
                     placeView.setText(vo.area);
 
-                    if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
-                        headView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
+                    if (!TextUtils.isEmpty(vo.avartUrl)) {
+                        headView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader);
+                        bgHeadView.setImageUrl(vo.avartUrl, mImageLoader);
                     }
                 }
 

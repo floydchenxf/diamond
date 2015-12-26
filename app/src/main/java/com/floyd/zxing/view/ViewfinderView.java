@@ -117,6 +117,7 @@ public final class ViewfinderView extends View {
 		super(context, attrs);
 
 		density = context.getResources().getDisplayMetrics().density;
+//		density = context.getResources().getDimension(R.dimen.one_dp);
 		//将像素转换成dp
 		ScreenRate = (int)(20 * density);
 
