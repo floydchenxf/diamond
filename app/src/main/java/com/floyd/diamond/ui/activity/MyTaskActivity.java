@@ -81,7 +81,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo++;
                 isClear = false;
                 loadData();
-                mPullToRefreshListView.onRefreshComplete(false,false);
+                mPullToRefreshListView.onRefreshComplete(false, false);
             }
 
             @Override
@@ -98,7 +98,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TaskItemVO itemVO = adapter.getData().get(position-1);
+                TaskItemVO itemVO = adapter.getData().get(position - 1);
                 Intent it = new Intent(MyTaskActivity.this, NewTaskActivity.class);
                 it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
                 startActivity(it);

@@ -40,6 +40,7 @@ import com.floyd.diamond.biz.vo.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.AlipayActivity;
 import com.floyd.diamond.ui.activity.CareActivity;
+import com.floyd.diamond.ui.activity.MyPicActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.PersonInfoActivity;
 import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
@@ -330,6 +331,15 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             case R.id.act_ls_fail_layout:
                 //加载失败刷新
                 loadData();
+                break;
+            case R.id.pictrue:
+                Log.i(TAG, "--------model type:" + loginVO.isModel());
+                if (loginVO.isModel()) {
+                    Intent it = new Intent(this.getActivity(), MyPicActivity.class);
+                    startActivity(it);
+                } else {
+                    //卖家的图库
+                }
                 break;
         }
     }

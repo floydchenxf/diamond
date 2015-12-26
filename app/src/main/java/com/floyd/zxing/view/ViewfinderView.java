@@ -56,7 +56,7 @@ public final class ViewfinderView extends View {
 	/**
 	 * 四个绿色边角对应的宽度
 	 */
-	private static final int CORNER_WIDTH = 10;
+	private static final int CORNER_WIDTH = 6;
 	/**
 	 * 扫描框中的中间线的宽度
 	 */
@@ -65,7 +65,7 @@ public final class ViewfinderView extends View {
 	/**
 	 * 扫描框中的中间线的与扫描框左右的间隙
 	 */
-	private static final int MIDDLE_LINE_PADDING = 5;
+	private static final int MIDDLE_LINE_PADDING = 10;
 
 	/**
 	 * 中间那条线每次刷新移动的距离
@@ -79,7 +79,7 @@ public final class ViewfinderView extends View {
 	/**
 	 * 字体大小
 	 */
-	private static final int TEXT_SIZE = 16;
+	private static final int TEXT_SIZE = 14;
 	/**
 	 * 字体距离扫描框下面的距离
 	 */
@@ -117,9 +117,8 @@ public final class ViewfinderView extends View {
 		super(context, attrs);
 
 		density = context.getResources().getDisplayMetrics().density;
-//		density = context.getResources().getDimension(R.dimen.one_dp);
 		//将像素转换成dp
-		ScreenRate = (int)(20 * density);
+		ScreenRate = (int)(30 * density);
 
 		paint = new Paint();
 		Resources resources = getResources();
