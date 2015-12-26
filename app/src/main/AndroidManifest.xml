@@ -239,6 +239,13 @@
         <activity
             android:name=".ui.seller.SellerTaskActivity"
             android:configChanges="keyboardHidden|orientation"
+            android:theme="@style/ContentOverlay"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name=".ui.seller.SellerTaskDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@style/ContentOverlay"
             android:screenOrientation="portrait">
         </activity>
     </application>

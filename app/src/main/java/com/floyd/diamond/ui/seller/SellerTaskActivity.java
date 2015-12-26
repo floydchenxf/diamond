@@ -117,7 +117,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             }
         });
         mListView.setAdapter(adapter);
-        loadData();
+        firstLoadData();
     }
 
     private void firstLoadData() {

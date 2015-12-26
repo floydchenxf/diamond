@@ -10,7 +10,7 @@ public class SellerTaskDetailVO {
     public String title;
     public String nickname;
     public String expressNo;
-    public int status;
+    public int status;//
     public int finishStatus;
     public int uploadPicNum;
 }

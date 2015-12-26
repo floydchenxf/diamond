@@ -10,6 +10,7 @@ import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
+import com.floyd.diamond.biz.constants.SellerTaskDetailStatus;
 import com.floyd.diamond.biz.constants.SellerTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
@@ -118,21 +119,22 @@ public class SellerManager {
      * 获取商家任务详情
      *
      * @param taskId
-     * @param type 0全部 1进行中 2待确定 3已结束
+     * @param status 0全部 1进行中 2待确定 3已结束
      * @param pageNo
      * @param pageSize
      * @param token
      * @return
      */
-    public static AsyncJob<SellerTaskDetailVO> getSellerTaskDetailList(long taskId, int type, int pageNo, int pageSize, String token) {
+    public static AsyncJob<List<SellerTaskDetailVO>> getSellerTaskDetailList(long taskId, SellerTaskDetailStatus status, int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_LIST_DETAIL;
         Map<String, String> params = new HashMap<String, String>();
         params.put("taskId", taskId + "");
-        params.put("type", type + "");
+        params.put("type", status.code + "");
         params.put("pageNo", pageNo + "");
         params.put("pageSize", pageSize + "");
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerTaskVO.class);
+        Type classType = new TypeToken<ArrayList<SellerTaskDetailVO>>() {}.getType();
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, classType);
     }
 
     public static AsyncJob<List<TaskPicsVO>> getSellerTaskPics(int pageNo, int pageSize, String token) {
