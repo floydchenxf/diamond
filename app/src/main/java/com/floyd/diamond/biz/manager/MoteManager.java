@@ -473,6 +473,12 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
+    /**
+     * 上传图片通用接口
+     * @param file
+     * @param token
+     * @return
+     */
     public static AsyncJob<String> uploadCommonFile(File file, String token) {
         String url = APIConstants.HOST + APIConstants.API_COMMON_UPLOAD;
         Map<String, FileItem> fileParams = new HashMap<String, FileItem>();

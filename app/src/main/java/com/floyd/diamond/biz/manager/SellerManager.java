@@ -12,15 +12,23 @@ import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
+import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.MoteTaskVO;
 import com.floyd.diamond.biz.vo.SellerInfoVO;
+import com.floyd.diamond.biz.vo.TaskPicsVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -102,6 +110,38 @@ public class SellerManager {
         params.put("pageSize", pageSize + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskVO.class);
+    }
+
+    public static AsyncJob<List<TaskPicsVO>> getSellerTaskPics(int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_PICS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        Type type = new TypeToken<ArrayList<LinkedHashMap<String, ArrayList<MoteTaskPicVO>>>>() {
+        }.getType();
+        AsyncJob<List<Map<String, List<MoteTaskPicVO>>>> job = JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
+        return job.map(new Func<List<Map<String, List<MoteTaskPicVO>>>, List<TaskPicsVO>>() {
+            @Override
+            public List<TaskPicsVO> call(List<Map<String, List<MoteTaskPicVO>>> taskPicList) {
+                if (taskPicList.isEmpty()) {
+                    return Collections.EMPTY_LIST;
+                }
+
+                List<TaskPicsVO> pics = new ArrayList<TaskPicsVO>();
+                for (Map<String, List<MoteTaskPicVO>> ele : taskPicList) {
+                    TaskPicsVO taskPicsVO = new TaskPicsVO();
+                    if (ele != null) {
+                        for (Map.Entry<String, List<MoteTaskPicVO>> ent : ele.entrySet()) {
+                            taskPicsVO.dateTime = ent.getKey();
+                            taskPicsVO.taskPics = ent.getValue();
+                            pics.add(taskPicsVO);
+                        }
+                    }
+                }
+                return pics;
+            }
+        });
     }
 
 

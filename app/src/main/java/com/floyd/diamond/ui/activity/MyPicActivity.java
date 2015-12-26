@@ -1,6 +1,7 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,9 +14,11 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.TaskPicsVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.TaskPicAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
@@ -46,6 +49,7 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
     private TaskPicAdapter taskPicAdapter;
 
     private DataLoadingView dataLoadingView;
+    private Dialog dataLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
         moteId = LoginManager.getLoginInfo(this).user.id;
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
         findViewById(R.id.title_back).setOnClickListener(this);
         emptyView = (TextView) findViewById(R.id.empty_info);
         titleNameView = (TextView) findViewById(R.id.title_name);
@@ -107,13 +112,61 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
         });
         mListView.setAdapter(taskPicAdapter);
 
-        loadData();
+        firstLoadData();
+    }
+
+    private void loadData(ApiCallback<List<TaskPicsVO>> callback) {
+        LoginVO vo = LoginManager.getLoginInfo(this);
+        if (vo.isModel()) {
+            MoteManager.fetchMoteTaskPics(moteId, pageNo, PAGE_SIZE, vo.token).startUI(callback);
+        } else {
+            SellerManager.getSellerTaskPics(pageNo, PAGE_SIZE, vo.token).startUI(callback);
+        }
     }
 
     private void loadData() {
+        dataLoadingDialog.show();
+        loadData(new ApiCallback<List<TaskPicsVO>>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                dataLoadingDialog.dismiss();
+                if (MyPicActivity.this.taskPicsList == null || MyPicActivity.this.taskPicsList.isEmpty()) {
+                    emptyView.setVisibility(View.VISIBLE);
+                    mPullToRefreshListView.setVisibility(View.GONE);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                    mPullToRefreshListView.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onSuccess(List<TaskPicsVO> taskPicsVOs) {
+                dataLoadingDialog.dismiss();
+                taskPicAdapter.addAll(taskPicsVOs, false);
+                MyPicActivity.this.taskPicsList = taskPicAdapter.getData();
+                if (MyPicActivity.this.taskPicsList == null || MyPicActivity.this.taskPicsList.isEmpty()) {
+                    emptyView.setVisibility(View.VISIBLE);
+                    mPullToRefreshListView.setVisibility(View.GONE);
+                } else {
+                    emptyView.setVisibility(View.GONE);
+                    mPullToRefreshListView.setVisibility(View.VISIBLE);
+                }
+
+                Log.i(TAG, "kkkk--------------map:" + taskPicsVOs);
+
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+    }
+
+
+    private void firstLoadData() {
         dataLoadingView.startLoading();
-        LoginVO vo = LoginManager.getLoginInfo(this);
-        MoteManager.fetchMoteTaskPics(moteId, pageNo, PAGE_SIZE, vo.token).startUI(new ApiCallback<List<TaskPicsVO>>() {
+        loadData(new ApiCallback<List<TaskPicsVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
                 dataLoadingView.loadFail();

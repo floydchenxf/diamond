@@ -334,12 +334,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 break;
             case R.id.pictrue:
                 Log.i(TAG, "--------model type:" + loginVO.isModel());
-                if (loginVO.isModel()) {
-                    Intent it = new Intent(this.getActivity(), MyPicActivity.class);
-                    startActivity(it);
-                } else {
-                    //卖家的图库
-                }
+                Intent it = new Intent(this.getActivity(), MyPicActivity.class);
+                startActivity(it);
                 break;
         }
     }

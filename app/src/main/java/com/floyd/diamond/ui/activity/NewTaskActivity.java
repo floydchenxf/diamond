@@ -89,7 +89,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
         priceView.setText(taskItemVO.price + "");
         shotFeeView.setText(taskItemVO.shotFee + "");
-        shotAreaIdView.setText(taskItemVO.shotAreaId + "");
+        shotAreaIdView.setText(taskItemVO.areaName);
         selfBuyRateView.setText(taskItemVO.selfBuyRate + "");
 
 
