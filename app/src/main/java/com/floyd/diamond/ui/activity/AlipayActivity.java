@@ -16,7 +16,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.MoteWalletVO;
+import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;

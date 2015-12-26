@@ -10,7 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
@@ -34,6 +33,8 @@ import com.floyd.diamond.ui.anim.LsLoadingView;
 import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessGoodsOperateFragment;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 
 public class TaskProcessActivity extends Activity implements View.OnClickListener {
 
@@ -64,6 +65,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     //-----------------图片-------------------------//
 
     private Dialog dataLoadingDailog;
+    private DataLoadingView dataLoadingView;
 
     //loading
     private FrameLayout mActLsloading;
@@ -108,12 +110,14 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         setContentView(R.layout.activity_task_process);
         moteTaskId = getIntent().getLongExtra(MOTE_TASK_ID, 0l);
         mImageLoader = ImageLoaderFactory.createImageLoader();
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         findViewById(R.id.title_back).setOnClickListener(this);
         initTaskInfoView();
         initAcceptView();
         initOrderNoView();
-        startLoading();
+        dataLoadingView.startLoading();
         loadData();
     }
 
@@ -133,72 +137,17 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         acceptTimeView = (TextView) findViewById(R.id.accept_time);
     }
 
-    private void initLoad() {
-        if (mActLsloading == null) {
-            mActLsloading = (FrameLayout) findViewById(R.id.act_lsloading);
-        }
-        //一些错误和空页面
-        if (mActLsFailLayoutView == null) {
-            mActLsFailLayoutView = findViewById(R.id.act_ls_fail_layout);
-            mActLsFailLayoutView.setOnClickListener(this);
-            mActLsFailLayoutView.setVisibility(View.GONE);
-        }
-
-        if (mActLsFailTv == null) {
-            mActLsFailTv = (TextView) findViewById(R.id.act_ls_fail_tv);
-            mActLsFailTv.setText(Html.fromHtml("页面太调皮，跑丢了...<br>请<font color='#1fb4fc'>刷新</font>再试试吧^^"));
-        }
-
-
-        mLsLoadingView = (LsLoadingView) findViewById(R.id.ls_loading_image);
-        mLoading_container = findViewById(R.id.loading_container);
-        if (mLoading_container != null) {
-            mLoading_container.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 数据加载失败
-     */
-    private void loadFail() {
-        mActLsloading.setVisibility(View.VISIBLE);
-        mActLsFailLayoutView.setVisibility(View.VISIBLE);
-        stopLoading();
-    }
-
-    /**
-     * 开始显示加载动画
-     */
-    private void startLoading() {
-        if (mActLsloading != null) {
-            mActLsloading.setVisibility(View.VISIBLE);
-            mLoading_container.setVisibility(View.VISIBLE);
-            mLsLoadingView.startAnimation();
-            mActLsFailLayoutView.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * 结束显示加载动画
-     */
-    private void stopLoading() {
-        if (mActLsloading != null) {
-            mLoading_container.setVisibility(View.GONE);
-            mLsLoadingView.stopAnimation();
-        }
-    }
-
     private void loadData() {
         LoginVO vo = LoginManager.getLoginInfo(this);
-        MoteManager.fetchTaskProcess(222l, vo.token).startUI(new ApiCallback<TaskProcessVO>() {
+        MoteManager.fetchTaskProcess(moteTaskId, vo.token).startUI(new ApiCallback<TaskProcessVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                loadFail();
+                dataLoadingView.loadFail();
             }
 
             @Override
             public void onSuccess(TaskProcessVO taskProcessVO) {
-                stopLoading();
+                dataLoadingView.loadSuccess();
                 TaskProcessActivity.this.taskProcessVO = taskProcessVO;
                 fillTaskInfo(taskProcessVO);
                 fillAcceptStatus(taskProcessVO);
@@ -379,6 +328,9 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 confirmOrderNo(moteTaskId, orderNo, token);
                 break;
             case R.id.drop_order:
+                break;
+            case R.id.act_ls_fail_layout:
+                loadData();
                 break;
         }
 

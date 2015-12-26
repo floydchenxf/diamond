@@ -1,4 +1,4 @@
-package com.floyd.diamond.biz.vo;
+package com.floyd.diamond.biz.vo.seller;
 
 /**
  * Created by floyd on 15-11-29.

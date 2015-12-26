@@ -233,10 +233,13 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.ExitActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
             android:theme="@style/FullTransparent" />
         <activity
             android:name=".ui.seller.SellerTaskActivity"
-            android:label="@string/title_activity_seller_task" >
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait">
         </activity>
     </application>
 

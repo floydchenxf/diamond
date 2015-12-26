@@ -1,6 +1,6 @@
 package com.floyd.diamond.biz.vo.process;
 
-import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 
 import java.io.Serializable;
 import java.util.List;

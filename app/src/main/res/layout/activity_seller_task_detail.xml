@@ -2,8 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:background="#EEEEEE">
+    android:background="#EEEEEE"
+    android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/title"
@@ -15,12 +15,13 @@
             android:id="@+id/title_back"
             android:layout_width="80dp"
             android:layout_height="match_parent">
+
             <TextView
                 android:layout_width="10dp"
                 android:layout_height="16dp"
                 android:layout_gravity="center_vertical|left"
                 android:layout_marginLeft="10dip"
-                android:background="@drawable/jiantou_back"/>
+                android:background="@drawable/jiantou_back" />
         </LinearLayout>
 
         <TextView
@@ -60,7 +61,7 @@
             android:layout_weight="1"
             android:background="@drawable/blue_line_button_bg"
             android:gravity="center"
-            android:text="进行中"
+            android:text="待审核"
             android:textColor="#666666" />
 
         <CheckedTextView
@@ -107,6 +108,6 @@
         android:text="暂无数据"
         android:visibility="gone" />
 
-    <include layout="@layout/diamod_data_loading"/>
+    <include layout="@layout/diamod_data_loading" />
 
 </RelativeLayout>

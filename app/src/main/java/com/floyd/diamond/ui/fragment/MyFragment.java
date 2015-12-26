@@ -35,8 +35,8 @@ import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.MoteInfoVO;
-import com.floyd.diamond.biz.vo.SellerInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
+import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.AlipayActivity;
 import com.floyd.diamond.ui.activity.CareActivity;
@@ -47,6 +47,7 @@ import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.seller.SellerTaskActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 
 import java.io.File;
@@ -315,13 +316,15 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
                     startActivity(intent);
                 } else {
-                    
+                    Intent taskintent = new Intent(this.getActivity(), SellerTaskActivity.class);
+                    startActivity(taskintent);
                 }
                 break;
             case R.id.care:
                 Intent intent1 = new Intent(this.getActivity(), CareActivity.class);
                 intent1.putExtra("num", 1);
                 startActivity(intent1);
+                break;
             case R.id.volley:
                 if (loginVO.isModel()) {
                     //模特儿钱包

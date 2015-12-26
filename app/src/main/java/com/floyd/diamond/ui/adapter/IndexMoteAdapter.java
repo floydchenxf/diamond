@@ -16,7 +16,7 @@ import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.constants.EnvConstants;
-import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.ui.activity.MoteDetailActivity;
 
 import java.util.ArrayList;

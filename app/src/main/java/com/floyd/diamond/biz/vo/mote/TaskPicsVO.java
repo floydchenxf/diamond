@@ -1,4 +1,4 @@
-package com.floyd.diamond.biz.vo;
+package com.floyd.diamond.biz.vo.mote;
 
 import java.util.List;
 

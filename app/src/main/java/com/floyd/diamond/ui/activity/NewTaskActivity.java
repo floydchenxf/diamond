@@ -26,7 +26,7 @@ import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.event.AcceptTaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.view.UIAlertDialog;

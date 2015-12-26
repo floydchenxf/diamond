@@ -1,4 +1,4 @@
-package com.floyd.diamond.biz.vo;
+package com.floyd.diamond.biz.vo.mote;
 
 /**
  * Created by floyd on 15-12-9.

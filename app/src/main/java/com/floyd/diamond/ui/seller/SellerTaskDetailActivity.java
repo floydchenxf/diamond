@@ -18,10 +18,12 @@ import com.floyd.diamond.biz.constants.SellerTaskStatus;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskItemVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.NewTaskActivity;
 import com.floyd.diamond.ui.adapter.SellerTaskAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
@@ -30,8 +32,10 @@ import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.List;
 
-public class SellerTaskActivity extends Activity implements View.OnClickListener {
-
+/**
+ * Created by floyd on 15-12-26.
+ */
+public class SellerTaskDetailActivity extends Activity implements View.OnClickListener {
     private CheckedTextView allStatusView;
     private CheckedTextView doingStatusView;
     private CheckedTextView confirmStatusView;
@@ -50,13 +54,11 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
     private boolean isClear;
 
     private TextView emptyView;
-    private float density;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seller_task);
-        density = this.getResources().getDisplayMetrics().density;
+        setContentView(R.layout.activity_seller_task_detail);
 
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
@@ -110,9 +112,9 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SellerTaskItemVO itemVO = adapter.getData().get(position - 1);
-                Intent it = new Intent(SellerTaskActivity.this, SellerTaskDetailActivity.class);
-                it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                TaskItemVO itemVO = adapter.getData().get(position - 1);
+                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
                 startActivity(it);
             }
         });
@@ -130,15 +132,15 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
         SellerManager.getSellerTaskList(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<SellerTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                if (!SellerTaskActivity.this.isFinishing()) {
+                if (!SellerTaskDetailActivity.this.isFinishing()) {
                     dataLoadingView.loadFail();
-                    Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SellerTaskDetailActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onSuccess(SellerTaskVO sellerTaskVO) {
-                if (!SellerTaskActivity.this.isFinishing()) {
+                if (!SellerTaskDetailActivity.this.isFinishing()) {
                     dataLoadingView.loadSuccess();
                     List<SellerTaskItemVO> tasks = sellerTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
@@ -172,15 +174,15 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
         SellerManager.getSellerTaskList(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<SellerTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                if (!SellerTaskActivity.this.isFinishing()) {
+                if (!SellerTaskDetailActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
-                    Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SellerTaskDetailActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onSuccess(SellerTaskVO moteTaskVO) {
-                if (!SellerTaskActivity.this.isFinishing()) {
+                if (!SellerTaskDetailActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
                     List<SellerTaskItemVO> tasks = moteTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
