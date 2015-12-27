@@ -179,7 +179,7 @@ public class HomeChooseActivity extends Activity {
         recyclerView.addItemDecoration(decoration);
 
         //如果确定每个item的内容不会改变RecyclerView的大小，设置这个选项可以提高性能
-        recyclerView.setHasFixedSize(true);
+        recyclerView.setHasFixedSize(false);
 
 //        //设置无动画显示
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());

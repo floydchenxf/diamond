@@ -210,7 +210,7 @@ public class ModelPersonActivity extends Activity {
         }
     }
 
-       // 设置分享内容的方法
+    // 设置分享内容的方法
     private void setShareContent() {
         // 分享字符串
         mShare.setShareContent("来自“全民模特”的分享");

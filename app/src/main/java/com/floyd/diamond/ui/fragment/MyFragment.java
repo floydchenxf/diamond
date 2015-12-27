@@ -25,6 +25,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -145,6 +146,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         headView.setOnClickListener(this);
 
         loginVO = LoginManager.getLoginInfo(this.getActivity());
+        if (GlobalParams.isDebug) {
+            Log.e("loginVo", loginVO.token + "");
+        }
         if (loginVO.isModel()) {
             ViewStub stub = (ViewStub) view.findViewById(R.id.mote_summary_info_stub);
             stub.inflate();
@@ -179,7 +183,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private void loadData() {
         dataLoadingView.startLoading();
-
         if (loginVO.isModel()) {
             //模特儿
             MoteInfoVO moteInfoVO = MoteManager.getMoteInfo(this.getActivity());
