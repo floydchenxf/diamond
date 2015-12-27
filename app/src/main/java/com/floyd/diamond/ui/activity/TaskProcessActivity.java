@@ -13,7 +13,6 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +28,6 @@ import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.anim.LsLoadingView;
 import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessGoodsOperateFragment;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
@@ -66,13 +64,6 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
 
     private Dialog dataLoadingDailog;
     private DataLoadingView dataLoadingView;
-
-    //loading
-    private FrameLayout mActLsloading;
-    private View mActLsFailLayoutView;
-    private TextView mActLsFailTv;
-    private LsLoadingView mLsLoadingView;
-    private View mLoading_container;
 
     private TaskProcessVO taskProcessVO;
 

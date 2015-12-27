@@ -1,6 +1,7 @@
 package com.floyd.diamond.biz.vo.process;
 
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
+import com.floyd.diamond.biz.vo.mote.UserVO;
 
 import java.io.Serializable;
 import java.util.List;
@@ -30,4 +31,5 @@ public class TaskProcessVO implements Serializable {
     public int picNum;
     public List<ProcessPicVO> picList;
     public ProcessSellerVO seller;
+    public UserVO user;
 }
