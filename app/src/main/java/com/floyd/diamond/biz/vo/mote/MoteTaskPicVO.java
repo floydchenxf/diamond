@@ -8,7 +8,7 @@ import com.floyd.diamond.utils.CommonUtil;
 public class MoteTaskPicVO {
     public long id;
     public long moteTaskId;
-    private String imgUrl;
+    public String imgUrl;
     public int sort;
     public long createTime;
     public long updateTime;

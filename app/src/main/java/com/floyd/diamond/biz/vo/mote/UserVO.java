@@ -4,10 +4,12 @@ import android.text.TextUtils;
 
 import com.floyd.diamond.utils.CommonUtil;
 
+import java.io.Serializable;
+
 /**
  * Created by floyd on 15-12-18.
  */
-public class UserVO {
+public class UserVO implements Serializable {
     public long id;
     public String phoneNumber;
     public String avartUrl;

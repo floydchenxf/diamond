@@ -14,6 +14,7 @@ import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -60,9 +61,17 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     private View line4;
     private View line5;
 
+    //-------------------mote信息-------------------------//
+    private TextView moteInfoSummary; //mote资料
+    private View moteDetailInfoLayout;//mote详情信息
+    private NetworkImageView headImage;
+
+
+
+    private CheckedTextView finishView;
     //--------------------任务完成-------------------------//
     private View finishLayout;
-    private CheckedTextView finishView;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -106,6 +115,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
      * 模特信息
      */
     private void initMoteInfo() {
+        moteInfoSummary = (TextView) findViewById(R.id.mote_info_summary);
+        moteDetailInfoLayout = findViewById(R.id.mote_info_detail_layout);
+        headImage = (NetworkImageView) findViewById(R.id.mote_head_image);
+
+        moteDetailInfoLayout.setVisibility(View.GONE);
 
     }
 

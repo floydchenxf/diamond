@@ -625,7 +625,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
             }
         } else if (requestCode == CROP_PICTURE_REQUEST && resultCode == Activity.RESULT_OK) {
-            final File newFile = new File(EnvConstants.imageRootPath, "avator_tmp.jpg");
+            final File newFile = new File(EnvConstants.imageRootPath, avatorTmp);
             dataLoadingDialog.show();
             final LoginVO loginVO = LoginManager.getLoginInfo(this);
 
@@ -640,9 +640,12 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 @Override
                 public void onSuccess(String booleanApiResult) {
                     dataLoadingDialog.hide();
-                    Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
-                    bitmap = ImageUtils.getCircleBitmap(bitmap, 60 * oneDp);
-                    personHeadView.setImageBitmap(bitmap);
+                    personHeadView.setImageUrl(booleanApiResult, mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.getCircleBitmap(bitmap, 60 * oneDp);
+                        }
+                    });
                     LoginVO loginVo = LoginManager.getLoginInfo(PersonInfoActivity.this);
                     loginVo.user.avartUrl = booleanApiResult;
                     LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVo);

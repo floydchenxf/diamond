@@ -303,7 +303,7 @@ public class MoteManager {
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> uploadPics(long moteTaskId, List<File> pics, String token) {
+    public static AsyncJob<List<MoteTaskPicVO>> uploadPics(long moteTaskId, List<File> pics, String token) {
         String url = APIConstants.HOST + APIConstants.API_UPLOAD_IMAGE;
         Map<String, String> params = new HashMap<String, String>();
         params.put("moteTaskId", moteTaskId + "");
@@ -317,7 +317,7 @@ public class MoteManager {
             }
         }
 
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, files, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, files, HttpMethod.POST, new TypeToken<ArrayList<MoteTaskPicVO>>(){}.getType());
     }
 
     /**

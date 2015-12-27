@@ -99,7 +99,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
         MoteTypeTaskVO vo = getItem(position);
         if (vo.productItemVO1 == null) {
-            holder.productItemLayout1.setVisibility(View.GONE);
+            holder.productItemLayout1.setVisibility(View.INVISIBLE);
             holder.productItemLayout1.setOnClickListener(null);
             holder.finishStatusView1.setVisibility(View.GONE);
         } else {
@@ -127,7 +127,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         }
 
         if (vo.productItemVO2 == null) {
-            holder.productItemLayout2.setVisibility(View.GONE);
+            holder.productItemLayout2.setVisibility(View.INVISIBLE);
             holder.productItemLayout2.setOnClickListener(null);
             holder.finishStatusView2.setVisibility(View.GONE);
         } else {

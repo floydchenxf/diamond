@@ -1,10 +1,12 @@
 package com.floyd.diamond.ui.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,8 +25,10 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.process.ProcessPicVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.multiimage.MultiPickGalleryActivity;
 
@@ -34,6 +38,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ProcessUploadImageFragment extends Fragment implements View.OnClickListener {
+    private static final String TAG = "ProcessUploadImageFragment";
     private static final String TASK_PROCESS_VO = "TASK_PROCESS_VO";
     public static final int MULIT_PIC_CHOOSE_WITH_DATA = 10;
 
@@ -47,6 +52,8 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
     private List<ProcessPicVO> picList = new ArrayList<ProcessPicVO>();
 
     private FinishCallback callback;
+
+    private Dialog dataLoadingDialog;
 
     public static ProcessUploadImageFragment newInstance(TaskProcessVO taskProcessVO, FinishCallback callback) {
         ProcessUploadImageFragment fragment = new ProcessUploadImageFragment();
@@ -69,6 +76,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
             this.picList.addAll(taskProcessVO.picList);
         }
         mImageLoader = ImageLoaderFactory.createImageLoader();
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
     }
 
     @Override
@@ -83,27 +91,29 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         confirmPicButton.setOnClickListener(this);
 
         int status = taskProcessVO.moteTask.status;
+        Log.i(TAG, "pic list isEmpty:" + picList.isEmpty() + "!, and status:" + status);
         if (this.picList.isEmpty()) {
             deletePicButton.setVisibility(View.GONE);
             confirmPicButton.setVisibility(View.GONE);
+            String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
+            if (status > 4) {
+                long time = this.taskProcessVO.moteTask.uploadPicTime;
+                dateStr = DateUtil.getDateStr(time);
+            }
+            uploadPicTimeView.setText(dateStr);
+            drawPicLayout(this.picList, false, true);
+        } else {
+            long time = this.taskProcessVO.moteTask.uploadPicTime;
+            uploadPicTimeView.setText(DateUtil.getDateStr(time));
             if (status == 2) {
-                //填写订单，但是未上传图片．
                 String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
                 uploadPicTimeView.setText(dateStr);
                 drawPicLayout(this.picList, false, true);
             } else if (status > 4) {
-                //FIXME 已经上传图片了．不能修改
-                long time = this.taskProcessVO.moteTask.uploadPicTime;
-                uploadPicTimeView.setText(DateUtil.getDateStr(time));
-                drawPicLayout(this.picList, false, true);
-                confirmPicButton.setVisibility(View.GONE);
-            }
-        } else {
-            long time = this.taskProcessVO.moteTask.uploadPicTime;
-            uploadPicTimeView.setText(DateUtil.getDateStr(time));
-            if (status > 4) {
                 //已经上传图片了．不能修改
                 drawPicLayout(this.picList, false, false);
+                deletePicButton.setVisibility(View.GONE);
+                confirmPicButton.setVisibility(View.GONE);
             } else if (status == 4){
                 drawPicLayout(this.picList, false, true);
                 deletePicButton.setVisibility(View.VISIBLE);
@@ -185,14 +195,17 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
             case R.id.delete_button:
                 final ProcessPicVO vo = (ProcessPicVO)v.getTag();
                 LoginVO loginVO = LoginManager.getLoginInfo(this.getActivity());
+                dataLoadingDialog.show();
                 MoteManager.reomveImageUrl(Arrays.asList(new Long[]{vo.id}), loginVO.token).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
+                        dataLoadingDialog.dismiss();
                         Toast.makeText(ProcessUploadImageFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onSuccess(Boolean aBoolean) {
+                        dataLoadingDialog.dismiss();
                         ProcessUploadImageFragment.this.picList.remove(vo);
                         drawPicLayout(ProcessUploadImageFragment.this.picList, true, true);
                     }
@@ -212,9 +225,9 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 drawPicLayout(this.picList, false, true);
                 deletePicButton.setVisibility(View.VISIBLE);
                 confirmPicButton.setVisibility(View.GONE);
-                if (this.callback != null) {
-                    this.callback.doFinish();
-                }
+//                if (this.callback != null) {
+//                    this.callback.doFinish();
+//                }
                 break;
             case R.id.add_pic_layout:
                 Intent picIntent = new Intent(this.getActivity(), MultiPickGalleryActivity.class);
@@ -245,21 +258,32 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
             }
 
             LoginVO vo = LoginManager.getLoginInfo(this.getActivity());
-            MoteManager.uploadPics(taskProcessVO.moteTask.id, files, vo.token).startUI(new ApiCallback<Boolean>() {
+            dataLoadingDialog.show();
+            MoteManager.uploadPics(taskProcessVO.moteTask.id, files, vo.token).startUI(new ApiCallback<List<MoteTaskPicVO>>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-
+                    dataLoadingDialog.dismiss();
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
-                    for(String pic:pics) {
-//                        ProcessPicVO processPicVO = new ProcessPicVO();
-//                        processPicVO.id = 111;
-//                        processPicVO.
+                public void onSuccess(List<MoteTaskPicVO> moteTaskPicVOs) {
+                    dataLoadingDialog.dismiss();
+                    for(MoteTaskPicVO picVO:moteTaskPicVOs) {
+                        ProcessPicVO vo  = new ProcessPicVO();
+                        vo.id = picVO.id;
+                        vo.moteTaskId = picVO.moteTaskId;
+                        vo.imgUrl = picVO.imgUrl;
+                        vo.createTime = picVO.createTime;
+                        vo.updateTime = picVO.updateTime;
+                        vo.taskId = picVO.taskId;
+                        vo.userId = picVO.userId;
+                        picList.add(vo);
                     }
 
-
+                    drawPicLayout(picList, false, true);
+                    if (ProcessUploadImageFragment.this.callback != null) {
+                        ProcessUploadImageFragment.this.callback.doFinish();
+                    }
                 }
 
                 @Override
