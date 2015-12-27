@@ -239,14 +239,18 @@
         <activity
             android:name=".ui.seller.SellerTaskActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/ContentOverlay"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" >
         </activity>
         <activity
             android:name=".ui.seller.SellerTaskDetailActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:theme="@style/ContentOverlay"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" >
+        </activity>
+        <activity
+            android:name=".ui.seller.SellerInfoActivity"
+            android:label="@string/title_activity_seller_info" >
         </activity>
     </application>
 

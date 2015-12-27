@@ -96,6 +96,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 long time = this.taskProcessVO.moteTask.uploadPicTime;
                 uploadPicTimeView.setText(DateUtil.getDateStr(time));
                 drawPicLayout(this.picList, false, true);
+                confirmPicButton.setVisibility(View.GONE);
             }
         } else {
             long time = this.taskProcessVO.moteTask.uploadPicTime;

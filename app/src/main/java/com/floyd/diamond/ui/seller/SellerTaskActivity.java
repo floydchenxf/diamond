@@ -112,6 +112,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SellerTaskItemVO itemVO = adapter.getData().get(position - 1);
                 Intent it = new Intent(SellerTaskActivity.this, SellerTaskDetailActivity.class);
+                it.putExtra(SellerTaskDetailActivity.TASK_ID_PARAM, itemVO.id);
                 it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(it);
             }

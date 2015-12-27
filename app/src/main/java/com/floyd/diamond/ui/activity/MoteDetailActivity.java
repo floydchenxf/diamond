@@ -83,7 +83,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private TextView share;
 
     private List<TaskPicsVO> taskPicsList;
-    TaskPicAdapter taskPicAdapter;
+    private TaskPicAdapter taskPicAdapter;
 
     private DataLoadingView dataLoadingView;
 
@@ -139,7 +139,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             public void onPullDownToRefresh() {
                 pageNo++;
                 mPullToRefreshListView.onRefreshComplete(false, true);
-                loadData();
+                loadData(false);
 
             }
 
@@ -147,7 +147,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             public void onPullUpToRefresh() {
                 pageNo++;
                 mPullToRefreshListView.onRefreshComplete(false, true);
-                loadData();
+                loadData(false);
             }
         });
 
@@ -184,7 +184,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         backView.setOnClickListener(this);
 
         EventBus.getDefault().register(this);
-        loadData();
+        loadData(true);
     }
 
     // SSO授权回调
@@ -272,9 +272,13 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
 
 
-    private void loadData() {
+    private void loadData(final boolean isFirst) {
         success = true;
-        dataLoadingView.startLoading();
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            loadingDialog.show();
+        }
         final CountDownLatch countDownLatch = new CountDownLatch(2);
         new Thread(new Runnable() {
             @Override
@@ -288,9 +292,17 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     @Override
                     public void run() {
                         if (success) {
-                            dataLoadingView.loadSuccess();
+                            if (isFirst) {
+                                dataLoadingView.loadSuccess();
+                            } else {
+                                loadingDialog.dismiss();
+                            }
                         } else {
-                            dataLoadingView.loadFail();
+                            if (isFirst) {
+                                dataLoadingView.loadFail();
+                            } else {
+                                loadingDialog.dismiss();
+                            }
                         }
                     }
                 });
@@ -400,7 +412,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 this.finish();
                 break;
             case R.id.act_ls_fail_layout:
-                loadData();
+                loadData(true);
                 break;
         }
 
@@ -439,8 +451,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                 }
             });
-
-
         }
     }
 

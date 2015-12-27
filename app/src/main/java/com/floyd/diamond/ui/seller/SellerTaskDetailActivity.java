@@ -32,6 +32,8 @@ import java.util.List;
  * Created by floyd on 15-12-26.
  */
 public class SellerTaskDetailActivity extends Activity implements View.OnClickListener {
+
+    public static final String TASK_ID_PARAM = "TASK_ID_PARAM";
     private CheckedTextView allStatusView;
     private CheckedTextView doingStatusView;
     private CheckedTextView confirmStatusView;
@@ -57,6 +59,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_task_detail);
+        taskId = getIntent().getLongExtra(TASK_ID_PARAM, 0l);
 
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
