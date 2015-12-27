@@ -119,7 +119,7 @@ public class SellerManager {
      * 获取商家任务详情
      *
      * @param taskId
-     * @param status 0全部 1进行中 2待确定 3已结束
+     * @param status   0全部 1进行中 2待确定 3已结束
      * @param pageNo
      * @param pageSize
      * @param token
@@ -133,7 +133,8 @@ public class SellerManager {
         params.put("pageNo", pageNo + "");
         params.put("pageSize", pageSize + "");
         params.put("token", token);
-        Type classType = new TypeToken<ArrayList<SellerTaskDetailVO>>() {}.getType();
+        Type classType = new TypeToken<ArrayList<SellerTaskDetailVO>>() {
+        }.getType();
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, classType);
     }
 
