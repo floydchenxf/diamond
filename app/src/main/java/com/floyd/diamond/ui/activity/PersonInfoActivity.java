@@ -634,12 +634,12 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                     hiddenPopup();
-                    dataLoadingDialog.hide();
+                    dataLoadingDialog.dismiss();
                 }
 
                 @Override
                 public void onSuccess(String booleanApiResult) {
-                    dataLoadingDialog.hide();
+                    dataLoadingDialog.dismiss();
                     personHeadView.setImageUrl(booleanApiResult, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
