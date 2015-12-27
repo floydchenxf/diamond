@@ -1,4 +1,4 @@
-package com.floyd.diamond.ui.activity;
+package com.floyd.diamond.ui.seller;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,15 +14,15 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.constants.MoteTaskStatus;
+import com.floyd.diamond.biz.constants.SellerTaskStatus;
 import com.floyd.diamond.biz.manager.LoginManager;
-import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.mote.MoteTaskVO;
-import com.floyd.diamond.biz.vo.mote.TaskItemVO;
+import com.floyd.diamond.biz.vo.seller.SellerTaskItemVO;
+import com.floyd.diamond.biz.vo.seller.SellerTaskVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.adapter.MyTaskAdapter;
+import com.floyd.diamond.ui.adapter.SellerTaskAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
@@ -30,7 +30,7 @@ import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.List;
 
-public class MyTaskActivity extends Activity implements View.OnClickListener {
+public class SellerTaskActivity extends Activity implements View.OnClickListener {
 
     private CheckedTextView allStatusView;
     private CheckedTextView doingStatusView;
@@ -43,18 +43,20 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
     private DataLoadingView dataLoadingView;
     private ImageLoader mImageLoader;
 
-    private MoteTaskStatus taskStatus = MoteTaskStatus.ALL;
+    private SellerTaskStatus taskStatus = SellerTaskStatus.ALL;
     private static int PAGE_SIZE = 10;
     private int pageNo = 1;
-    private MyTaskAdapter adapter;
+    private SellerTaskAdapter adapter;
     private boolean isClear;
 
     private TextView emptyView;
+    private float density;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_task);
+        setContentView(R.layout.activity_seller_task);
+        density = this.getResources().getDisplayMetrics().density;
 
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
@@ -99,18 +101,23 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         });
 
         mListView = mPullToRefreshListView.getRefreshableView();
-        adapter = new MyTaskAdapter(this, mImageLoader);
+        adapter = new SellerTaskAdapter(this, mImageLoader, new SellerTaskAdapter.StatusCallback() {
+            @Override
+            public void doCallback(View v, int status) {
+
+            }
+        });
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TaskItemVO itemVO = adapter.getData().get(position - 1);
-                Intent it = new Intent(MyTaskActivity.this, NewTaskActivity.class);
-                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
+                SellerTaskItemVO itemVO = adapter.getData().get(position - 1);
+                Intent it = new Intent(SellerTaskActivity.this, SellerTaskDetailActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(it);
             }
         });
         mListView.setAdapter(adapter);
-        loadData();
+        firstLoadData();
     }
 
     private void firstLoadData() {
@@ -120,20 +127,20 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
 
         dataLoadingView.startLoading();
         LoginVO loginVO = LoginManager.getLoginInfo(this);
-        MoteManager.fetchMyTasks(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
+        SellerManager.getSellerTaskList(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<SellerTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                if (!MyTaskActivity.this.isFinishing()) {
+                if (!SellerTaskActivity.this.isFinishing()) {
                     dataLoadingView.loadFail();
-                    Toast.makeText(MyTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onSuccess(MoteTaskVO moteTaskVO) {
-                if (!MyTaskActivity.this.isFinishing()) {
+            public void onSuccess(SellerTaskVO sellerTaskVO) {
+                if (!SellerTaskActivity.this.isFinishing()) {
                     dataLoadingView.loadSuccess();
-                    List<TaskItemVO> tasks = moteTaskVO.dataList;
+                    List<SellerTaskItemVO> tasks = sellerTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
                         emptyView.setVisibility(View.VISIBLE);
                         mPullToRefreshListView.setVisibility(View.GONE);
@@ -162,20 +169,20 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
 
         dataLoadingDailog.show();
         LoginVO loginVO = LoginManager.getLoginInfo(this);
-        MoteManager.fetchMyTasks(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
+        SellerManager.getSellerTaskList(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<SellerTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                if (!MyTaskActivity.this.isFinishing()) {
+                if (!SellerTaskActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
-                    Toast.makeText(MyTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
-            public void onSuccess(MoteTaskVO moteTaskVO) {
-                if (!MyTaskActivity.this.isFinishing()) {
+            public void onSuccess(SellerTaskVO moteTaskVO) {
+                if (!SellerTaskActivity.this.isFinishing()) {
                     dataLoadingDailog.dismiss();
-                    List<TaskItemVO> tasks = moteTaskVO.dataList;
+                    List<SellerTaskItemVO> tasks = moteTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
                         emptyView.setVisibility(View.VISIBLE);
                         mPullToRefreshListView.setVisibility(View.GONE);
@@ -199,7 +206,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.all_status:
-                taskStatus = MoteTaskStatus.ALL;
+                taskStatus = SellerTaskStatus.ALL;
                 allStatusView.setChecked(true);
                 doingStatusView.setChecked(false);
                 confirmStatusView.setChecked(false);
@@ -210,7 +217,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 loadData();
                 break;
             case R.id.doing_status:
-                taskStatus = MoteTaskStatus.DOING;
+                taskStatus = SellerTaskStatus.DOING;
                 allStatusView.setChecked(false);
                 doingStatusView.setChecked(true);
                 confirmStatusView.setChecked(false);
@@ -221,7 +228,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 loadData();
                 break;
             case R.id.confirm_status:
-                taskStatus = MoteTaskStatus.CONFIRM;
+                taskStatus = SellerTaskStatus.CONFIRM;
                 allStatusView.setChecked(false);
                 doingStatusView.setChecked(false);
                 confirmStatusView.setChecked(true);
@@ -232,7 +239,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 loadData();
                 break;
             case R.id.done_status:
-                taskStatus = MoteTaskStatus.DONE;
+                taskStatus = SellerTaskStatus.DONE;
                 allStatusView.setChecked(false);
                 doingStatusView.setChecked(false);
                 confirmStatusView.setChecked(false);

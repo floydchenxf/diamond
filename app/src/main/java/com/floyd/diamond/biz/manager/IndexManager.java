@@ -6,7 +6,7 @@ import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.vo.AdvDetailVO;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.IndexVO;
-import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.reflect.TypeToken;
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">diamond</string>
+    <string name="app_name">全民模特</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -82,4 +82,6 @@
     <string name="title_activity_mote_auth">MoteAuthActivity</string>
     <string name="title_activity_mote_card">MoteCardActivity</string>
     <string name="title_activity_alipay">AlipayActivity</string>
+    <string name="title_activity_exit">exitActivity</string>
+    <string name="title_activity_seller_task">SellerTaskActivity</string>
 </resources>

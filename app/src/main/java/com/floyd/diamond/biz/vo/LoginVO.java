@@ -1,5 +1,7 @@
 package com.floyd.diamond.biz.vo;
 
+import com.floyd.diamond.biz.vo.mote.UserVO;
+
 /**
  * Created by floyd on 15-11-23.
  */

@@ -33,7 +33,7 @@ import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.IndexItemVO;
 import com.floyd.diamond.biz.vo.IndexVO;
-import com.floyd.diamond.biz.vo.MoteInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;

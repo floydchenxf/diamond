@@ -3,7 +3,6 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -94,6 +93,9 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 break;
             case R.id.noLogin:
                 PrefsTools.setStringPrefs(this, LoginManager.LOGIN_INFO, "");
+                Intent it = new Intent(this, ExitActivity.class);
+                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(it);
                 break;
             case R.id.left:
                 this.finish();

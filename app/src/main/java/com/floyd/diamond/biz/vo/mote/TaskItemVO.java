@@ -1,4 +1,4 @@
-package com.floyd.diamond.biz.vo;
+package com.floyd.diamond.biz.vo.mote;
 
 import com.floyd.diamond.utils.CommonUtil;
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 public class TaskItemVO implements Serializable{
     public long id;
-    public String userId;
+    public long userId;
     public String title;
     public String url;
     public float price;

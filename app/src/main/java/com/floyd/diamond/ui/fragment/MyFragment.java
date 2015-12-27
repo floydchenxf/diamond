@@ -36,17 +36,19 @@ import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.MoteInfoVO;
-import com.floyd.diamond.biz.vo.SellerInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
+import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.activity.CareActivity;
 import com.floyd.diamond.ui.activity.AlipayActivity;
+import com.floyd.diamond.ui.activity.CareActivity;
+import com.floyd.diamond.ui.activity.MyPicActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.PersonInfoActivity;
 import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.seller.SellerTaskActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 
 import java.io.File;
@@ -171,8 +173,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             placePicView = (ImageView) view.findViewById(R.id.place_pic);
         }
 
-        loadData();
         return view;
+    }
+
+    public void onResume() {
+        super.onResume();
+        loadData();
     }
 
     private void loadData() {
@@ -200,7 +206,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 @Override
                 public void onError(int code, String errorInfo) {
                     dataLoadingView.loadFail();
-//                    Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -260,14 +265,14 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     qiangView.setText(vo.orderNum + "");
                     placeView.setText(vo.area);
 
-                    if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
-                        headView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
+                    if (!TextUtils.isEmpty(vo.avartUrl)) {
+                        headView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader);
+                        bgHeadView.setImageUrl(vo.avartUrl, mImageLoader);
                     }
                 }
 
@@ -306,14 +311,17 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivity(editProfileIntent);
                 break;
             case R.id.set:
-//                PrefsTools.setStringPrefs(this.getActivity(), LoginManager.LOGIN_INFO, "");
                 Intent settingIntent = new Intent(this.getActivity(), SettingPersonInfoActivity.class);
-                settingIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(settingIntent);
                 break;
             case R.id.task:
-                Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
-                startActivity(intent);
+                if (loginVO.isModel()) {
+                    Intent intent = new Intent(this.getActivity(), MyTaskActivity.class);
+                    startActivity(intent);
+                } else {
+                    Intent taskintent = new Intent(this.getActivity(), SellerTaskActivity.class);
+                    startActivity(taskintent);
+                }
                 break;
             case R.id.care:
                 Intent intent1 = new Intent(this.getActivity(), CareActivity.class);
@@ -321,12 +329,23 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivity(intent1);
                 break;
             case R.id.volley:
-                Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
-                startActivity(volleyIntent);
+                if (loginVO.isModel()) {
+                    //模特儿钱包
+                    Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
+                    startActivity(volleyIntent);
+                } else {
+                    //商家钱包
+
+                }
                 break;
             case R.id.act_ls_fail_layout:
                 //加载失败刷新
                 loadData();
+                break;
+            case R.id.pictrue:
+                Log.i(TAG, "--------model type:" + loginVO.isModel());
+                Intent it = new Intent(this.getActivity(), MyPicActivity.class);
+                startActivity(it);
                 break;
         }
     }

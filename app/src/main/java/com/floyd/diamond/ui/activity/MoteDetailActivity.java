@@ -30,10 +30,11 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
-import com.floyd.diamond.biz.vo.MoteTaskPicVO;
-import com.floyd.diamond.biz.vo.TaskPicsVO;
+import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
+import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.event.LoginEvent;
 import com.floyd.diamond.ui.DialogCreator;
+import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.TaskPicAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
@@ -109,6 +110,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
         mImageLoader.setBatchedResponseDelay(0);
 
+        this.mImageLoader = ImageLoaderFactory.createImageLoader();
         moteId = getIntent().getLongExtra("moteId", 0);
         loadingDialog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
@@ -336,8 +338,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                         guanzhuView.setChecked(false);
                         guanzhuView.setOnClickListener(MoteDetailActivity.this);
                     }
-
-
                 }
 
                 @Override

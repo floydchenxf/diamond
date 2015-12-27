@@ -16,7 +16,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.MoteWalletVO;
+import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
@@ -72,10 +72,12 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
         findViewById(R.id.title_back).setOnClickListener(this);
         titleNameView = (TextView) findViewById(R.id.title_name);
         titleNameView.setText("提现");
+        titleNameView.setVisibility(View.VISIBLE);
 
         rightView = (TextView) findViewById(R.id.right);
         rightView.setText("提现记录");
         rightView.setOnClickListener(this);
+        rightView.setVisibility(View.VISIBLE);
 
         alipayIdView = (TextView) findViewById(R.id.alipay_id_view);
         remindMoneyView = (TextView) findViewById(R.id.remind_money_view);

@@ -20,7 +20,7 @@ import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.UserVO;
+import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 
 import java.io.File;

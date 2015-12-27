@@ -10,16 +10,28 @@ import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
+import com.floyd.diamond.biz.constants.SellerTaskDetailStatus;
+import com.floyd.diamond.biz.constants.SellerTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
-import com.floyd.diamond.biz.vo.SellerInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
+import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
+import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
+import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
+import com.floyd.diamond.biz.vo.seller.SellerTaskVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,6 +60,13 @@ public class SellerManager {
         return vo;
     }
 
+    /**
+     * 获取卖家信息
+     *
+     * @param context
+     * @param accessToken
+     * @return
+     */
     public static AsyncJob<SellerInfoVO> fetchSellerInfoJob(final Context context, String accessToken) {
         String url = APIConstants.HOST + APIConstants.API_MY_SELLER_INFO;
         Map<String, String> params = new HashMap<String, String>();
@@ -76,4 +95,79 @@ public class SellerManager {
             }
         });
     }
+
+    /**
+     * 获取商家任务
+     *
+     * @param status
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
+    public static AsyncJob<SellerTaskVO> getSellerTaskList(SellerTaskStatus status, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_LIST;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", status.code + "");
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerTaskVO.class);
+    }
+
+    /**
+     * 获取商家任务详情
+     *
+     * @param taskId
+     * @param status 0全部 1进行中 2待确定 3已结束
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
+    public static AsyncJob<List<SellerTaskDetailVO>> getSellerTaskDetailList(long taskId, SellerTaskDetailStatus status, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_LIST_DETAIL;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("taskId", taskId + "");
+        params.put("type", status.code + "");
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        Type classType = new TypeToken<ArrayList<SellerTaskDetailVO>>() {}.getType();
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, classType);
+    }
+
+    public static AsyncJob<List<TaskPicsVO>> getSellerTaskPics(int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_PICS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("token", token);
+        Type type = new TypeToken<ArrayList<LinkedHashMap<String, ArrayList<MoteTaskPicVO>>>>() {
+        }.getType();
+        AsyncJob<List<Map<String, List<MoteTaskPicVO>>>> job = JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
+        return job.map(new Func<List<Map<String, List<MoteTaskPicVO>>>, List<TaskPicsVO>>() {
+            @Override
+            public List<TaskPicsVO> call(List<Map<String, List<MoteTaskPicVO>>> taskPicList) {
+                if (taskPicList.isEmpty()) {
+                    return Collections.EMPTY_LIST;
+                }
+
+                List<TaskPicsVO> pics = new ArrayList<TaskPicsVO>();
+                for (Map<String, List<MoteTaskPicVO>> ele : taskPicList) {
+                    TaskPicsVO taskPicsVO = new TaskPicsVO();
+                    if (ele != null) {
+                        for (Map.Entry<String, List<MoteTaskPicVO>> ent : ele.entrySet()) {
+                            taskPicsVO.dateTime = ent.getKey();
+                            taskPicsVO.taskPics = ent.getValue();
+                            pics.add(taskPicsVO);
+                        }
+                    }
+                }
+                return pics;
+            }
+        });
+    }
+
+
 }

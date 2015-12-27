@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.vo.TaskItemVO;
+import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.ui.activity.TaskProcessActivity;
 
 import java.lang.ref.SoftReference;

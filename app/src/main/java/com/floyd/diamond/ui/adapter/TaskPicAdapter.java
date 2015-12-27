@@ -13,8 +13,8 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.tools.DateUtil;
-import com.floyd.diamond.biz.vo.MoteTaskPicVO;
-import com.floyd.diamond.biz.vo.TaskPicsVO;
+import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
+import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 
 import java.util.ArrayList;
 import java.util.List;

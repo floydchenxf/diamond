@@ -15,12 +15,12 @@ import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.AreaVO;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
-import com.floyd.diamond.biz.vo.MoteInfoVO;
-import com.floyd.diamond.biz.vo.MoteTaskPicVO;
-import com.floyd.diamond.biz.vo.MoteTaskVO;
-import com.floyd.diamond.biz.vo.MoteWalletVO;
-import com.floyd.diamond.biz.vo.TaskPicsVO;
-import com.floyd.diamond.biz.vo.UserVO;
+import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
+import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
+import com.floyd.diamond.biz.vo.mote.MoteTaskVO;
+import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
+import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
+import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -188,7 +188,7 @@ public class MoteManager {
     public static AsyncJob<MoteTaskVO> fetchTaskList(int moteType, int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_SEARCH;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteType", moteType + "");
+        params.put("itemType", moteType + "");
         params.put("pageNo", pageNo + "");
         params.put("pageSize", pageSize + "");
         params.put("token", token);
@@ -473,6 +473,12 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
+    /**
+     * 上传图片通用接口
+     * @param file
+     * @param token
+     * @return
+     */
     public static AsyncJob<String> uploadCommonFile(File file, String token) {
         String url = APIConstants.HOST + APIConstants.API_COMMON_UPLOAD;
         Map<String, FileItem> fileParams = new HashMap<String, FileItem>();
