@@ -193,7 +193,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
                 @Override
-                public void doFinish() {
+                public void doFinish(int type) {
                     initAndFillGoodsOperate(taskProcessVO);
                 }
             });

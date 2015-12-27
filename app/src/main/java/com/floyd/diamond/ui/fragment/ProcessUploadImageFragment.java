@@ -245,6 +245,10 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (this.getActivity().isFinishing()) {
+            return;
+        }
+
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MULIT_PIC_CHOOSE_WITH_DATA && resultCode == Activity.RESULT_OK) {
             final ArrayList<String> pics = data.getStringArrayListExtra(MultiPickGalleryActivity.RESULT_LIST);
@@ -282,7 +286,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
 
                     drawPicLayout(picList, false, true);
                     if (ProcessUploadImageFragment.this.callback != null) {
-                        ProcessUploadImageFragment.this.callback.doFinish();
+                        ProcessUploadImageFragment.this.callback.doFinish(FinishCallback.TYPE_CHOOSE_PIC_EVENT);
                     }
                 }
 

@@ -77,6 +77,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         @Override
         public void run() {
             long times = taskProcessVO.moteTask.acceptedTime;
+            int status = taskProcessVO.moteTask.status;
             long now = System.currentTimeMillis();
             long leftTimes = 30 * 60 - (now - times) / 1000;
             if (leftTimes < 0) {
@@ -87,9 +88,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 return;
             }
 
-            confirmTimeView.setText("请在" + leftTimes + "秒内完成下单并输入订单号");
-            dropOrderNoView.setVisibility(View.VISIBLE);
-            mHandler.postDelayed(this, 1000);
+            if (status == 1) {
+                confirmTimeView.setText("请在" + leftTimes + "秒内完成下单并输入订单号");
+                dropOrderNoView.setVisibility(View.VISIBLE);
+                mHandler.postDelayed(this, 1000);
+            }
+
         }
     };
 
@@ -183,12 +187,19 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private void initAndFillGoodsOperate(TaskProcessVO taskProcessVO) {
         FragmentManager fragmentManager = getFragmentManager();
         Fragment goodsProcessFragment = fragmentManager.findFragmentById(R.id.goods_process);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        goodsProcessFragment = ProcessGoodsOperateFragment.newInstance(taskProcessVO, new FinishCallback() {
+            @Override
+            public void doFinish(int type) {
+                loadData(false);
+            }
+        });
         if (goodsProcessFragment == null) {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            goodsProcessFragment = ProcessGoodsOperateFragment.newInstance(taskProcessVO);
             fragmentTransaction.add(R.id.goods_process, goodsProcessFragment);
-            fragmentTransaction.commit();
+        } else {
+            fragmentTransaction.replace(R.id.goods_process, goodsProcessFragment);
         }
+        fragmentTransaction.commit();
     }
 
 
@@ -196,25 +207,19 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         dropOrderNoView.setVisibility(View.GONE);
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+            @Override
+            public void doFinish(int type) {
+                loadData(false);
+            }
+        });
         if (uploadPicFragment == null) {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
-                @Override
-                public void doFinish() {
-                    loadData(false);
-                }
-            });
             fragmentTransaction.add(R.id.upload_pic, uploadPicFragment);
-            fragmentTransaction.commit();
         } else {
-            uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
-                @Override
-                public void doFinish() {
-                    loadData(false);
-                }
-            });
-            fragmentManager.beginTransaction().replace(R.id.upload_pic, uploadPicFragment).commit();
+            fragmentTransaction.replace(R.id.upload_pic, uploadPicFragment);
         }
+        fragmentTransaction.commit();
     }
 
     private void fillOrderStatus(TaskProcessVO taskProcessVO) {
@@ -291,6 +296,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             @Override
             public void onSuccess(Boolean aBoolean) {
                 dataLoadingDailog.dismiss();
+                taskProcessVO.moteTask.status = 2;
 //                initAndFillUploadPic(taskProcessVO);
                 loadData(false);
             }

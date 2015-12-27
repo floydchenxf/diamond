@@ -77,12 +77,15 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
     private ImageView layoutSaoView;
     private TextView layoutExpressNoConfirmView;
 
+    private FinishCallback callback;
 
-    public static ProcessGoodsOperateFragment newInstance(TaskProcessVO taskProcessVO) {
+
+    public static ProcessGoodsOperateFragment newInstance(TaskProcessVO taskProcessVO, FinishCallback finishCallback) {
         ProcessGoodsOperateFragment fragment = new ProcessGoodsOperateFragment();
         Bundle args = new Bundle();
         args.putSerializable(TASK_PROCESS_VO, taskProcessVO);
         fragment.setArguments(args);
+        fragment.callback = finishCallback;
         return fragment;
     }
 
@@ -289,6 +292,9 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                                                     dataLoadingDialog.dismiss();
                                                     goodsOperateLayout.setVisibility(View.GONE);
                                                     selfBuyResultLayout.setVisibility(View.VISIBLE);
+                                                    if (ProcessGoodsOperateFragment.this.callback != null) {
+                                                        ProcessGoodsOperateFragment.this.callback.doFinish(FinishCallback.TYPE_SELF_BUY_EVENT);
+                                                    }
                                                 }
                                             }
 
@@ -351,6 +357,9 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                             dataLoadingDialog.dismiss();
                             expressInfoSettingLayout.setVisibility(View.GONE);
                             showEditExpressInfo(expressCompany, expressNo);
+                            if (ProcessGoodsOperateFragment.this.callback != null) {
+                                ProcessGoodsOperateFragment.this.callback.doFinish(FinishCallback.TYPE_RETURN_ITEM_EVENT);
+                            }
                         }
                     }
 
