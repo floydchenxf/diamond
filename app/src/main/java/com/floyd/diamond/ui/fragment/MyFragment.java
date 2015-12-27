@@ -1,6 +1,7 @@
 package com.floyd.diamond.ui.fragment;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.AlipayActivity;
 import com.floyd.diamond.ui.activity.CareActivity;
@@ -100,6 +102,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     private ImageLoader mImageLoader;
 
     private DataLoadingView dataLoadingView;
+    private Dialog dataLoadingDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +116,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(view, this);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
 
         careView = (TextView) view.findViewById(R.id.care);
         taskView = (TextView) view.findViewById(R.id.task);
@@ -173,16 +177,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             placePicView = (ImageView) view.findViewById(R.id.place_pic);
         }
 
+        loadData(true);
         return view;
     }
 
     public void onResume() {
         super.onResume();
-        loadData();
+        loadData(false);
     }
 
-    private void loadData() {
-        dataLoadingView.startLoading();
+    private void loadData(final boolean isFirst) {
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDialog.show();
+        }
         if (loginVO.isModel()) {
             //模特儿
             MoteInfoVO moteInfoVO = MoteManager.getMoteInfo(this.getActivity());
@@ -205,13 +214,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             MoteManager.fetchMoteInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<MoteInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    dataLoadingView.loadFail();
+                    if (isFirst) {
+                        dataLoadingView.loadFail();
+                    } else {
+                        dataLoadingDialog.dismiss();
+                    }
                 }
 
                 @Override
                 public void onSuccess(MoteInfoVO moteInfoVO) {
                     Log.i(TAG, "---" + moteInfoVO);
-                    dataLoadingView.loadSuccess();
+                    if (isFirst) {
+                        dataLoadingView.loadSuccess();
+                    } else {
+                        dataLoadingDialog.dismiss();
+                    }
                     shopView.setText(moteInfoVO.orderNum + "");
                     qiangView.setText(moteInfoVO.fenNum + "");
                     placeView.setText(moteInfoVO.fee + "");
@@ -253,13 +270,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    dataLoadingView.loadFail();
+                    if (isFirst) {
+                        dataLoadingView.loadFail();
+                    } else {
+                        dataLoadingDialog.dismiss();
+                    }
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(SellerInfoVO vo) {
-                    dataLoadingView.loadSuccess();
+                    if (isFirst) {
+                        dataLoadingView.loadSuccess();
+                    } else {
+                        dataLoadingDialog.dismiss();
+                    }
                     shopView.setText(vo.shopName);
                     nicknameView.setText(vo.nickname);
                     qiangView.setText(vo.orderNum + "");
@@ -340,7 +365,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 break;
             case R.id.act_ls_fail_layout:
                 //加载失败刷新
-                loadData();
+                loadData(true);
                 break;
             case R.id.pictrue:
                 Log.i(TAG, "--------model type:" + loginVO.isModel());

@@ -412,7 +412,7 @@ public class MoteManager {
         params.put("birdthdayStr", userVO.birdthdayStr);
         params.put("shape", userVO.shape + "");
         params.put("height", userVO.height + "");
-        params.put("provineId", userVO.provinceId + "");
+        params.put("provinceId", userVO.provinceId + "");
         params.put("cityId", userVO.cityId + "");
         params.put("districtId", userVO.districtId + "");
         params.put("address", userVO.address);
