@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.loading;
 
 import android.content.Context;
 import android.text.Html;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -50,6 +51,13 @@ public class DefaultDataLoadingView implements DataLoadingView {
         if (mLoading_container != null) {
             mLoading_container.setVisibility(View.GONE);
         }
+
+        mActLsloading.setOnTouchListener(new View.OnTouchListener(){
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return true;
+            }
+        });
 
     }
 
