@@ -56,8 +56,8 @@ public class LoginManager {
         final Map<String, String> params = new HashMap<String, String>();
         params.put("phoneNumber", phoneNum);
         params.put("password", password);
-        params.put("loginType", loginType + "");
-        params.put("lastDeviceType", "1");
+        params.put("lastDeviceType", loginType + "");
+        params.put("lastDeviceId", "");
         final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
 
         AsyncJob<LoginVO> targetJob = new AsyncJob<LoginVO>() {

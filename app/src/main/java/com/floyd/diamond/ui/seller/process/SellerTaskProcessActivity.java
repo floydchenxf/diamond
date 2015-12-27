@@ -1,10 +1,12 @@
 package com.floyd.diamond.ui.seller.process;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +27,7 @@ import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 
 /**
  * Created by floyd on 15-12-27.
@@ -88,6 +91,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         finishView = (CheckedTextView)findViewById(R.id.finish_button);
         finishView.setChecked(false);
         finishView.setTextColor(Color.parseColor("#999999"));
+        finishView.setOnClickListener(null);
     }
 
     private void initGoodsLayout() {
@@ -207,15 +211,42 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             line5.setVisibility(View.VISIBLE);
             finishLayout.setVisibility(View.VISIBLE);
             finishView.setChecked(true);
+            finishView.setTextColor(Color.WHITE);
+            finishView.setOnClickListener(this);
         }
 
         if (status == 7 || status == 8) {
-
+            finishView.setChecked(false);
+            finishView.setTextColor(Color.parseColor("#999999"));
+            finishView.setOnClickListener(null);
         }
     }
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.finish_button:
+                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                builder.setMessage("选择不满意，此模特以后将无法承接您的任务!")
+                        .setCancelable(true)
+                        .setNegativeButton("不满意", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        })
+                        .setPositiveButton("满意",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+        }
 
     }
 }
