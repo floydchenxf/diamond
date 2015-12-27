@@ -10,6 +10,7 @@ import android.util.Log;
 import com.floyd.diamond.biz.constants.EnvConstants;
 
 import java.io.File;
+import java.io.FileDescriptor;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -31,6 +32,98 @@ public class ThumbnailUtils {
     public static final String JPG = "JPG";
 
     private static final float FACTOR = 0.4f;
+
+    private static final int UNCONSTRAINED = -1;
+
+    public static final int COMPRESS_RATE = 60;
+
+    public static Bitmap compressFileAndRotateToBitmapThumb(String filePath, int width, int height, int degree, String savePath) {
+        Bitmap bm = compressFileToBitmapThumb(filePath, width, height, savePath);
+        if (bm == null)
+            return null;
+        Bitmap b2 = rotateBitmap(bm, degree);
+        if (b2 != null) {
+            FileTools.writeBitmap(savePath, b2, 90);
+            if (bm != b2) {
+                bm.recycle();
+                bm = null;
+            }
+            return b2;
+        }
+        return bm;
+    }
+
+    public static int[] getResizedDimension(int actualWidth, int actualHeight) {
+        int[] resizedResults = new int[4];
+        int DEFAULT_WIDTH = 800;
+        int DEFAULT_HEIGHT = 800;
+        int mMaxHeight = 1000;
+        int mMinWidth = 600;
+
+        if (actualWidth <= 0 || actualHeight <= 0) {
+            resizedResults[0] = DEFAULT_WIDTH;
+            resizedResults[1] = DEFAULT_HEIGHT;
+            resizedResults[2] = DEFAULT_WIDTH;
+            resizedResults[3] = DEFAULT_HEIGHT;
+            return resizedResults;
+        }
+        if (actualWidth <= actualHeight) {
+            if (actualHeight > mMaxHeight) {
+                double ratio = (double) actualHeight / (double) mMaxHeight;
+                int tmpWidth = (int) (actualWidth / ratio);
+                if (tmpWidth > mMinWidth) {
+                    resizedResults[0] = tmpWidth; // 最终尺寸的宽度
+                    resizedResults[1] = mMaxHeight;// 最终尺寸的高度
+                    resizedResults[2] = actualWidth; // 剪裁尺寸的宽度
+                    resizedResults[3] = actualHeight; // 裁剪尺寸的高度
+                } else {
+                    ratio = (double) mMinWidth / (double) actualWidth;
+                    int tmpHeight = (int) (actualHeight * ratio);
+                    if (tmpHeight > mMaxHeight) {
+                        resizedResults[0] = mMinWidth; // 最终尺寸的宽度
+                        resizedResults[1] = mMaxHeight;// 最终尺寸的高度
+                        resizedResults[2] = actualWidth; // 剪裁尺寸的宽度
+                        resizedResults[3] = (int) ((double) actualWidth
+                                * mMaxHeight / (double) mMinWidth);
+                    } else {
+                        resizedResults[0] = mMinWidth; // 最终尺寸的宽度
+                        resizedResults[1] = tmpHeight;// 最终尺寸的高度
+                        resizedResults[2] = actualWidth; // 剪裁尺寸的宽度
+                        resizedResults[3] = actualHeight; // 裁剪尺寸的高度
+                    }
+                }
+            } else {
+                if (actualWidth < mMinWidth) {
+                    double ratio = (double) mMinWidth / (double) actualWidth;
+                    int tmpHeight = (int) (actualHeight * ratio);
+                    if (tmpHeight > mMaxHeight) {
+                        resizedResults[0] = mMinWidth; // 最终尺寸的宽度
+                        resizedResults[1] = mMaxHeight;// 最终尺寸的高度
+                        resizedResults[2] = actualWidth; // 剪裁尺寸的宽度
+                        resizedResults[3] = (int) ((double) actualWidth
+                                * mMaxHeight / (double) mMinWidth);
+                    } else {
+                        resizedResults[0] = mMinWidth; // 最终尺寸的宽度
+                        resizedResults[1] = tmpHeight;// 最终尺寸的高度
+                        resizedResults[2] = actualWidth; // 剪裁尺寸的宽度
+                        resizedResults[3] = actualHeight; // 裁剪尺寸的高度
+                    }
+                } else {
+                    resizedResults[0] = actualWidth; // 最终尺寸的宽度
+                    resizedResults[1] = actualHeight;// 最终尺寸的高度
+                    resizedResults[2] = actualWidth; // 剪裁尺寸的宽度
+                    resizedResults[3] = actualHeight; // 裁剪尺寸的高度
+                }
+            }
+        } else {
+            int[] results = getResizedDimension(actualHeight, actualWidth);
+            resizedResults[0] = results[1];
+            resizedResults[1] = results[0];
+            resizedResults[2] = results[3];
+            resizedResults[3] = results[2];
+        }
+        return resizedResults;
+    }
 
 
     public static String getType(byte[] data) {
@@ -355,6 +448,144 @@ public class ThumbnailUtils {
             }
         }
         return null;
+    }
+
+    public static Bitmap compressFileToBitmapThumb(String filePath, int width,
+                                                   int height, String savePath) {
+        if (null == filePath) {
+            return null;
+        }
+        int targetSize = Math.min(width, height);
+        int maxPixels = width * height;
+        // String tmpFilePath = filePath + ".tmp";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return null;
+        }
+        FileTools.deleteFile(savePath);
+
+        FileInputStream fis = null;
+        FileDescriptor fd = null;
+        try {
+            fis = new FileInputStream(file);
+            fd = fis.getFD();
+        } catch (Exception e) {
+            Log.w(TAG, e);
+            return null;
+        }
+
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 1;
+        options.inJustDecodeBounds = true;
+        try {
+            BitmapFactory.decodeFileDescriptor(fd, null, options);
+        } catch (Exception e) {
+            Log.w(TAG, e);
+            try {
+                fis.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            return null;
+        } catch (Throwable t) {
+            t.printStackTrace();
+            try {
+                fis.close();
+            } catch (IOException e) {
+                Log.w(TAG, e);
+            }
+            return null;
+        }
+        if (options.mCancel || options.outWidth == -1
+                || options.outHeight == -1) {
+            try {
+                fis.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                Log.w(TAG, e);
+            }
+            return null;
+        }
+        int sampleSize = computeSampleSize(options, targetSize, maxPixels);
+        int maxSample = Math.max(sampleSize, 20);
+        options.inJustDecodeBounds = false;
+
+        options.inDither = false;
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+
+        for (int index = sampleSize; index <= maxSample; index++) {
+            try {
+                options.inSampleSize = index;
+                Bitmap bm = BitmapFactory.decodeFileDescriptor(fd, null,
+                        options);
+                if (null != bm) {
+                    fis.close();
+                    FileTools.writeBitmap(savePath, bm, COMPRESS_RATE);
+                    bm.recycle();
+                    bm = null;
+                    // File tmpFile = new File(savePath);
+                    // tmpFile.renameTo(file);
+                    return FileTools.readBitmap(savePath);
+                }
+            } catch (OutOfMemoryError e) {
+                Log.w(TAG, e);
+            } catch (Exception e) {
+                Log.w(TAG, e);
+            } catch (Throwable t) {
+                t.printStackTrace();
+            }
+        }
+        try {
+            fis.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            Log.w(TAG, e);
+        }
+        return null;
+    }
+
+    public static int computeSampleSize(BitmapFactory.Options options,
+                                        int minSideLength, int maxNumOfPixels) {
+        int initialSize = computeInitialSampleSize(options, minSideLength,
+                maxNumOfPixels);
+
+        int roundedSize;
+        if (initialSize <= 8) {
+            roundedSize = 1;
+            while (roundedSize < initialSize) {
+                roundedSize <<= 1;
+            }
+        } else {
+            roundedSize = (initialSize + 7) / 8 * 8;
+        }
+
+        return roundedSize;
+    }
+
+    private static int computeInitialSampleSize(BitmapFactory.Options options,
+                                                int minSideLength, int maxNumOfPixels) {
+        double w = options.outWidth;
+        double h = options.outHeight;
+
+        int lowerBound = (maxNumOfPixels == UNCONSTRAINED) ? 1 : (int) Math
+                .ceil(Math.sqrt(w * h / maxNumOfPixels));
+        int upperBound = (minSideLength == UNCONSTRAINED) ? 128 : (int) Math
+                .min(Math.floor(w / minSideLength),
+                        Math.floor(h / minSideLength));
+
+        if (upperBound < lowerBound) {
+            // return the larger one when there is no overlapping zone.
+            return lowerBound;
+        }
+
+        if ((maxNumOfPixels == UNCONSTRAINED)
+                && (minSideLength == UNCONSTRAINED)) {
+            return 1;
+        } else if (minSideLength == UNCONSTRAINED) {
+            return lowerBound;
+        } else {
+            return upperBound;
+        }
     }
 
     public static Bitmap getCropAndScaledBitmap(Bitmap oriBitmap,

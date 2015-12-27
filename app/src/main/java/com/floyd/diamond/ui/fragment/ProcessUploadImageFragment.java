@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,12 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.tools.ImageUtils;
+import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.process.ProcessPicVO;
@@ -36,6 +39,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class ProcessUploadImageFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ProcessUploadImageFragment";
@@ -54,6 +58,8 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
     private FinishCallback callback;
 
     private Dialog dataLoadingDialog;
+
+    private int widthpixels, heightpixels;//分辨率
 
     public static ProcessUploadImageFragment newInstance(TaskProcessVO taskProcessVO, FinishCallback callback) {
         ProcessUploadImageFragment fragment = new ProcessUploadImageFragment();
@@ -77,6 +83,9 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         }
         mImageLoader = ImageLoaderFactory.createImageLoader();
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
+
+        widthpixels = this.getActivity().getResources().getDisplayMetrics().widthPixels;
+        heightpixels = (int) (this.getActivity().getResources().getDisplayMetrics().heightPixels - 32 * this.getActivity().getResources().getDisplayMetrics().density);
     }
 
     @Override
@@ -225,9 +234,6 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 drawPicLayout(this.picList, false, true);
                 deletePicButton.setVisibility(View.VISIBLE);
                 confirmPicButton.setVisibility(View.GONE);
-//                if (this.callback != null) {
-//                    this.callback.doFinish();
-//                }
                 break;
             case R.id.add_pic_layout:
                 Intent picIntent = new Intent(this.getActivity(), MultiPickGalleryActivity.class);
@@ -235,10 +241,6 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 picIntent.putExtra(MultiPickGalleryActivity.MAX_TOAST, "最多选择6张图片");
                 this.startActivityForResult(picIntent, MULIT_PIC_CHOOSE_WITH_DATA);
                 break;
-            //TODO
-//            if (this.callback != null) {
-//                this.callback.finishUpload("finish");
-//            }
         }
 
     }
@@ -256,9 +258,24 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 return;
             }
 
-            List<File> files = new ArrayList<File>();
-            for (String pic:pics) {
-                files.add(new File(pic));
+            final List<File> files = new ArrayList<File>();
+            for (String pic : pics) {
+                int fileSize = 0;
+                if (TextUtils.isEmpty(pic)) {
+                    continue;
+                }
+                File f = new File(pic);
+                if (f.exists() && f.isFile()) {
+                    fileSize = (int) f.length();
+                }
+                String originPath = EnvConstants.imageRootPath + File.separator + UUID.randomUUID().toString() + ".jpg";
+                int ori = ImageUtils.getOrientation(pic, this.getActivity(), null);
+                Bitmap origin = ThumbnailUtils.compressFileAndRotateToBitmapThumb(pic, widthpixels, heightpixels, ori, originPath);
+                if (origin == null) {
+                    continue;
+                }
+
+                files.add(new File(originPath));
             }
 
             LoginVO vo = LoginManager.getLoginInfo(this.getActivity());
@@ -267,11 +284,21 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 @Override
                 public void onError(int code, String errorInfo) {
                     dataLoadingDialog.dismiss();
+                    if (files != null) {
+                        for(File f:files) {
+                            f.delete();
+                        }
+                    }
                 }
 
                 @Override
                 public void onSuccess(List<MoteTaskPicVO> moteTaskPicVOs) {
                     dataLoadingDialog.dismiss();
+                    if (files != null) {
+                        for(File f:files) {
+                            f.delete();
+                        }
+                    }
                     for(MoteTaskPicVO picVO:moteTaskPicVOs) {
                         ProcessPicVO vo  = new ProcessPicVO();
                         vo.id = picVO.id;
