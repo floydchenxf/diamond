@@ -170,5 +170,21 @@ public class SellerManager {
         });
     }
 
+    /**
+     * 确认并评价任务
+     * @param moteTaskId　taskId
+     * @param satisfaction 1满意　２不满意
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> finishAndApproveMoteTask(long moteTaskId, int satisfaction, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SLLER_FINISH_AND_APPROVE_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", moteTaskId + "");
+        params.put("satisfaction", satisfaction + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
 
 }

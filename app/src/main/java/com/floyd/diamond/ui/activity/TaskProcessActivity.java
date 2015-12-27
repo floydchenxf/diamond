@@ -357,6 +357,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 confirmOrderNo(moteTaskId, orderNo, token);
                 break;
             case R.id.drop_order:
+
                 break;
             case R.id.act_ls_fail_layout:
                 loadData(true);
