@@ -1,6 +1,8 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,8 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.ui.MainActivity;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -92,10 +96,28 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 startActivity(ziliaoIntent);
                 break;
             case R.id.noLogin:
-                PrefsTools.setStringPrefs(this, LoginManager.LOGIN_INFO, "");
-                Intent it = new Intent(this, ExitActivity.class);
-                it.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(it);
+                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                builder.setMessage("亲！您确认要退出登录？")
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.confirm,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.dismiss();
+                                        PrefsTools.setStringPrefs(SettingPersonInfoActivity.this, LoginManager.LOGIN_INFO, "");
+                                        Intent it = new Intent(SettingPersonInfoActivity.this, MainActivity.class);
+                                        it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                        startActivity(it);
+                                    }
+                                })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
                 break;
             case R.id.left:
                 this.finish();
