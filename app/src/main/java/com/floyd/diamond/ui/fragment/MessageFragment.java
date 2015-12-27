@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -128,24 +129,8 @@ public class MessageFragment extends Fragment {
         messageList=new ArrayList<>();
         allMessage=new ArrayList<>();
         View view = inflater.inflate(R.layout.fragment_message, container, false);
-        //listView = ((ListView) view.findViewById(R.id.listview));
         mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.listview);
-       // mListView = mPullToRefreshListView.getRefreshableView();
-//        swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_container);
-//        //设置刷新时动画的颜色，可以设置4个
-//        swipeRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-//        //设置监听，刷新界面
-//        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                setData();
-//                //数据重新获取之后隐藏进度条
-//                swipeRefreshLayout.setRefreshing(false);
-//                Toast.makeText(getActivity(),"刷新完成",Toast.LENGTH_SHORT).show();
-//
-//            }
-//        });
-        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
@@ -154,8 +139,6 @@ public class MessageFragment extends Fragment {
                 setData();
                 mPullToRefreshListView.onRefreshComplete(true, true);
                 allMessage.clear();
-                //messageList.clear();
-                //handler.sendEmptyMessage(1);
             }
 
             @Override
@@ -164,8 +147,6 @@ public class MessageFragment extends Fragment {
                 mPullToRefreshListView.onRefreshComplete(true, true);
                 currentpage++;
                 setData();
-                //adapter.notifyDataSetChanged();
-               // handler.sendEmptyMessage(1);
             }
         });
 

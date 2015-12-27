@@ -40,11 +40,6 @@ public class ChooseActivity extends Activity {
     private List<String> provincesList;
     private TextView search;
 
-    //    private int [] shapesList={1,2,3};
-//    private int [] provincesList={110000,310000,120000,500000,320000,330000,210000,230000,220000,
-//            370000,340000,130000,410000,420000,430000,360000,610000,
-//            140000,510000,630000,460000,440000,520000,350000,710000,
-//            620000,530000,150000,640000,650000,540000,450000,810000,820000,000000};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

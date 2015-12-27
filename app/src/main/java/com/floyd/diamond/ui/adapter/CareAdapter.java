@@ -86,6 +86,7 @@ public class CareAdapter extends RecyclerView.Adapter<CareAdapter.MasonryView>{
             super(itemView);
             imageView = (ImageView) itemView.findViewById(R.id.masonry_item_img);
             likecount = (CheckBox) itemView.findViewById(R.id.likecount);
+            likecount.setVisibility(View.INVISIBLE);
             name = ((TextView) itemView.findViewById(R.id.name));
             place = ((TextView) itemView.findViewById(R.id.place));
             bg_recycle = ((TextView) itemView.findViewById(R.id.bg_recycle));

@@ -25,6 +25,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -129,7 +130,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         nicknameView = (TextView) view.findViewById(R.id.mine_name);
         ywPopupWindow = new YWPopupWindow(this.getActivity());
         float height = this.getActivity().getResources().getDimension(R.dimen.edit_head_bar_heigh);
-        ywPopupWindow.initView(headView, R.layout.popup_edit_head, (int)height, new YWPopupWindow.ViewInit() {
+        ywPopupWindow.initView(headView, R.layout.popup_edit_head, (int) height, new YWPopupWindow.ViewInit() {
             @Override
             public void initView(View v) {
                 editHeadButton = (TextView) v.findViewById(R.id.edit_head);
@@ -143,6 +144,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         headView.setOnClickListener(this);
 
         loginVO = LoginManager.getLoginInfo(this.getActivity());
+        if (GlobalParams.isDebug) {
+            Log.e("loginVo", loginVO.token + "");
+        }
         if (loginVO.isModel()) {
             ViewStub stub = (ViewStub) view.findViewById(R.id.mote_summary_info_stub);
             stub.inflate();
@@ -173,7 +177,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private void loadData() {
         dataLoadingView.startLoading();
-
         if (loginVO.isModel()) {
             //模特儿
             MoteInfoVO moteInfoVO = MoteManager.getMoteInfo(this.getActivity());
@@ -204,7 +207,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 public void onSuccess(MoteInfoVO moteInfoVO) {
                     Log.i(TAG, "---" + moteInfoVO);
                     dataLoadingView.loadSuccess();
-                    shopView.setText(moteInfoVO.orderNum +"");
+                    shopView.setText(moteInfoVO.orderNum + "");
                     qiangView.setText(moteInfoVO.fenNum + "");
                     placeView.setText(moteInfoVO.fee + "");
                     nicknameView.setText(moteInfoVO.nickname);
@@ -313,9 +316,10 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivity(intent);
                 break;
             case R.id.care:
-                Intent intent1=new Intent(this.getActivity(), CareActivity.class);
-                intent1.putExtra("num",1);
+                Intent intent1 = new Intent(this.getActivity(), CareActivity.class);
+                intent1.putExtra("num", 1);
                 startActivity(intent1);
+                break;
             case R.id.volley:
                 Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
                 startActivity(volleyIntent);
