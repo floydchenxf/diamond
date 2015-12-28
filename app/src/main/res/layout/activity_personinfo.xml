@@ -64,7 +64,7 @@
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
                 android:text="头像"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <com.android.volley.toolbox.NetworkImageView
@@ -96,7 +96,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="昵称"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <EditText
@@ -114,7 +114,7 @@
                 android:gravity="center_vertical|right"
                 android:singleLine="true"
                 android:text="yoyo"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
         </RelativeLayout>
 
@@ -136,7 +136,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="性别"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <TextView
                 android:id="@+id/gender_view"
@@ -146,7 +146,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:text="男"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <ImageView
@@ -160,7 +160,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000" />
 
 
@@ -175,7 +175,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="出生年月"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <TextView
                 android:id="@+id/birthday_view"
@@ -185,7 +185,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:text="1970-11-11"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <ImageView
@@ -218,7 +218,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="身型"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <TextView
                 android:id="@+id/height_type_view"
@@ -228,7 +228,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:text="骨感"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <ImageView
@@ -244,7 +244,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000" />
 
         <RelativeLayout
@@ -258,7 +258,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="身高"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <TextView
                 android:id="@+id/height_view"
@@ -268,7 +268,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:text="170"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <ImageView
@@ -301,7 +301,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="微信"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <EditText
                 android:id="@+id/weixin_view"
@@ -317,14 +317,14 @@
                 android:hint="未填写"
                 android:textColorHint="#cecece"
                 android:text="78260738"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
         </RelativeLayout>
 
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000" />
 
         <RelativeLayout
@@ -338,7 +338,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="支付宝"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <EditText
                 android:id="@+id/alipay_view"
@@ -355,13 +355,13 @@
                 android:textColorHint="#cecece"
                 android:singleLine="true"
                 android:text="78260738"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
         </RelativeLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000" />
 
         <RelativeLayout
@@ -375,29 +375,33 @@
                 android:layout_height="50dp"
                 android:gravity="center_vertical"
                 android:text="收货地址"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <TextView
                 android:id="@+id/goods_city_view"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="18dp"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:hint="未设置"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/goods_address_view"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="25dp"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/goods_city_view"
                 android:layout_marginRight="18dp"
-                android:gravity="center_vertical"
+                android:gravity="center_vertical|right"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:hint="未设置"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <ImageView
                 android:id="@+id/goods_address_jiantou"
@@ -412,7 +416,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000" />
 
         <RelativeLayout
@@ -426,7 +430,7 @@
                 android:layout_height="40dp"
                 android:gravity="center_vertical"
                 android:text="实名认证"
-                android:textColor="@color/black" />
+                android:textColor="#666666" />
 
             <TextView
                 android:id="@+id/auth_view"
@@ -436,7 +440,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="18dp"
                 android:text="未认证"
-                android:textColor="@color/black"
+                android:textColor="#666666"
                 android:textSize="14sp" />
 
             <ImageView

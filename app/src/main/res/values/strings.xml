@@ -85,4 +85,6 @@
     <string name="title_activity_exit">exitActivity</string>
     <string name="title_activity_seller_task">SellerTaskActivity</string>
     <string name="title_activity_seller_info">SellerInfoActivity</string>
+    <string name="title_activity_seller_person_info">SellerPersonInfoActivity</string>
+    <string name="title_activity_set_return_item_mobile">SetReturnItemMobileActivity</string>
 </resources>

@@ -13,6 +13,7 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.MainActivity;
+import com.floyd.diamond.ui.seller.SellerPersonInfoActivity;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
@@ -37,6 +38,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     private TextView aboutUs;
     private TextView noLogin;
     private UMSocialService mShare;
+    private LoginVO loginVO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,8 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         noLogin.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
 
-        LoginVO vo = LoginManager.getLoginInfo(this);
-        phoneNum.setText(vo.user.phoneNumber);
+        loginVO = LoginManager.getLoginInfo(this);
+        phoneNum.setText(loginVO.user.phoneNumber);
 
         tuijian.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,9 +93,15 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ziliao:
-                Intent ziliaoIntent = new Intent(this, PersonInfoActivity.class);
-                ziliaoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(ziliaoIntent);
+                if (loginVO.isModel()) {
+                    Intent ziliaoIntent = new Intent(this, PersonInfoActivity.class);
+                    ziliaoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(ziliaoIntent);
+                } else {
+                    Intent sellerInfoIntent = new Intent(this, SellerPersonInfoActivity.class);
+                    sellerInfoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(sellerInfoIntent);
+                }
                 break;
             case R.id.noLogin:
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);

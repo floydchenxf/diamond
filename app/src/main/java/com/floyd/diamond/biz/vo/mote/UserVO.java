@@ -23,6 +23,7 @@ public class UserVO implements Serializable {
     public String wangwang;
     public String alipayId;
     public String weixin;
+    public String qq;
 
     public int shape;//身形
     public long provinceId;

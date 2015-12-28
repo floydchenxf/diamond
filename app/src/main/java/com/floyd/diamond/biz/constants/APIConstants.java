@@ -52,4 +52,6 @@ public class APIConstants {
     public static final String API_SELLER_TASK_PICS = "api/taskPic/getSellerTaskPics"; //商家我的图库
     public static final String API_SELLER_TASK_LIST_DETAIL = "api/task/getMoteList4APP"; //我的任务详情
     public static final String API_SLLER_FINISH_AND_APPROVE_TASK = "api/task/finishAndApproveMoteTask";//确认并评价任务
+
+    public static final String API_UPDATE_SELLER_INFO = "api/user/updateSeller";
 }

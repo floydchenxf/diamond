@@ -240,18 +240,27 @@
             android:name=".ui.seller.SellerTaskActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" >
-        </activity>
+            android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.seller.SellerTaskDetailActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" >
-        </activity>
+            android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.seller.SellerInfoActivity"
-            android:label="@string/title_activity_seller_info" >
-        </activity>
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.seller.SellerPersonInfoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.activity.SetReturnItemMobileActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"/>
     </application>
 
 </manifest>
