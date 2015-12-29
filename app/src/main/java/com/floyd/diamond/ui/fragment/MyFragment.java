@@ -41,8 +41,8 @@ import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.activity.AlipayActivity;
 import com.floyd.diamond.ui.activity.CareActivity;
+import com.floyd.diamond.ui.activity.MoteWalletSummaryActivity;
 import com.floyd.diamond.ui.activity.MyPicActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
 import com.floyd.diamond.ui.activity.PersonInfoActivity;
@@ -356,7 +356,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             case R.id.volley:
                 if (loginVO.isModel()) {
                     //模特儿钱包
-                    Intent volleyIntent = new Intent(this.getActivity(), AlipayActivity.class);
+                    Intent volleyIntent = new Intent(this.getActivity(), MoteWalletSummaryActivity.class);
                     startActivity(volleyIntent);
                 } else {
                     //商家钱包

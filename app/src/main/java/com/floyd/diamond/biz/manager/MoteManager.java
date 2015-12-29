@@ -18,6 +18,7 @@ import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskVO;
+import com.floyd.diamond.biz.vo.mote.MoteWalletPageVO;
 import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
@@ -45,7 +46,7 @@ import java.util.Map;
 public class MoteManager {
     private static final String TAG = "MoteManager";
 
-    private static final String MOTE_INFO = "mote_info";
+    public static final String MOTE_INFO = "mote_info";
 
     public static MoteInfoVO getMoteInfo(Context context) {
         String moteInfo = PrefsTools.getStringPrefs(context, MOTE_INFO, "");
@@ -533,7 +534,19 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
-
-
-
+    /**
+     * 获取模特提现记录
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
+    public static AsyncJob<MoteWalletPageVO> fetchWalletRecords(int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_QUERY_APPLY_LIST;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("pageNo", pageNo+"");
+        params.put("pageSize", pageSize+"");
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteWalletPageVO.class);
+    }
 }

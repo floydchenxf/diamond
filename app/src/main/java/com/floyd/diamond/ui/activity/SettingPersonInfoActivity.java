@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.MainActivity;
@@ -113,6 +115,8 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                                                         int id) {
                                         dialog.dismiss();
                                         PrefsTools.setStringPrefs(SettingPersonInfoActivity.this, LoginManager.LOGIN_INFO, "");
+                                        PrefsTools.setStringPrefs(SettingPersonInfoActivity.this, SellerManager.SELLER_INFO, "");
+                                        PrefsTools.setStringPrefs(SettingPersonInfoActivity.this, MoteManager.MOTE_INFO, "");
                                         Intent it = new Intent(SettingPersonInfoActivity.this, MainActivity.class);
                                         it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                         startActivity(it);

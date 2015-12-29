@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -122,6 +123,8 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.right:
+                Intent payRecordIntent = new Intent(this, MoteWalletRecordsActivity.class);
+                startActivity(payRecordIntent);
                 break;
             case R.id.title_back:
                 this.finish();
@@ -185,6 +188,9 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
                         if (!AlipayActivity.this.isFinishing()) {
                             dataLoadingDialog.dismiss();
                             if (aBoolean) {
+                                smsCodeView.setText("");
+                                drawPasswordView.setText("");
+                                drawFeeView.setText("");
                                 Toast.makeText(AlipayActivity.this, "提现成功", Toast.LENGTH_SHORT).show();
                             }
                         }

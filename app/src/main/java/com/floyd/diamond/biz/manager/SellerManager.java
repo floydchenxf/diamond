@@ -39,7 +39,7 @@ import java.util.Map;
  */
 public class SellerManager {
     private static final String TAG = "SellerManager";
-    private static final String SELLER_INFO = "seller_info";
+    public static final String SELLER_INFO = "seller_info";
 
     public static SellerInfoVO getSellerInfo(Context context) {
         String sellerInfo = PrefsTools.getStringPrefs(context, SELLER_INFO, "");
