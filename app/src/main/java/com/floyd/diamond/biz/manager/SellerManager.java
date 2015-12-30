@@ -19,6 +19,7 @@ import com.floyd.diamond.biz.vo.seller.SellerInfoUpdateParams;
 import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskVO;
+import com.floyd.diamond.biz.vo.seller.SellerWalletVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -136,6 +137,14 @@ public class SellerManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, classType);
     }
 
+    /**
+     * 获取卖家任务图片
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
     public static AsyncJob<List<TaskPicsVO>> getSellerTaskPics(int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_PICS;
         Map<String, String> params = new HashMap<String, String>();
@@ -185,11 +194,21 @@ public class SellerManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
+    /**
+     * 更新卖家信息
+     * @param updateParams
+     * @return
+     */
     public static AsyncJob<Boolean> updateSellerInfo(SellerInfoUpdateParams updateParams) {
         String url = APIConstants.HOST + APIConstants.API_UPDATE_SELLER_INFO;
         Map<String, String> params = updateParams.convert2Map();
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
-
+    public static AsyncJob<SellerWalletVO> getSellerWallet(String token) {
+        String url = APIConstants.HOST + APIConstants.API_GET_SELLER_WALLET;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerWalletVO.class);
+    }
 }

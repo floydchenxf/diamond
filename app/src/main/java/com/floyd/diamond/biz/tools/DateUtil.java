@@ -66,4 +66,29 @@ public class DateUtil {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return simpleDateFormat.format(date);
     }
+
+    public static String getDateBefore(long createTime) {
+        long after = createTime + 30*60*1000;
+        long now = System.currentTimeMillis();
+        if (after < now) {
+            return null;
+        }
+
+        StringBuilder result = new StringBuilder();
+        long secs = (after - now)/1000;
+        if (secs > 60) {
+            long min = secs/60;
+            result.append(min);
+            long sec = secs%60;
+            if (sec < 10) {
+                result.append("0").append(sec);
+            } else {
+                result.append(sec);
+            }
+        } else {
+            result.append(secs);
+        }
+
+        return result.toString();
+    }
 }

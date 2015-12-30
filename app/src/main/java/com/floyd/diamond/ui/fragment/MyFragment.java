@@ -51,6 +51,7 @@ import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.seller.SellerTaskActivity;
+import com.floyd.diamond.ui.seller.SellerWalletActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 
 import java.io.File;
@@ -169,11 +170,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             stub.inflate();
 
             shopView = (TextView) view.findViewById(R.id.shop);
-            qiangView = (TextView) view.findViewById(R.id.qiang);
             placeView = (TextView) view.findViewById(R.id.place);
 
             shopPicView = (ImageView) view.findViewById(R.id.shop_pic);
-            qiangPicView = (ImageView) view.findViewById(R.id.qiang_pic);
             placePicView = (ImageView) view.findViewById(R.id.place_pic);
         }
 
@@ -255,7 +254,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             if (sellerInfoVO != null) {
                 shopView.setText(sellerInfoVO.shopName);
                 nicknameView.setText(sellerInfoVO.nickname);
-                qiangView.setText(sellerInfoVO.orderNum + "");
                 placeView.setText(sellerInfoVO.area);
                 if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
                     headView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
@@ -287,7 +285,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     }
                     shopView.setText(vo.shopName);
                     nicknameView.setText(vo.nickname);
-                    qiangView.setText(vo.orderNum + "");
                     placeView.setText(vo.area);
 
                     if (!TextUtils.isEmpty(vo.avartUrl)) {
@@ -360,7 +357,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     startActivity(volleyIntent);
                 } else {
                     //商家钱包
-
+                    Intent volleyIntent = new Intent(this.getActivity(), SellerWalletActivity.class);
+                    startActivity(volleyIntent);
                 }
                 break;
             case R.id.act_ls_fail_layout:
