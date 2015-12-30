@@ -20,11 +20,11 @@ import java.io.StreamCorruptedException;
 public class FileUtils {
 
     private static final String TAG = FileUtils.class.getSimpleName();
+
     /**
      * 读取序列化对象
      *
-     * @param pathName
-     *            文件路径+名字
+     * @param pathName 文件路径+名字
      * @return
      */
     public static Object readObject(String pathName) {
@@ -37,23 +37,23 @@ public class FileUtils {
                 obj = ois.readObject();
             } catch (StreamCorruptedException e) {
                 Log.w(TAG, e);
-                Log.e("WxException",e.getMessage(), e);
+                Log.e("WxException", e.getMessage(), e);
             } catch (IOException e) {
                 Log.w(TAG, e);
-                Log.e("WxException",e.getMessage(), e);
+                Log.e("WxException", e.getMessage(), e);
             } catch (ClassNotFoundException e) {
                 Log.w(TAG, e);
-                Log.e("WxException",e.getMessage(), e);
+                Log.e("WxException", e.getMessage(), e);
             } catch (Exception e) {
                 Log.w(TAG, e);
-                Log.e("WxException",e.getMessage(), e);
+                Log.e("WxException", e.getMessage(), e);
             } finally {
                 if (in != null) {
                     try {
                         in.close();
                         in = null;
                     } catch (IOException e) {
-                        Log.e("WxException",e.getMessage(), e);
+                        Log.e("WxException", e.getMessage(), e);
                     }
                 }
                 if (ois != null) {
@@ -61,7 +61,7 @@ public class FileUtils {
                         ois.close();
                         ois = null;
                     } catch (IOException e) {
-                        Log.e("WxException",e.getMessage(), e);
+                        Log.e("WxException", e.getMessage(), e);
                     }
                 }
             }
@@ -72,12 +72,9 @@ public class FileUtils {
     /**
      * 将序列化对象写文件
      *
-     * @param path
-     *            文件路径
-     * @param name
-     *            文件名字
-     * @param obj
-     *            序列化的对象
+     * @param path 文件路径
+     * @param name 文件名字
+     * @param obj  序列化的对象
      */
     public static void writeObject(String path, String name, Object obj) {
         File file = new File(path);
@@ -97,17 +94,17 @@ public class FileUtils {
             oos.flush();
         } catch (FileNotFoundException e) {
             Log.w(TAG, e);
-            Log.e("WxException",e.getMessage(), e);
+            Log.e("WxException", e.getMessage(), e);
         } catch (IOException e) {
             Log.w(TAG, e);
-            Log.e("WxException",e.getMessage(), e);
+            Log.e("WxException", e.getMessage(), e);
         } finally {
             if (fos != null) {
                 try {
                     fos.close();
                     fos = null;
                 } catch (IOException e) {
-                    Log.e("WxException",e.getMessage(), e);
+                    Log.e("WxException", e.getMessage(), e);
                 }
             }
             if (oos != null) {
@@ -115,7 +112,7 @@ public class FileUtils {
                     oos.close();
                     oos = null;
                 } catch (IOException e) {
-                    Log.e("WxException",e.getMessage(), e);
+                    Log.e("WxException", e.getMessage(), e);
                 }
             }
         }
@@ -130,10 +127,9 @@ public class FileUtils {
     }
 
     /**
-     *
      * 读取文件
-     * @param pathName
-     *            文件路径+名字
+     *
+     * @param pathName 文件路径+名字
      * @return 文件流
      */
     public static InputStream readFile(String pathName) {
@@ -144,7 +140,7 @@ public class FileUtils {
                 fis = new FileInputStream(file);
             } catch (FileNotFoundException e) {
                 Log.w(TAG, e);
-                Log.e("WxException",e.getMessage(), e);
+                Log.e("WxException", e.getMessage(), e);
             }
         }
         return fis;
@@ -153,6 +149,7 @@ public class FileUtils {
 
     /**
      * 删除文件，包含所有子文件
+     *
      * @param file
      */
     public static void deleteFile(File file) {
@@ -207,8 +204,9 @@ public class FileUtils {
 
     /**
      * 拷贝文件
+     *
      * @param from 拷贝来源
-     * @param to	拷贝去向
+     * @param to   拷贝去向
      * @return
      */
     private static boolean copyFile(File from, File to) {
@@ -229,20 +227,20 @@ public class FileUtils {
             }
         } catch (IOException e) {
             Log.w(TAG, e);
-            Log.e("WxException",e.getMessage(), e);
+            Log.e("WxException", e.getMessage(), e);
         } finally {
             if (fis != null) {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    Log.e("WxException",e.getMessage(), e);
+                    Log.e("WxException", e.getMessage(), e);
                 }
             }
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    Log.e("WxException",e.getMessage(), e);
+                    Log.e("WxException", e.getMessage(), e);
                 }
             }
         }
@@ -251,9 +249,10 @@ public class FileUtils {
 
     /**
      * 将二进制数据写文件
+     *
      * @param path 文件路径
-     * @param name	文件名
-     * @param data	二进制流
+     * @param name 文件名
+     * @param data 二进制流
      */
     public static void writeFile(String path, String name, byte[] data) {
         if (data == null || data.length <= 0) {
@@ -276,16 +275,16 @@ public class FileUtils {
             fos.flush();
         } catch (FileNotFoundException e) {
             Log.w(TAG, e);
-            Log.e("WxException",e.getMessage(), e);
+            Log.e("WxException", e.getMessage(), e);
         } catch (IOException e) {
             Log.w(TAG, e);
-            Log.e("WxException",e.getMessage(), e);
+            Log.e("WxException", e.getMessage(), e);
         } finally {
             if (fos != null) {
                 try {
                     fos.close();
                 } catch (IOException e) {
-                    Log.e("WxException",e.getMessage(), e);
+                    Log.e("WxException", e.getMessage(), e);
                 }
             }
         }
@@ -315,6 +314,19 @@ public class FileUtils {
             res = "";
         }
         return res;
+    }
+
+    public static long getFileSize(File f) throws Exception {
+        long size = 0;
+        File flist[] = f.listFiles();
+        for (int i = 0; i < flist.length; i++) {
+            if (flist[i].isDirectory()) {
+                size = size + getFileSize(flist[i]);
+            } else {
+                size = size + flist[i].length();
+            }
+        }
+        return size;
     }
 
 }

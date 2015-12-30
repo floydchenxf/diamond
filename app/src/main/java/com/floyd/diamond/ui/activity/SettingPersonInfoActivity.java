@@ -7,11 +7,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.aync.AsyncJob;
+import com.floyd.diamond.aync.Func;
+import com.floyd.diamond.aync.JobFactory;
+import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.manager.SellerManager;
+import com.floyd.diamond.biz.tools.FileUtils;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.MainActivity;
@@ -26,6 +33,8 @@ import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
+import java.io.File;
+
 /**
  * Created by Administrator on 2015/11/28.
  */
@@ -39,6 +48,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     private TextView tuijian;
     private TextView aboutUs;
     private TextView noLogin;
+    private TextView fileSizeView;
     private UMSocialService mShare;
     private LoginVO loginVO;
 
@@ -54,6 +64,44 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
 
         //初始化设置
         init();
+
+        AsyncJob<String> job = new AsyncJob<String>() {
+            @Override
+            public void start(ApiCallback<String> callback) {
+                File file = new File(EnvConstants.imageRootPath);
+                if (!file.exists()) {
+                    callback.onError(1, "not exists");
+                    return;
+                }
+
+                long size = 0;
+                try {
+                    size = FileUtils.getFileSize(file);
+                } catch (Exception e) {
+                    callback.onError(2, e.getMessage());
+                    return;
+                }
+                float a = size / (1024 * 1024);
+                callback.onSuccess(a + "M");
+            }
+        };
+
+        job.threadOn().startUI(new ApiCallback<String>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                Toast.makeText(SettingPersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                fileSizeView.setText(s);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
     }
 
     public void init() {
@@ -65,8 +113,10 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         tuijian = ((TextView) findViewById(R.id.tuijian));//推荐给朋友
         aboutUs = ((TextView) findViewById(R.id.aboutus));//关于我们
         noLogin = ((TextView) findViewById(R.id.noLogin));//退出登录
+        fileSizeView = (TextView) findViewById(R.id.file_size_view);
         ziliao.setOnClickListener(this);
         noLogin.setOnClickListener(this);
+        clear.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
 
         loginVO = LoginManager.getLoginInfo(this);
@@ -104,6 +154,50 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                     sellerInfoIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(sellerInfoIntent);
                 }
+                break;
+            case R.id.clear:
+                UIAlertDialog.Builder clearBuilder = new UIAlertDialog.Builder(this);
+                clearBuilder.setMessage("亲！您确认清除缓存？")
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.confirm,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        dialog.dismiss();
+                                        JobFactory.createJob(EnvConstants.imageRootPath).map(new Func<String, File>() {
+                                            @Override
+                                            public File call(String s) {
+                                                File f = new File(s);
+                                                FileUtils.deleteFile(f);
+                                                f.mkdir();
+                                                return f;
+                                            }
+                                        }).threadOn().startUI(new ApiCallback<File>() {
+                                            @Override
+                                            public void onError(int code, String errorInfo) {
+
+                                            }
+
+                                            @Override
+                                            public void onSuccess(File file) {
+                                                fileSizeView.setText("0.0M");
+                                            }
+
+                                            @Override
+                                            public void onProgress(int progress) {
+
+                                            }
+                                        });
+                                    }
+                                })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog2 = clearBuilder.create();
+                dialog2.show();
                 break;
             case R.id.noLogin:
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
@@ -165,7 +259,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
 
 
         // 打开分享面板
-       // mShare.openShare(this, false);//系统默认的
+        // mShare.openShare(this, false);//系统默认的
         startActivity(new Intent(SettingPersonInfoActivity.this, DialogActivity.class));
 
 
@@ -196,8 +290,8 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
         // String appId = "wx967daebe835fbeac";
         // String appSecret = "5bb696d9ccd75a38c8a0bfe0675559b3";
-        String appId="wx6f4a5ebb3d2cd11e";
-        String appSecret="9603f3903c1dab2b494de93c04c9026a";
+        String appId = "wx6f4a5ebb3d2cd11e";
+        String appSecret = "9603f3903c1dab2b494de93c04c9026a";
 //        String appId="wxd570a10aaf918fa7";
 //        String appSecret="d4624c36b6795d1 d99dcf0547af5443d";
 
