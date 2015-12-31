@@ -2,7 +2,6 @@ package com.floyd.diamond.biz.manager;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
@@ -16,9 +15,11 @@ import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
+import com.floyd.diamond.biz.vo.seller.SellerInfoUpdateParams;
 import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskVO;
+import com.floyd.diamond.biz.vo.seller.SellerWalletVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -39,7 +40,7 @@ import java.util.Map;
  */
 public class SellerManager {
     private static final String TAG = "SellerManager";
-    private static final String SELLER_INFO = "seller_info";
+    public static final String SELLER_INFO = "seller_info";
 
     public static SellerInfoVO getSellerInfo(Context context) {
         String sellerInfo = PrefsTools.getStringPrefs(context, SELLER_INFO, "");
@@ -47,17 +48,15 @@ public class SellerManager {
             return null;
         }
 
-        SellerInfoVO vo = new SellerInfoVO();
-        try {
-            JSONObject json = new JSONObject(sellerInfo);
-            String data = json.getString("data");
-            Gson gson = new Gson();
-            vo = gson.fromJson(data, SellerInfoVO.class);
-        } catch (JSONException e) {
-            Log.e(TAG, "parse json cause error:", e);
-            return null;
-        }
+        Gson gson = new Gson();
+        SellerInfoVO vo = gson.fromJson(sellerInfo, SellerInfoVO.class);
         return vo;
+    }
+
+    public static void saveSellerInfo(Context context, SellerInfoVO sellerInfoVO) {
+        Gson gson = new Gson();
+        String data = gson.toJson(sellerInfoVO);
+        PrefsTools.setStringPrefs(context, SELLER_INFO, data);
     }
 
     /**
@@ -84,7 +83,7 @@ public class SellerManager {
                             String data = json.getString("data");
                             Gson gson = new Gson();
                             SellerInfoVO vo = gson.fromJson(data, SellerInfoVO.class);
-                            PrefsTools.setStringPrefs(context, SELLER_INFO, s);
+                            saveSellerInfo(context, vo);
                             callback.onSuccess(vo);
                         } catch (JSONException e) {
                             callback.onError(APIError.API_JSON_PARSE_ERROR, e.getMessage());
@@ -138,6 +137,14 @@ public class SellerManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, classType);
     }
 
+    /**
+     * 获取卖家任务图片
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
     public static AsyncJob<List<TaskPicsVO>> getSellerTaskPics(int pageNo, int pageSize, String token) {
         String url = APIConstants.HOST + APIConstants.API_SELLER_TASK_PICS;
         Map<String, String> params = new HashMap<String, String>();
@@ -170,5 +177,38 @@ public class SellerManager {
         });
     }
 
+    /**
+     * 确认并评价任务
+     *
+     * @param moteTaskId   　taskId
+     * @param satisfaction 1满意　２不满意
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> finishAndApproveMoteTask(long moteTaskId, int satisfaction, String token) {
+        String url = APIConstants.HOST + APIConstants.API_SLLER_FINISH_AND_APPROVE_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", moteTaskId + "");
+        params.put("satisfaction", satisfaction + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
 
+    /**
+     * 更新卖家信息
+     * @param updateParams
+     * @return
+     */
+    public static AsyncJob<Boolean> updateSellerInfo(SellerInfoUpdateParams updateParams) {
+        String url = APIConstants.HOST + APIConstants.API_UPDATE_SELLER_INFO;
+        Map<String, String> params = updateParams.convert2Map();
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    public static AsyncJob<SellerWalletVO> getSellerWallet(String token) {
+        String url = APIConstants.HOST + APIConstants.API_GET_SELLER_WALLET;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerWalletVO.class);
+    }
 }

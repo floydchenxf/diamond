@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CheckedTextView;
@@ -100,7 +101,9 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         if (!taskItemVO.isAccepted) {
             newTaskButton.setOnClickListener(this);
             newTaskButton.setChecked(true);
+            newTaskButton.setTextColor(Color.WHITE);
         } else {
+            newTaskButton.setTextColor(Color.parseColor("#666666"));
             newTaskButton.setChecked(false);
         }
         imageUrl = taskItemVO.getDetailImageUrl();
@@ -150,6 +153,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                         }
 
                         newTaskButton.setChecked(false);
+                        newTaskButton.setTextColor(Color.parseColor("#666666"));
                         newTaskButton.setEnabled(false);
                         EventBus.getDefault().post(new AcceptTaskEvent(taskItemVO.id));
 

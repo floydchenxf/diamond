@@ -62,7 +62,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000"
             app:layout_marginLeftPercent="2%" />
 
@@ -120,7 +120,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000"
             app:layout_marginLeftPercent="2%" />
 
@@ -140,14 +140,14 @@
                 app:layout_marginRightPercent="4%" />
 
             <TextView
+                android:id="@+id/file_size_view"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:gravity="center_vertical"
-                android:text="12.5M"
                 android:textColor="#666666"
                 android:textSize="10sp"
-                app:layout_marginRightPercent="2%" />
+                app:layout_marginRightPercent="4%" />
 
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
@@ -176,7 +176,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000"
             app:layout_marginLeftPercent="2%" />
 
@@ -195,7 +195,7 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="1px"
             android:background="#33000000"
             app:layout_marginLeftPercent="2%" />
 

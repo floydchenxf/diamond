@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -16,12 +17,11 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.ui.DialogCreator;
-import com.floyd.diamond.ui.loading.DataLoadingView;
-import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 
 public class AlipayActivity extends Activity implements View.OnClickListener {
+
+    public static final String REMIND_FEE_KEY = "remind_fee_key";
 
     private Dialog dataLoadingDialog;
 
@@ -39,7 +39,9 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
     private LoginVO loginVO;
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    private DataLoadingView dataLoadingView;
+//    private DataLoadingView dataLoadingView;
+
+    private float remindFee;
 
     private void doUpdateTime(final int time) {
         mHandler.postDelayed(new Runnable() {
@@ -65,17 +67,19 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alipay);
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
-        dataLoadingView = new DefaultDataLoadingView();
-        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
+//        dataLoadingView = new DefaultDataLoadingView();
+//        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         loginVO = LoginManager.getLoginInfo(this);
+
+        remindFee = getIntent().getFloatExtra(REMIND_FEE_KEY, 0f);
 
         findViewById(R.id.title_back).setOnClickListener(this);
         titleNameView = (TextView) findViewById(R.id.title_name);
-        titleNameView.setText("提现");
+        titleNameView.setText(R.string.draw_money);
         titleNameView.setVisibility(View.VISIBLE);
 
         rightView = (TextView) findViewById(R.id.right);
-        rightView.setText("提现记录");
+        rightView.setText(R.string.pay_record);
         rightView.setOnClickListener(this);
         rightView.setVisibility(View.VISIBLE);
 
@@ -93,35 +97,16 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
     }
 
     private void fillData() {
-        dataLoadingView.startLoading();
-        MoteManager.getMoteWallet(loginVO.token).startUI(new ApiCallback<MoteWalletVO>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                if (!AlipayActivity.this.isFinishing()) {
-                    dataLoadingView.loadFail();
-                }
-            }
-
-            @Override
-            public void onSuccess(MoteWalletVO moteWalletVO) {
-                if (!AlipayActivity.this.isFinishing()) {
-                    dataLoadingView.loadSuccess();
-                    alipayIdView.setText("支付宝帐号:" + loginVO.user.alipayId);
-                    remindMoneyView.setText("余额:" + moteWalletVO.remindFee);
-                }
-            }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
+        alipayIdView.setText("支付宝帐号:" + loginVO.user.alipayId);
+        remindMoneyView.setText("余额:" + remindFee);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.right:
+                Intent payRecordIntent = new Intent(this, MoteWalletRecordsActivity.class);
+                startActivity(payRecordIntent);
                 break;
             case R.id.title_back:
                 this.finish();
@@ -185,6 +170,9 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
                         if (!AlipayActivity.this.isFinishing()) {
                             dataLoadingDialog.dismiss();
                             if (aBoolean) {
+                                smsCodeView.setText("");
+                                drawPasswordView.setText("");
+                                drawFeeView.setText("");
                                 Toast.makeText(AlipayActivity.this, "提现成功", Toast.LENGTH_SHORT).show();
                             }
                         }

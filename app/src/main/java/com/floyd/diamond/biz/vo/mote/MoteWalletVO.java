@@ -6,7 +6,8 @@ package com.floyd.diamond.biz.vo.mote;
 public class MoteWalletVO {
     public float remindFee; //余额
     public float totalReduceMoney; //总提现金额
-    public int unFinishNum;//未完成单数
-    public float shotFee;//拍照金额
-    public int finishNum; //完成单数
+    public float unFinishMoney;//未完成任务金额
+    public float shotFee;//佣金金额
+    public float totalSelfBuyFee; //自购金额
+    public int finishNum; //完成单量
 }

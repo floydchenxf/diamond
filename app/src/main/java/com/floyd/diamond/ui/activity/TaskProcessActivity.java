@@ -77,10 +77,10 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         @Override
         public void run() {
             long times = taskProcessVO.moteTask.acceptedTime;
+            int status = taskProcessVO.moteTask.status;
             long now = System.currentTimeMillis();
             long leftTimes = 30 * 60 - (now - times) / 1000;
             if (leftTimes < 0) {
-                //
                 editConfirmOrderNoLayout.setVisibility(View.GONE);
                 confirmOrderNoTextView.setVisibility(View.VISIBLE);
                 dropOrderNoView.setVisibility(View.GONE);
@@ -88,9 +88,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 return;
             }
 
-            confirmTimeView.setText("请在<font color=\"red\">" + leftTimes + "</font>秒内完成下单并输入订单号");
-            dropOrderNoView.setVisibility(View.VISIBLE);
-            mHandler.postDelayed(this, 1000);
+            if (status == 1) {
+                confirmTimeView.setText("请在" + leftTimes + "秒内完成下单并输入订单号");
+                dropOrderNoView.setVisibility(View.VISIBLE);
+                mHandler.postDelayed(this, 1000);
+            }
+
         }
     };
 
@@ -108,8 +111,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         initTaskInfoView();
         initAcceptView();
         initOrderNoView();
-        dataLoadingView.startLoading();
-        loadData();
+        loadData(true);
     }
 
     private void initOrderNoView() {
@@ -128,17 +130,38 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         acceptTimeView = (TextView) findViewById(R.id.accept_time);
     }
 
-    private void loadData() {
+    private void loadData(final boolean isFirst) {
         LoginVO vo = LoginManager.getLoginInfo(this);
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDailog.show();
+        }
         MoteManager.fetchTaskProcess(moteTaskId, vo.token).startUI(new ApiCallback<TaskProcessVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                dataLoadingView.loadFail();
+                if (TaskProcessActivity.this.isFinishing()) {
+                    return;
+                }
+
+                if (isFirst && !TaskProcessActivity.this.isFinishing()) {
+                    dataLoadingView.loadFail();
+                } else {
+                    dataLoadingDailog.dismiss();
+                }
             }
 
             @Override
             public void onSuccess(TaskProcessVO taskProcessVO) {
-                dataLoadingView.loadSuccess();
+                if (TaskProcessActivity.this.isFinishing()) {
+                    return;
+                }
+
+                if (isFirst) {
+                    dataLoadingView.loadSuccess();
+                } else {
+                    dataLoadingDailog.dismiss();
+                }
                 TaskProcessActivity.this.taskProcessVO = taskProcessVO;
                 fillTaskInfo(taskProcessVO);
                 fillAcceptStatus(taskProcessVO);
@@ -164,29 +187,39 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private void initAndFillGoodsOperate(TaskProcessVO taskProcessVO) {
         FragmentManager fragmentManager = getFragmentManager();
         Fragment goodsProcessFragment = fragmentManager.findFragmentById(R.id.goods_process);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        goodsProcessFragment = ProcessGoodsOperateFragment.newInstance(taskProcessVO, new FinishCallback() {
+            @Override
+            public void doFinish(int type) {
+                loadData(false);
+            }
+        });
         if (goodsProcessFragment == null) {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            goodsProcessFragment = ProcessGoodsOperateFragment.newInstance(taskProcessVO);
             fragmentTransaction.add(R.id.goods_process, goodsProcessFragment);
-            fragmentTransaction.commit();
+        } else {
+            fragmentTransaction.replace(R.id.goods_process, goodsProcessFragment);
         }
+        fragmentTransaction.commit();
     }
 
 
     private void initAndFillUploadPic(final TaskProcessVO taskProcessVO) {
+        dropOrderNoView.setVisibility(View.GONE);
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+            @Override
+            public void doFinish(int type) {
+                loadData(false);
+            }
+        });
         if (uploadPicFragment == null) {
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
-                @Override
-                public void doFinish() {
-                    initAndFillGoodsOperate(taskProcessVO);
-                }
-            });
             fragmentTransaction.add(R.id.upload_pic, uploadPicFragment);
-            fragmentTransaction.commit();
+        } else {
+            fragmentTransaction.replace(R.id.upload_pic, uploadPicFragment);
         }
+        fragmentTransaction.commit();
     }
 
     private void fillOrderStatus(TaskProcessVO taskProcessVO) {
@@ -252,15 +285,20 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     }
 
     private void confirmOrderNo(long moteTaskId, String orderNo, String token) {
+        dataLoadingDailog.show();
         MoteManager.addOrderNo(moteTaskId, orderNo, token).startUI(new ApiCallback<Boolean>() {
             @Override
             public void onError(int code, String errorInfo) {
+                dataLoadingDailog.dismiss();
                 Toast.makeText(TaskProcessActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(Boolean aBoolean) {
-                initAndFillUploadPic(taskProcessVO);
+                dataLoadingDailog.dismiss();
+                taskProcessVO.moteTask.status = 2;
+//                initAndFillUploadPic(taskProcessVO);
+                loadData(false);
             }
 
             @Override
@@ -319,9 +357,10 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 confirmOrderNo(moteTaskId, orderNo, token);
                 break;
             case R.id.drop_order:
+
                 break;
             case R.id.act_ls_fail_layout:
-                loadData();
+                loadData(true);
                 break;
         }
 

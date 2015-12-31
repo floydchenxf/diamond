@@ -84,7 +84,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:layout_below="@id/care"
                 android:background="#55000000"
                 app:layout_marginLeftPercent="2%" />
@@ -125,7 +125,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="1px"
                 android:layout_below="@id/care"
                 android:background="#55000000"
                 app:layout_marginLeftPercent="2%" />

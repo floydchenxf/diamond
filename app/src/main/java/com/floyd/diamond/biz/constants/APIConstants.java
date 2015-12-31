@@ -51,4 +51,8 @@ public class APIConstants {
     public static final String API_MOTE_TASK_APPROVE_PIC = "api/motetask/approvePic"; //商家评价图片
     public static final String API_SELLER_TASK_PICS = "api/taskPic/getSellerTaskPics"; //商家我的图库
     public static final String API_SELLER_TASK_LIST_DETAIL = "api/task/getMoteList4APP"; //我的任务详情
+    public static final String API_SLLER_FINISH_AND_APPROVE_TASK = "api/task/finishAndApproveMoteTask";//确认并评价任务
+
+    public static final String API_UPDATE_SELLER_INFO = "api/user/updateSeller";//更新卖家信息
+    public static final String API_GET_SELLER_WALLET = "api/user/getMySellerWallet"; //获取商家钱包
 }
