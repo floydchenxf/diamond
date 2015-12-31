@@ -63,12 +63,11 @@
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
         <com.zhy.android.percent.support.PercentLinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:gravity="center_vertical"
             app:layout_heightPercent="52%"
             app:layout_marginLeftPercent="3%"
-            app:layout_widthPercent="72%"
             android:layout_below="@id/lin">
 
             <com.android.volley.toolbox.NetworkImageView
@@ -139,19 +138,16 @@
                 app:layout_heightPercent="52%"
                 app:layout_marginLeftPercent="3%" />
 
-            <CheckBox
+            <CheckedTextView
                 android:id="@+id/careCount2"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:background="#ffffff"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:background="@drawable/common_button"
+                android:layout_marginLeft="10dp"
+                android:checked="true"
                 android:gravity="center"
-                android:text="已关注"
-                android:button="@null"
-                android:textColor="#d4377e"
-                android:textSize="12sp"
-                app:layout_heightPercent="27%"
-                app:layout_marginLeftPercent="3%"
-                app:layout_widthPercent="25%" />
+                android:text="关注度:xxx"
+                android:textColor="@color/white" />
         </com.zhy.android.percent.support.PercentLinearLayout>
 
     </com.zhy.android.percent.support.PercentRelativeLayout>

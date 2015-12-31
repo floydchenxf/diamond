@@ -29,6 +29,24 @@ public class MoteDetailInfoVO implements Serializable{
     public int age;
     public int followNum;//粉丝数
     public boolean isFollow;
+    private int jingyanzhi;
+    private String manyidu;
+
+    public int getJingyanzhi() {
+        return jingyanzhi;
+    }
+
+    public void setJingyanzhi(int jingyanzhi) {
+        this.jingyanzhi = jingyanzhi;
+    }
+
+    public String getManyidu() {
+        return manyidu;
+    }
+
+    public void setManyidu(String manyidu) {
+        this.manyidu = manyidu;
+    }
 
     public String getPreviewImageUrl() {
         return CommonUtil.getImage_200(this.avartUrl);

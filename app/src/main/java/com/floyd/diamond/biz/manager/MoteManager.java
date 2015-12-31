@@ -8,6 +8,9 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
+import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.MoteDetail;
+import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.MoteTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
@@ -123,15 +126,16 @@ public class MoteManager {
      * 获取模特的详细信息
      *
      * @param moteId
-     * @param token
      * @return
      */
-    public static AsyncJob<MoteDetailInfoVO> fetchMoteDetailInfo(long moteId, String token) {
+    public static AsyncJob<MoteDetail1> fetchMoteDetailInfo(long moteId) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", moteId + "");
-        params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteDetailInfoVO.class);
+       // params.put("token", token);
+
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteDetail1.class);
+
     }
 
     /**
