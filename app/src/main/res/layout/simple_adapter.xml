@@ -9,6 +9,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="6dp"
         android:layout_weight="1"
         android:gravity="center"
@@ -26,8 +27,8 @@
             android:id="@+id/moteNick1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="middle"
             android:layout_marginTop="4dp"
+            android:ellipsize="middle"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -37,6 +38,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="6dp"
         android:layout_weight="1"
         android:gravity="center"
@@ -53,8 +55,8 @@
         <TextView
             android:id="@+id/moteNick2"
             android:layout_width="wrap_content"
-            android:layout_marginTop="4dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:ellipsize="middle"
             android:textSize="12sp" />
     </LinearLayout>
@@ -65,6 +67,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_marginBottom="2dp"
         android:layout_marginTop="6dp"
         android:layout_weight="1"
         android:gravity="center"
@@ -82,8 +85,8 @@
             android:id="@+id/moteNick3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ellipsize="middle"
             android:layout_marginTop="4dp"
+            android:ellipsize="middle"
             android:textSize="12sp" />
     </LinearLayout>
 

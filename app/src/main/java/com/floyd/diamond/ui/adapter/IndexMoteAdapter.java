@@ -8,16 +8,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
-import com.floyd.diamond.IMChannel;
-import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
+import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.MoteDetailActivity;
 
 import java.util.ArrayList;
@@ -37,10 +33,7 @@ public class IndexMoteAdapter extends BaseAdapter {
     private Context mContext;
 
     public IndexMoteAdapter(Context context, List<MoteInfoVO> args) {
-        RequestQueue mQueue = Volley.newRequestQueue(context);
-        IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
-                IMChannel.getApplication(), EnvConstants.imageRootPath);
-        this.imageLoader = new ImageLoader(mQueue, wxImageCache);
+        this.imageLoader = ImageLoaderFactory.createImageLoader();
         infalter = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mList.addAll(args);

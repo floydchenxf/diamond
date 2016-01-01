@@ -20,10 +20,11 @@ import java.util.Map;
  */
 public class IndexManager {
 
-    public static AsyncJob<List<AdvVO>> fetchAdvLists(int count) {
+    public static AsyncJob<List<AdvVO>> fetchAdvLists(int count, int type) {
         String url = APIConstants.HOST + APIConstants.API_GET_ADVERT_LIST;
         final Map<String, String> params = new HashMap<String, String>();
         params.put("count", count + "");
+        params.put("type", type + "");
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, new TypeToken<ArrayList<AdvVO>>() {
         }.getType());
     }
