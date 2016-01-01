@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -14,23 +15,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
-import com.floyd.diamond.IMChannel;
-import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.event.AcceptTaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
+import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.multiimage.MultiImageActivity;
+import com.floyd.diamond.ui.multiimage.base.MulitImageVO;
+import com.floyd.diamond.ui.multiimage.base.PicViewObject;
 import com.floyd.diamond.ui.view.UIAlertDialog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.greenrobot.event.EventBus;
 
@@ -63,14 +66,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
-
-
-        RequestQueue mQueue = Volley.newRequestQueue(this);
-        IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
-                IMChannel.getApplication(), EnvConstants.imageRootPath);
-        this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
-        mImageLoader.setBatchedResponseDelay(0);
-
+        mImageLoader = ImageLoaderFactory.createImageLoader();
         loadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         taskItemVO = (TaskItemVO) getIntent().getSerializableExtra(TASK_TYPE_ITEM_OBJECT);
@@ -96,6 +92,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
         defaultImageView = (ImageView) findViewById(R.id.default_image);
         taskImageView = (NetworkImageView) findViewById(R.id.task_image);
+        taskImageView.setOnClickListener(this);
 
         newTaskButton = (CheckedTextView) findViewById(R.id.new_task_button);
         if (!taskItemVO.isAccepted) {
@@ -129,6 +126,23 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.back:
                 this.finish();
+                break;
+            case R.id.task_image:
+                List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
+                PicViewObject picObject = new PicViewObject();
+                picObject.setPicPreViewUrl(taskItemVO.getPreviewImageUrl());
+                picObject.setPicUrl(taskItemVO.getDetailImageUrl());
+                picObject.setPicId(1l);
+                picObject.setPicType(PicViewObject.IMAGE);
+                picViewList.add(picObject);
+                MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
+                Intent it = new Intent(NewTaskActivity.this, MultiImageActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);
+                it.putExtra(MultiImageActivity.MULIT_IMAGE_VO, bundle);
+                it.putExtra(MultiImageActivity.MULIT_IMAGE_PICK_MODE,
+                        MultiImageActivity.MULIT_IMAGE_PICK_MODE_PREVIEW);
+                startActivity(it);
                 break;
             case R.id.new_task_button:
                 loadingDialog.show();
