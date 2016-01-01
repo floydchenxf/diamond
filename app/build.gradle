@@ -11,10 +11,25 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        myConfig{
+            storeFile file("gradle.keystore")
+            storePassword "gradle"
+            keyAlias "gradle"
+            keyPassword "gradle"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            minifyEnabled false
+            proguardFile 'proguard-rules.pro'
         }
     }
 }

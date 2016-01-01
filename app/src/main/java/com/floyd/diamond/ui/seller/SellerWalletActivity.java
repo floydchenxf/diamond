@@ -110,6 +110,7 @@ public class SellerWalletActivity extends Activity implements View.OnClickListen
         addCashTotalView = (TextView) findViewById(R.id.add_cash_total_view);
         addCashButton = (TextView) findViewById(R.id.add_cash_button);
         addCashButton.setOnClickListener(this);
+        addCashButton.setVisibility(View.GONE);
     }
 
     @Override

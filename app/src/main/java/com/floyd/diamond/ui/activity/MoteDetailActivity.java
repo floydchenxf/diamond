@@ -15,19 +15,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
-import com.android.volley.toolbox.Volley;
-import com.floyd.diamond.IMChannel;
-import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.MoteDetail;
 import com.floyd.diamond.bean.MoteDetail1;
-import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
@@ -112,12 +106,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         setShareContent();
 
         infoVO = new MoteDetailInfoVO();
-
-        RequestQueue mQueue = Volley.newRequestQueue(this);
-        IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
-                IMChannel.getApplication(), EnvConstants.imageRootPath);
-        this.mImageLoader = new ImageLoader(mQueue, wxImageCache);
-        mImageLoader.setBatchedResponseDelay(0);
 
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
         moteId = getIntent().getLongExtra("moteId", 0);
