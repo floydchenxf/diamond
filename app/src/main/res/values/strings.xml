@@ -91,5 +91,8 @@
     <string name="pay_record">账户明细</string>
     <string name="title_activity_feedback">FeedbackActivity</string>
     <string name="title_feedback">意见反馈</string>
+    <string name="title_activity_about_us">AboutUsActivity</string>
+
+    <string name="hello_world">Hello world!</string>
 
 </resources>

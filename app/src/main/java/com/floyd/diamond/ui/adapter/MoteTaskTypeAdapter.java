@@ -87,11 +87,11 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
             holder.priceView11 = (TextView) convertView.findViewById(R.id.price_1_1);
             holder.priceView12 = (TextView) convertView.findViewById(R.id.price_1_2);
-            holder.addressView1 = (TextView) convertView.findViewById(R.id.address_1);
+//            holder.addressView1 = (TextView) convertView.findViewById(R.id.address_1);
 
             holder.priceView21 = (TextView) convertView.findViewById(R.id.price_2_1);
             holder.priceView22 = (TextView) convertView.findViewById(R.id.price_2_2);
-            holder.addressView2 = (TextView) convertView.findViewById(R.id.address_2);
+//            holder.addressView2 = (TextView) convertView.findViewById(R.id.address_2);
 
             convertView.setTag(holder);
         }
@@ -120,7 +120,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 }
             });
 
-            holder.addressView1.setText(itemVO1.areaid+"");
+//            holder.addressView1.setText(itemVO1.areaid+"");
             holder.priductImage1.setImageUrl(itemVO1.getPreviewImageUrl(), mImageLoader);
             holder.priceView11.setText(itemVO1.price+"");
             holder.priceView12.setText(itemVO1.shotFee+"");
@@ -148,7 +148,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 holder.finishStatusView2.setVisibility(View.GONE);
             }
 
-            holder.addressView2.setText(itemVO2.areaid+"");
+//            holder.addressView2.setText(itemVO2.areaid+"");
             holder.productImage2.setImageUrl(itemVO2.getPreviewImageUrl(), mImageLoader);
             holder.priceView21.setText(itemVO2.price+"");
             holder.priceView22.setText(itemVO2.shotFee+"");
@@ -171,11 +171,11 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
         public TextView priceView11;
         public TextView priceView12;
-        public TextView addressView1;
+//        public TextView addressView1;
 
         public TextView priceView21;
         public TextView priceView22;
-        public TextView addressView2;
+//        public TextView addressView2;
 
         public TextView finishStatusView1;
         public TextView finishStatusView2;

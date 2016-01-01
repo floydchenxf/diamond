@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,11 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private TextView confirmTimeView; //确认时间
     private TextView dropOrderNoView; //放弃订单
 
-    //-----------------图片-------------------------//
+    //--------------确认收货---------------//
+    private LinearLayout confirmGoodsLayout;
+    private TextView confirmGoodsTimeView;
+    private TextView confirmGoodsDescView;
+
 
     private Dialog dataLoadingDailog;
     private DataLoadingView dataLoadingView;
@@ -111,7 +116,15 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         initTaskInfoView();
         initAcceptView();
         initOrderNoView();
+        initGoodsConfirmView();
         loadData(true);
+    }
+
+    private void initGoodsConfirmView() {
+        confirmGoodsLayout = (LinearLayout) findViewById(R.id.confirm_goods_layout);
+        confirmGoodsTimeView = (TextView) findViewById(R.id.confirm_goods_time_view);
+        confirmGoodsDescView = (TextView) findViewById(R.id.confirm_goods_view);
+        confirmGoodsLayout.setVisibility(View.GONE);
     }
 
     private void initOrderNoView() {
@@ -174,6 +187,20 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
 
                 if (status >= 4) {
                     initAndFillGoodsOperate(taskProcessVO);
+                }
+
+                if (status >=6 && status < 8) {
+                    confirmGoodsLayout.setVisibility(View.VISIBLE);
+                    String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
+                    confirmGoodsTimeView.setText(dateStr);
+                    confirmGoodsDescView.setText("等待商家确认收货");
+                }
+
+                if (status >=8) {
+                    confirmGoodsLayout.setVisibility(View.VISIBLE);
+                    String dateStr = DateUtil.getDateStr(taskProcessVO.moteTask.finishStatusTime);
+                    confirmGoodsTimeView.setText(dateStr);
+                    confirmGoodsDescView.setText("商家确认收货");
                 }
             }
 
