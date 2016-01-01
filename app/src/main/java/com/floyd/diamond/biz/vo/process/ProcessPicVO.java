@@ -22,4 +22,8 @@ public class ProcessPicVO implements Serializable {
     public String getPreviewUrl() {
         return CommonUtil.getImage_200(this.imgUrl);
     }
+
+    public String getImageUrl() {
+        return CommonUtil.getImage_800(this.imgUrl);
+    }
 }

@@ -8,7 +8,7 @@ import com.floyd.diamond.utils.CommonUtil;
 /**
  * Created by floyd on 15-12-3.
  */
-public class AdvVO implements Parcelable {
+public class AdvVO implements Parcelable, IKeepClassForProguard {
     public long id;
     public String title;
     private String imgUrl;

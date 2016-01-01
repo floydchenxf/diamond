@@ -1,9 +1,11 @@
 package com.floyd.diamond.biz.vo.seller;
 
+import com.floyd.diamond.biz.vo.IKeepClassForProguard;
+
 /**
  * Created by floyd on 15-12-26.
  */
-public class SellerTaskDetailVO {
+public class SellerTaskDetailVO implements IKeepClassForProguard {
 
     public long id;
     public String avartUrl;

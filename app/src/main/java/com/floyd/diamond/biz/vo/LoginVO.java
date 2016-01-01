@@ -5,7 +5,7 @@ import com.floyd.diamond.biz.vo.mote.UserVO;
 /**
  * Created by floyd on 15-11-23.
  */
-public class LoginVO {
+public class LoginVO implements IKeepClassForProguard {
 
     public long id;//用户id
     public String token;//token

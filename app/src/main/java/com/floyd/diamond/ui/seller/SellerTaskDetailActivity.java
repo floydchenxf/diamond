@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.seller;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -23,6 +24,7 @@ import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.SellerTaskDetailAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
@@ -108,10 +110,10 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TaskItemVO itemVO = adapter.getData().get(position - 1);
-//                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
-//                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
-//                startActivity(it);
+                SellerTaskDetailVO sellerTaskDetailVO = adapter.getData().get(position - 1);
+                Intent it = new Intent(SellerTaskDetailActivity.this, SellerTaskProcessActivity.class);
+                it.putExtra(SellerTaskProcessActivity.SELLER_MOTE_TASK_ID, sellerTaskDetailVO.id);
+                startActivity(it);
             }
         });
         mListView.setAdapter(adapter);

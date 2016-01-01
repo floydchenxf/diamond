@@ -39,11 +39,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class ImageUtils {
-	
+
 	private static final String TAG = ImageUtils.class.getSimpleName();
 	/**
 	 * 图片去色,返回灰度图片
-	 * 
+	 *
 	 * @param bmpOriginal
 	 *            传入的图片
 	 * @return 去色后的图片
@@ -71,7 +71,7 @@ public class ImageUtils {
 			paint.setColorFilter(f);
 			c.drawBitmap(bmpOriginal, 0, 0, paint);
 		}
-		
+
 		return bmpGrayscale;
 	}
 
@@ -97,11 +97,11 @@ public class ImageUtils {
         }
         return EnvConstants.imageRootPath + File.separator + localName;
     }
-	
+
 	/**
 	 * 获取圆角图片
 	 * @param bitmap	 源图片
-	 * @param width	生成的宽度	
+	 * @param width	生成的宽度
 	 * @return
 	 */
 	public static Bitmap getRoundBitmap(Bitmap bitmap, int width) {
@@ -129,11 +129,11 @@ public class ImageUtils {
 		canvas.restore();
 		return output;
 	}
-	
+
 	/**
 	 * 获取圆角图片
 	 * @param bitmap	 源图片
-	 * @param width	生成的宽度	
+	 * @param width	生成的宽度
 	 * @return
 	 */
 	public static Bitmap getRoundBitmap(Bitmap bitmap, int width,float radius) {
@@ -148,7 +148,19 @@ public class ImageUtils {
 			Canvas canvas = new Canvas(output);
 			canvas.drawColor(Color.TRANSPARENT);
 			Rect dstRect = new Rect(0, 0, width, width);
-			Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+            int bitmapWidth = bitmap.getWidth();
+            int bitmapHeight = bitmap.getHeight();
+            Rect srcRect = null;
+            if (bitmapWidth > bitmapHeight) {
+                int diff = bitmapWidth - bitmapHeight;
+                int left = (int) (diff / 2);
+                srcRect = new Rect(left, 0, bitmapHeight, bitmapHeight);
+            } else {
+                int diff = bitmapHeight - bitmapWidth;
+                int top = (int) (diff / 2);
+                srcRect = new Rect(0, top, bitmapWidth, bitmapWidth);
+            }
+
 			RectF rectF = new RectF(dstRect);
 			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 			canvas.drawRoundRect(rectF, radius, radius, paint);
@@ -157,10 +169,10 @@ public class ImageUtils {
 			canvas.save(Canvas.ALL_SAVE_FLAG);
 			canvas.restore();
 		}
-		
+
 		return output;
 	}
-	
+
 	public static Bitmap getDefaultHeadBitmap(Context context){
 		Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(),
 				R.drawable.tuqian);
@@ -168,9 +180,9 @@ public class ImageUtils {
 		bitmap.recycle();
 		return bitmapHead;
 	}
-	
+
 	public static Bitmap getCircleBitmap(Context context, int resource){
-		
+
 		Bitmap bitmap;
 		try {
 			bitmap = BitmapFactory.decodeResource(context.getResources(), resource);
@@ -182,7 +194,7 @@ public class ImageUtils {
 		bitmap.recycle();
 		return bitmapHead;
 	}
-	
+
 	/**
 	 * 获取圆形图片
 	 * @param bitmap
@@ -192,7 +204,7 @@ public class ImageUtils {
 	public static Bitmap getCircleBitmap(Bitmap bitmap, float radius) {
 		return getCircleBitmap(bitmap, radius, 0);
 	}
-	
+
 
 	/**
 	 * 获取圆形图片c
@@ -228,15 +240,15 @@ public class ImageUtils {
 		Rect srcRect = new Rect(padding, padding, bitmap.getWidth()-padding, bitmap.getHeight()-padding);
 		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		paint.setFilterBitmap(true);
-		canvas.drawCircle(radius, radius, radius, paint);	
+		canvas.drawCircle(radius, radius, radius, paint);
 		paint.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, srcRect, dstRect, paint);
 		canvas.save(Canvas.ALL_SAVE_FLAG);
 		canvas.restore();
 		return output;
 	}
-	
-	
+
+
 	/**
 	 * 获取指定大小的图片
 	 * @param bitmap
@@ -268,9 +280,9 @@ public class ImageUtils {
 		canvas.restore();
 		return output;
 	}
-	
-	
-	
+
+
+
 	/**
 	 * 根据提供的视图的大小，裁剪出相应的图片
 	 * @param bitmap
@@ -299,7 +311,7 @@ public class ImageUtils {
 			width = imageW;
 			height = viewHeight;
 			int top = (imageH - viewHeight) / 2;
-			srcRect.set(0, top, imageW, top + viewHeight);		
+			srcRect.set(0, top, imageW, top + viewHeight);
 		} else {
 			width = viewWidth;
 			height = viewHeight;
@@ -333,15 +345,15 @@ public class ImageUtils {
 		canvas.restore();
 		return output;
 	}
-	
+
 	/**
      * 获取照片的角度 两种方式:1.根据绝对路径或根据Uri
-     * 
+     *
      * @param imagePath
      *            照片的路径
      * @param context
      * @param photoUri
-     * 
+     *
      * */
 	public static int getOrientation(String imagePath, Context context,
             Uri photoUri) {
@@ -476,7 +488,7 @@ public class ImageUtils {
 		}
 		return success;
 	}
-	
+
 	/**
 	 * 将图片和imageView解绑
 	 * @param vg
