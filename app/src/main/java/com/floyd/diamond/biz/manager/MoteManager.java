@@ -549,4 +549,12 @@ public class MoteManager {
         params.put("token",token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteWalletPageVO.class);
     }
+
+    public static AsyncJob<Boolean> addSuggestion(String content, String token) {
+        String url = APIConstants.HOST + APIConstants.API_USER_SUGGESTION;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("content", content);
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
 }

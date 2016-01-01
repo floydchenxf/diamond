@@ -276,6 +276,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" >
         </activity>
+        <activity
+            android:name=".ui.activity.FeedbackActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
     </application>
 
 </manifest>

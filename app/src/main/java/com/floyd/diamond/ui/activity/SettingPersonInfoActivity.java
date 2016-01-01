@@ -117,6 +117,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         ziliao.setOnClickListener(this);
         noLogin.setOnClickListener(this);
         clear.setOnClickListener(this);
+        suggest.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
 
         loginVO = LoginManager.getLoginInfo(this);
@@ -227,6 +228,10 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 break;
             case R.id.left:
                 this.finish();
+                break;
+            case R.id.suggest:
+                Intent suggestIntent = new Intent(SettingPersonInfoActivity.this, FeedbackActivity.class);
+                startActivity(suggestIntent);
                 break;
 
         }
