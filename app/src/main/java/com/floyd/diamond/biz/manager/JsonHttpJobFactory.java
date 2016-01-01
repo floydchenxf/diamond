@@ -1,9 +1,13 @@
 package com.floyd.diamond.biz.manager;
 
+import android.util.Log;
+
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
+import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.MoteDetail;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.channel.request.FileItem;
@@ -29,6 +33,9 @@ public class JsonHttpJobFactory {
                             @Override
                             protected T convert2Obj(String data) {
                                 Gson gson = new Gson();
+                                if (GlobalParams.isDebug){
+                                    Log.e("TAG_object",data+"");
+                                }
                                 return gson.fromJson(data, type);
                             }
                         }.doParse(callback, s);

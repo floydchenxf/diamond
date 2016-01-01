@@ -47,6 +47,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        com.umeng.socialize.utils.Log.LOG = true;
+
         fragments.add(new IndexFragment());
         fragments.add(new MessageFragment());
         fragments.add(new MyFragment());

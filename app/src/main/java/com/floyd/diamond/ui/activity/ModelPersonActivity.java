@@ -5,24 +5,34 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.MoteDetail;
+import com.floyd.diamond.bean.MyImageLoader;
+import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -30,6 +40,7 @@ import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
+import com.google.gson.Gson;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
@@ -40,8 +51,8 @@ import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/26.
@@ -50,13 +61,16 @@ public class ModelPersonActivity extends Activity {
     private UMSocialService mShare;
     private LinearLayout share;
     private SocializeListeners.UMShareBoardListener listener;
-    private CheckBox careCount;
+    private CheckedTextView careCount;
     private Dialog loadingDialog;
-    private NetworkImageView headView,headView_bg;
+    private NetworkImageView headView, headView_bg;
     private long moteId;
-    private TextView nickname,jianyanzhi,manyidu,age,gender,height,shapes,area;
+    private TextView nickname, jianyanzhi, manyidu, age, gender, height, shapes, area;
     private ImageLoader mImageLoader;
     private MoteDetailInfoVO vo;
+    private RequestQueue queue;
+    private MoteDetail moteDetail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +88,8 @@ public class ModelPersonActivity extends Activity {
     }
 
     public void init() {
-        vo=new MoteDetailInfoVO();
+        vo = new MoteDetailInfoVO();
+        queue = Volley.newRequestQueue(this);
         RequestQueue mQueue = Volley.newRequestQueue(this);
         IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
                 IMChannel.getApplication(), EnvConstants.imageRootPath);
@@ -83,23 +98,23 @@ public class ModelPersonActivity extends Activity {
 
         LinearLayout back = ((LinearLayout) findViewById(R.id.back));//返回
         share = ((LinearLayout) findViewById(R.id.share));//分享按钮
-        careCount= ((CheckBox) findViewById(R.id.careCount2));//关注次数
+        careCount = ((CheckedTextView) findViewById(R.id.careCount2));//关注次数
         careCount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doGuanzhu();
             }
         });
-        headView= ((NetworkImageView) findViewById(R.id.touxiang));//头像
-        headView_bg= ((NetworkImageView) findViewById(R.id.touxiang_bg));//头像背景
-        nickname= ((TextView) findViewById(R.id.nickname2));//昵称
-        jianyanzhi= ((TextView) findViewById(R.id.jingyanzhi));
-        manyidu= ((TextView) findViewById(R.id.manyidu));
-        gender= ((TextView) findViewById(R.id.gender_model));
-        age= ((TextView) findViewById(R.id.age_model));
-        height= ((TextView) findViewById(R.id.height_model));
-        shapes= ((TextView) findViewById(R.id.shapes_model));
-        area= ((TextView) findViewById(R.id.area_model));
+        headView = ((NetworkImageView) findViewById(R.id.touxiang));//头像
+        headView_bg = ((NetworkImageView) findViewById(R.id.touxiang_bg));//头像背景
+        nickname = ((TextView) findViewById(R.id.nickname2));//昵称
+        jianyanzhi = ((TextView) findViewById(R.id.jingyanzhi));
+        manyidu = ((TextView) findViewById(R.id.manyidu));
+        gender = ((TextView) findViewById(R.id.gender_model));
+        age = ((TextView) findViewById(R.id.age_model));
+        height = ((TextView) findViewById(R.id.height_model));
+        shapes = ((TextView) findViewById(R.id.shapes_model));
+        area = ((TextView) findViewById(R.id.area_model));
         loadingDialog = new Dialog(this, R.style.data_load_dialog);
         loadingDialog = DialogCreator.createDataLoadingDialog(this);
         //点击返回上一个界面
@@ -119,84 +134,161 @@ public class ModelPersonActivity extends Activity {
 
     }
 
-    private void loadData() {
-        moteId=getIntent().getLongExtra("moteId",0);
+    public void loadData() {
+        moteId = getIntent().getLongExtra("moteId", 0);
 
-        if (GlobalParams.isDebug){
-            Log.e("moteId",moteId+"");
-        }
-        final CountDownLatch countDownLatch = new CountDownLatch(2);
-        new Thread(new Runnable() {
+        String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
-            public void run() {
-                try {
-                    countDownLatch.await(2000, TimeUnit.MILLISECONDS);
-                } catch (InterruptedException e) {
+            public void onResponse(String response) {
+
+                if (GlobalParams.isDebug) {
+                    Log.e("MoteDetail", response);
                 }
 
-                loadingDialog.dismiss();
+                Gson gson = new Gson();
+                moteDetail = gson.fromJson(response, MoteDetail.class);
+
+                //绑定数据
+                nickname.setText(moteDetail.getData().getNickname());
+                int genderNum = moteDetail.getData().getGender();
+                if (genderNum == 0) {
+                    gender.setText("女");
+                } else if (genderNum == 1) {
+                    gender.setText("男");
+                }
+
+                height.setText(moteDetail.getData().getHeight() + "");
+                shapes.setText(moteDetail.getData().getShape() + "");
+                area.setText(moteDetail.getData().getArea());
+                jianyanzhi.setText(moteDetail.getData().getOrderNum() + "");
+                manyidu.setText(moteDetail.getData().getGoodeEvalRate() + "");
+                boolean isFollow = vo.isFollow;
+                if (isFollow) {
+                    careCount.setText("已关注");
+                    careCount.setChecked(true);
+                } else {
+                    int num = vo.followNum;
+                    careCount.setText("关注度:" + num);
+                    careCount.setChecked(false);
+                   // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
+                }
+                String imageUrl = moteDetail.getData().getAvartUrl();
+//                MyImageLoader loader=new MyImageLoader(queue,imageUrl,headView,ModelPersonActivity.this);
+//                MyImageLoader loader1=new MyImageLoader(queue,imageUrl,headView_bg,ModelPersonActivity.this);
+                if (!TextUtils.isEmpty(imageUrl)) {
+                    headView.setDefaultImageResId(R.drawable.head);
+                    headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.getCircleBitmap(bitmap, ModelPersonActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
+                        }
+                    });
+                    headView_bg.setDefaultImageResId(R.drawable.head);
+                    headView_bg.setImageUrl(imageUrl, mImageLoader);
+                    //headView_bg.setBackgroundResource(R.color.headview_bf);
+                }
 
             }
-        }).start();
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
 
+                Toast.makeText(ModelPersonActivity.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
 
-        if (!LoginManager.isLogin(this)) {
-            countDownLatch.countDown();
-            countDownLatch.countDown();
-        } else {
-            LoginVO vo = LoginManager.getLoginInfo(this);
-            MoteManager.fetchMoteDetailInfo(moteId, vo.token).startUI(new ApiCallback<MoteDetailInfoVO>() {
-                @Override
-                public void onError(int code, String errorInfo) {
-                    countDownLatch.countDown();
-                }
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> params = new HashMap<>();
+                params.put("id", moteId + "");
+                return params;
+            }
+        };
 
-                @Override
-                public void onSuccess(MoteDetailInfoVO vo) {
-                    countDownLatch.countDown();
-                    String imageUrl = vo.getPreviewImageUrl();
-                    if (!TextUtils.isEmpty(imageUrl)) {
-                        headView.setDefaultImageResId(R.drawable.head);
-                        headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
-                            @Override
-                            public Bitmap processBitmpa(Bitmap bitmap) {
-                                return ImageUtils.getCircleBitmap(bitmap, ModelPersonActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
-                            }
-                        });
-                        headView_bg.setDefaultImageResId(R.drawable.head);
-                        headView_bg.setImageUrl(vo.getDetailImageUrl(), mImageLoader);
-                    }
-
-                    nickname.setText(vo.nickname);
-
-                    boolean isFollow = vo.isFollow;
-                    if (isFollow) {
-                        careCount.setText("已关注");
-                        careCount.setChecked(true);
-                    } else {
-                        int num = vo.followNum;
-                        careCount.setText("关注度:" + num);
-                        careCount.setChecked(false);
-                       // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
-                    }
-
-//                    age.setText(vo.getAge());
-//
-//                    gender.setText(vo.getGender());
-//
-//                    height.setText(vo.getHeight());
-//
-//                    area.setText(vo.getAddress());
-                }
-
-                @Override
-                public void onProgress(int progress) {
-
-                }
-            });
-        }
-
+        queue.add(request);
     }
+
+//    private void loadData() {
+//        moteId=getIntent().getLongExtra("moteId",0);
+//
+//        if (GlobalParams.isDebug){
+//            Log.e("moteId",moteId+"");
+//        }
+//        final CountDownLatch countDownLatch = new CountDownLatch(2);
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    countDownLatch.await(2000, TimeUnit.MILLISECONDS);
+//                } catch (InterruptedException e) {
+//                }
+//
+//                loadingDialog.dismiss();
+//
+//            }
+//        }).start();
+//
+//
+//        if (!LoginManager.isLogin(this)) {
+//            countDownLatch.countDown();
+//            countDownLatch.countDown();
+//        } else {
+//            LoginVO vo = LoginManager.getLoginInfo(this);
+//            MoteManager.fetchMoteDetailInfo(moteId, vo.token).startUI(new ApiCallback<MoteDetailInfoVO>() {
+//                @Override
+//                public void onError(int code, String errorInfo) {
+//                    countDownLatch.countDown();
+//                }
+//
+//                @Override
+//                public void onSuccess(MoteDetailInfoVO vo) {
+//                    countDownLatch.countDown();
+//                    String imageUrl = vo.getPreviewImageUrl();
+//                    if (!TextUtils.isEmpty(imageUrl)) {
+//                        headView.setDefaultImageResId(R.drawable.head);
+//                        headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
+//                            @Override
+//                            public Bitmap processBitmpa(Bitmap bitmap) {
+//                                return ImageUtils.getCircleBitmap(bitmap, ModelPersonActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
+//                            }
+//                        });
+//                        headView_bg.setDefaultImageResId(R.drawable.head);
+//                        headView_bg.setImageUrl(vo.getDetailImageUrl(), mImageLoader);
+//                    }
+//
+//                    nickname.setText(vo.nickname);
+//
+//                    boolean isFollow = vo.isFollow;
+//                    if (isFollow) {
+//                        careCount.setText("已关注");
+//                        careCount.setChecked(true);
+//                    } else {
+//                        int num = vo.followNum;
+//                        careCount.setText("关注度:" + num);
+//                        careCount.setChecked(false);
+//                       // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
+//                    }
+//
+////                    age.setText(vo.getAge());
+////
+////                    gender.setText(vo.getGender());
+////
+////                    height.setText(vo.getHeight());
+////
+////                    area.setText(vo.getAddress());
+//                }
+//
+//                @Override
+//                public void onProgress(int progress) {
+//
+//                }
+//            });
+//        }
+//
+//    }
 
 
     // SSO授权回调
@@ -237,7 +329,7 @@ public class ModelPersonActivity extends Activity {
 
         // 打开分享面板
         mShare.openShare(this, false);//系统默认的
-      // startActivity(new Intent(ModelPersonActivity.this, DialogActivity.class));
+        // startActivity(new Intent(ModelPersonActivity.this, DialogActivity.class));
 
 
     }
@@ -268,8 +360,8 @@ public class ModelPersonActivity extends Activity {
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
         // String appId = "wx967daebe835fbeac";
         // String appSecret = "5bb696d9ccd75a38c8a0bfe0675559b3";
-        String appId="wx6f4a5ebb3d2cd11e";
-        String appSecret="9603f3903c1dab2b494de93c04c9026a";
+        String appId = "wx6f4a5ebb3d2cd11e";
+        String appSecret = "9603f3903c1dab2b494de93c04c9026a";
 //        String appId="wxd570a10aaf918fa7";
 //        String appSecret="d4624c36b6795d1 d99dcf0547af5443d";
 

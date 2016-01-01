@@ -24,6 +24,9 @@ import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.MoteDetail;
+import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -93,6 +96,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
     private UMSocialService mShare;
 
+    private TextView jingyanzhi, manyidu;
+
+    private MoteDetailInfoVO infoVO;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +111,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         //设置分享内容
         setShareContent();
 
+        infoVO = new MoteDetailInfoVO();
+
         RequestQueue mQueue = Volley.newRequestQueue(this);
         IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
                 IMChannel.getApplication(), EnvConstants.imageRootPath);
@@ -112,6 +121,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
         moteId = getIntent().getLongExtra("moteId", 0);
+
+        if (GlobalParams.isDebug){
+            Log.e("moteId",moteId+"");
+        }
         loadingDialog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
@@ -126,7 +139,9 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.detail_list);
         mListView = mPullToRefreshListView.getRefreshableView();
         usernickView = (TextView) findViewById(R.id.usernick);
-        share= ((TextView) findViewById(R.id.share));
+        share = ((TextView) findViewById(R.id.share));
+        jingyanzhi = ((TextView) findViewById(R.id.jinyan));
+        manyidu = ((TextView) findViewById(R.id.agree));
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -254,8 +269,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
         // String appId = "wx967daebe835fbeac";
         // String appSecret = "5bb696d9ccd75a38c8a0bfe0675559b3";
-        String appId="wx6f4a5ebb3d2cd11e";
-        String appSecret="9603f3903c1dab2b494de93c04c9026a";
+        String appId = "wx6f4a5ebb3d2cd11e";
+        String appSecret = "9603f3903c1dab2b494de93c04c9026a";
 //        String appId="wxd570a10aaf918fa7";
 //        String appSecret="d4624c36b6795d1 d99dcf0547af5443d";
 
@@ -269,7 +284,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         wxCircleHandler.setToCircle(true);
         wxCircleHandler.addToSocialSDK();
     }
-
 
 
     private void loadData(final boolean isFirst) {
@@ -315,7 +329,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             countDownLatch.countDown();
         } else {
             LoginVO vo = LoginManager.getLoginInfo(this);
-            MoteManager.fetchMoteDetailInfo(moteId, vo.token).startUI(new ApiCallback<MoteDetailInfoVO>() {
+            if (GlobalParams.isDebug){
+                Log.e("moteId_near",moteId+"");
+            }
+            MoteManager.fetchMoteDetailInfo(moteId).startUI(new ApiCallback<MoteDetail1>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     countDownLatch.countDown();
@@ -323,9 +340,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
 
                 @Override
-                public void onSuccess(MoteDetailInfoVO vo) {
+                public void onSuccess(MoteDetail1 vo) {
                     countDownLatch.countDown();
-                    String imageUrl = vo.getPreviewImageUrl();
+
+                    String imageUrl = vo.getAvartUrl();
                     if (!TextUtils.isEmpty(imageUrl)) {
                         headView.setDefaultImageResId(R.drawable.head);
                         headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
@@ -335,21 +353,34 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                             }
                         });
                         headBgView.setDefaultImageResId(R.drawable.head);
-                        headBgView.setImageUrl(vo.getDetailImageUrl(), mImageLoader);
+                        headBgView.setImageUrl(vo.getAvartUrl(), mImageLoader);
                     }
 
-                    usernickView.setText(vo.nickname);
+                    usernickView.setText(vo.getNickname());
 
-                    boolean isFollow = vo.isFollow;
+                    boolean isFollow = infoVO.isFollow;
+//                    if (isFollow) {
+//                        guanzhuView.setText("已关注");
+//                        guanzhuView.setChecked(true);
+//                    } else {
+//                        int num =vo.getFollowNum();
+//                        guanzhuView.setText("关注度:" + num);
+//                        guanzhuView.setChecked(false);
+//                        guanzhuView.setOnClickListener(MoteDetailActivity.this);
+//                    }
                     if (isFollow) {
                         guanzhuView.setText("已关注");
                         guanzhuView.setChecked(true);
                     } else {
-                        int num = vo.followNum;
+                        int num = infoVO.getFollowNum();
                         guanzhuView.setText("关注度:" + num);
                         guanzhuView.setChecked(false);
-                        guanzhuView.setOnClickListener(MoteDetailActivity.this);
+                        // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
                     }
+
+                    jingyanzhi.setText("经验值："+vo.getOrderNum() + "");
+                    manyidu.setText("满意度："+vo.getGoodeEvalRate() + "");
+
                 }
 
                 @Override
@@ -402,7 +433,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         switch (v.getId()) {
             case R.id.more_info:
                 Intent it = new Intent(this, ModelPersonActivity.class);
-                it.putExtra("moteId",moteId);
+                it.putExtra("moteId", moteId);
                 startActivity(it);
                 break;
             case R.id.guanzhu:
