@@ -23,6 +23,8 @@ import com.floyd.diamond.event.AcceptTaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.MoteTaskTypeAdapter;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
@@ -48,11 +50,14 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
     private ListView mListView;
 
     private TextView productTypeNameView;
-    private Dialog loadingDialog;
+    private DataLoadingView dataLoadingView;
+    private Dialog dataLoadingDialog;
     private ImageLoader mImageLoader;
 
     private  MoteTaskTypeAdapter moteTaskTypeAdapter;
+    private TextView emptyView;
 
+    private boolean isClear;
     private int moteTaskType = 1;
     private int pageNo = 1;
 
@@ -66,23 +71,27 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
 
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
 
-        loadingDialog = DialogCreator.createDataLoadingDialog(this);
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
+        dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.product_type_list);
         mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
-                loadingDialog.show();
+                dataLoadingDialog.show();
                 pageNo++;
-                loadData();
+                isClear = false;
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
-                loadingDialog.show();
+                dataLoadingDialog.show();
                 pageNo++;
-                loadData();
+                isClear = false;
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, true);
             }
         });
@@ -99,6 +108,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         }
 
         mListView = mPullToRefreshListView.getRefreshableView();
+        emptyView = (TextView)findViewById(R.id.empty_info);
         moteTaskTypeAdapter = new MoteTaskTypeAdapter(this, mImageLoader, new MoteTaskTypeAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, TaskItemVO taskItemVO) {
@@ -109,34 +119,55 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         });
 
         mListView.setAdapter(moteTaskTypeAdapter);
-
-        loadingDialog.show();
-        loadData();
+        loadData(true);
     }
 
-    private void loadData() {
+    private void loadData(final boolean isFirst) {
         LoginVO loginVO = LoginManager.getLoginInfo(this);
         if (loginVO == null) {
-            this.loadingDialog.dismiss();
             Toast.makeText(this, "未登录状态无法获取数据", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDialog.show();
+        }
+
         MoteManager.fetchTaskList(moteTaskType, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!MoteTaskTypeActivity.this.isFinishing()) {
-                    MoteTaskTypeActivity.this.loadingDialog.dismiss();
+                    if (isFirst) {
+                        dataLoadingView.loadFail();
+                    } else {
+                        dataLoadingDialog.dismiss();
+                        Toast.makeText(MoteTaskTypeActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
 
             @Override
             public void onSuccess(MoteTaskVO moteTaskVO) {
                 if (!MoteTaskTypeActivity.this.isFinishing()) {
-                    MoteTaskTypeActivity.this.loadingDialog.dismiss();
+                    if (isFirst) {
+                        dataLoadingView.loadSuccess();
+                    } else {
+                        dataLoadingDialog.dismiss();
+                    }
                 }
 
                 List<TaskItemVO> taskItemVOs = moteTaskVO.dataList;
-                if (taskItemVOs != null && !taskItemVOs.isEmpty()) {
+                List<MoteTypeTaskVO> dataList = moteTaskTypeAdapter.getData();
+                if ((taskItemVOs == null || taskItemVOs.isEmpty()) && pageNo == 1){
+                    emptyView.setVisibility(View.VISIBLE);
+                    mPullToRefreshListView.setVisibility(View.GONE);
+
+                } else {
+                    mPullToRefreshListView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+
                     List<MoteTypeTaskVO> typeTasks = new ArrayList<MoteTypeTaskVO>();
                     int idx = 0;
                     for (TaskItemVO vo: taskItemVOs) {
@@ -152,7 +183,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
                     }
 
                     if (!typeTasks.isEmpty()) {
-                        moteTaskTypeAdapter.addAll(typeTasks, false);
+                        moteTaskTypeAdapter.addAll(typeTasks, isClear);
                     }
                 }
             }
@@ -170,6 +201,11 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         switch (v.getId()) {
             case R.id.title_back:
                 this.finish();
+                break;
+            case R.id.act_lsloading:
+                isClear = true;
+                pageNo = 1;
+                loadData(true);
                 break;
         }
 
