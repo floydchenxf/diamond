@@ -13,14 +13,21 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -73,6 +80,34 @@ public class ImageUtils {
 		}
 
 		return bmpGrayscale;
+	}
+
+	public static Bitmap fastBlur(Context context, Bitmap sentBitmap, int radius) {
+		if (Build.VERSION.SDK_INT > 16) {
+			Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
+
+			final RenderScript rs = RenderScript.create(context);
+			final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
+					Allocation.USAGE_SCRIPT);
+			final Allocation output = Allocation.createTyped(rs, input.getType());
+			final ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+			script.setRadius(radius);
+			script.setInput(input);
+			script.forEach(output);
+			output.copyTo(bitmap);
+			return bitmap;
+		}
+
+		return sentBitmap;
+	}
+
+	public static Bitmap drawableToBitmap(Drawable drawable) {
+		Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+						: Bitmap.Config.RGB_565);
+		Canvas canvas = new Canvas(bitmap);
+		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+		drawable.draw(canvas);
+		return bitmap;
 	}
 
 	/**

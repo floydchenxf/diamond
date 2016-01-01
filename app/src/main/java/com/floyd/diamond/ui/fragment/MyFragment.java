@@ -206,7 +206,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                             return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader);
+                    bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                        }
+                    });
                 }
             }
 
@@ -239,7 +244,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader);
+                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
+                            @Override
+                            public Bitmap processBitmpa(Bitmap bitmap) {
+                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            }
+                        });
                     }
                 }
 
@@ -262,7 +272,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                             return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader);
+                    bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                        }
+                    });
                 }
             }
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
@@ -294,7 +309,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(vo.avartUrl, mImageLoader);
+                        bgHeadView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {
+                            @Override
+                            public Bitmap processBitmpa(Bitmap bitmap) {
+                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            }
+                        });
                     }
                 }
 

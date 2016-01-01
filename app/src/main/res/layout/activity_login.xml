@@ -4,33 +4,46 @@
     android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/login_layout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical">
 
-        <TextView
+        <CheckedTextView
             android:id="@+id/login"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:layout_marginBottom="10dip"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/aliwx_blue_button_bg_p"
+            android:background="@drawable/common_blue_button"
+            android:checked="true"
             android:gravity="center"
             android:text="登录"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
-        <TextView
+        <CheckedTextView
             android:id="@+id/regest"
             android:layout_width="fill_parent"
             android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
-            android:background="@drawable/aliwx_btn_disable"
+            android:background="@drawable/common_button"
+            android:checked="true"
             android:gravity="center"
             android:text="注册"
+            android:textColor="@color/white"
             android:textSize="16sp" />
 
     </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="160dp"
+        android:src="@drawable/icon" />
 </RelativeLayout>

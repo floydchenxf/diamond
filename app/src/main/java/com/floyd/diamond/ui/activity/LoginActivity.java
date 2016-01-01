@@ -4,21 +4,22 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.CheckedTextView;
 
 import com.floyd.diamond.R;
 
 public class LoginActivity extends Activity implements View.OnClickListener {
 
-    private TextView loginButton;
-    private TextView regButton;
+    private CheckedTextView loginButton;
+    private CheckedTextView regButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        loginButton = (TextView) findViewById(R.id.login);
-        regButton = (TextView) findViewById(R.id.regest);
+        loginButton = (CheckedTextView) findViewById(R.id.login);
+        regButton = (CheckedTextView) findViewById(R.id.regest);
         loginButton.setOnClickListener(this);
         regButton.setOnClickListener(this);
     }
