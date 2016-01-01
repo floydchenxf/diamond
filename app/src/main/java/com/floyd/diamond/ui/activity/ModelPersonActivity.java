@@ -5,12 +5,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -31,7 +28,6 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.MoteDetail;
-import com.floyd.diamond.bean.MyImageLoader;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -186,7 +182,12 @@ public class ModelPersonActivity extends Activity {
                         }
                     });
                     headView_bg.setDefaultImageResId(R.drawable.head);
-                    headView_bg.setImageUrl(imageUrl, mImageLoader);
+                    headView_bg.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.fastBlur(ModelPersonActivity.this, bitmap, 12);
+                        }
+                    });
                     //headView_bg.setBackgroundResource(R.color.headview_bf);
                 }
 
