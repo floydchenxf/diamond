@@ -18,6 +18,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.MyImageLoader;
+import com.floyd.diamond.utils.CommonUtil;
 
 import java.util.List;
 
@@ -45,21 +46,16 @@ public class CareAdapter extends RecyclerView.Adapter<CareAdapter.MasonryView>{
 
     @Override
     public void onBindViewHolder(final MasonryView masonryView, int position) {
-        //masonryView.imageView.setImageResource(modelsList.get(position).getAvatarUrl());
-        // masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
-        // masonryView.likecount.setTag("cb" + position);
-        // masonryView.likecount.setOnCheckedChangeListener(this);
         masonryView.bg_recycle.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
         masonryView.bg_recycle.setTag("bg" + position);
         masonryView.name.setText(allModel.get(position).getNickname());
-        // masonryView.place.setText(allModel.get(position).g);
         String imgUrl = allModel.get(position).getAvartUrl();
         if (GlobalParams.isDebug) {
             Log.e("TAG", imgUrl + "");
         }
         if (imgUrl != null) {
             queue = Volley.newRequestQueue(context);
-            MyImageLoader loader = new MyImageLoader(queue, imgUrl, masonryView.imageView, context);
+            MyImageLoader loader = new MyImageLoader(queue, CommonUtil.getImage_400(imgUrl), masonryView.imageView, context);
         }
     }
 

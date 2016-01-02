@@ -13,11 +13,12 @@ import android.view.View;
 import com.floyd.diamond.R;
 
 import java.math.BigDecimal;
+import java.util.Locale;
 
 /**
- * Created by Administrator on 2015/12/15.
+ * Created by Administrator on 2016/1/2.
  */
-public class SeekBarPressure1 extends View {
+public class SeekBarPressure2 extends View {
     private static final String TAG = "SeekBarPressure";
     private static final int CLICK_ON_LOW = 1;      //点击在前滑块上
     private static final int CLICK_ON_HIGH = 2;     //点击在后滑块上
@@ -49,7 +50,7 @@ public class SeekBarPressure1 extends View {
     private double mOffsetHigh = 0;    //后滑块中心坐标
     private int mDistance = 0;      //总刻度是固定距离 两边各去掉半个滑块距离
 
-    private int mThumbMarginTop = 30;   //滑动块顶部距离上边框距离，也就是距离字体顶部的距离
+    private int mThumbMarginTop =30;   //滑动块顶部距离上边框距离，也就是距离字体顶部的距离
 
     private int mFlag = CLICK_INVAILD;
     private OnSeekBarChangeListener mBarChangeListener;
@@ -60,15 +61,15 @@ public class SeekBarPressure1 extends View {
 
     private boolean isEdit = false;     //输入框是否正在输入
 
-    public SeekBarPressure1(Context context) {
+    public SeekBarPressure2(Context context) {
         this(context, null);
     }
 
-    public SeekBarPressure1(Context context, AttributeSet attrs) {
+    public SeekBarPressure2(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public SeekBarPressure1(Context context, AttributeSet attrs, int defStyle) {
+    public SeekBarPressure2(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
 //        this.setBackgroundColor(Color.BLACK);
 
@@ -77,7 +78,7 @@ public class SeekBarPressure1 extends View {
         hasScrollBarBg = resources.getDrawable(R.drawable.hongxian);
         // hasScrollBarBg.setBounds();
         mThumbLow = resources.getDrawable(R.drawable.huakuai);
-        mThumbHigh = resources.getDrawable(R.drawable.huakuai);
+        mThumbHigh = resources.getDrawable(R.drawable.ke);
 
         mThumbLow.setState(STATE_NORMAL);
         mThumbHigh.setState(STATE_NORMAL);
@@ -99,9 +100,9 @@ public class SeekBarPressure1 extends View {
         mOffsetLow = mThumbWidth / 2;
         mDistance = width - mThumbWidth;
 
-        mOffsetLow = formatDouble(defaultScreenLow / 100 * (mDistance)) + mThumbWidth / 2;
+        mOffsetLow = formatDouble(defaultScreenLow / 100 * (mDistance ))+ mThumbWidth / 2;
         mOffsetHigh = formatDouble(defaultScreenHigh / 100 * (mDistance)) + mThumbWidth / 2;
-        setMeasuredDimension(width, mThumbHeight + mThumbMarginTop + 2);
+        setMeasuredDimension(width, mThumbHeight + mThumbMarginTop+2);
     }
 
 
@@ -140,9 +141,9 @@ public class SeekBarPressure1 extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        //画随之移动的文字
         Paint text_Paint = new Paint();
         text_Paint.setTextAlign(Paint.Align.CENTER);
-        text_Paint.setStyle(Paint.Style.FILL);
         text_Paint.setColor(Color.RED);
         text_Paint.setTextSize(20);
 
@@ -154,30 +155,23 @@ public class SeekBarPressure1 extends View {
         notScrollBarBg.draw(canvas);
 
         //蓝色，中间部分会动
-        hasScrollBarBg.setBounds((int) mOffsetLow, aaa + 9, (int) mOffsetHigh, bbb - 9);
+        hasScrollBarBg.setBounds((int)mOffsetLow, aaa+9, (int)mOffsetHigh, bbb-9);
         hasScrollBarBg.draw(canvas);
 
         //前滑块
-        mThumbLow.setBounds((int) (mOffsetLow - mThumbWidth / 2), mThumbMarginTop, (int) (mOffsetLow + mThumbWidth / 2), mThumbHeight + mThumbMarginTop);
+        mThumbLow.setBounds((int)(mOffsetLow - mThumbWidth / 2), mThumbMarginTop, (int)(mOffsetLow + mThumbWidth / 2), mThumbHeight + mThumbMarginTop);
         mThumbLow.draw(canvas);
 
         //后滑块
-        mThumbHigh.setBounds((int) (mOffsetHigh - mThumbWidth / 2), mThumbMarginTop, (int) (mOffsetHigh + mThumbWidth / 2), mThumbHeight + mThumbMarginTop);
+        mThumbHigh.setBounds((int)(mOffsetHigh + mThumbWidth / 2-16), mThumbMarginTop+2, (int)(mOffsetHigh + mThumbWidth / 2-13), mThumbHeight + mThumbMarginTop-2);
         mThumbHigh.draw(canvas);
 
-        double progressLow = formatDouble((mOffsetLow - mThumbWidth / 2) * 100 / mDistance) + 80;
-        double progressHigh = formatDouble((mOffsetHigh - mThumbWidth / 2) * 100 / mDistance) + 80;
+        double progressLow = formatDouble((mOffsetLow - mThumbWidth / 2) * 100 / mDistance);
+        double progressHigh = formatDouble((mOffsetHigh - mThumbWidth / 2) * 100 / mDistance);
 //            Log.d(TAG, "onDraw-->mOffsetLow: " + mOffsetLow + "  mOffsetHigh: " + mOffsetHigh   + "  progressLow: " + progressLow + "  progressHigh: " + progressHigh);
-//        if (progressLow == 80) {
-//            canvas.drawText((int) progressLow + "以下", (int) mOffsetLow - 2 - 2, 15, text_Paint);
-//        } else {
-            canvas.drawText((int) progressLow + "", (int) mOffsetLow - 2 - 2, 15, text_Paint);
-//        }
-//        if (progressHigh == 180) {
-//            canvas.drawText((int) progressHigh + "以上", (int) mOffsetHigh - 2, 15, text_Paint);
-//        } else {
-            canvas.drawText((int) progressHigh + "", (int) mOffsetHigh - 2, 15, text_Paint);
-//        }
+        canvas.drawText((int) progressLow + "", (int)mOffsetLow - 2 - 2, 15, text_Paint);
+        canvas.drawText((int) progressHigh + "", (int)mOffsetHigh - 2, 15, text_Paint);
+
         if (mBarChangeListener != null) {
             if (!isEdit) {
                 mBarChangeListener.onProgressChanged(this, progressLow, progressHigh);
@@ -191,7 +185,7 @@ public class SeekBarPressure1 extends View {
         if (e.getAction() == MotionEvent.ACTION_DOWN) {
             if (mBarChangeListener != null) {
                 mBarChangeListener.onProgressBefore();
-                isEdit = false;
+                isEdit = true;
             }
             mFlag = getAreaFlag(e);
 //            Log.d(TAG, "e.getX: " + e.getX() + "mFlag: " + mFlag);
@@ -203,11 +197,11 @@ public class SeekBarPressure1 extends View {
 //            } else if (mFlag == CLICK_IN_LOW_AREA) {
 //                mThumbLow.setState(STATE_PRESSED);
 //                //如果点击0-mThumbWidth/2坐标
-//                if (e.getX() < 0 || e.getX() <= mThumbWidth / 2) {
-//                    mOffsetLow = mThumbWidth / 2;
-//                } else if (e.getX() > mScollBarWidth - mThumbWidth / 2) {
+//                if (e.getX() < 0 || e.getX() <= mThumbWidth/2) {
+//                    mOffsetLow = mThumbWidth/2;
+//                } else if (e.getX() > mScollBarWidth - mThumbWidth/2) {
 ////                    mOffsetLow = mDistance - mDuration;
-//                    mOffsetLow = mThumbWidth / 2 + mDistance;
+//                    mOffsetLow = mThumbWidth/2 + mDistance;
 //                } else {
 //                    mOffsetLow = formatDouble(e.getX());
 ////                    if (mOffsetHigh<= mOffsetLow) {
@@ -223,8 +217,8 @@ public class SeekBarPressure1 extends View {
 ////                    mOffsetLow = mOffsetHigh - mDuration;
 ////                } else if (e.getX() >= mScollBarWidth - mThumbWidth/2) {
 ////                    mOffsetHigh = mDistance + mThumbWidth/2;
-//                if (e.getX() >= mScollBarWidth - mThumbWidth / 2) {
-//                    mOffsetHigh = mDistance + mThumbWidth / 2;
+//                if(e.getX() >= mScollBarWidth - mThumbWidth/2) {
+//                    mOffsetHigh = mDistance + mThumbWidth/2;
 //                } else {
 //                    mOffsetHigh = formatDouble(e.getX());
 ////                    if (mOffsetHigh <= mOffsetLow) {
@@ -233,36 +227,36 @@ public class SeekBarPressure1 extends View {
 ////                    }
 //                }
             }
-//            //设置进度条
+            //设置进度条
 //            refresh();
 
             //移动move
         } else if (e.getAction() == MotionEvent.ACTION_MOVE) {
 //            Log.d("ACTION_MOVE", "------------------");
             if (mFlag == CLICK_ON_LOW) {
-                if (e.getX() < 0 || e.getX() <= mThumbWidth / 2) {
-                    mOffsetLow = mThumbWidth / 2;
-                } else if (e.getX() >= mScollBarWidth - mThumbWidth / 2) {
-                    mOffsetLow = mThumbWidth / 2 + mDistance;
+                if (e.getX() < 0 || e.getX() <= mThumbWidth/2) {
+                    mOffsetLow = mThumbWidth/2;
+                } else if (e.getX() >= mScollBarWidth - mThumbWidth/2) {
+                    mOffsetLow = mThumbWidth/2 + mDistance;
                     mOffsetHigh = mOffsetLow;
                 } else {
                     mOffsetLow = formatDouble(e.getX());
                     if (mOffsetHigh - mOffsetLow <= 0) {
-                        mOffsetHigh = (mOffsetLow <= mDistance + mThumbWidth / 2) ? (mOffsetLow) : (mDistance + mThumbWidth / 2);
+                        mOffsetHigh = (mOffsetLow <= mDistance+mThumbWidth/2) ? (mOffsetLow) : (mDistance+mThumbWidth/2);
                     }
                 }
-            } else if (mFlag == CLICK_ON_HIGH) {
-                if (e.getX() < mThumbWidth / 2) {
-                    mOffsetHigh = mThumbWidth / 2;
-                    mOffsetLow = mThumbWidth / 2;
-                } else if (e.getX() > mScollBarWidth - mThumbWidth / 2) {
-                    mOffsetHigh = mThumbWidth / 2 + mDistance;
-                } else {
-                    mOffsetHigh = formatDouble(e.getX());
-                    if (mOffsetHigh - mOffsetLow <= 0) {
-                        mOffsetLow = (mOffsetHigh >= mThumbWidth / 2) ? (mOffsetHigh) : mThumbWidth / 2;
-                    }
-                }
+//            } else if (mFlag == CLICK_ON_HIGH) {
+//                if (e.getX() <  mThumbWidth/2) {
+//                    mOffsetHigh = mThumbWidth/2;
+//                    mOffsetLow = mThumbWidth/2;
+//                } else if (e.getX() > mScollBarWidth - mThumbWidth/2) {
+//                    mOffsetHigh = mThumbWidth/2 + mDistance;
+//                } else {
+//                    mOffsetHigh = formatDouble(e.getX());
+//                    if (mOffsetHigh - mOffsetLow <= 0) {
+//                        mOffsetLow = (mOffsetHigh >= mThumbWidth/2) ? (mOffsetHigh) : mThumbWidth/2;
+//                    }
+//                }
             }
             //设置进度条
             refresh();
@@ -313,7 +307,7 @@ public class SeekBarPressure1 extends View {
         } else if (e.getY() >= top
                 && e.getY() <= bottom
                 && (((e.getX() > ((double) mOffsetHigh + mOffsetLow) / 2) && e.getX() < (mOffsetHigh - mThumbWidth / 2)) || (e
-                .getX() > (mOffsetHigh + mThumbWidth / 2) && e.getX() <= mScollBarWidth))) {
+                .getX() > (mOffsetHigh + mThumbWidth/2) && e.getX() <= mScollBarWidth))) {
             return CLICK_IN_HIGH_AREA;
         } else if (!(e.getX() >= 0 && e.getX() <= mScollBarWidth && e.getY() >= top && e.getY() <= bottom)) {
             return CLICK_OUT_AREA;
@@ -326,17 +320,17 @@ public class SeekBarPressure1 extends View {
         invalidate();
     }
 
-    public void setProgressLow(double progressLow) {
+    public void setProgressLow(double  progressLow) {
         this.defaultScreenLow = progressLow;
-        mOffsetLow = formatDouble(progressLow / 100 * (mDistance)) + mThumbWidth / 2;
+        mOffsetLow = formatDouble(progressLow / 100 * (mDistance ))+ mThumbWidth / 2;
         isEdit = true;
         refresh();
     }
 
-    public void setProgressHigh(double progressHigh) {
+    public void setProgressHigh(double  progressHigh) {
         this.defaultScreenHigh = progressHigh;
         mOffsetHigh = formatDouble(progressHigh / 100 * (mDistance)) + mThumbWidth / 2;
-        isEdit = true;
+        isEdit = false;
         refresh();
     }
 
@@ -350,7 +344,7 @@ public class SeekBarPressure1 extends View {
         public void onProgressBefore();
 
         //滑动时
-        public void onProgressChanged(SeekBarPressure1 seekBar, double progressLow,
+        public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow,
                                       double progressHigh);
 
         //滑动后
@@ -371,3 +365,4 @@ public class SeekBarPressure1 extends View {
     }
 
 }
+

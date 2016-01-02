@@ -32,6 +32,7 @@ import com.floyd.diamond.bean.Model;
 import com.floyd.diamond.bean.SpacesItemDecoration;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.ui.adapter.MasonryAdapter;
+import com.floyd.diamond.utils.CommonUtil;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 import com.google.gson.Gson;
@@ -50,45 +51,21 @@ public class HomeChooseActivity extends Activity {
     private LinearLayout back;//返回按钮
     private LinearLayout find;//查找模特
     private RequestQueue queue;
-    private List<Model.DataEntity>modelsList;
-    private List<Model.DataEntity>allModel;//大集合
-    private int pageNo=1;//当前页数
-    private PullToRefreshListView mPullToRefreshListView;
+    private List<Model.DataEntity> modelsList;
+    private List<Model.DataEntity> allModel;//大集合
+    private int pageNo = 1;//当前页数
     private boolean needClear;
-    private GridLayoutManager mLayoutManager;
-    private Handler handler=new Handler(){
+    private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
+    private MasonryAdapter adapter;
+    private com.floyd.diamond.bean.SwipeRefreshLayout.Mode mLastDirection = com.floyd.diamond.bean.SwipeRefreshLayout.Mode.DISABLED;
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-            //设置adapter
-            MasonryAdapter adapter = new MasonryAdapter(allModel, HomeChooseActivity.this, new MasonryAdapter.ChangeText() {
-                @Override
-                public void setText(String tag, boolean isChecked) {
-                    CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
-                    if (cb != null) {
-                        if (isChecked) {
-                            cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
-                        } else {
-                            cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
-                        }
-                    }
-                }
-            });
-            recyclerView.setAdapter(adapter);
 
-            //点击跳转到模特界面
-            adapter.setMyOnItemClickListener(new MasonryAdapter.MyOnItemClickListener() {
-                @Override
-                public void onItemClick(View view, int postion) {
-                    Intent intent = new Intent(HomeChooseActivity.this, MoteDetailActivity.class);
-                    intent.putExtra("moteId", allModel.get(postion).getId());
-                    if (GlobalParams.isDebug) {
-                        Log.e("TAG_moteId",allModel.get(postion).getId()+"");
-                    }
-                    startActivity(intent);
-                }
-            });
+        adapter.notifyDataSetChanged();
+
         }
     };
 
@@ -101,59 +78,65 @@ public class HomeChooseActivity extends Activity {
 
         setData();
 
+        //设置adapter
+        adapter = new MasonryAdapter(allModel, HomeChooseActivity.this, new MasonryAdapter.ChangeText() {
+            @Override
+            public void setText(String tag, boolean isChecked) {
+                CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
+                if (cb != null) {
+                    if (isChecked) {
+                        cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+                    } else {
+                        cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                    }
+                }
+            }
+        });
+        recyclerView.setAdapter(adapter);
+
+        //点击跳转到模特界面
+        adapter.setMyOnItemClickListener(new MasonryAdapter.MyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                Intent intent = new Intent(HomeChooseActivity.this, MoteDetailActivity.class);
+                intent.putExtra("moteId", allModel.get(postion).getId());
+                if (GlobalParams.isDebug) {
+                    Log.e("TAG_moteId", allModel.get(postion).getId() + "");
+                }
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void init() {
+        swipeRefreshLayout = ((com.floyd.diamond.bean.SwipeRefreshLayout) findViewById(R.id.swip));
+        //设置刷新时动画的颜色，可以设置4个
+        swipeRefreshLayout.setBottomColor(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swipeRefreshLayout.setTopColor(android.R.color.holo_purple, android.R.color.holo_orange_light, android.R.color.holo_blue_bright, android.R.color.holo_green_light);
+        swipeRefreshLayout.setOnRefreshListener(new com.floyd.diamond.bean.SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNo = 1;
+                allModel.clear();
+                setData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        swipeRefreshLayout.setOnLoadListener(new com.floyd.diamond.bean.SwipeRefreshLayout.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                pageNo++;
+                setData();
+                swipeRefreshLayout.setLoading(false);
+            }
+        });
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         back = ((LinearLayout) findViewById(R.id.left));
         find = ((LinearLayout) findViewById(R.id.right));
-        queue=Volley.newRequestQueue(HomeChooseActivity.this);
-        modelsList=new ArrayList<>();//用于存放每一页的模特
-        allModel=new ArrayList<>();//用于存储所有的模特
-//        mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
-//       // mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-//        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
-//            @Override
-//            public void onPullDownToRefresh() {
-//                needClear = false;
-//                pageNo=1;
-//                setData();
-//                mPullToRefreshListView.onRefreshComplete(true, true);
-//                allModel.clear();
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh() {
-//                needClear = false;
-//                mPullToRefreshListView.onRefreshComplete(true, true);
-//                pageNo++;
-//                setData();
-//            }
-//        });
-//
-//        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
-//
-//            float y1 = 0, y2 = 0;
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        if (y1 == 0) {
-//                            y1 = event.getRawY();
-//                        }
-//                        y2 = event.getRawY();
-//
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
-
+        queue = Volley.newRequestQueue(HomeChooseActivity.this);
+        modelsList = new ArrayList<>();//用于存放每一页的模特
+        allModel = new ArrayList<>();//用于存储所有的模特
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,7 +156,6 @@ public class HomeChooseActivity extends Activity {
         //设置layoutManager
         recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
 
-
         //设置item之间的间隔
         SpacesItemDecoration decoration = new SpacesItemDecoration(6);
         recyclerView.addItemDecoration(decoration);
@@ -185,20 +167,20 @@ public class HomeChooseActivity extends Activity {
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
 
 
-
     }
 
-    public void setData(){
-        String url= APIConstants.HOST+APIConstants.CHOOSEMOTE;
-        StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+    public void setData() {
+        String url = APIConstants.HOST + APIConstants.CHOOSEMOTE;
+
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if (GlobalParams.isDebug){
-                    Log.e("TAG",response);
+                if (GlobalParams.isDebug) {
+                    Log.e("TAG", response);
                 }
-                Gson gson=new Gson();
-                Model model=gson.fromJson(response,Model.class);
-                modelsList=model.getData();
+                Gson gson = new Gson();
+                Model model = gson.fromJson(response, Model.class);
+                modelsList = model.getData();
 
                 allModel.addAll(modelsList);
 
@@ -208,23 +190,21 @@ public class HomeChooseActivity extends Activity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(HomeChooseActivity.this,"请检查网络连接...",Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeChooseActivity.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override
             protected Map<String, String> getParams() {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
-                params.put("pageNo",pageNo+"");
-                params.put("pageSize",10+"");
+                params.put("pageNo", pageNo + "");
+                params.put("pageSize", 10 + "");
                 return params;
             }
         };
         queue.add(request);
 
     }
-
-
 
 
 }
