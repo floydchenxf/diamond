@@ -21,10 +21,10 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.NewTaskActivity;
 import com.floyd.diamond.ui.adapter.SellerTaskDetailAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
-import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
@@ -111,8 +111,8 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SellerTaskDetailVO sellerTaskDetailVO = adapter.getData().get(position - 1);
-                Intent it = new Intent(SellerTaskDetailActivity.this, SellerTaskProcessActivity.class);
-                it.putExtra(SellerTaskProcessActivity.SELLER_MOTE_TASK_ID, sellerTaskDetailVO.id);
+                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, sellerTaskDetailVO.id);
                 startActivity(it);
             }
         });

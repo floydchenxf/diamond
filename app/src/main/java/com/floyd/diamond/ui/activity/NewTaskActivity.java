@@ -184,12 +184,12 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                 startActivity(it);
                 break;
             case R.id.new_task_button:
-                dataLoadingDialog.show();
-                LoginVO loginVO = LoginManager.getLoginInfo(this);
-                if (loginVO == null) {
-                    Toast.makeText(this, "未登录不能抢单", Toast.LENGTH_SHORT).show();
+                boolean logined = LoginManager.isLogin(this);
+                if (!logined) {
                     return;
                 }
+                dataLoadingDialog.show();
+                LoginVO loginVO = LoginManager.getLoginInfo(this);
                 MoteManager.fetchNewTask(taskId, loginVO.token).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {

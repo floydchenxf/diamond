@@ -39,6 +39,7 @@ public class TaskItemVO implements Serializable{
     public String oldUrl;
     public int acceptNumber;
     public int followNum;
+    public long moteTaskId;
     public int acceptStauts;
 
     public boolean isAccepted;
