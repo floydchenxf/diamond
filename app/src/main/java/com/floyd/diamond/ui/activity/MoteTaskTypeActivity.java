@@ -113,7 +113,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
             @Override
             public void onItemClick(View v, TaskItemVO taskItemVO) {
                 Intent it = new Intent(MoteTaskTypeActivity.this, NewTaskActivity.class);
-                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, taskItemVO);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, taskItemVO.id);
                 MoteTaskTypeActivity.this.startActivity(it);
             }
         });

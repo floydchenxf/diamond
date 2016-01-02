@@ -271,7 +271,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             goodsProcessTimeTextView.setText(time);
             goodsOrderTypeView.setVisibility(View.VISIBLE);
             goodsOrderTypeView.setText("承运来源：" + taskProcessVO.moteTask.expressCompanyId);
-            goodsOrderNoView.setText("运单编号：" + taskProcessVO.moteTask.orderNo);
+            goodsOrderNoView.setText("运单编号：" + taskProcessVO.moteTask.expressNo);
         }
 
         if (status > 4 && status < 7) {
@@ -284,6 +284,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
         if (status == 7 || status == 8) {
             finishView.setChecked(false);
+            line5.setVisibility(View.VISIBLE);
             finishView.setTextColor(Color.parseColor("#999999"));
             finishView.setOnClickListener(null);
         }

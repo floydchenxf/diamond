@@ -255,6 +255,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             //计算时间
             editConfirmOrderNoLayout.setVisibility(View.VISIBLE);
             confirmOrderNoTextView.setVisibility(View.GONE);
+            confirmButton.setText("确认");
             mHandler.post(timer);
         } else if (status == 2) {
             long orderNoTime = taskProcessVO.moteTask.orderNoTime;
@@ -264,6 +265,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             confirmOrderNoTextView.setVisibility(View.GONE);
             confirmTimeView.setText(dateStr);
             confirmOrderNoEditView.setText(orderNo);
+            confirmButton.setText("修改");
         } else {
             long orderNoTime = taskProcessVO.moteTask.orderNoTime;
             String dateStr = DateUtil.getDateStr(orderNoTime);
@@ -273,6 +275,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             dropOrderNoView.setVisibility(View.GONE);
             confirmTimeView.setText(dateStr);
             confirmOrderNoTextView.setText(orderNo);
+            confirmButton.setText("确认");
         }
 
     }
@@ -384,6 +387,28 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 confirmOrderNo(moteTaskId, orderNo, token);
                 break;
             case R.id.drop_order:
+                dataLoadingDailog.show();
+                long taskId = taskProcessVO.task.id;
+                LoginVO loginVO = LoginManager.getLoginInfo(this);
+                MoteManager.giveupUnAcceptTask(taskId, loginVO.token).startUI(new ApiCallback<Boolean>() {
+                    @Override
+                    public void onError(int code, String errorInfo) {
+                        dataLoadingDailog.dismiss();
+                        Toast.makeText(TaskProcessActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        dataLoadingDailog.dismiss();
+                        loadData(false);
+                    }
+
+                    @Override
+                    public void onProgress(int progress) {
+
+                    }
+                });
+
 
                 break;
             case R.id.act_ls_fail_layout:

@@ -39,6 +39,7 @@ public class TaskItemVO implements Serializable{
     public String oldUrl;
     public int acceptNumber;
     public int followNum;
+    public int acceptStauts;
 
     public boolean isAccepted;
     public int  finishStatus;
@@ -53,5 +54,9 @@ public class TaskItemVO implements Serializable{
 
     public boolean isFinish() {
         return this.finishStatus == 1;
+    }
+
+    public boolean canAccept() {
+        return acceptStauts == 1;
     }
 }

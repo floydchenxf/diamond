@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.MoteDetailActivity;
@@ -111,11 +110,11 @@ public class IndexMoteAdapter extends BaseAdapter {
             holder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (LoginManager.isLogin(mContext)) {
+//                    if (LoginManager.isLogin(mContext)) {
                         Intent it = new Intent(mContext, MoteDetailActivity.class);
                         it.putExtra("moteId", mote1.id);
                         mContext.startActivity(it);
-                    }
+//                    }
 
                 }
             });
@@ -126,11 +125,11 @@ public class IndexMoteAdapter extends BaseAdapter {
             holder.layout2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (LoginManager.isLogin(mContext)) {
+//                    if (LoginManager.isLogin(mContext)) {
                         Intent it = new Intent(mContext, MoteDetailActivity.class);
                         it.putExtra("moteId", mote2.id);
                         mContext.startActivity(it);
-                    }
+//                    }
 
                 }
             });
@@ -141,11 +140,11 @@ public class IndexMoteAdapter extends BaseAdapter {
             holder.layout3.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (LoginManager.isLogin(mContext)) {
+//                    if (LoginManager.isLogin(mContext)) {
                         Intent it = new Intent(mContext, MoteDetailActivity.class);
                         it.putExtra("moteId", mote3.id);
                         mContext.startActivity(it);
-                    }
+//                    }
 
                 }
             });
@@ -157,11 +156,11 @@ public class IndexMoteAdapter extends BaseAdapter {
             holder.layout1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (LoginManager.isLogin(mContext)) {
+//                    if (LoginManager.isLogin(mContext)) {
                         Intent it = new Intent(mContext, MoteDetailActivity.class);
                         it.putExtra("moteId", mote1.id);
                         mContext.startActivity(it);
-                    }
+//                    }
 
                 }
             });
@@ -179,11 +178,11 @@ public class IndexMoteAdapter extends BaseAdapter {
                 holder.layout2.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (LoginManager.isLogin(mContext)) {
+//                        if (LoginManager.isLogin(mContext)) {
                             Intent it = new Intent(mContext, MoteDetailActivity.class);
                             it.putExtra("moteId", mote2.id);
                             mContext.startActivity(it);
-                        }
+//                        }
                     }
                 });
                 holder.layout3.setVisibility(View.INVISIBLE);

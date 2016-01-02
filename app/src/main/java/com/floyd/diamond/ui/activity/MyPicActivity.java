@@ -118,7 +118,7 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
     private void loadData(ApiCallback<List<TaskPicsVO>> callback) {
         LoginVO vo = LoginManager.getLoginInfo(this);
         if (vo.isModel()) {
-            MoteManager.fetchMoteTaskPics(moteId, pageNo, PAGE_SIZE, vo.token).startUI(callback);
+            MoteManager.fetchMoteTaskPics(moteId, pageNo, PAGE_SIZE).startUI(callback);
         } else {
             SellerManager.getSellerTaskPics(pageNo, PAGE_SIZE, vo.token).startUI(callback);
         }

@@ -105,7 +105,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItemVO itemVO = adapter.getData().get(position - 1);
                 Intent it = new Intent(MyTaskActivity.this, NewTaskActivity.class);
-                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, itemVO.id);
                 startActivity(it);
             }
         });
