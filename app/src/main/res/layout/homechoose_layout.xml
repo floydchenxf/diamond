@@ -49,11 +49,17 @@
 
     </com.zhy.android.percent.support.PercentFrameLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:scrollbars="vertical"
+    <com.floyd.diamond.bean.SwipeRefreshLayout
+        android:id="@+id/swip"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="5dp"/>
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"/>
+    </com.floyd.diamond.bean.SwipeRefreshLayout>
+
 
 </com.zhy.android.percent.support.PercentLinearLayout>

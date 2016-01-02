@@ -182,7 +182,7 @@
                     android:background="@drawable/button_selector"
                     android:button="@null"
                     android:gravity="center"
-                    android:text="标志"
+                    android:text="标致"
                     android:textColor="@drawable/text_selector"
                     android:textSize="10sp" />
 
@@ -223,7 +223,7 @@
                 android:textColor="#3d3d3d"
                 android:textSize="10sp" />
 
-            <com.floyd.diamond.bean.SeekBarPressure
+            <com.floyd.diamond.bean.SeekBarPressure2
                 android:id="@+id/seekBar_manyi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

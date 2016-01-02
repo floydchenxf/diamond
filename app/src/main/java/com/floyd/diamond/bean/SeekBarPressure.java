@@ -153,7 +153,7 @@ public class SeekBarPressure extends View {
         notScrollBarBg.draw(canvas);
 
         //蓝色，中间部分会动
-        hasScrollBarBg.setBounds((int)mOffsetLow, aaa+11, (int)mOffsetHigh, bbb-11);
+        hasScrollBarBg.setBounds((int)mOffsetLow, aaa+9, (int)mOffsetHigh, bbb-9);
         hasScrollBarBg.draw(canvas);
 
         //前滑块
@@ -192,38 +192,38 @@ public class SeekBarPressure extends View {
                 mThumbLow.setState(STATE_PRESSED);
             } else if (mFlag == CLICK_ON_HIGH) {
                 mThumbHigh.setState(STATE_PRESSED);
-            } else if (mFlag == CLICK_IN_LOW_AREA) {
-                mThumbLow.setState(STATE_PRESSED);
-                //如果点击0-mThumbWidth/2坐标
-                if (e.getX() < 0 || e.getX() <= mThumbWidth/2) {
-                    mOffsetLow = mThumbWidth/2;
-                } else if (e.getX() > mScollBarWidth - mThumbWidth/2) {
-//                    mOffsetLow = mDistance - mDuration;
-                    mOffsetLow = mThumbWidth/2 + mDistance;
-                } else {
-                    mOffsetLow = formatDouble(e.getX());
-//                    if (mOffsetHigh<= mOffsetLow) {
-//                        mOffsetHigh = (mOffsetLow + mDuration <= mDistance) ? (mOffsetLow + mDuration)
-//                                : mDistance;
-//                        mOffsetLow = mOffsetHigh - mDuration;
-//                    }
-                }
-            } else if (mFlag == CLICK_IN_HIGH_AREA) {
-                mThumbHigh.setState(STATE_PRESSED);
-//                if (e.getX() < mDuration) {
-//                    mOffsetHigh = mDuration;
-//                    mOffsetLow = mOffsetHigh - mDuration;
-//                } else if (e.getX() >= mScollBarWidth - mThumbWidth/2) {
+//            } else if (mFlag == CLICK_IN_LOW_AREA) {
+//                mThumbLow.setState(STATE_PRESSED);
+//                //如果点击0-mThumbWidth/2坐标
+//                if (e.getX() < 0 || e.getX() <= mThumbWidth/2) {
+//                    mOffsetLow = mThumbWidth/2;
+//                } else if (e.getX() > mScollBarWidth - mThumbWidth/2) {
+////                    mOffsetLow = mDistance - mDuration;
+//                    mOffsetLow = mThumbWidth/2 + mDistance;
+//                } else {
+//                    mOffsetLow = formatDouble(e.getX());
+////                    if (mOffsetHigh<= mOffsetLow) {
+////                        mOffsetHigh = (mOffsetLow + mDuration <= mDistance) ? (mOffsetLow + mDuration)
+////                                : mDistance;
+////                        mOffsetLow = mOffsetHigh - mDuration;
+////                    }
+//                }
+//            } else if (mFlag == CLICK_IN_HIGH_AREA) {
+//                mThumbHigh.setState(STATE_PRESSED);
+////                if (e.getX() < mDuration) {
+////                    mOffsetHigh = mDuration;
+////                    mOffsetLow = mOffsetHigh - mDuration;
+////                } else if (e.getX() >= mScollBarWidth - mThumbWidth/2) {
+////                    mOffsetHigh = mDistance + mThumbWidth/2;
+//                if(e.getX() >= mScollBarWidth - mThumbWidth/2) {
 //                    mOffsetHigh = mDistance + mThumbWidth/2;
-                if(e.getX() >= mScollBarWidth - mThumbWidth/2) {
-                    mOffsetHigh = mDistance + mThumbWidth/2;
-                } else {
-                    mOffsetHigh = formatDouble(e.getX());
-//                    if (mOffsetHigh <= mOffsetLow) {
-//                        mOffsetLow = (mOffsetHigh - mDuration >= 0) ? (mOffsetHigh - mDuration) : 0;
-//                        mOffsetHigh = mOffsetLow + mDuration;
-//                    }
-                }
+//                } else {
+//                    mOffsetHigh = formatDouble(e.getX());
+////                    if (mOffsetHigh <= mOffsetLow) {
+////                        mOffsetLow = (mOffsetHigh - mDuration >= 0) ? (mOffsetHigh - mDuration) : 0;
+////                        mOffsetHigh = mOffsetLow + mDuration;
+////                    }
+//                }
             }
             //设置进度条
             refresh();

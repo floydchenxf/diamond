@@ -17,23 +17,24 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.Model;
 import com.floyd.diamond.bean.MyImageLoader;
+import com.floyd.diamond.utils.CommonUtil;
 
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/24.
  */
-public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> implements CompoundButton.OnCheckedChangeListener{
+public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> implements CompoundButton.OnCheckedChangeListener {
     private ChangeText changeText;
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
-    private List<Model.DataEntity>allModel;
+    private List<Model.DataEntity> allModel;
     private RequestQueue queue;
 
-    public MasonryAdapter(List<Model.DataEntity>allModel,Context context,ChangeText changeText) {
+    public MasonryAdapter(List<Model.DataEntity> allModel, Context context, ChangeText changeText) {
         this.allModel = allModel;
-        this.context=context;
-        this.changeText=changeText;
+        this.context = context;
+        this.changeText = changeText;
     }
 
     @Override
@@ -44,27 +45,26 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
     @Override
     public void onBindViewHolder(MasonryView masonryView, int position) {
-        //masonryView.imageView.setImageResource(modelsList.get(position).getAvatarUrl());
         masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
         masonryView.likecount.setTag("cb" + position);
         masonryView.likecount.setOnCheckedChangeListener(this);
         masonryView.name.setText(allModel.get(position).getNickname());
-        masonryView.place.setText(allModel.get(position).getArea()+"");
-        String imgUrl=allModel.get(position).getAvatarUrl();
-        if (GlobalParams.isDebug){
-            Log.e("TAG",imgUrl+"");
+        masonryView.place.setText(allModel.get(position).getArea() + "");
+        String imgUrl = allModel.get(position).getAvatarUrl();
+        if (GlobalParams.isDebug) {
+            Log.e("TAG", imgUrl + "");
         }
-        if (imgUrl!=null){
-            queue= Volley.newRequestQueue(context);
-            MyImageLoader loader=new MyImageLoader(queue,imgUrl,masonryView.imageView,context);
+        if (imgUrl != null) {
+            queue = Volley.newRequestQueue(context);
+            MyImageLoader loader = new MyImageLoader(queue, CommonUtil.getImage_400(imgUrl), masonryView.imageView, context);
         }
     }
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (changeText!=null){
+        if (changeText != null) {
 
-            changeText.setText((String) buttonView.getTag(),isChecked);
+            changeText.setText((String) buttonView.getTag(), isChecked);
         }
     }
 
@@ -109,7 +109,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     }
 
 
-    public static interface ChangeText{
+    public static interface ChangeText {
         void setText(String tag, boolean isChecked);
     }
 

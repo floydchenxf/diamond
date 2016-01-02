@@ -8,6 +8,6 @@
         android:id="@+id/image_welcome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/m1"
+        android:background="@drawable/zhanweifu"
         android:scaleType="fitXY" />
 </LinearLayout>

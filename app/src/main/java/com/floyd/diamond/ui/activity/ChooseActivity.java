@@ -16,6 +16,7 @@ import com.floyd.diamond.bean.ChooseCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.SeekBarPressure;
 import com.floyd.diamond.bean.SeekBarPressure1;
+import com.floyd.diamond.bean.SeekBarPressure2;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class ChooseActivity extends Activity {
     private CheckBox allChoose, beijing, shanghai, tianjin, chongqing, jiangsu, zhejiang, liaoning, heilongjiang, jilin, shandong, anhui, hebei, henan, hubei,
             hunan, jiangxi, shanxi3, shanxi1, sichuan, qinghai, hainan, guangdong, guizhou, fujian, taiwan, gansu, yunnan, neimenggu, ningxia, xinjiang, xizang,
             guangxi, xianggang, aomen, gugan, biaozhi, fengman;
-    private SeekBarPressure seekBarAge, seekBarCredit;
+    private SeekBarPressure seekBarAge;
+    private SeekBarPressure2  seekBarCredit;
     private SeekBarPressure1  seekBarHeight;
     private boolean isScreen;
     private RadioButton boy, girl;
@@ -97,7 +99,7 @@ public class ChooseActivity extends Activity {
         aomen = ((CheckBox) findViewById(R.id.aomen));
         seekBarAge = (SeekBarPressure) findViewById(R.id.seekBar_age);
         seekBarHeight = ((SeekBarPressure1) findViewById(R.id.seekBar_height));
-        seekBarCredit = ((SeekBarPressure) findViewById(R.id.seekBar_manyi));
+        seekBarCredit = ((SeekBarPressure2) findViewById(R.id.seekBar_manyi));
         gugan = ((CheckBox) findViewById(R.id.gugan));
         biaozhi = ((CheckBox) findViewById(R.id.biaozhi));
         fengman = ((CheckBox) findViewById(R.id.fengman));
@@ -151,14 +153,14 @@ public class ChooseActivity extends Activity {
             }
         });
 
-        seekBarCredit.setOnSeekBarChangeListener(new SeekBarPressure.OnSeekBarChangeListener() {
+        seekBarCredit.setOnSeekBarChangeListener(new SeekBarPressure2.OnSeekBarChangeListener() {
             @Override
             public void onProgressBefore() {
 
             }
 
             @Override
-            public void onProgressChanged(SeekBarPressure seekBar, double progressLow, double progressHigh) {
+            public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow, double progressHigh) {
 
                 chooseCondition.setCreditMin((int) progressLow);
 

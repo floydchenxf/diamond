@@ -26,10 +26,12 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.SpacesItemDecoration;
+import com.floyd.diamond.bean.SwipeRefreshLayout;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.adapter.CareAdapter;
+import com.floyd.diamond.utils.CommonUtil;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 import com.google.gson.Gson;
@@ -57,6 +59,7 @@ public class CareActivity extends Activity {
     private LoginVO loginVO;
     private String editOrdelete = "编辑";
     private ArrayList<String>deleteModel;//取消关注的模特
+    private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private CareAdapter adapter;
     private Handler handler = new Handler() {
         @Override
@@ -134,49 +137,29 @@ public class CareActivity extends Activity {
         modelsList = new ArrayList<>();//用于存放每一页的模特
         allModel = new ArrayList<>();//用于存储所有的模特
         deleteModel=new ArrayList<>();//取消关注的模特
-   //     mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
-//        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_UP_TO_REFRESH);
-//        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
-//            @Override
-//            public void onPullDownToRefresh() {
-//                needClear = false;
-//                pageNo = 1;
-//                setData();
-//                mPullToRefreshListView.onRefreshComplete(true, true);
-//                allModel.clear();
-//            }
-//
-//            @Override
-//            public void onPullUpToRefresh() {
-//                needClear = false;
-//                mPullToRefreshListView.onRefreshComplete(true, true);
-//                pageNo++;
-//                setData();
-//            }
-//        });
-//
-//        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
-//
-//            float y1 = 0, y2 = 0;
-//
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        if (y1 == 0) {
-//                            y1 = event.getRawY();
-//                        }
-//                        y2 = event.getRawY();
-//
-//                        break;
-//                    case MotionEvent.ACTION_UP:
-//                        break;
-//                }
-//                return false;
-//            }
-//        });
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swip);
+        swipeRefreshLayout = ((com.floyd.diamond.bean.SwipeRefreshLayout) findViewById(R.id.swip));
+        //设置刷新时动画的颜色，可以设置4个
+        swipeRefreshLayout.setBottomColor(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swipeRefreshLayout.setTopColor(android.R.color.holo_purple, android.R.color.holo_orange_light, android.R.color.holo_blue_bright, android.R.color.holo_green_light);
+        swipeRefreshLayout.setOnRefreshListener(new com.floyd.diamond.bean.SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pageNo = 1;
+                allModel.clear();
+                setData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        swipeRefreshLayout.setOnLoadListener(new com.floyd.diamond.bean.SwipeRefreshLayout.OnLoadListener() {
+            @Override
+            public void onLoad() {
+                pageNo++;
+                setData();
+                swipeRefreshLayout.setLoading(false);
+            }
+        });
+
 
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {

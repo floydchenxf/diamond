@@ -138,6 +138,12 @@ public class CommonUtil {
         return getImageType(url, "!v800");
     }
 
+
+    /**
+     * 获取图片400X400
+     * @param url
+     * @return
+     */
     public static String getImage_400(String url) {
         return getImageType(url, "!v400");
     }
