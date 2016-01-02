@@ -66,6 +66,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/weixinhaoyou" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingTop="24dp"
+                    android:text="女装"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -84,6 +93,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/penyouquan" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingTop="24dp"
+                    android:text="男装"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -102,6 +120,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/qqkonjing" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingTop="24dp"
+                    android:text="童装"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -120,6 +147,15 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:src="@drawable/tengxunweib" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:paddingTop="24dp"
+                    android:text="综合"
+                    android:textColor="#ffffff"
+                    android:textSize="14sp" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>

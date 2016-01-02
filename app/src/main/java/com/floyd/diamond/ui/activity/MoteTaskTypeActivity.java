@@ -123,11 +123,10 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
     }
 
     private void loadData(final boolean isFirst) {
-        LoginVO loginVO = LoginManager.getLoginInfo(this);
-        if (loginVO == null) {
-            Toast.makeText(this, "未登录状态无法获取数据", Toast.LENGTH_SHORT).show();
-            return;
-        }
+//        if (loginVO == null) {
+//            Toast.makeText(this, "未登录状态无法获取数据", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
 
         if (isFirst) {
             dataLoadingView.startLoading();
@@ -135,7 +134,9 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
             dataLoadingDialog.show();
         }
 
-        MoteManager.fetchTaskList(moteTaskType, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
+        LoginVO loginVO = LoginManager.getLoginInfo(this);
+        String token = loginVO == null?"":loginVO.token;
+        MoteManager.fetchTaskList(moteTaskType, pageNo, PAGE_SIZE, token).startUI(new ApiCallback<MoteTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!MoteTaskTypeActivity.this.isFinishing()) {

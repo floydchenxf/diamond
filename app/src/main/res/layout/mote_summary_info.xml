@@ -28,7 +28,6 @@
                 android:id="@+id/shop_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:text="经验值："
                 android:textColor="#dddddd" />
 
@@ -58,7 +57,6 @@
                 android:id="@+id/qiang_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
                 android:text="满意度："
                 android:textColor="#dddddd" />
 
@@ -90,8 +88,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="粉丝数："
-                android:textColor="#dddddd"
-                android:layout_marginRight="10dp" />
+                android:textColor="#dddddd" />
 
             <TextView
                 android:id="@+id/place"

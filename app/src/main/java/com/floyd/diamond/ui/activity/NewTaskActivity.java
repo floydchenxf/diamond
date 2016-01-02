@@ -153,6 +153,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         newTaskButton = (CheckedTextView) findViewById(R.id.new_task_button);
 
         backView.setOnClickListener(this);
+        taskImageView.setOnClickListener(this);
     }
 
     @Override
