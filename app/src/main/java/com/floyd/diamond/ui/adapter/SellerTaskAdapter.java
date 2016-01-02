@@ -96,7 +96,7 @@ public class SellerTaskAdapter extends BaseAdapter {
         } else if (status == 4) {
             //再发布
             holder.taskStatusView.setVisibility(View.VISIBLE);
-            holder.taskStatusView.setText("再次发布");
+            holder.taskStatusView.setText("已结束");
             if (statusCallback != null) {
                 statusCallback.doCallback(holder.taskStatusView, status);
             }

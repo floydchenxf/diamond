@@ -85,7 +85,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
             public void onPullDownToRefresh() {
                 pageNo++;
                 isClear = false;
-                loadData();
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, false);
             }
 
@@ -93,7 +93,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
             public void onPullUpToRefresh() {
                 pageNo++;
                 isClear = false;
-                loadData();
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, false);
             }
         });
@@ -105,68 +105,34 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TaskItemVO itemVO = adapter.getData().get(position - 1);
                 Intent it = new Intent(MyTaskActivity.this, NewTaskActivity.class);
-                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, itemVO.id);
                 startActivity(it);
             }
         });
         mListView.setAdapter(adapter);
-        loadData();
+        loadData(true);
     }
 
-    private void firstLoadData() {
+    private void loadData(final boolean isFirst) {
         if (!LoginManager.isLogin(this)) {
             return;
         }
 
-        dataLoadingView.startLoading();
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDailog.show();
+        }
         LoginVO loginVO = LoginManager.getLoginInfo(this);
         MoteManager.fetchMyTasks(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!MyTaskActivity.this.isFinishing()) {
-                    dataLoadingView.loadFail();
-                    Toast.makeText(MyTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onSuccess(MoteTaskVO moteTaskVO) {
-                if (!MyTaskActivity.this.isFinishing()) {
-                    dataLoadingView.loadSuccess();
-                    List<TaskItemVO> tasks = moteTaskVO.dataList;
-                    if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
-                        emptyView.setVisibility(View.VISIBLE);
-                        mPullToRefreshListView.setVisibility(View.GONE);
+                    if (isFirst) {
+                        dataLoadingView.loadFail();
                     } else {
-                        mPullToRefreshListView.setVisibility(View.VISIBLE);
-                        emptyView.setVisibility(View.GONE);
-                        adapter.addAll(tasks, isClear);
+                        dataLoadingDailog.dismiss();
                     }
-                }
-            }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
-
-
-    }
-
-
-    private void loadData() {
-        if (!LoginManager.isLogin(this)) {
-            return;
-        }
-
-        dataLoadingDailog.show();
-        LoginVO loginVO = LoginManager.getLoginInfo(this);
-        MoteManager.fetchMyTasks(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<MoteTaskVO>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                if (!MyTaskActivity.this.isFinishing()) {
-                    dataLoadingDailog.dismiss();
                     Toast.makeText(MyTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -174,7 +140,11 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(MoteTaskVO moteTaskVO) {
                 if (!MyTaskActivity.this.isFinishing()) {
-                    dataLoadingDailog.dismiss();
+                    if (isFirst) {
+                        dataLoadingView.loadSuccess();
+                    } else {
+                        dataLoadingDailog.dismiss();
+                    }
                     List<TaskItemVO> tasks = moteTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
                         emptyView.setVisibility(View.VISIBLE);
@@ -207,7 +177,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.doing_status:
                 taskStatus = MoteTaskStatus.DOING;
@@ -218,7 +188,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.confirm_status:
                 taskStatus = MoteTaskStatus.CONFIRM;
@@ -229,7 +199,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.done_status:
                 taskStatus = MoteTaskStatus.DONE;
@@ -240,13 +210,13 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.title_back:
                 this.finish();
                 break;
             case R.id.act_ls_fail_layout:
-                firstLoadData();
+                loadData(true);
                 break;
         }
 

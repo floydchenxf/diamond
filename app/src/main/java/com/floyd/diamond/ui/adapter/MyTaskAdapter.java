@@ -162,7 +162,7 @@ public class MyTaskAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(mContext, TaskProcessActivity.class);
-                it.putExtra(TaskProcessActivity.MOTE_TASK_ID, taskItemVO.id);
+                it.putExtra(TaskProcessActivity.MOTE_TASK_ID, taskItemVO.moteTaskId);
                 mContext.startActivity(it);
             }
         });

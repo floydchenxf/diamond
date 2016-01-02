@@ -1,11 +1,12 @@
 package com.floyd.diamond.biz.vo.seller;
 
+import com.floyd.diamond.biz.vo.IKeepClassForProguard;
 import com.floyd.diamond.utils.CommonUtil;
 
 /**
  * Created by floyd on 15-11-29.
  */
-public class SellerInfoVO {
+public class SellerInfoVO implements IKeepClassForProguard {
     public String area;//区域
     public String avartUrl;//avatarUrl;//头像
     public String nickname;//别名

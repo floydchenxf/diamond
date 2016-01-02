@@ -23,7 +23,6 @@ public class APIConstants {
     public static final String API_NEW_MOTE_TASK = "api/task/newMoteTask"; //模特接单
     public static final String API_MOTE_MY_TASK = "api/motetask/getMyTaskList";//模特我的任务
     public static final String CHOOSEMOTE = "api/index/filterMote";//筛选模特
-    public static final String LOOKMOTE = "api/user/getMoteInfo";//查看模特
     public static final String API_INDEX_INFO = "api/index/getIndexInfo";//获取首页导航栏目
     public static final String API_ADD_ORDER_NO = "api/task/addOrderNo"; //模特添加订单
     public static final String API_FINISH_SHOW_PIC = "api/task/finishShowPic";//模特儿完成晒图
@@ -44,6 +43,7 @@ public class APIConstants {
     public static final String API_MOTE_WALLET = "api/user/getMyMoteWallet"; //获取模特儿钱包
     public static final String API_REDUCE_CASH_APPLY = "api/cash/reduceCashApply";//申请提现
     public static final String API_QUERY_APPLY_LIST = "api/cash/queryApplyList"; //查询提现记录
+    public static final String API_GET_DETAIL_BY_TASKID = "api/task/getDetailByTaskId";
 
     //----------------------------------------------------------卖家------------------------------------------------
     public static final String API_SELLER_TASK_LIST = "api/task/getSellerTaskList"; //我的任务
@@ -55,4 +55,5 @@ public class APIConstants {
 
     public static final String API_UPDATE_SELLER_INFO = "api/user/updateSeller";//更新卖家信息
     public static final String API_GET_SELLER_WALLET = "api/user/getMySellerWallet"; //获取商家钱包
+    public static final String API_USER_SUGGESTION = "api/user/suggestion";//提建议
 }

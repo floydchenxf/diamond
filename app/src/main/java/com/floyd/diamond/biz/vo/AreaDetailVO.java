@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by floyd on 15-12-20.
  */
-public class AreaDetailVO implements Parcelable {
+public class AreaDetailVO implements Parcelable, IKeepClassForProguard {
 
     public long provideId;
     public long cityId;

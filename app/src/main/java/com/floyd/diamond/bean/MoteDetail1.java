@@ -19,7 +19,7 @@ public class MoteDetail1 {
      * goodeEvalRate : null
      */
 
-    private boolean isFollow;
+    public boolean isFollow;
     private Object followNum;
     private String avartUrl;
     private int height;

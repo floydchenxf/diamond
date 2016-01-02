@@ -3,7 +3,7 @@ package com.floyd.diamond.biz.vo;
 /**
  * Created by floyd on 15-12-20.
  */
-public class AreaVO {
+public class AreaVO implements IKeepClassForProguard {
     public long id;
     public long pid;
     public String name;

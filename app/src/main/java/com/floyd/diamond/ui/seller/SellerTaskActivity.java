@@ -87,7 +87,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             public void onPullDownToRefresh() {
                 pageNo++;
                 isClear = false;
-                loadData();
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, false);
             }
 
@@ -95,7 +95,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             public void onPullUpToRefresh() {
                 pageNo++;
                 isClear = false;
-                loadData();
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, false);
             }
         });
@@ -118,63 +118,29 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             }
         });
         mListView.setAdapter(adapter);
-        firstLoadData();
+        loadData(true);
     }
 
-    private void firstLoadData() {
+    private void loadData(final boolean isFirst) {
         if (!LoginManager.isLogin(this)) {
             return;
         }
 
-        dataLoadingView.startLoading();
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDailog.show();
+        }
         LoginVO loginVO = LoginManager.getLoginInfo(this);
         SellerManager.getSellerTaskList(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<SellerTaskVO>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!SellerTaskActivity.this.isFinishing()) {
-                    dataLoadingView.loadFail();
-                    Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onSuccess(SellerTaskVO sellerTaskVO) {
-                if (!SellerTaskActivity.this.isFinishing()) {
-                    dataLoadingView.loadSuccess();
-                    List<SellerTaskItemVO> tasks = sellerTaskVO.dataList;
-                    if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
-                        emptyView.setVisibility(View.VISIBLE);
-                        mPullToRefreshListView.setVisibility(View.GONE);
+                    if (isFirst) {
+                        dataLoadingView.loadFail();
                     } else {
-                        mPullToRefreshListView.setVisibility(View.VISIBLE);
-                        emptyView.setVisibility(View.GONE);
-                        adapter.addAll(tasks, isClear);
+                        dataLoadingDailog.dismiss();
                     }
-                }
-            }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
-
-
-    }
-
-
-    private void loadData() {
-        if (!LoginManager.isLogin(this)) {
-            return;
-        }
-
-        dataLoadingDailog.show();
-        LoginVO loginVO = LoginManager.getLoginInfo(this);
-        SellerManager.getSellerTaskList(taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<SellerTaskVO>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                if (!SellerTaskActivity.this.isFinishing()) {
-                    dataLoadingDailog.dismiss();
                     Toast.makeText(SellerTaskActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
@@ -182,7 +148,11 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             @Override
             public void onSuccess(SellerTaskVO moteTaskVO) {
                 if (!SellerTaskActivity.this.isFinishing()) {
-                    dataLoadingDailog.dismiss();
+                    if (isFirst) {
+                        dataLoadingView.loadSuccess();
+                    } else {
+                        dataLoadingDailog.dismiss();
+                    }
                     List<SellerTaskItemVO> tasks = moteTaskVO.dataList;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
                         emptyView.setVisibility(View.VISIBLE);
@@ -215,7 +185,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.doing_status:
                 taskStatus = SellerTaskStatus.DOING;
@@ -226,7 +196,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.confirm_status:
                 taskStatus = SellerTaskStatus.CONFIRM;
@@ -237,7 +207,7 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.done_status:
                 taskStatus = SellerTaskStatus.DONE;
@@ -248,13 +218,13 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.title_back:
                 this.finish();
                 break;
             case R.id.act_ls_fail_layout:
-                firstLoadData();
+                loadData(true);
                 break;
         }
 

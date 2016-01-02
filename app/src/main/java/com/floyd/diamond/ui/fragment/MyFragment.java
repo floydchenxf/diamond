@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -74,6 +75,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     private NetworkImageView headView;
     private NetworkImageView bgHeadView;
 
+    private ImageView imageHeadView;
+    private ImageView imageBgHeadView;
+
     private TextView careView;//我的关注
     private TextView taskView; //我的任务
     private TextView pictrueView; //我的图库
@@ -134,6 +138,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
         headView = (NetworkImageView) view.findViewById(R.id.mine_touxiang);
         bgHeadView = (NetworkImageView) view.findViewById(R.id.bg_head_lay);
+
+        imageHeadView = (ImageView) view.findViewById(R.id.image_mine_touxiang);
+        imageBgHeadView = (ImageView) view.findViewById(R.id.image_bg_head_lay);
+        Drawable drawable = this.getActivity().getResources().getDrawable(R.drawable.head_lay, null);
+        imageBgHeadView.setImageBitmap(ImageUtils.fastBlur(MyFragment.this.getActivity(), ImageUtils.drawableToBitmap(drawable), 12));
+        hiddenNetworkImage();
         nicknameView = (TextView) view.findViewById(R.id.mine_name);
         ywPopupWindow = new YWPopupWindow(this.getActivity());
         float height = this.getActivity().getResources().getDimension(R.dimen.edit_head_bar_heigh);
@@ -149,7 +159,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             }
         });
         headView.setOnClickListener(this);
-
+        imageHeadView.setOnClickListener(this);
         loginVO = LoginManager.getLoginInfo(this.getActivity());
         if (GlobalParams.isDebug) {
             Log.e("loginVo", loginVO.token + "");
@@ -180,6 +190,20 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         return view;
     }
 
+    private void showNetworkImage() {
+        headView.setVisibility(View.VISIBLE);
+        bgHeadView.setVisibility(View.VISIBLE);
+        imageHeadView.setVisibility(View.GONE);
+        imageBgHeadView.setVisibility(View.GONE);
+    }
+
+    private void hiddenNetworkImage() {
+        headView.setVisibility(View.GONE);
+        bgHeadView.setVisibility(View.GONE);
+        imageHeadView.setVisibility(View.VISIBLE);
+        imageBgHeadView.setVisibility(View.VISIBLE);
+    }
+
     public void onResume() {
         super.onResume();
         loadData(false);
@@ -200,13 +224,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 qiangView.setText(moteInfoVO.fenNum + "");
                 placeView.setText(moteInfoVO.fee + "");
                 if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
+                    showNetworkImage();
                     headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
                             return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader);
+                    bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                        }
+                    });
+                } else {
+                    hiddenNetworkImage();
                 }
             }
 
@@ -233,13 +265,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     placeView.setText(moteInfoVO.fee + "");
                     nicknameView.setText(moteInfoVO.nickname);
                     if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
+                        showNetworkImage();
                         headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader);
+                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
+                            @Override
+                            public Bitmap processBitmpa(Bitmap bitmap) {
+                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            }
+                        });
+                    } else {
+                        hiddenNetworkImage();
                     }
                 }
 
@@ -256,13 +296,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 nicknameView.setText(sellerInfoVO.nickname);
                 placeView.setText(sellerInfoVO.area);
                 if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
+                    showNetworkImage();
                     headView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
                             return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader);
+                    bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                        }
+                    });
+                } else {
+                    hiddenNetworkImage();
                 }
             }
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
@@ -288,13 +336,21 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     placeView.setText(vo.area);
 
                     if (!TextUtils.isEmpty(vo.avartUrl)) {
+                        showNetworkImage();
                         headView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(vo.avartUrl, mImageLoader);
+                        bgHeadView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {
+                            @Override
+                            public Bitmap processBitmpa(Bitmap bitmap) {
+                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            }
+                        });
+                    } else {
+                        hiddenNetworkImage();
                     }
                 }
 
@@ -317,6 +373,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.mine_touxiang:
+            case R.id.image_mine_touxiang:
                 ywPopupWindow.showPopUpWindow();
                 break;
             case R.id.cancel_button:
@@ -515,6 +572,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 public void onSuccess(String booleanApiResult) {
                     avatorDialog.hide();
                     Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
+                    showNetworkImage();
                     headView.setImageBitmap(ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size)));
                     bgHeadView.setImageBitmap(bitmap);
                     newFile.delete();

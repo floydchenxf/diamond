@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,7 +61,11 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private TextView confirmTimeView; //确认时间
     private TextView dropOrderNoView; //放弃订单
 
-    //-----------------图片-------------------------//
+    //--------------确认收货---------------//
+    private LinearLayout confirmGoodsLayout;
+    private TextView confirmGoodsTimeView;
+    private TextView confirmGoodsDescView;
+
 
     private Dialog dataLoadingDailog;
     private DataLoadingView dataLoadingView;
@@ -111,7 +116,15 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         initTaskInfoView();
         initAcceptView();
         initOrderNoView();
+        initGoodsConfirmView();
         loadData(true);
+    }
+
+    private void initGoodsConfirmView() {
+        confirmGoodsLayout = (LinearLayout) findViewById(R.id.confirm_goods_layout);
+        confirmGoodsTimeView = (TextView) findViewById(R.id.confirm_goods_time_view);
+        confirmGoodsDescView = (TextView) findViewById(R.id.confirm_goods_view);
+        confirmGoodsLayout.setVisibility(View.GONE);
     }
 
     private void initOrderNoView() {
@@ -175,6 +188,20 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 if (status >= 4) {
                     initAndFillGoodsOperate(taskProcessVO);
                 }
+
+                if (status >=6 && status < 8) {
+                    confirmGoodsLayout.setVisibility(View.VISIBLE);
+                    String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
+                    confirmGoodsTimeView.setText(dateStr);
+                    confirmGoodsDescView.setText("等待商家确认收货");
+                }
+
+                if (status >=8) {
+                    confirmGoodsLayout.setVisibility(View.VISIBLE);
+                    String dateStr = DateUtil.getDateStr(taskProcessVO.moteTask.finishStatusTime);
+                    confirmGoodsTimeView.setText(dateStr);
+                    confirmGoodsDescView.setText("商家确认收货");
+                }
             }
 
             @Override
@@ -228,6 +255,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             //计算时间
             editConfirmOrderNoLayout.setVisibility(View.VISIBLE);
             confirmOrderNoTextView.setVisibility(View.GONE);
+            confirmButton.setText("确认");
             mHandler.post(timer);
         } else if (status == 2) {
             long orderNoTime = taskProcessVO.moteTask.orderNoTime;
@@ -237,6 +265,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             confirmOrderNoTextView.setVisibility(View.GONE);
             confirmTimeView.setText(dateStr);
             confirmOrderNoEditView.setText(orderNo);
+            confirmButton.setText("修改");
         } else {
             long orderNoTime = taskProcessVO.moteTask.orderNoTime;
             String dateStr = DateUtil.getDateStr(orderNoTime);
@@ -246,6 +275,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             dropOrderNoView.setVisibility(View.GONE);
             confirmTimeView.setText(dateStr);
             confirmOrderNoTextView.setText(orderNo);
+            confirmButton.setText("确认");
         }
 
     }
@@ -357,6 +387,28 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 confirmOrderNo(moteTaskId, orderNo, token);
                 break;
             case R.id.drop_order:
+                dataLoadingDailog.show();
+                long taskId = taskProcessVO.task.id;
+                LoginVO loginVO = LoginManager.getLoginInfo(this);
+                MoteManager.giveupUnAcceptTask(taskId, loginVO.token).startUI(new ApiCallback<Boolean>() {
+                    @Override
+                    public void onError(int code, String errorInfo) {
+                        dataLoadingDailog.dismiss();
+                        Toast.makeText(TaskProcessActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onSuccess(Boolean aBoolean) {
+                        dataLoadingDailog.dismiss();
+                        loadData(false);
+                    }
+
+                    @Override
+                    public void onProgress(int progress) {
+
+                    }
+                });
+
 
                 break;
             case R.id.act_ls_fail_layout:

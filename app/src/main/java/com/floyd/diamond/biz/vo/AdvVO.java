@@ -8,14 +8,14 @@ import com.floyd.diamond.utils.CommonUtil;
 /**
  * Created by floyd on 15-12-3.
  */
-public class AdvVO implements Parcelable {
+public class AdvVO implements Parcelable, IKeepClassForProguard {
     public long id;
     public String title;
     private String imgUrl;
     public long createTime;
     public long updateTime;
     public int type;
-    public String content;
+//    public String content;
 
     public AdvVO(Parcel in) {
         id = in.readLong();
@@ -24,11 +24,15 @@ public class AdvVO implements Parcelable {
         createTime = in.readLong();
         updateTime = in.readLong();
         type = in.readInt();
-        content = in.readString();
+//        content = in.readString();
     }
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public String getPreviewUrl() {
+        return CommonUtil.getImage_400(this.imgUrl);
     }
 
     public String getImgUrl() {

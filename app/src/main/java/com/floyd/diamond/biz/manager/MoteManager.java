@@ -8,8 +8,6 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
-import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.MoteDetail;
 import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.MoteTaskStatus;
@@ -17,12 +15,12 @@ import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.AreaVO;
-import com.floyd.diamond.biz.vo.MoteDetailInfoVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskVO;
 import com.floyd.diamond.biz.vo.mote.MoteWalletPageVO;
 import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
+import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
@@ -127,13 +125,14 @@ public class MoteManager {
      * 获取模特的详细信息
      *
      * @param moteId
+     * @param token 可以为空
      * @return
      */
-    public static AsyncJob<MoteDetail1> fetchMoteDetailInfo(long moteId) {
+    public static AsyncJob<MoteDetail1> fetchMoteDetailInfo(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", moteId + "");
-       // params.put("token", token);
+        params.put("token", token);
 
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteDetail1.class);
 
@@ -145,16 +144,14 @@ public class MoteManager {
      * @param moteId
      * @param pageNo
      * @param pageSize
-     * @param token
      * @return
      */
-    public static AsyncJob<List<TaskPicsVO>> fetchMoteTaskPics(long moteId, int pageNo, int pageSize, String token) {
+    public static AsyncJob<List<TaskPicsVO>> fetchMoteTaskPics(long moteId, int pageNo, int pageSize) {
         String url = APIConstants.HOST + APIConstants.API_MOTE_TASK_PICS;
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", moteId + "");
         params.put("pageNo", pageNo + "");
         params.put("pageSize", pageSize + "");
-        params.put("token", token);
         Type type = new TypeToken<ArrayList<LinkedHashMap<String, ArrayList<MoteTaskPicVO>>>>() {
         }.getType();
         AsyncJob<List<Map<String, List<MoteTaskPicVO>>>> job = JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
@@ -552,5 +549,27 @@ public class MoteManager {
         params.put("pageSize", pageSize+"");
         params.put("token",token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteWalletPageVO.class);
+    }
+
+    public static AsyncJob<Boolean> addSuggestion(String content, String token) {
+        String url = APIConstants.HOST + APIConstants.API_USER_SUGGESTION;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("content", content);
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    /**
+     * 获取任务详情
+     * @param taskId
+     * @param token　可空，空为不可接单
+     * @return
+     */
+    public static AsyncJob<TaskItemVO> getDetailByTaskId(long taskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GET_DETAIL_BY_TASKID;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("taskId", taskId + "");
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, TaskItemVO.class);
     }
 }

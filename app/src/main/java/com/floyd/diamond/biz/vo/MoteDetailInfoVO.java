@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * Created by floyd on 15-12-5.
  */
-public class MoteDetailInfoVO implements Serializable{
+public class MoteDetailInfoVO implements Serializable, IKeepClassForProguard {
     public long id;
     public String phoneNumber;
     private String avartUrl;//头像

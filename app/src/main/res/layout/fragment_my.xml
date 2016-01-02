@@ -18,12 +18,29 @@
             android:layout_height="0dp"
             app:layout_heightPercent="40%">
 
+            <ImageView
+                android:id="@+id/image_bg_head_lay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/head_lay" />
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/bg_head_lay"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="centerCrop"
                 android:src="@drawable/head_lay" />
+
+
+            <ImageView
+                android:id="@+id/image_mine_touxiang"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/head"
+                app:layout_heightPercent="35%"
+                app:layout_marginTopPercent="15%"
+                app:layout_widthPercent="20%" />
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/mine_touxiang"
@@ -34,6 +51,7 @@
                 app:layout_heightPercent="35%"
                 app:layout_marginTopPercent="15%"
                 app:layout_widthPercent="20%" />
+
 
             <TextView
                 android:id="@+id/mine_name"

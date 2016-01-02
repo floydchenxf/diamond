@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
@@ -24,7 +26,9 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.DateUtil;
+import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
@@ -39,7 +43,7 @@ import com.floyd.diamond.ui.view.UIAlertDialog;
  */
 public class SellerTaskProcessActivity extends Activity implements View.OnClickListener {
 
-    private static final String SELLER_MOTE_TASK_ID = "SELLER_MOTE_TASK_ID";
+    public static final String SELLER_MOTE_TASK_ID = "SELLER_MOTE_TASK_ID";
 
     private long moteTaskId;
     private ImageLoader mImageLoader;
@@ -81,11 +85,13 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     private View finishLayout;
 
     private LoginVO loginVO;
+    private float oneDp;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_task_process);
+        oneDp = this.getResources().getDimension(R.dimen.one_dp);
         moteTaskId = getIntent().getLongExtra(SELLER_MOTE_TASK_ID, 0l);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         dataLoadingView = new DefaultDataLoadingView();
@@ -134,6 +140,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         experienceView = (TextView) findViewById(R.id.experience_view);
         moteDetailInfoLayout.setVisibility(View.GONE);
         findViewById(R.id.jiantou_up).setOnClickListener(this);
+        moteInfoSummaryView.setOnClickListener(this);
     }
 
     private void initAcceptView() {
@@ -204,6 +211,15 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     }
 
     private void fillMoteInfo(TaskProcessVO taskProcessVO) {
+        UserVO userVO = taskProcessVO.user;
+        headImage.setImageUrl(userVO.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
+            @Override
+            public Bitmap processBitmpa(Bitmap bitmap) {
+                return ImageUtils.getCircleBitmap(bitmap, 90*oneDp);
+            }
+        });
+        nicknameView.setText(userVO.nickname);
+
 
     }
 
@@ -255,7 +271,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             goodsProcessTimeTextView.setText(time);
             goodsOrderTypeView.setVisibility(View.VISIBLE);
             goodsOrderTypeView.setText("承运来源：" + taskProcessVO.moteTask.expressCompanyId);
-            goodsOrderNoView.setText("运单编号：" + taskProcessVO.moteTask.orderNo);
+            goodsOrderNoView.setText("运单编号：" + taskProcessVO.moteTask.expressNo);
         }
 
         if (status > 4 && status < 7) {
@@ -268,6 +284,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
         if (status == 7 || status == 8) {
             finishView.setChecked(false);
+            line5.setVisibility(View.VISIBLE);
             finishView.setTextColor(Color.parseColor("#999999"));
             finishView.setOnClickListener(null);
         }
@@ -352,6 +369,9 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 break;
             case R.id.act_ls_fail_layout:
                 loadData(true);
+                break;
+            case R.id.title_back:
+                this.finish();
                 break;
 
 

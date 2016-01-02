@@ -1,6 +1,7 @@
 package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
+import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +74,14 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
         final SellerTaskDetailVO taskItemVO = getItem(position);
         holder.titleView.setText(taskItemVO.title);
         holder.taskPicView.setImageUrl(taskItemVO.avartUrl, mImageLoader);
+        holder.taskStatusView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(mContext, SellerTaskProcessActivity.class);
+                it.putExtra(SellerTaskProcessActivity.SELLER_MOTE_TASK_ID, taskItemVO.moteTaskId);
+                mContext.startActivity(it);
+            }
+        });
         int status = taskItemVO.status;
 
         return convertView;

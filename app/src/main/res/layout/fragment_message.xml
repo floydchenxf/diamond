@@ -14,14 +14,18 @@
         android:textColor="#ffffff"
         android:textSize="16sp" />
 
-    <com.floyd.pullrefresh.widget.PullToRefreshListView
+    <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/tv"
         android:divider="#00000000"
         android:dividerHeight="10dp"
-        android:paddingTop="5dp"></com.floyd.pullrefresh.widget.PullToRefreshListView>
+        android:paddingTop="5dp"/>
+
+    <include layout="@layout/diamod_data_loading"/>
+
+
 
 </RelativeLayout>
 

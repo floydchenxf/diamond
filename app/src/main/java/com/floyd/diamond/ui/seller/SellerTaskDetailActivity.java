@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.seller;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -20,6 +21,7 @@ import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.NewTaskActivity;
 import com.floyd.diamond.ui.adapter.SellerTaskDetailAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
@@ -90,7 +92,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
             public void onPullDownToRefresh() {
                 pageNo++;
                 isClear = false;
-                loadData();
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, false);
             }
 
@@ -98,7 +100,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
             public void onPullUpToRefresh() {
                 pageNo++;
                 isClear = false;
-                loadData();
+                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, false);
             }
         });
@@ -108,78 +110,48 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                TaskItemVO itemVO = adapter.getData().get(position - 1);
-//                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
-//                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_OBJECT, itemVO);
-//                startActivity(it);
+                SellerTaskDetailVO sellerTaskDetailVO = adapter.getData().get(position - 1);
+                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, sellerTaskDetailVO.id);
+                startActivity(it);
             }
         });
         mListView.setAdapter(adapter);
-        firstLoadData();
+        loadData(true);
     }
 
-    private void firstLoadData() {
+    private void loadData(final boolean isFirst) {
         if (!LoginManager.isLogin(this)) {
             return;
         }
 
-        dataLoadingView.startLoading();
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDailog.show();
+        }
         LoginVO loginVO = LoginManager.getLoginInfo(this);
         SellerManager.getSellerTaskDetailList(taskId, taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<List<SellerTaskDetailVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!SellerTaskDetailActivity.this.isFinishing()) {
-                    dataLoadingView.loadFail();
-                    Toast.makeText(SellerTaskDetailActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onSuccess(List<SellerTaskDetailVO> sellerTaskVO) {
-                if (!SellerTaskDetailActivity.this.isFinishing()) {
-                    dataLoadingView.loadSuccess();
-                    List<SellerTaskDetailVO> tasks = sellerTaskVO;
-                    if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
-                        emptyView.setVisibility(View.VISIBLE);
-                        mPullToRefreshListView.setVisibility(View.GONE);
+                    if (isFirst) {
+                        dataLoadingView.loadFail();
                     } else {
-                        mPullToRefreshListView.setVisibility(View.VISIBLE);
-                        emptyView.setVisibility(View.GONE);
-                        adapter.addAll(tasks, isClear);
+                        dataLoadingDailog.dismiss();
+                        Toast.makeText(SellerTaskDetailActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                     }
-                }
-            }
-
-            @Override
-            public void onProgress(int progress) {
-
-            }
-        });
-
-
-    }
-
-
-    private void loadData() {
-        if (!LoginManager.isLogin(this)) {
-            return;
-        }
-
-        dataLoadingDailog.show();
-        LoginVO loginVO = LoginManager.getLoginInfo(this);
-        SellerManager.getSellerTaskDetailList(taskId, taskStatus, pageNo, PAGE_SIZE, loginVO.token).startUI(new ApiCallback<List<SellerTaskDetailVO>>() {
-            @Override
-            public void onError(int code, String errorInfo) {
-                if (!SellerTaskDetailActivity.this.isFinishing()) {
-                    dataLoadingDailog.dismiss();
-                    Toast.makeText(SellerTaskDetailActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onSuccess(List<SellerTaskDetailVO> moteTaskVO) {
                 if (!SellerTaskDetailActivity.this.isFinishing()) {
-                    dataLoadingDailog.dismiss();
+                    if (isFirst) {
+                        dataLoadingView.loadSuccess();
+                    } else {
+                        dataLoadingDailog.dismiss();
+                    }
                     List<SellerTaskDetailVO> tasks = moteTaskVO;
                     if ((tasks == null || tasks.isEmpty()) && pageNo == 1) {
                         emptyView.setVisibility(View.VISIBLE);
@@ -212,7 +184,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.doing_status:
                 taskStatus = SellerTaskDetailStatus.DOING;
@@ -223,7 +195,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.confirm_status:
                 taskStatus = SellerTaskDetailStatus.CONFIRM;
@@ -234,7 +206,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.done_status:
                 taskStatus = SellerTaskDetailStatus.DONE;
@@ -245,13 +217,13 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
                 pageNo = 1;
                 isClear = true;
                 dataLoadingDailog.show();
-                loadData();
+                loadData(false);
                 break;
             case R.id.title_back:
                 this.finish();
                 break;
             case R.id.act_ls_fail_layout:
-                firstLoadData();
+                loadData(true);
                 break;
         }
 

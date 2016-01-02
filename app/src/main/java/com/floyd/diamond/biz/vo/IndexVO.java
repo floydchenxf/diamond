@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by floyd on 15-12-12.
  */
-public class IndexVO {
+public class IndexVO implements IKeepClassForProguard {
 
     /**
      * 类目

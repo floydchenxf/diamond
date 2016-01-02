@@ -2,48 +2,81 @@ package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.os.MessageQueue;
-import android.util.Log;
-import android.widget.ImageView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 
-import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.Volley;
+import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
-import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.Message;
-import com.floyd.diamond.bean.MyBaseAdapter;
-import com.floyd.diamond.bean.MyImageCache;
-import com.floyd.diamond.bean.MyImageLoader;
-import com.floyd.diamond.bean.MyViewHolder;
+import com.floyd.diamond.biz.tools.ImageUtils;
+import com.floyd.diamond.biz.vo.AdvVO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2015/11/24.
  */
-public class MessageAdapter extends MyBaseAdapter {
-    private List<Message.DataEntity>allMessage;
-    private RequestQueue queue;
-    private Context context;
+public class MessageAdapter extends BaseAdapter {
+    private List<AdvVO> advVOList = new ArrayList<AdvVO>();
+    private Context mContext;
+    private ImageLoader mImageLoader;
+    private float oneDp;
 
-    //private int[]imgId={R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5,R.drawable.m1,R.drawable.m2,R.drawable.m3,R.drawable.m4,R.drawable.m5};
+    public MessageAdapter(Context context, ImageLoader mImageLoader) {
+        this.mContext = context;
+        this.mImageLoader = mImageLoader;
+        oneDp = this.mContext.getResources().getDimension(R.dimen.one_dp);
+    }
 
-    public MessageAdapter(Context context, List list, int layoutResId) {
-        super(context, list, layoutResId);
-        this.allMessage = list;
-        this.context = context;
+    public void addAll(List<AdvVO> advVOs, boolean clear) {
+        if (clear) {
+            advVOList.clear();
+        }
+
+        advVOList.addAll(advVOs);
+        this.notifyDataSetChanged();
     }
 
     @Override
-    public void fillData(MyViewHolder myViewHolder, int position) {
-        ImageView imageView = ((ImageView) myViewHolder.findViewById(R.id.listview_img));//获取控件
-        String imgUrl = allMessage.get(position).getImgUrl();//图片的地址
-        if (GlobalParams.isDebug){
-            Log.e("TAG",imgUrl);
+    public int getCount() {
+        return advVOList.size();
+    }
+
+    @Override
+    public AdvVO getItem(int position) {
+        return advVOList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
+        if (convertView == null) {
+            convertView = View.inflate(mContext, R.layout.messagelistviewitem_layout, null);
+            holder = new ViewHolder();
+            holder.imageView = (NetworkImageView) convertView.findViewById(R.id.listview_img);
+            convertView.setTag(holder);
         }
-        queue = Volley.newRequestQueue(context);
-        MyImageLoader loader = new MyImageLoader(queue, imgUrl, imageView, context);//加载图片
-       // imageView.setImageResource(imgId[position]);
+
+        holder = (ViewHolder) convertView.getTag();
+        AdvVO advVO = getItem(position);
+        holder.imageView.setImageUrl(advVO.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
+            @Override
+            public Bitmap processBitmpa(Bitmap bitmap) {
+                return ImageUtils.getRoundBitmap(bitmap, (int)(180*oneDp), 20*oneDp);
+            }
+        });
+        return convertView;
+    }
+
+    public static class ViewHolder {
+        public NetworkImageView imageView;
     }
 }

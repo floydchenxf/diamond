@@ -268,6 +268,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
 
             float y1 = 0, y2 = 0;
+            float x1 = 0, x2 = 0;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {

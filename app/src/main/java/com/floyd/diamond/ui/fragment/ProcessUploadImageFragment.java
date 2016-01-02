@@ -33,7 +33,10 @@ import com.floyd.diamond.biz.vo.process.ProcessPicVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.multiimage.MultiImageActivity;
 import com.floyd.diamond.ui.multiimage.MultiPickGalleryActivity;
+import com.floyd.diamond.ui.multiimage.base.MulitImageVO;
+import com.floyd.diamond.ui.multiimage.base.PicViewObject;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -140,21 +143,40 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         float ondp = this.getActivity().getResources().getDimension(R.dimen.one_dp);
         final float eachWidth = (width - 32 * ondp) / 3;
         if (pics != null) {
-            for (ProcessPicVO vo : pics) {
+            for (final ProcessPicVO vo : pics) {
                 GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
                 lp.setMargins(0, (int) (4 * ondp), (int) (4 * ondp), 0);
                 lp.width = (int)eachWidth;
                 lp.height = (int)eachWidth;
-                View picItemView = View.inflate(this.getActivity(), R.layout.process_upload_pic_item, null);
+                final View picItemView = View.inflate(this.getActivity(), R.layout.process_upload_pic_item, null);
                 picItemView.setLayoutParams(lp);
 
                 NetworkImageView networkImage = (NetworkImageView)picItemView.findViewById(R.id.task_pic_item);
-                networkImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
                 networkImage.setImageUrl(vo.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
                     @Override
                     public Bitmap processBitmpa(Bitmap bitmap) {
                         return ImageUtils.getRoundBitmap(bitmap, (int) eachWidth, 20);
+                    }
+                });
+                networkImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                networkImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
+                        PicViewObject picViewObject = new PicViewObject();
+                        picViewObject.setPicPreViewUrl(vo.getPreviewUrl());
+                        picViewObject.setPicType(PicViewObject.IMAGE);
+                        picViewObject.setPicId(1l);
+                        picViewObject.setPicUrl(vo.getImageUrl());
+                        picViewList.add(picViewObject);
+                        MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
+                        Intent it = new Intent(ProcessUploadImageFragment.this.getActivity(), MultiImageActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);
+                        it.putExtra(MultiImageActivity.MULIT_IMAGE_VO, bundle);
+                        it.putExtra(MultiImageActivity.MULIT_IMAGE_PICK_MODE,
+                                MultiImageActivity.MULIT_IMAGE_PICK_MODE_PREVIEW);
+                        startActivity(it);
                     }
                 });
 

@@ -3,7 +3,7 @@ package com.floyd.diamond.biz.vo;
 /**
  * Created by floyd on 15-12-5.
  */
-public class AdvDetailVO {
+public class AdvDetailVO implements IKeepClassForProguard {
     public long id;
     public String title;
     public String imgUrl;
