@@ -45,6 +45,8 @@ public class APIConstants {
     public static final String API_QUERY_APPLY_LIST = "api/cash/queryApplyList"; //查询提现记录
     public static final String API_GET_DETAIL_BY_TASKID = "api/task/getDetailByTaskId";
 
+    public static final String API_GET_USER_INFO= "api/user/getUserInfo";
+
     //----------------------------------------------------------卖家------------------------------------------------
     public static final String API_SELLER_TASK_LIST = "api/task/getSellerTaskList"; //我的任务
     public static final String API_MOTE_LIST_APP = "api/task/getMoteList4APP"; //我的任务详情

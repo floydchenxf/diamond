@@ -17,6 +17,7 @@ public class UserVO implements Serializable {
     public String nickname;
     public int gender;
     public String birdthdayStr;
+    public long birdthday;
     public int height;
     public int weight;
     public String areaId;

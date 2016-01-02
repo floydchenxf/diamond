@@ -23,7 +23,7 @@
         android:layout_below="@+id/icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
-        android:text="当期版本1.0"
+        android:text="当前版本1.0"
         android:textColor="#999999"
         android:textSize="12sp" />
 
