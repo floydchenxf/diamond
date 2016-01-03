@@ -61,6 +61,8 @@ import java.util.List;
 public class IndexFragment extends BackHandledFragment implements AbsListView.OnScrollListener, View.OnClickListener {
 
     private static final String TAG = "IndexFragment";
+    public static final int MIN_JULI = 250;
+    public static final int MIN_VELOCITY_X = 60;
 
     private static int BANNER_HEIGHT_IN_DP = 300;
     public static final int CHANGE_BANNER_HANDLER_MSG_WHAT = 51;
@@ -120,6 +122,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private LinearLayout guide;//操作指引
 
     private ImageLoader mImageLoader;
+
+    private float keydownX1;
 
 
     private Handler mChangeViewPagerHandler = new Handler() {
@@ -196,7 +200,6 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         listViewGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
-                Log.i(TAG, "x1----"+e.getX());
                 return false;
             }
 
@@ -223,24 +226,28 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                if (e1 == null || e2 == null) {
-                    return false;
-                }
-                if (e1.getX() - e2.getX() > 100 && velocityX > 50) {
-                    //animShowNextPage();
+                float x1 = keydownX1;
+                Log.i(TAG, "-------x1:" + x1 + "-------x2:" + e2.getX() + "---vx:" + velocityX);
+                if (x1 - e2.getX() > MIN_JULI && Math.abs(velocityX) > MIN_VELOCITY_X) {
                     pageNo = 1;
                     needClear = true;
                     int k = (++moteType - 1) % 3 + 1;
                     checkMoteType(k);
                     loadMoteInfo(true);
-                }
+                } else if (e2.getX() - x1 > MIN_JULI && Math.abs(velocityX) > MIN_VELOCITY_X) {
 
-//                } else if (e2.getX() - e1.getX() > 100 && Math.abs(velocityX) > 50) {
-//                    //animShowPrePage();
-//                    int k = --moteType-1%3+1;
-//                    checkMoteType(k);
-//                    loadMoteInfo();
-//                }
+                    int k = 1;
+                    if (moteType > 1) {
+                        k = moteType - 1;
+                    } else {
+                        k = 4-moteType;
+                    }
+
+                    pageNo = 1;
+                    needClear = true;
+                    checkMoteType(k);
+                    loadMoteInfo(true);
+                }
                 return false;
             }
         });
@@ -316,6 +323,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     case MotionEvent.ACTION_DOWN:
                         y1 = event.getRawY();
                         x1 = event.getRawX();
+                        Log.i(TAG, "===========x1:" + event.getX());
                         break;
                     case MotionEvent.ACTION_MOVE:
                         y2 = event.getRawY();
@@ -329,7 +337,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                         break;
                 }
 
-//                listViewGestureDetector.onTouchEvent(event);
+                listViewGestureDetector.onTouchEvent(event);
                 return false;
             }
         });
@@ -378,6 +386,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 }
 
                 return false;
+            }
+        });
+
+        mPullToRefreshListView.setKeydownCallback(new PullToRefreshListView.KeydownCallback() {
+            @Override
+            public void keydown(MotionEvent event) {
+                keydownX1 = event.getX();
             }
         });
         return view;

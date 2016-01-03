@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
@@ -20,6 +21,8 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 
 	private FrameLayout mLvFooterLoadingFrame;
 	private boolean isListNeedAutoSelection = true;
+
+	private KeydownCallback keydownCallback;
 	
 	public PullToRefreshListView(Context context) {
 		super(context);
@@ -34,6 +37,10 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	public PullToRefreshListView(Context context, Mode mode) {
 		super(context, mode);
 		setDisableScrollingWhileRefreshing(false);
+	}
+
+	public void setKeydownCallback(KeydownCallback keydownCallback) {
+		this.keydownCallback = keydownCallback;
 	}
 
 	@Override
@@ -306,6 +313,13 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 				}
 			}
 		}
+
+		public boolean onInterceptTouchEvent(MotionEvent ev) {
+			if (keydownCallback != null && ev.getAction() == MotionEvent.ACTION_DOWN) {
+				keydownCallback.keydown(ev);
+			}
+			return super.onInterceptTouchEvent(ev);
+		}
 	}
 	
 	public void setStartRefreshing(){
@@ -379,5 +393,9 @@ public class PullToRefreshListView extends PullToRefreshAdapterViewBase<ListView
 	public void setNeedAutoSetSelection(boolean isNeedAutoSelection){
 		this.isNeedAutoSelection = isNeedAutoSelection;
 		this.isListNeedAutoSelection = isNeedAutoSelection;
+	}
+
+	public interface KeydownCallback {
+		void keydown(MotionEvent event);
 	}
 }
