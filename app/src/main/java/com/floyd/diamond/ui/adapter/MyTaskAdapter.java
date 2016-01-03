@@ -54,7 +54,7 @@ public class MyTaskAdapter extends BaseAdapter {
                     }
 
                     String dateLeft = DateUtil.getDateBefore(itemVO.createTime);
-                    if (dateLeft == null) {
+                    if (dateLeft == null && itemVO.createTime != 0l) {
                         timeView.setVisibility(View.GONE);
                         itemVO.status = 2;
                     } else {
@@ -130,7 +130,7 @@ public class MyTaskAdapter extends BaseAdapter {
         if (status == 1) {
             holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
             String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
-            if (dateleft == null) {
+            if (dateleft == null && taskItemVO.createTime != 0l) {
                 taskItemVO.status = 2;
             } else {
                 holder.leftTimeView.setVisibility(View.VISIBLE);

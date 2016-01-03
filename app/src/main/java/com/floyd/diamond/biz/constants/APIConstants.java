@@ -47,6 +47,8 @@ public class APIConstants {
     public static final String API_SAVE_MOTE_FILTER = "api/user/saveMoteFilter";//保存筛选条件
     public static final String CHOOSEMOTE = "api/index/filterMote";//筛选模特
 
+    public static final String API_GET_USER_INFO= "api/user/getUserInfo";
+
     //----------------------------------------------------------卖家------------------------------------------------
     public static final String API_SELLER_TASK_LIST = "api/task/getSellerTaskList"; //我的任务
     public static final String API_MOTE_LIST_APP = "api/task/getMoteList4APP"; //我的任务详情

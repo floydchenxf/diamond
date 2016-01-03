@@ -24,12 +24,12 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageView
+            <TextView
                 android:id="@+id/shop_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo_qiang" />
+                android:text="经验值："
+                android:textColor="#dddddd" />
 
             <TextView
                 android:id="@+id/shop"
@@ -53,12 +53,12 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageView
+            <TextView
                 android:id="@+id/qiang_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo_fen" />
+                android:text="满意度："
+                android:textColor="#dddddd" />
 
             <TextView
                 android:id="@+id/qiang"
@@ -82,20 +82,20 @@
             android:layout_weight="1"
             android:gravity="center">
 
-            <ImageView
+            <TextView
                 android:id="@+id/place_pic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginRight="10dp"
-                android:src="@drawable/logo_zhuan" />
+                android:text="粉丝数："
+                android:textColor="#dddddd" />
 
             <TextView
                 android:id="@+id/place"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="未知"
+                android:text="0"
                 android:textColor="#dddddd" />
         </LinearLayout>
     </LinearLayout>

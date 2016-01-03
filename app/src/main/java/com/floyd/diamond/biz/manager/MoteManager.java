@@ -572,4 +572,11 @@ public class MoteManager {
         params.put("token",token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, TaskItemVO.class);
     }
+
+    public static AsyncJob<UserVO> getUserInfo(String token) {
+        String url = APIConstants.HOST +  APIConstants.API_GET_USER_INFO;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UserVO.class);
+    }
 }

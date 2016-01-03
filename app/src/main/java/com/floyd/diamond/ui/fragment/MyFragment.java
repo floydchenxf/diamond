@@ -89,10 +89,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
     private TextView qiangView; //抢单数量
     private TextView placeView; //地址
 
-    private ImageView shopPicView;
-    private ImageView qiangPicView;
-    private ImageView placePicView;
-
     private LoginVO loginVO;
 
     private String tempImage = "image_temp";
@@ -173,9 +169,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             qiangView = (TextView) view.findViewById(R.id.qiang);
             placeView = (TextView) view.findViewById(R.id.place);
 
-            shopPicView = (ImageView) view.findViewById(R.id.shop_pic);
-            qiangPicView = (ImageView) view.findViewById(R.id.qiang_pic);
-            placePicView = (ImageView) view.findViewById(R.id.place_pic);
         } else {
             ViewStub stub = (ViewStub) view.findViewById(R.id.seller_summary_info_stub);
             stub.inflate();
@@ -183,8 +176,6 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             shopView = (TextView) view.findViewById(R.id.shop);
             placeView = (TextView) view.findViewById(R.id.place);
 
-            shopPicView = (ImageView) view.findViewById(R.id.shop_pic);
-            placePicView = (ImageView) view.findViewById(R.id.place_pic);
         }
 
         loadData(true);
@@ -221,8 +212,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             MoteInfoVO moteInfoVO = MoteManager.getMoteInfo(this.getActivity());
             if (moteInfoVO != null) {
                 shopView.setText(moteInfoVO.orderNum + "");
-                nicknameView.setText(moteInfoVO.nickname);
-                qiangView.setText(moteInfoVO.fenNum + "");
+                qiangView.setText(moteInfoVO.goodeEvalRate + "%");
+                placeView.setText(moteInfoVO.followNum + "");
                 placeView.setText(moteInfoVO.fee + "");
                 if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
                     showNetworkImage();
@@ -262,8 +253,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                         dataLoadingDialog.dismiss();
                     }
                     shopView.setText(moteInfoVO.orderNum + "");
-                    qiangView.setText(moteInfoVO.fenNum + "");
-                    placeView.setText(moteInfoVO.fee + "");
+                    qiangView.setText(moteInfoVO.goodeEvalRate + "%");
+                    placeView.setText(moteInfoVO.followNum + "");
                     nicknameView.setText(moteInfoVO.nickname);
                     if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
                         showNetworkImage();

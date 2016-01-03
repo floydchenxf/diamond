@@ -14,6 +14,8 @@ public class MoteInfoVO {
     private String avatarUrl;
     public int orderNum;
     public int fenNum;
+    public int followNum;
+    public float goodeEvalRate;
     public int fee;
     public String authenPic1;//验证图片1
     public String authenPic2;//验证图片2

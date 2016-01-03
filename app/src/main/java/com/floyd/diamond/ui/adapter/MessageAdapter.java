@@ -70,7 +70,7 @@ public class MessageAdapter extends BaseAdapter {
         holder.imageView.setImageUrl(advVO.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {
-                return ImageUtils.getRoundBitmap(bitmap, (int)(180*oneDp), 20*oneDp);
+                return ImageUtils.getOriginRoundBitmap(bitmap, 3*oneDp);
             }
         });
         return convertView;

@@ -68,7 +68,7 @@ public class DateUtil {
     }
 
     public static String getDateBefore(long createTime) {
-        long after = createTime + 30*60*1000;
+        long after = createTime + 30 * 60 * 1000;
         long now = System.currentTimeMillis();
         if (after < now) {
             return null;

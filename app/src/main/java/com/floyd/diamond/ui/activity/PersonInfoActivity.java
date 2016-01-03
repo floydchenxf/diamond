@@ -30,6 +30,7 @@ import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DataBaseUtils;
+import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
@@ -39,6 +40,8 @@ import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 import com.floyd.pickview.LoopListener;
 import com.floyd.pickview.LoopView;
@@ -126,33 +129,42 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     private File tempFile;
 
     private Dialog dataLoadingDialog;
+    private DataLoadingView dataLoadingView;
 
     private AreaDetailVO areaDetailVO;
+
+    private  LoginVO loginVO;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personinfo);
+        if (!LoginManager.isLogin(this)) {
+            Toast.makeText(this, "未登录用户", Toast.LENGTH_SHORT).show();
+            this.finish();
+        }
+
         oneDp = this.getResources().getDimension(R.dimen.one_dp);
         mImageLoader = ImageLoaderFactory.createImageLoader();
         imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         findViewById(R.id.left).setOnClickListener(this);
         rightView = (TextView) findViewById(R.id.right);
         rightView.setOnClickListener(this);
         initView();
-        fillData();
+
+        loginVO = LoginManager.getLoginInfo(this);
+        userVO = loginVO.user;
+        if (userVO != null) {
+            fillData(userVO);
+        }
+        loadData(true);
     }
 
-    private void fillData() {
-        LoginVO vo = LoginManager.getLoginInfo(this);
-        userVO = vo.user;
-        if (userVO == null) {
-            Toast.makeText(this, "登录用户出错", Toast.LENGTH_SHORT).show();
-            this.finish();
-        }
-
+    private void fillData(UserVO userVO) {
         String avatarUrl = userVO.getPreviewUrl();
         personHeadView.setImageUrl(avatarUrl, mImageLoader, new BitmapProcessor() {
             @Override
@@ -162,7 +174,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         });
         alipayView.setText(userVO.alipayId);
         heightView.setText(userVO.height + "");
-        birthdayView.setText(userVO.birdthdayStr);
+        birthdayView.setText(DateUtil.getDateStr(userVO.birdthday));
         genderView.setText(userVO.getGender());
         weixinView.setText(userVO.weixin);
         nicknameView.setText(userVO.nickname);
@@ -180,8 +192,50 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
             authView.setText("未认证");
             authView.setTextColor(Color.RED);
         } else {
+            authView.setTextColor(Color.parseColor("#666666"));
             authView.setText("已认证");
         }
+    }
+
+    private void loadData(final boolean isFirst) {
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            dataLoadingDialog.show();
+        }
+
+        MoteManager.getUserInfo(loginVO.token).startUI(new ApiCallback<UserVO>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                if (isFirst) {
+                    dataLoadingView.loadFail();
+                } else {
+                    dataLoadingDialog.dismiss();
+                }
+
+                Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(UserVO userVO) {
+                if (isFirst) {
+                    dataLoadingView.loadSuccess();
+                } else {
+                    dataLoadingDialog.dismiss();
+                }
+
+                fillData(userVO);
+                loginVO.user = userVO;
+                LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+
     }
 
     private void initView() {
@@ -588,6 +642,9 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 Intent authIntent = new Intent(this, MoteAuthActivity.class);
                 authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(authIntent);
+                break;
+            case R.id.act_lsloading:
+                loadData(false);
                 break;
         }
 
