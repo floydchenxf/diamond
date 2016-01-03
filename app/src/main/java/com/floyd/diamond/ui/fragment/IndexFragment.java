@@ -329,7 +329,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                         break;
                 }
 
-                listViewGestureDetector.onTouchEvent(event);
+//                listViewGestureDetector.onTouchEvent(event);
                 return false;
             }
         });
