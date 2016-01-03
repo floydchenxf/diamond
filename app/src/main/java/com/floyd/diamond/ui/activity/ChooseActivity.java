@@ -3,6 +3,9 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.os.MessageQueue;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -10,17 +13,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.ChoiceCondition;
 import com.floyd.diamond.bean.ChooseCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.SeekBarPressure;
 import com.floyd.diamond.bean.SeekBarPressure1;
 import com.floyd.diamond.bean.SeekBarPressure2;
+import com.floyd.diamond.biz.constants.APIConstants;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.vo.LoginVO;
+import com.google.gson.Gson;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2015/11/24.
@@ -33,25 +50,77 @@ public class ChooseActivity extends Activity {
             hunan, jiangxi, shanxi3, shanxi1, sichuan, qinghai, hainan, guangdong, guizhou, fujian, taiwan, gansu, yunnan, neimenggu, ningxia, xinjiang, xizang,
             guangxi, xianggang, aomen, gugan, biaozhi, fengman;
     private SeekBarPressure seekBarAge;
-    private SeekBarPressure2  seekBarCredit;
-    private SeekBarPressure1  seekBarHeight;
+    private SeekBarPressure2 seekBarCredit;
+    private SeekBarPressure1 seekBarHeight;
     private boolean isScreen;
     private RadioButton boy, girl;
     private ChooseCondition chooseCondition;
     private List<String> shapesList;
     private List<String> provincesList;
     private TextView search;
+    private RequestQueue queue;
+    private LoginVO vo;
+    private ChoiceCondition.DataEntity dataEntity;
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chooseactivity);
         initView();
+
+        setData();
+    }
+
+    //获取默认的筛选条件
+    public void setData(){
+        String url= APIConstants.HOST+APIConstants.API_GET_MOTE_FILTER;
+        StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                if (GlobalParams.isDebug){
+                    Log.e("TAG_shaixuan",response);
+                }
+                Gson gson=new Gson();
+                ChoiceCondition choiceCondition=gson.fromJson(response,ChoiceCondition.class);
+
+                dataEntity=choiceCondition.getData();
+                handler.sendEmptyMessage(1);
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(ChooseActivity.this,"请检查网络连接...",Toast.LENGTH_SHORT).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> params = new HashMap<>();
+                params.put("token",vo.token );
+                return params;
+            }
+        };
+
+        queue.add(request);
     }
 
     //初始化操作
     public void initView() {
+        vo = LoginManager.getLoginInfo(this);
         chooseCondition = new ChooseCondition();
+        chooseCondition.setCreditMax(100);
+        queue= Volley.newRequestQueue(this);
         shapesList = new ArrayList<>();
         provincesList = new ArrayList<>();
         search = ((TextView) findViewById(R.id.search));
@@ -107,8 +176,8 @@ public class ChooseActivity extends Activity {
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(ChooseActivity.this, ChooseResultActivity.class);
-                intent.putExtra("chooseCondition", (Serializable) chooseCondition);
+                Intent intent = new Intent(ChooseActivity.this, ChooseResultActivity.class);
+                intent.putExtra("chooseCondition", (Serializable) dataEntity);
                 startActivity(intent);
             }
         });
@@ -164,7 +233,7 @@ public class ChooseActivity extends Activity {
 
                 chooseCondition.setCreditMin((int) progressLow);
 
-                chooseCondition.setCreditMax((int) progressHigh);
+//                chooseCondition.setCreditMax(100);
             }
 
             @Override
@@ -302,17 +371,9 @@ public class ChooseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (gugan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        shapesList.add(gugan.getTag() + "");
-                        chooseCondition.setShapesList(shapesList);
-                    } else {
-                        shapesList.add("," + gugan.getTag());
-                        chooseCondition.setShapesList(shapesList);
-                    }
-
+                    shapesList.add(gugan.getTag() + "");
                 } else {
                     shapesList.remove(gugan.getTag() + "");
-                    chooseCondition.setShapesList(shapesList);
                 }
 
             }
@@ -323,17 +384,9 @@ public class ChooseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (biaozhi.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        shapesList.add(biaozhi.getTag() + "");
-                        chooseCondition.setShapesList(shapesList);
-                    } else {
-                        shapesList.add("," + biaozhi.getTag());
-                        chooseCondition.setShapesList(shapesList);
-                    }
-
+                    shapesList.add(biaozhi.getTag() + "");
                 } else {
                     shapesList.remove(biaozhi.getTag() + "");
-                    chooseCondition.setShapesList(shapesList);
                 }
 
             }
@@ -343,39 +396,25 @@ public class ChooseActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (fengman.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        shapesList.add(fengman.getTag() + "");
-                        chooseCondition.setShapesList(shapesList);
-                    } else {
-                        shapesList.add("," + fengman.getTag());
-                        chooseCondition.setShapesList(shapesList);
-                    }
-
+                    shapesList.add(fengman.getTag() + "");
                 } else {
                     shapesList.remove(fengman.getTag() + "");
-                    chooseCondition.setShapesList(shapesList);
                 }
 
             }
         });
 
+        chooseCondition.setShapesList(shapesList);
 
         beijing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (beijing.isChecked()) {
-                    if (chooseCondition.getShapesList() == null) {
-                        provincesList.add(beijing.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + beijing.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
+                    provincesList.add(beijing.getTag() + "");
 
                 } else {
                     provincesList.remove(beijing.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -386,17 +425,10 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (shanghai.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(shanghai.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + shanghai.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
+                    provincesList.add(shanghai.getTag() + "");
 
                 } else {
                     provincesList.remove(shanghai.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -406,17 +438,10 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (tianjin.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(tianjin.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + tianjin.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
+                    provincesList.add(tianjin.getTag() + "");
 
                 } else {
                     provincesList.remove(tianjin.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -426,17 +451,10 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (chongqing.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(chongqing.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + chongqing.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
+                    provincesList.add(chongqing.getTag() + "");
 
                 } else {
                     provincesList.remove(chongqing.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -447,17 +465,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (jiangsu.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(jiangsu.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + jiangsu.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(jiangsu.getTag() + "");
                 } else {
                     provincesList.remove(jiangsu.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -468,17 +478,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (zhejiang.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(zhejiang.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + zhejiang.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(zhejiang.getTag() + "");
                 } else {
                     provincesList.remove(zhejiang.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -489,17 +491,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (liaoning.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(liaoning.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + liaoning.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(liaoning.getTag() + "");
                 } else {
                     provincesList.remove(liaoning.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -510,17 +504,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (heilongjiang.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(heilongjiang.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + heilongjiang.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(heilongjiang.getTag() + "");
                 } else {
                     provincesList.remove(heilongjiang.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -531,17 +517,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (jilin.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(jilin.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + jilin.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(jilin.getTag() + "");
                 } else {
                     provincesList.remove(jilin.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -552,17 +530,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (shandong.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(shandong.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + shandong.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(shandong.getTag() + "");
                 } else {
                     provincesList.remove(shandong.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -573,17 +543,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (anhui.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(anhui.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + anhui.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(anhui.getTag() + "");
                 } else {
                     provincesList.remove(anhui.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -594,17 +556,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (hebei.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(hebei.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + hebei.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(hebei.getTag() + "");
                 } else {
                     provincesList.remove(hebei.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -615,17 +569,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (henan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(henan.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + henan.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(henan.getTag() + "");
                 } else {
                     provincesList.remove(henan.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -636,17 +582,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (hubei.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(hubei.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + hubei.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(hubei.getTag() + "");
                 } else {
                     provincesList.remove(hubei.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -657,17 +595,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (hunan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(hunan.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + hunan.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(hunan.getTag() + "");
                 } else {
                     provincesList.remove(hunan.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -678,17 +608,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (jiangxi.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(jiangxi.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + jiangxi.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(jiangxi.getTag() + "");
                 } else {
                     provincesList.remove(jiangxi.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -699,17 +621,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (shanghai.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(tianjin.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + tianjin.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(tianjin.getTag() + "");
                 } else {
                     provincesList.remove(tianjin.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -720,17 +634,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (shanxi3.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(shanxi3.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + shanxi3.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(shanxi3.getTag() + "");
                 } else {
                     provincesList.remove(shanxi3.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -741,17 +647,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (shanxi1.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(shanxi1.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + shanxi1.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(shanxi1.getTag() + "");
                 } else {
                     provincesList.remove(shanxi1.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -762,17 +660,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (sichuan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(sichuan.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + sichuan.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(sichuan.getTag() + "");
                 } else {
                     provincesList.remove(sichuan.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -783,17 +673,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (qinghai.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(qinghai.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + qinghai.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(qinghai.getTag() + "");
                 } else {
                     provincesList.remove(qinghai.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -804,17 +686,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (hainan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(hainan.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + hainan.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(hainan.getTag() + "");
                 } else {
                     provincesList.remove(hainan.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -825,17 +699,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (guangdong.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(guangdong.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + guangdong.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(guangdong.getTag() + "");
                 } else {
                     provincesList.remove(guangdong.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -846,17 +712,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (guizhou.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(guizhou.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + guizhou.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(guizhou.getTag() + "");
                 } else {
                     provincesList.remove(guizhou.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -867,17 +725,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (fujian.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(fujian.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + fujian.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(fujian.getTag() + "");
                 } else {
                     provincesList.remove(fujian.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -888,17 +738,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (taiwan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(taiwan.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + taiwan.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(taiwan.getTag() + "");
                 } else {
                     provincesList.remove(taiwan.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -909,17 +751,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (gansu.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(gansu.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + gansu.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(gansu.getTag() + "");
                 } else {
                     provincesList.remove(gansu.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -930,17 +764,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (yunnan.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(yunnan.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + yunnan.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(yunnan.getTag() + "");
                 } else {
                     provincesList.remove(yunnan.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -950,17 +776,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (neimenggu.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(neimenggu.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + neimenggu.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(neimenggu.getTag() + "");
                 } else {
                     provincesList.remove(neimenggu.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -971,17 +789,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (ningxia.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(ningxia.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + ningxia.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(ningxia.getTag() + "");
                 } else {
                     provincesList.remove(ningxia.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -992,17 +802,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (xinjiang.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(xinjiang.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + xinjiang.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(xinjiang.getTag() + "");
                 } else {
                     provincesList.remove(xinjiang.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -1013,17 +815,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (xizang.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(xizang.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + xizang.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(xizang.getTag() + "");
                 } else {
                     provincesList.remove(xizang.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -1034,17 +828,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (guangxi.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(guangxi.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + guangxi.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(guangxi.getTag() + "");
                 } else {
                     provincesList.remove(guangxi.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -1055,17 +841,9 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (xianggang.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(xianggang.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + xianggang.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(xianggang.getTag() + "");
                 } else {
                     provincesList.remove(xianggang.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
@@ -1076,23 +854,16 @@ public class ChooseActivity extends Activity {
             public void onClick(View v) {
 
                 if (aomen.isChecked()) {
-                    if (chooseCondition.getShapesList()== null) {
-                        provincesList.add(aomen.getTag() + "");
-                        chooseCondition.setProvincesList(provincesList);
-                    } else {
-                        provincesList.add("," + aomen.getTag());
-                        chooseCondition.setShapesList(provincesList);
-                    }
-
+                    provincesList.add(aomen.getTag() + "");
                 } else {
                     provincesList.remove(aomen.getTag() + "");
-                    chooseCondition.setShapesList(provincesList);
                 }
 
             }
         });
 
 
+        chooseCondition.setProvincesList(provincesList);
     }
 
 

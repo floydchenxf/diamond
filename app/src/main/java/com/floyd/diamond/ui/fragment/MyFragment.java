@@ -137,7 +137,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
         imageHeadView = (ImageView) view.findViewById(R.id.image_mine_touxiang);
         imageBgHeadView = (ImageView) view.findViewById(R.id.image_bg_head_lay);
-        Drawable drawable = this.getActivity().getResources().getDrawable(R.drawable.head_lay, null);
+        Drawable drawable = this.getActivity().getResources().getDrawable(R.drawable.head_lay);
+//        Drawable drawable=this.getActivity().getDrawable(R.drawable.head_lay);
         imageBgHeadView.setImageBitmap(ImageUtils.fastBlur(MyFragment.this.getActivity(), ImageUtils.drawableToBitmap(drawable), 12));
         hiddenNetworkImage();
         nicknameView = (TextView) view.findViewById(R.id.mine_name);

@@ -362,7 +362,7 @@ public class ModelPersonActivity extends Activity {
         // String appId = "wx967daebe835fbeac";
         // String appSecret = "5bb696d9ccd75a38c8a0bfe0675559b3";
         String appId = "wx6f4a5ebb3d2cd11e";
-        String appSecret = "9603f3903c1dab2b494de93c04c9026a";
+        String appSecret = "64710023bac7d1b314c1b3ed3db5949d";
 //        String appId="wxd570a10aaf918fa7";
 //        String appSecret="d4624c36b6795d1 d99dcf0547af5443d";
 
