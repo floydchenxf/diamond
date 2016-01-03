@@ -232,7 +232,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     needClear = true;
                     int k = (++moteType - 1) % 3 + 1;
                     checkMoteType(k);
-                    loadMoteInfo();
+                    loadMoteInfo(true);
                 }
 
 //                } else if (e2.getX() - e1.getX() > 100 && Math.abs(velocityX) > 50) {
@@ -338,14 +338,14 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             @Override
             public void onPullDownToRefresh() {
                 needClear = false;
-                loadMoteInfo();
+                loadMoteInfo(false);
                 mPullToRefreshListView.onRefreshComplete(false, true);
             }
 
             @Override
             public void onPullUpToRefresh() {
                 needClear = false;
-                loadMoteInfo();
+                loadMoteInfo(false);
                 mPullToRefreshListView.onRefreshComplete(false, true);
             }
         });
@@ -423,18 +423,24 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         femaleview2.setChecked(true);
     }
 
-    public void loadMoteInfo() {
-        loadDialog.show();
+    public void loadMoteInfo(final boolean needDialog) {
+        if (needDialog) {
+            loadDialog.show();
+        }
         IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
-                dataLoadingView.loadFail();
-                loadDialog.dismiss();
+                if (needDialog) {
+                    loadDialog.dismiss();
+                }
+                Toast.makeText(IndexFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(List<MoteInfoVO> moteInfoVOs) {
-                loadDialog.dismiss();
+                if (needDialog) {
+                    loadDialog.dismiss();
+                }
                 ++pageNo;
                 indexMoteAdapter.addAll(moteInfoVOs, needClear);
                 dataLoadingView.loadSuccess();
@@ -706,7 +712,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 1;
                 pageNo = 1;
                 needClear = true;
-                loadMoteInfo();
+                loadMoteInfo(true);
                 break;
 
             case R.id.male_colther:
@@ -720,7 +726,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 2;
                 pageNo = 1;
                 needClear = true;
-                loadMoteInfo();
+                loadMoteInfo(true);
                 break;
 
             case R.id.baby_colther:
@@ -734,7 +740,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 3;
                 pageNo = 1;
                 needClear = true;
-                loadMoteInfo();
+                loadMoteInfo(true);
                 break;
             case R.id.act_ls_fail_layout:
                 moteType = 1;
