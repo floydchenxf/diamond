@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.ui.DialogCreator;
@@ -68,7 +70,10 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), MessageItemActivity.class);
-                intent.putExtra("imgUrl", advList.get(position).getImgUrl());
+                if (GlobalParams.isDebug){
+                    Log.e("TAG_idd",advList.get(position).id+"");
+                }
+                intent.putExtra("id",advList.get(position).id);
                 startActivity(intent);
             }
         });
@@ -128,6 +133,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
 
             @Override
             public void onSuccess(List<AdvVO> advVOs) {
+
                 if (isFirst) {
                     dataLoadingView.loadSuccess();
                 } else {
