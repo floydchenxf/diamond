@@ -171,7 +171,7 @@ public class ImageUtils {
 	 * @param width	生成的宽度
 	 * @return
 	 */
-	public static Bitmap getRoundBitmap(Bitmap bitmap, int width,float radius) {
+	public static Bitmap getRoundBitmap(Bitmap bitmap, int width, float radius) {
 		Bitmap output = null;
 		try {
 			output = Bitmap.createBitmap(width, width, Config.ARGB_8888);
@@ -196,6 +196,31 @@ public class ImageUtils {
                 srcRect = new Rect(0, top, bitmapWidth, bitmapWidth);
             }
 
+			RectF rectF = new RectF(dstRect);
+			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+			canvas.drawRoundRect(rectF, radius, radius, paint);
+			paint.setXfermode(new PorterDuffXfermode(android.graphics.PorterDuff.Mode.SRC_IN));
+			canvas.drawBitmap(bitmap, srcRect, dstRect, paint);
+			canvas.save(Canvas.ALL_SAVE_FLAG);
+			canvas.restore();
+		}
+
+		return output;
+	}
+
+	public static Bitmap getOriginRoundBitmap(Bitmap bitmap, float radius) {
+		Bitmap output = null;
+		try {
+			output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+		} catch (OutOfMemoryError e) {
+			Log.d(TAG, e.getMessage(),e);
+			return null;
+		}
+		if(output!=null){
+			Canvas canvas = new Canvas(output);
+			canvas.drawColor(Color.TRANSPARENT);
+			Rect dstRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+			Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());;
 			RectF rectF = new RectF(dstRect);
 			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 			canvas.drawRoundRect(rectF, radius, radius, paint);

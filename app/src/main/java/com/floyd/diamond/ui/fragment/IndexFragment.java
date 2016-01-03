@@ -95,7 +95,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private int moteType = 1;
     private int pageNo = 1;
-    private int PAGE_SIZE  = 18;
+    private int PAGE_SIZE = 18;
 
     private boolean needClear;
 
@@ -105,6 +105,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private ScrollView productTypeLayout;
     private GestureDetector mGestureDetector;
+
+    private GestureDetector listViewGestureDetector;
 
     //品类红点
     private ImageView redHot1;
@@ -172,7 +174,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             @Override
             public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                Log.i(TAG, "-----onScroll----x:"+distanceX+"--------y:"+distanceY);
+                Log.i(TAG, "-----onScroll----x:" + distanceX + "--------y:" + distanceY);
                 if (Math.abs(distanceX) > 30) {
                     Toast.makeText(IndexFragment.this.getActivity(), "移动了", Toast.LENGTH_SHORT).show();
                 }
@@ -186,10 +188,93 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             @Override
             public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.i(TAG, "----onFling-----x:"+velocityX+"--------y:"+velocityY);
+                Log.i(TAG, "----onFling-----x:" + velocityX + "--------y:" + velocityY);
                 return false;
             }
         });
+
+        listViewGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
+            @Override
+            public boolean onDown(MotionEvent e) {
+                Log.i(TAG, "x1----"+e.getX());
+                return false;
+            }
+
+            @Override
+            public void onShowPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onSingleTapUp(MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+                Log.i(TAG, "onScroll------------vx:" + distanceX + "----vy:" + distanceY);
+                return false;
+            }
+
+            @Override
+            public void onLongPress(MotionEvent e) {
+
+            }
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (e1 == null || e2 == null) {
+                    return false;
+                }
+                if (e1.getX() - e2.getX() > 100 && velocityX > 50) {
+                    //animShowNextPage();
+                    pageNo = 1;
+                    needClear = true;
+                    int k = (++moteType - 1) % 3 + 1;
+                    checkMoteType(k);
+                    loadMoteInfo();
+                }
+
+//                } else if (e2.getX() - e1.getX() > 100 && Math.abs(velocityX) > 50) {
+//                    //animShowPrePage();
+//                    int k = --moteType-1%3+1;
+//                    checkMoteType(k);
+//                    loadMoteInfo();
+//                }
+                return false;
+            }
+        });
+    }
+
+    private void checkMoteType(int moteType) {
+        if (moteType == 1) {
+            femaleView1.setChecked(true);
+            femaleview2.setChecked(true);
+            maleView2.setChecked(false);
+            maleView1.setChecked(false);
+            babyView1.setChecked(false);
+            babyView2.setChecked(false);
+            this.moteType = moteType;
+            this.pageNo = 1;
+        } else if (moteType == 2) {
+            femaleView1.setChecked(false);
+            femaleview2.setChecked(false);
+            maleView2.setChecked(true);
+            maleView1.setChecked(true);
+            babyView1.setChecked(false);
+            babyView2.setChecked(false);
+            this.moteType = moteType;
+            this.pageNo = 1;
+        } else if (moteType == 3) {
+            femaleView1.setChecked(false);
+            femaleview2.setChecked(false);
+            maleView2.setChecked(false);
+            maleView1.setChecked(false);
+            babyView1.setChecked(true);
+            babyView2.setChecked(true);
+            this.moteType = moteType;
+            this.pageNo = 1;
+        }
     }
 
     @Override
@@ -211,9 +296,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
         initButton();
 
-        dataLoadingView.startLoading();
-
-        loadData();
+        loadData(true);
 
         init(view);
 
@@ -245,6 +328,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
                         break;
                 }
+
+                listViewGestureDetector.onTouchEvent(event);
                 return false;
             }
         });
@@ -291,15 +376,16 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     case MotionEvent.ACTION_UP:
                         break;
                 }
+
                 return false;
             }
         });
         return view;
     }
 
-    public void  init(View view){
-        guide= ((LinearLayout) view.findViewById(R.id.guide));
-        shuaixuan= ((TextView) view.findViewById(R.id.right));
+    public void init(View view) {
+        guide = ((LinearLayout) view.findViewById(R.id.guide));
+        shuaixuan = ((TextView) view.findViewById(R.id.right));
         //跳转到操作指引界面
         guide.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -338,6 +424,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     }
 
     public void loadMoteInfo() {
+        loadDialog.show();
         IndexManager.fetchMoteList(moteType, pageNo, PAGE_SIZE).startUI(new ApiCallback<List<MoteInfoVO>>() {
             @Override
             public void onError(int code, String errorInfo) {
@@ -361,16 +448,29 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     }
 
-    private void loadData() {
+    private void loadData(final boolean isFirst) {
+        if (isFirst) {
+            dataLoadingView.startLoading();
+        } else {
+            loadDialog.show();
+        }
         IndexManager.getIndexInfoJob().startUI(new ApiCallback<IndexVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                dataLoadingView.loadFail();
-                loadDialog.dismiss();
+                if (isFirst) {
+                    dataLoadingView.loadFail();
+                } else {
+                    loadDialog.dismiss();
+                }
             }
 
             @Override
             public void onSuccess(IndexVO indexVO) {
+                if (isFirst) {
+                    dataLoadingView.loadSuccess();
+                } else {
+                    loadDialog.dismiss();
+                }
                 mViewPagerContainer.setVisibility(View.VISIBLE);
                 mTopBannerList.clear();
                 List<AdvVO> advVOs = indexVO.advertList;
@@ -403,39 +503,39 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 mNavigationContainer.setVisibility(View.VISIBLE);
 
                 List<IndexItemVO> categoryPics = indexVO.categoryPics;
-                if (categoryPics == null||categoryPics.isEmpty()) {
+                if (categoryPics == null || categoryPics.isEmpty()) {
                     productTypeLayout.setVisibility(View.GONE);
                 } else {
                     productTypeLayout.setVisibility(View.VISIBLE);
-                    for (IndexItemVO itemVO:categoryPics) {
+                    for (IndexItemVO itemVO : categoryPics) {
                         int type = itemVO.type;
                         String url = itemVO.picUrl;
                         if (type == 1) {
                             femaleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 20);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 20);
                                 }
                             });
-                        } else if (type==2) {
+                        } else if (type == 2) {
                             maleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
                                 }
                             });
                         } else if (type == 3) {
                             babyProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
                                 }
                             });
                         } else if (type == 4) {
                             multiPriduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int)IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
                                 }
                             });
                         }
@@ -444,10 +544,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
 
                 List<MoteInfoVO> moteInfoVOs = indexVO.moteVOs;
-                loadDialog.dismiss();
                 ++pageNo;
                 indexMoteAdapter.addAll(moteInfoVOs, needClear);
-                dataLoadingView.loadSuccess();
             }
 
             @Override
@@ -471,7 +569,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         productTypeLayout.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-;                return mGestureDetector.onTouchEvent(event);
+                ;
+                return mGestureDetector.onTouchEvent(event);
             }
         });
 
@@ -598,7 +697,6 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         switch (v.getId()) {
             case R.id.female_colther:
             case R.id.female_colther_new:
-                loadDialog.show();
                 femaleView1.setChecked(true);
                 femaleview2.setChecked(true);
                 maleView2.setChecked(false);
@@ -613,7 +711,6 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             case R.id.male_colther:
             case R.id.male_colther_new:
-                loadDialog.show();
                 femaleView1.setChecked(false);
                 femaleview2.setChecked(false);
                 maleView2.setChecked(true);
@@ -628,7 +725,6 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             case R.id.baby_colther:
             case R.id.baby_colther_new:
-                loadDialog.show();
                 femaleView1.setChecked(false);
                 femaleview2.setChecked(false);
                 maleView2.setChecked(false);
@@ -644,7 +740,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 1;
                 pageNo = 1;
                 needClear = true;
-                loadData();
+                loadData(true);
                 break;
             case R.id.female_type:
                 Intent it = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
@@ -724,10 +820,10 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     }
 
     /**
-     *跳转到ListView的最上方
+     * 跳转到ListView的最上方
      */
-    public void gotoTop(){
-        if(mListView!=null){
+    public void gotoTop() {
+        if (mListView != null) {
             mListView.setSelection(0);
         }
     }
