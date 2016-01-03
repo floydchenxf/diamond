@@ -49,47 +49,15 @@ public class ChooseResultActivity extends Activity {
     private PullToRefreshListView mPullToRefreshListView;
     private boolean needClear;
     private GridLayoutManager mLayoutManager;
+    private MasonryAdapter adapter;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(android.os.Message msg) {
             super.handleMessage(msg);
 
-            if (allModel==null){
-                Toast.makeText(ChooseResultActivity.this,"喵~~你要找的模特暂时还没有哦，去看看其他的吧~~",Toast.LENGTH_SHORT).show();
-                finish();
-            }else{
-                //设置adapter
-                MasonryAdapter adapter = new MasonryAdapter(allModel, ChooseResultActivity.this, new MasonryAdapter.ChangeText() {
-                    @Override
-                    public void setText(String tag, boolean isChecked) {
-                        CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
-                        if (cb != null) {
-                            if (isChecked) {
-                                cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
-                            } else {
-                                cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
-                            }
-                        }
-                    }
-                });
-                recyclerView.setAdapter(adapter);
-
-                //点击跳转到模特界面
-                adapter.setMyOnItemClickListener(new MasonryAdapter.MyOnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int postion) {
-                        Intent intent = new Intent(ChooseResultActivity.this, MoteDetailActivity.class);
-                        intent.putExtra("moteId", allModel.get(postion).getId());
-                        if (GlobalParams.isDebug) {
-                            Log.e("TAG_moteId", allModel.get(postion).getId() + "");
-                        }
-                        startActivity(intent);
-                    }
-                });
+               adapter.notifyDataSetChanged();
             }
 
-
-        }
     };
 
     @Override
@@ -100,6 +68,35 @@ public class ChooseResultActivity extends Activity {
         init();
 
         setData();
+
+        //设置adapter
+        adapter = new MasonryAdapter(allModel, ChooseResultActivity.this, new MasonryAdapter.ChangeText() {
+            @Override
+            public void setText(String tag, boolean isChecked) {
+                CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
+                if (cb != null) {
+                    if (isChecked) {
+                        cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+                    } else {
+                        cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                    }
+                }
+            }
+        });
+        recyclerView.setAdapter(adapter);
+
+        //点击跳转到模特界面
+        adapter.setMyOnItemClickListener(new MasonryAdapter.MyOnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int postion) {
+                Intent intent = new Intent(ChooseResultActivity.this, MoteDetailActivity.class);
+                intent.putExtra("moteId", allModel.get(postion).getId());
+                if (GlobalParams.isDebug) {
+                    Log.e("TAG_moteId", allModel.get(postion).getId() + "");
+                }
+                startActivity(intent);
+            }
+        });
 
     }
 

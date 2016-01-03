@@ -71,8 +71,10 @@ public class CareDialogActivity extends Activity {
                     @Override
                     public void onResponse(String response) {
                         if (GlobalParams.isDebug) {
-                            Log.e("response", response);
+                            Log.e("response_success", response);
+                            Log.e("response_list",deleteModel.toString());
                         }
+
 
                         JSONObject object= null;
                         try {

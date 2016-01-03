@@ -163,7 +163,7 @@ public class SeekBarPressure2 extends View {
         mThumbLow.draw(canvas);
 
         //后滑块
-        mThumbHigh.setBounds((int)(mOffsetHigh + mThumbWidth / 2-16), mThumbMarginTop+2, (int)(mOffsetHigh + mThumbWidth / 2-13), mThumbHeight + mThumbMarginTop-2);
+        mThumbHigh.setBounds((int)(mOffsetHigh-2), mThumbMarginTop+2, (int)(mOffsetHigh+2), mThumbHeight + mThumbMarginTop-2);
         mThumbHigh.draw(canvas);
 
         double progressLow = formatDouble((mOffsetLow - mThumbWidth / 2) * 100 / mDistance);

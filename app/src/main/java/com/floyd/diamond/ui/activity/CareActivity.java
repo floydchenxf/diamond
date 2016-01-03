@@ -92,13 +92,15 @@ public class CareActivity extends Activity {
 
                         bg_recycle.setLayoutParams(new RelativeLayout.LayoutParams(view.getWidth(),view.getHeight()));
 
-                       // Toast.makeText(CareActivity.this, "要删除了哦~~", Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(CareActivity.this, "要删除了哦~~", Toast.LENGTH_SHORT).show();
 
                         deleteModel.add(allModel.get(postion).getMoteId()+"");
 
                     }
                 });
             }
+
+
         }
     };
 
@@ -109,13 +111,11 @@ public class CareActivity extends Activity {
 
         init();
 
-
         setData();
 
         //设置adapter
         adapter = new CareAdapter(allModel, CareActivity.this,deleteModel);
         recyclerView.setAdapter(adapter);
-
 
     }
 
@@ -180,14 +180,22 @@ public class CareActivity extends Activity {
 
                     handler.sendEmptyMessage(2);
                 } else if (editOrdelete.equals("删除")) {
-                    Intent intent=new Intent(CareActivity.this, CareDialogActivity.class);
-                    intent.putStringArrayListExtra("deleteList", deleteModel);
-                    startActivity(intent);
+                    if (deleteModel.size()==0){
+                        Toast.makeText(CareActivity.this,"~~请选择取消关注的模特~~",Toast.LENGTH_SHORT).show();
+                    }else{
+                        if(GlobalParams.isDebug){
+                            Log.e("deleteModel",deleteModel.toString());
+                        }
+                        Intent intent=new Intent(CareActivity.this, CareDialogActivity.class);
+                        intent.putStringArrayListExtra("deleteList", deleteModel);
+                        startActivity(intent);
 
-                    edit.setText("编辑");
-                    editOrdelete = "编辑";
+                        edit.setText("编辑");
+                        editOrdelete = "编辑";
 
-                    handler.sendEmptyMessage(3);
+                        handler.sendEmptyMessage(3);
+
+                    }
 
                 }
             }
