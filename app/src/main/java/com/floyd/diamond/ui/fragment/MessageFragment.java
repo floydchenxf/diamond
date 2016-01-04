@@ -155,7 +155,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.act_lsloading:
+            case R.id.act_ls_fail_layout:
                 setData(true);
                 break;
         }

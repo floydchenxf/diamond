@@ -189,7 +189,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     initAndFillGoodsOperate(taskProcessVO);
                 }
 
-                if (status >=6 && status < 8) {
+                if (status >=5 && status < 8) {
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
                     confirmGoodsTimeView.setText(dateStr);

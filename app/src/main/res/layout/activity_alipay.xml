@@ -54,6 +54,7 @@
             android:layout_marginRight="12dp"
             android:background="@drawable/common_round_bord_bg"
             android:hint="提取金额"
+            android:inputType="numberDecimal"
             android:paddingLeft="6dp"
             android:singleLine="true"
             android:textColor="#666666"
