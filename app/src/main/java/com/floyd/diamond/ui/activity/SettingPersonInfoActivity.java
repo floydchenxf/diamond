@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +52,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     private TextView fileSizeView;
     private UMSocialService mShare;
     private LoginVO loginVO;
+    private Switch msgSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

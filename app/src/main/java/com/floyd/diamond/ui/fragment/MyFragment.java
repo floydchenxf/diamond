@@ -305,6 +305,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     hiddenNetworkImage();
                 }
             }
+
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {

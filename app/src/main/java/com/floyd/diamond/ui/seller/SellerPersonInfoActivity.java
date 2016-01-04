@@ -3,6 +3,7 @@ package com.floyd.diamond.ui.seller;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -42,6 +43,7 @@ import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.ProfileAddressActivity;
 import com.floyd.diamond.ui.activity.SetReturnItemMobileActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 import com.floyd.pickview.popwindow.DatePickerPopWin;
 
@@ -257,79 +259,32 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_back:
+                if (isEditorMode) {
+                    final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                    builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            isEditorMode = false;
+                            doSaveInfo();
+                        }
+                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            SellerPersonInfoActivity.this.finish();
+                        }
+                    });
+
+                    builder.show();
+                    return;
+                }
                 this.finish();
                 break;
             case R.id.right:
                 if (isEditorMode) {
                     isEditorMode = false;
-                    hiddenJiantou();
-                    removeClickListener();
-                    disableEditable();
-                    rightView.setText("编辑");
-                    dataLoadingDialog.show();
-                    String weixin = weixinView.getText().toString();
-                    String alipayId = alipayView.getText().toString();
-                    String qq = qqView.getText().toString();
-                    final String nicknameStr = nickNameView.getText().toString();
-                    final String shopNameStr = shopNameView.getText().toString();
-                    String returnItemMobile = returnItemMobileView.getText().toString();
-
-                    if (areaDetailVO != null) {
-                        userVO.address = areaDetailVO.addressDetail;
-                        userVO.provinceId = areaDetailVO.provideId;
-                        userVO.cityId = areaDetailVO.cityId;
-                        userVO.districtId = areaDetailVO.districtId;
-                    }
-
-                    userVO.nickname = nicknameStr;
-                    userVO.weixin = weixin;
-                    userVO.alipayId = alipayId;
-                    userVO.qq = qq;
-
-                    String token = LoginManager.getLoginInfo(this).token;
-                    SellerInfoUpdateParams sellerInfoUpdateParams = new SellerInfoUpdateParams();
-                    sellerInfoUpdateParams.token = token;
-                    if (areaDetailVO != null) {
-                        sellerInfoUpdateParams.address = areaDetailVO.addressDetail;
-                        sellerInfoUpdateParams.provineId = areaDetailVO.provideId;
-                        sellerInfoUpdateParams.cityId = areaDetailVO.cityId;
-                        sellerInfoUpdateParams.districtId = areaDetailVO.districtId;
-                    }
-                    sellerInfoUpdateParams.alipayId = alipayId;
-                    sellerInfoUpdateParams.weixin = weixin;
-                    sellerInfoUpdateParams.qq = qq;
-                    sellerInfoUpdateParams.nickname = nicknameStr;
-                    sellerInfoUpdateParams.shopName = shopNameStr;
-                    sellerInfoUpdateParams.returnItemMobile = returnItemMobile;
-
-                    SellerManager.updateSellerInfo(sellerInfoUpdateParams).startUI(new ApiCallback<Boolean>() {
-                        @Override
-                        public void onError(int code, String errorInfo) {
-                            if (!SellerPersonInfoActivity.this.isFinishing()) {
-                                dataLoadingDialog.dismiss();
-                                Toast.makeText(SellerPersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onSuccess(Boolean aBoolean) {
-                            if (!SellerPersonInfoActivity.this.isFinishing()) {
-                                dataLoadingDialog.dismiss();
-                            }
-
-                            LoginVO loginVO = LoginManager.getLoginInfo(SellerPersonInfoActivity.this);
-                            loginVO.user = userVO;
-                            LoginManager.saveLoginInfo(SellerPersonInfoActivity.this, loginVO);
-                            sellerInfoVO.nickname = nicknameStr;
-                            sellerInfoVO.shopName = shopNameStr;
-                            SellerManager.saveSellerInfo(SellerPersonInfoActivity.this, sellerInfoVO);
-                        }
-
-                        @Override
-                        public void onProgress(int progress) {
-
-                        }
-                    });
+                    doSaveInfo();
                 } else {
                     isEditorMode = true;
                     showJiantou();
@@ -413,9 +368,103 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
     }
 
+    private void doSaveInfo() {
+        hiddenJiantou();
+        removeClickListener();
+        disableEditable();
+        rightView.setText("编辑");
+        dataLoadingDialog.show();
+        String weixin = weixinView.getText().toString();
+        String alipayId = alipayView.getText().toString();
+        String qq = qqView.getText().toString();
+        final String nicknameStr = nickNameView.getText().toString();
+        final String shopNameStr = shopNameView.getText().toString();
+        String returnItemMobile = returnItemMobileView.getText().toString();
+
+        if (areaDetailVO != null) {
+            userVO.address = areaDetailVO.addressDetail;
+            userVO.provinceId = areaDetailVO.provideId;
+            userVO.cityId = areaDetailVO.cityId;
+            userVO.districtId = areaDetailVO.districtId;
+        }
+
+        userVO.nickname = nicknameStr;
+        userVO.weixin = weixin;
+        userVO.alipayId = alipayId;
+        userVO.qq = qq;
+
+        String token = LoginManager.getLoginInfo(this).token;
+        SellerInfoUpdateParams sellerInfoUpdateParams = new SellerInfoUpdateParams();
+        sellerInfoUpdateParams.token = token;
+        if (areaDetailVO != null) {
+            sellerInfoUpdateParams.address = areaDetailVO.addressDetail;
+            sellerInfoUpdateParams.provineId = areaDetailVO.provideId;
+            sellerInfoUpdateParams.cityId = areaDetailVO.cityId;
+            sellerInfoUpdateParams.districtId = areaDetailVO.districtId;
+        }
+        sellerInfoUpdateParams.alipayId = alipayId;
+        sellerInfoUpdateParams.weixin = weixin;
+        sellerInfoUpdateParams.qq = qq;
+        sellerInfoUpdateParams.nickname = nicknameStr;
+        sellerInfoUpdateParams.shopName = shopNameStr;
+        sellerInfoUpdateParams.returnItemMobile = returnItemMobile;
+
+        SellerManager.updateSellerInfo(sellerInfoUpdateParams).startUI(new ApiCallback<Boolean>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                if (!SellerPersonInfoActivity.this.isFinishing()) {
+                    dataLoadingDialog.dismiss();
+                    Toast.makeText(SellerPersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                if (!SellerPersonInfoActivity.this.isFinishing()) {
+                    dataLoadingDialog.dismiss();
+                }
+
+                LoginVO loginVO = LoginManager.getLoginInfo(SellerPersonInfoActivity.this);
+                loginVO.user = userVO;
+                LoginManager.saveLoginInfo(SellerPersonInfoActivity.this, loginVO);
+                sellerInfoVO.nickname = nicknameStr;
+                sellerInfoVO.shopName = shopNameStr;
+                SellerManager.saveSellerInfo(SellerPersonInfoActivity.this, sellerInfoVO);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+    }
+
     public void onBackPressed() {
         if (!this.isFinishing()) {
             hiddenPopup();
+
+            if (isEditorMode) {
+                final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        isEditorMode = false;
+                        doSaveInfo();
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        SellerPersonInfoActivity.this.finish();
+                    }
+                });
+
+                builder.show();
+                return;
+            }
+
+            this.finish();
         }
     }
 

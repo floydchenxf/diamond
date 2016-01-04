@@ -3,6 +3,7 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -42,6 +43,7 @@ import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 import com.floyd.pickview.LoopListener;
 import com.floyd.pickview.LoopView;
@@ -463,64 +465,32 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.left:
+                if (isEditorMode) {
+                    final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                    builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            isEditorMode = false;
+                            doSaveInfo();
+                        }
+                    }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            PersonInfoActivity.this.finish();
+                        }
+                    });
+
+                    builder.show();
+                    return;
+                }
                 this.finish();
                 break;
             case R.id.right:
                 if (isEditorMode) {
                     isEditorMode = false;
-                    hiddenJiantou();
-                    removeClickListener();
-                    disableEditable();
-                    rightView.setText("编辑");
-                    dataLoadingDialog.show();
-                    String weixin = weixinView.getText().toString();
-                    String alipayId = alipayView.getText().toString();
-                    String birthdayStr = birthdayView.getText().toString();
-                    String nicknameStr = nicknameView.getText().toString();
-                    int gender = genderType;
-                    String height = heightView.getText().toString();
-
-
-                    userVO.gender = genderType;
-                    userVO.height = Integer.parseInt(height);
-                    userVO.shape = heightType;
-                    if (areaDetailVO != null) {
-                        userVO.address = areaDetailVO.addressDetail;
-                        userVO.provinceId = areaDetailVO.provideId;
-                        userVO.cityId = areaDetailVO.cityId;
-                        userVO.districtId = areaDetailVO.districtId;
-                    }
-
-                    userVO.nickname = nicknameStr;
-                    userVO.birdthdayStr = birthdayStr;
-                    userVO.weixin = weixin;
-                    userVO.alipayId = alipayId;
-
-                    String token = LoginManager.getLoginInfo(this).token;
-                    MoteManager.updateMoteInfo(userVO, token).startUI(new ApiCallback<UserVO>() {
-                        @Override
-                        public void onError(int code, String errorInfo) {
-                            if (!PersonInfoActivity.this.isFinishing()) {
-                                dataLoadingDialog.dismiss();
-                            }
-                        }
-
-                        @Override
-                        public void onSuccess(UserVO userVO) {
-                            if (!PersonInfoActivity.this.isFinishing()) {
-                                dataLoadingDialog.dismiss();
-                            }
-
-                            LoginVO loginVO = LoginManager.getLoginInfo(PersonInfoActivity.this);
-                            loginVO.user = userVO;
-                            LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
-                        }
-
-                        @Override
-                        public void onProgress(int progress) {
-
-                        }
-                    });
+                    doSaveInfo();
                 } else {
                     isEditorMode = true;
                     showJiantou();
@@ -650,9 +620,87 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     }
 
+    private void doSaveInfo() {
+        hiddenJiantou();
+        removeClickListener();
+        disableEditable();
+        rightView.setText("编辑");
+        dataLoadingDialog.show();
+        String weixin = weixinView.getText().toString();
+        String alipayId = alipayView.getText().toString();
+        String birthdayStr = birthdayView.getText().toString();
+        String nicknameStr = nicknameView.getText().toString();
+        int gender = genderType;
+        String height = heightView.getText().toString();
+
+
+        userVO.gender = genderType;
+        userVO.height = Integer.parseInt(height);
+        userVO.shape = heightType;
+        if (areaDetailVO != null) {
+            userVO.address = areaDetailVO.addressDetail;
+            userVO.provinceId = areaDetailVO.provideId;
+            userVO.cityId = areaDetailVO.cityId;
+            userVO.districtId = areaDetailVO.districtId;
+        }
+
+        userVO.nickname = nicknameStr;
+        userVO.birdthdayStr = birthdayStr;
+        userVO.weixin = weixin;
+        userVO.alipayId = alipayId;
+
+        String token = LoginManager.getLoginInfo(this).token;
+        MoteManager.updateMoteInfo(userVO, token).startUI(new ApiCallback<UserVO>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                if (!PersonInfoActivity.this.isFinishing()) {
+                    dataLoadingDialog.dismiss();
+                }
+            }
+
+            @Override
+            public void onSuccess(UserVO userVO) {
+                if (!PersonInfoActivity.this.isFinishing()) {
+                    dataLoadingDialog.dismiss();
+                }
+
+                LoginVO loginVO = LoginManager.getLoginInfo(PersonInfoActivity.this);
+                loginVO.user = userVO;
+                LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+    }
+
     public void onBackPressed() {
         if (!this.isFinishing()) {
             hiddenPopup();
+            if (isEditorMode) {
+                final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        isEditorMode = false;
+                        doSaveInfo();
+                    }
+                }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        PersonInfoActivity.this.finish();
+                    }
+                });
+
+                builder.show();
+                return;
+            }
+
+            this.finish();
         }
     }
 
