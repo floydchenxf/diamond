@@ -39,6 +39,8 @@ public class DiamodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        CrashHandler handler = CrashHandler.getInstance();
+        handler.init();
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
         IMChannel.setApplication(this);
 
