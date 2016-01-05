@@ -178,7 +178,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
         }
 
-        loadData(true);
+        loadData(true, true);
         return view;
     }
 
@@ -198,14 +198,16 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     public void onResume() {
         super.onResume();
-        loadData(false);
+        loadData(false, false);
     }
 
-    private void loadData(final boolean isFirst) {
-        if (isFirst) {
-            dataLoadingView.startLoading();
-        } else {
-            dataLoadingDialog.show();
+    private void loadData(final boolean needDialog, final boolean isFirst) {
+        if (needDialog) {
+            if (isFirst) {
+                dataLoadingView.startLoading();
+            } else {
+                dataLoadingDialog.show();
+            }
         }
         if (loginVO.isModel()) {
             //模特儿
@@ -237,20 +239,24 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             MoteManager.fetchMoteInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<MoteInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    if (isFirst) {
-                        dataLoadingView.loadFail();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadFail();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                 }
 
                 @Override
                 public void onSuccess(MoteInfoVO moteInfoVO) {
                     Log.i(TAG, "---" + moteInfoVO);
-                    if (isFirst) {
-                        dataLoadingView.loadSuccess();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadSuccess();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                     shopView.setText(moteInfoVO.orderNum + "");
                     qiangView.setText(moteInfoVO.goodeEvalRate + "%");
@@ -309,20 +315,24 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    if (isFirst) {
-                        dataLoadingView.loadFail();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadFail();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(SellerInfoVO vo) {
-                    if (isFirst) {
-                        dataLoadingView.loadSuccess();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadSuccess();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                     shopView.setText(vo.shopName);
                     nicknameView.setText(vo.nickname);
@@ -413,7 +423,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 break;
             case R.id.act_ls_fail_layout:
                 //加载失败刷新
-                loadData(true);
+                loadData(true, true);
                 break;
             case R.id.pictrue:
                 Log.i(TAG, "--------model type:" + loginVO.isModel());
