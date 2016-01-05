@@ -119,6 +119,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                     newTaskButton.setChecked(true);
                     newTaskButton.setTextColor(Color.WHITE);
                 } else {
+                    newTaskButton.setOnClickListener(null);
                     newTaskButton.setTextColor(Color.parseColor("#666666"));
                     newTaskButton.setChecked(false);
                 }
@@ -228,6 +229,9 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
                     }
                 });
+                break;
+            case R.id.act_ls_fail_layout:
+                loadData(true);
                 break;
         }
 
