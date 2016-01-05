@@ -54,4 +54,35 @@
         android:layout_height="28dp"
         android:layout_centerInParent="true"/>
 
+    <RelativeLayout
+        android:id="@+id/vote_pic_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="12dp">
+
+        <ImageView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/round_bg" />
+
+        <CheckedTextView
+            android:id="@+id/vote_pic_view"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:drawableTop="@drawable/zan_nomal"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:text="30"
+            android:textColor="@color/white"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+
+
+
+
 </RelativeLayout>

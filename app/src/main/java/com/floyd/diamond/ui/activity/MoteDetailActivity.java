@@ -167,6 +167,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     picViewObject.setPicPreViewUrl(taskPic.getPreviewImageUrl());
                     picViewObject.setPicUrl(taskPic.getDetailImageUrl());
                     picViewObject.setPicType(PicViewObject.IMAGE);
+                    picViewObject.setExtData(taskPic.id + "");
                     picViewList.add(picViewObject);
                 }
                 MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);

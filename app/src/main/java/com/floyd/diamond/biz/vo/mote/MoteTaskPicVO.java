@@ -14,6 +14,8 @@ public class MoteTaskPicVO {
     public long updateTime;
     public long userId;
     public long taskId;
+    public int upvote;
+    public boolean isUpvoted;
 
     public String getPreviewImageUrl() {
         return CommonUtil.getImage_200(this.imgUrl);

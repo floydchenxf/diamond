@@ -579,4 +579,13 @@ public class MoteManager {
         params.put("token",token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UserVO.class);
     }
+
+    public static AsyncJob<MoteTaskPicVO> fetchMoteTaskPicDetail(long id) {
+        String url = APIConstants.HOST +  APIConstants.API_TASK_PIC_DETAIL;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id",id+"");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
+    }
+
+
 }

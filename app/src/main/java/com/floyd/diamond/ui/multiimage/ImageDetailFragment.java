@@ -6,6 +6,7 @@ import android.content.ContentValues;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,7 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.ui.multiimage.base.PicViewObject;
 import com.floyd.diamond.ui.multiimage.gif.GifFrame;
 import com.floyd.diamond.utils.WXUtil;
@@ -55,6 +60,11 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     private AlertDialog.Builder mBuilder;
     private AlertDialog mAlertDialog;
     private PicViewObject picView;
+
+    private View picVoteLayout;
+    private TextView picVoteTextView;
+    private boolean isVoted;
+
 
     private OnImageFragmentListener mCallback;
 
@@ -138,6 +148,57 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
         final View v = inflater.inflate(R.layout.image_detail_fragment,
                 container, false);
+
+        picVoteLayout = v.findViewById(R.id.vote_pic_layout);
+        picVoteTextView = (TextView)v.findViewById(R.id.vote_pic_view);
+
+        if (TextUtils.isEmpty(picView.getExtData())) {
+            picVoteLayout.setVisibility(View.GONE);
+        } else {
+            picVoteLayout.setVisibility(View.GONE);
+            Long id = Long.parseLong(picView.getExtData());
+            MoteManager.fetchMoteTaskPicDetail(id).startUI(new ApiCallback<MoteTaskPicVO>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+
+                }
+
+                @Override
+                public void onSuccess(MoteTaskPicVO moteTaskPicVO) {
+                    picVoteLayout.setVisibility(View.VISIBLE);
+                    isVoted = moteTaskPicVO.isUpvoted;
+                    Drawable zan = null;
+                    if (isVoted) {
+                        if(android.os.Build.VERSION.SDK_INT >= 21){
+                            zan = getResources().getDrawable(R.drawable.zan_pressed, ImageDetailFragment.this.getActivity().getTheme());
+                        } else {
+                            zan = getResources().getDrawable(R.drawable.zan_pressed);
+                        }
+                        zan.setBounds(0, 0, zan.getMinimumWidth(), zan.getMinimumHeight());
+                        picVoteTextView.setTag(moteTaskPicVO);
+                        picVoteTextView.setOnClickListener(ImageDetailFragment.this);
+                    } else {
+                        if(android.os.Build.VERSION.SDK_INT >= 21){
+                            zan = getResources().getDrawable(R.drawable.zan_nomal, ImageDetailFragment.this.getActivity().getTheme());
+                        } else {
+                            zan = getResources().getDrawable(R.drawable.zan_nomal);
+                        }
+                        zan.setBounds(0, 0, zan.getMinimumWidth(), zan.getMinimumHeight());
+                        picVoteTextView.setTag(moteTaskPicVO);
+                        picVoteTextView.setOnClickListener(ImageDetailFragment.this);
+                    }
+                    picVoteTextView.setCompoundDrawables(null, zan, null, null);
+                    picVoteTextView.setText(moteTaskPicVO.upvote + "");
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+        }
+
+        picVoteLayout.setVisibility(View.GONE);
         v.findViewById(R.id.image_detail_layout).setOnClickListener(this);
         mImageView = (TouchImageView) v.findViewById(R.id.image_detail_view);
         mImageView.setOnImageTouchListener(this);
@@ -514,8 +575,73 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                     mCallback.onSingleTouch();
                 }
                 break;
+            case R.id.vote_pic_view:
+                final MoteTaskPicVO moteTaskPicVO = (MoteTaskPicVO)v.getTag();
+                if (!LoginManager.isLogin(ImageDetailFragment.this.getActivity())) {
+                    return;
+                }
+
+                String token = LoginManager.getLoginInfo(ImageDetailFragment.this.getActivity()).token;
+                if (isVoted) {
+
+                    MoteManager.cancelPicUpVote(moteTaskPicVO.id, token).startUI(new ApiCallback<Boolean>() {
+                        @Override
+                        public void onError(int code, String errorInfo) {
+                            Toast.makeText(ImageDetailFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            isVoted = false;
+                            Drawable zan = null;
+                            if(android.os.Build.VERSION.SDK_INT >= 21){
+                                zan = getResources().getDrawable(R.drawable.zan_nomal, ImageDetailFragment.this.getActivity().getTheme());
+                            } else {
+                                zan = getResources().getDrawable(R.drawable.zan_nomal);
+                            }
+                            zan.setBounds(0, 0, zan.getMinimumWidth(), zan.getMinimumHeight());
+                            picVoteTextView.setCompoundDrawables(null, zan, null, null);
+                            picVoteTextView.setText((--moteTaskPicVO.upvote)+"");
+                        }
+
+                        @Override
+                        public void onProgress(int progress) {
+
+                        }
+                    });
+                } else {
+                    MoteManager.picUpVote(moteTaskPicVO.id, token).startUI(new ApiCallback<Boolean>() {
+                        @Override
+                        public void onError(int code, String errorInfo) {
+                            Toast.makeText(ImageDetailFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean aBoolean) {
+                            isVoted = true;
+                            Drawable zan = null;
+                            if(android.os.Build.VERSION.SDK_INT >= 21){
+                                zan = getResources().getDrawable(R.drawable.zan_pressed, ImageDetailFragment.this.getActivity().getTheme());
+                            } else {
+                                zan = getResources().getDrawable(R.drawable.zan_pressed);
+                            }
+                            zan.setBounds(0, 0, zan.getMinimumWidth(), zan.getMinimumHeight());
+                            picVoteTextView.setCompoundDrawables(null, zan, null, null);
+                            picVoteTextView.setText((++moteTaskPicVO.upvote) + "");
+                        }
+
+                        @Override
+                        public void onProgress(int progress) {
+
+                        }
+                    });
+
+
+                }
+                break;
             default:
                 break;
+
         }
     }
 
