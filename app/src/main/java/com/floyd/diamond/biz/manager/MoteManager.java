@@ -586,6 +586,4 @@ public class MoteManager {
         params.put("id",id+"");
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
     }
-
-
 }
