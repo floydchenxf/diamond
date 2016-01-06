@@ -57,13 +57,24 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/head"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:layout_marginLeft="10dip"
-                android:scaleType="centerCrop"
-                android:src="@drawable/head" />
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/head"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_marginLeft="10dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/head" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dip"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/circle_shape"/>
+            </RelativeLayout>
 
 
             <LinearLayout
@@ -90,6 +101,13 @@
                     android:textSize="12sp" />
 
             </LinearLayout>
+            <View
+                android:layout_width="1px"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@color/black"/>
 
             <CheckedTextView
                 android:id="@+id/guanzhu"

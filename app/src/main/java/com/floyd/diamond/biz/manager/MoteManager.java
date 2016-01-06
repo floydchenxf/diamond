@@ -23,6 +23,7 @@ import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
+import com.floyd.diamond.biz.vo.mote.UserExtVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -68,7 +69,7 @@ public class MoteManager {
         return vo;
     }
 
-    public static AsyncJob<MoteInfoVO> fetchMoteInfoJob(final Context context, String accessToken) {
+    public static AsyncJob<MoteInfoVO> fetchMoteInfoJob(String accessToken) {
         String url = APIConstants.HOST + APIConstants.API_MY_MOTE_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", accessToken);
@@ -98,12 +99,12 @@ public class MoteManager {
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> addFollow(long moteId, String token) {
+    public static AsyncJob<Integer> addFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
         params.put("moteId", moteId + "");
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Integer.class);
     }
 
     /**
@@ -113,12 +114,12 @@ public class MoteManager {
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> cancelFollow(long moteId, String token) {
+    public static AsyncJob<Integer> cancelFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
         params.put("moteId", moteId + "");
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Integer.class);
     }
 
     /**
@@ -585,5 +586,44 @@ public class MoteManager {
         Map<String, String> params = new HashMap<String, String>();
         params.put("id",id+"");
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
+    }
+
+    public static AsyncJob<UserExtVO> fetchUserExtInfo(final String token) {
+        AsyncJob<UserVO> userJob = getUserInfo(token);
+        AsyncJob<UserExtVO> aa = userJob.flatMap(new Func<UserVO, AsyncJob<UserExtVO>>() {
+            @Override
+            public AsyncJob<UserExtVO> call(final UserVO userVO) {
+                AsyncJob<UserExtVO> bb = MoteManager.fetchMoteInfoJob(token).flatMap(new Func<MoteInfoVO, AsyncJob<UserExtVO>>() {
+                    @Override
+                    public AsyncJob<UserExtVO> call(final MoteInfoVO moteInfoVO) {
+                        return new AsyncJob<UserExtVO>() {
+                            @Override
+                            public void start(ApiCallback<UserExtVO> callback) {
+                                UserExtVO userExtVO = new UserExtVO();
+                                userExtVO.fenNum = moteInfoVO.fenNum;
+                                userExtVO.followNum = moteInfoVO.followNum;
+                                userExtVO.goodeEvalRate = moteInfoVO.goodeEvalRate;
+                                userExtVO.orderNum = moteInfoVO.orderNum;
+                                userExtVO.address = userVO.address;
+                                userExtVO.alipayId = userVO.alipayId;
+                                userExtVO.areaId = userVO.areaId;
+                                userExtVO.authenPic1 = userVO.authenPic1;
+                                userExtVO.authenPic2 = userVO.authenPic2;
+                                userExtVO.authenPic3 = userVO.authenPic3;
+                                userExtVO.authenStatus = userVO.authenStatus;
+                                userExtVO.avartUrl = userVO.avartUrl;
+                                userExtVO.birdthday = userVO.birdthday;
+                                userExtVO.birdthdayStr = userVO.birdthdayStr;
+                                userExtVO.idcardPic = userVO.idcardPic;
+                                callback.onSuccess(userExtVO);
+                            }
+                        };
+                    }
+                });
+
+                return bb;
+            }
+        });
+        return aa;
     }
 }

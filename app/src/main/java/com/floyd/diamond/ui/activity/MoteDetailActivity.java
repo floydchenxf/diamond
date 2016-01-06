@@ -441,7 +441,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         loadingDialog.show();
         LoginVO vo = LoginManager.getLoginInfo(this);
         if (!isFollow) {
-            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
+            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MoteDetailActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -451,7 +451,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
+                public void onSuccess(Integer aBoolean) {
                     Toast.makeText(MoteDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
                         loadingDialog.dismiss();
@@ -467,7 +467,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
             });
         } else {
-            MoteManager.cancelFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
+            MoteManager.cancelFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MoteDetailActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -477,12 +477,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
+                public void onSuccess(Integer num) {
                     Toast.makeText(MoteDetailActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
                         loadingDialog.dismiss();
                     }
-                    guanzhuView.setText("关注度:" + infoVO.followNum);
+                    guanzhuView.setText("关注度:" + num);
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }

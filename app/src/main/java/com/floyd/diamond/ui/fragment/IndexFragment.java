@@ -62,7 +62,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private static final String TAG = "IndexFragment";
     public static final int MIN_JULI = 800;
-    public static final int MIN_VELOCITY_X = 150;
+    public static final int MIN_VELOCITY_X = 130;
 
     private static int BANNER_HEIGHT_IN_DP = 300;
     public static final int CHANGE_BANNER_HANDLER_MSG_WHAT = 51;

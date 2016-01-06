@@ -51,6 +51,10 @@ public class UserVO implements Serializable {
         return CommonUtil.getImage_200(avartUrl);
     }
 
+    public String getDetailUrl() {
+        return CommonUtil.getImage_800(avartUrl);
+    }
+
     public String getAuthPicPreview1() {
         return CommonUtil.getImage_400(authenPic1);
     }

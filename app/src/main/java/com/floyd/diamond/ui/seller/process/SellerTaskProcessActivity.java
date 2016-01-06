@@ -430,7 +430,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         dataLoadingDailog.show();
         LoginVO vo = LoginManager.getLoginInfo(this);
         if (!isFollow) {
-            MoteManager.addFollow(taskProcessVO.user.id, vo.token).startUI(new ApiCallback<Boolean>() {
+            MoteManager.addFollow(taskProcessVO.user.id, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(SellerTaskProcessActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -440,7 +440,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
+                public void onSuccess(Integer num) {
                     Toast.makeText(SellerTaskProcessActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                     if (!SellerTaskProcessActivity.this.isFinishing()) {
                         dataLoadingDailog.dismiss();
@@ -456,7 +456,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
             });
         } else {
-            MoteManager.cancelFollow(taskProcessVO.user.id, vo.token).startUI(new ApiCallback<Boolean>() {
+            MoteManager.cancelFollow(taskProcessVO.user.id, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(SellerTaskProcessActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -466,12 +466,12 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
+                public void onSuccess(Integer num) {
                     Toast.makeText(SellerTaskProcessActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
                     if (!SellerTaskProcessActivity.this.isFinishing()) {
                         dataLoadingDailog.dismiss();
                     }
-                    guanzhuView.setText("关注度:" + moteDetail.followNum);
+                    guanzhuView.setText("关注度:" + num);
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }
