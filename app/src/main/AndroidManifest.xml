@@ -206,7 +206,10 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-        <activity android:name=".ui.activity.CareActivity" />
+        <activity android:name=".ui.activity.CareActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"/>
         <activity
             android:name=".ui.activity.PersonInfoActivity"
             android:configChanges="keyboardHidden|orientation"
