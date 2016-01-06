@@ -70,6 +70,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     private View goodsProcessLayout;
     private View line4;
     private View line5;
+    private View line1;
+    private View orderLayout;
 
     //-------------------mote信息-------------------------//
     private TextView moteInfoSummaryView; //mote资料
@@ -119,6 +121,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
     private void initTaskFinishLayout() {
         finishLayout = findViewById(R.id.confirm_task_layout);
+        finishLayout.setVisibility(View.GONE);
         finishView = (CheckedTextView) findViewById(R.id.finish_button);
         finishView.setChecked(false);
         finishView.setTextColor(Color.parseColor("#999999"));
@@ -155,6 +158,10 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     }
 
     private void initOrderNoView() {
+        orderLayout = findViewById(R.id.confirm_order_layout);
+        orderLayout.setVisibility(View.GONE);
+        line1 = findViewById(R.id.line1);
+        line1.setVisibility(View.GONE);
         confirmButton = (TextView) findViewById(R.id.confirm_order_button);
         confirmTimeView = (TextView) findViewById(R.id.confirm_time);
         confirmOrderNoTextView = (TextView) findViewById(R.id.confirm_order_id);
@@ -196,10 +203,13 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
                 SellerTaskProcessActivity.this.taskProcessVO = taskProcessVO;
 //                fillMoteInfo(taskProcessVO);
-                fillAcceptStatus(taskProcessVO);
-                fillOrderStatus(taskProcessVO);
 
                 int status = taskProcessVO.moteTask.status;
+                fillAcceptStatus(taskProcessVO);
+                if (status > 1) {
+                    fillOrderStatus(taskProcessVO);
+                }
+
                 if (status > 2) {
                     initAndFillUploadPic(taskProcessVO);
                 }
@@ -267,6 +277,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     }
 
     private void fillOrderStatus(TaskProcessVO taskProcessVO) {
+        line1.setVisibility(View.VISIBLE);
+        orderLayout.setVisibility(View.VISIBLE);
         long orderNoTime = taskProcessVO.moteTask.orderNoTime;
         String dateStr = DateUtil.getDateStr(orderNoTime);
         String orderNo = taskProcessVO.moteTask.orderNo;
@@ -326,6 +338,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         }
 
         if (status == 7 || status == 8) {
+            finishLayout.setVisibility(View.VISIBLE);
             finishView.setChecked(false);
             line5.setVisibility(View.VISIBLE);
             finishView.setTextColor(Color.parseColor("#999999"));

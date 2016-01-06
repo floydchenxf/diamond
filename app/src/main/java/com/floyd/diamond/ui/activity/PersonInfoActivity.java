@@ -412,16 +412,18 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     }
 
     private void hiddenPopup() {
-        if (ywPopupWindow.isShowing()) {
-            ywPopupWindow.hidePopUpWindow();
-        }
+        if (!PersonInfoActivity.this.isFinishing()) {
+            if (ywPopupWindow.isShowing()) {
+                ywPopupWindow.hidePopUpWindow();
+            }
 
-        if (genderPopupWindow.isShowing()) {
-            genderPopupWindow.hidePopUpWindow();
-        }
+            if (genderPopupWindow.isShowing()) {
+                genderPopupWindow.hidePopUpWindow();
+            }
 
-        if (heightTypePopupWindow.isShowing()) {
-            heightTypePopupWindow.hidePopUpWindow();
+            if (heightTypePopupWindow.isShowing()) {
+                heightTypePopupWindow.hidePopUpWindow();
+            }
         }
     }
 
@@ -714,6 +716,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        hiddenPopup();
         if (requestCode == TAKE_PICTURE) {
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(this, CropImageActivity.class);

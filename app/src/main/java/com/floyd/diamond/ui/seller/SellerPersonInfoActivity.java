@@ -271,8 +271,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     }
 
     private void hiddenPopup() {
-        if (ywPopupWindow.isShowing()) {
-            ywPopupWindow.hidePopUpWindow();
+        if (!SellerPersonInfoActivity.this.isFinishing()) {
+            if (ywPopupWindow.isShowing()) {
+                ywPopupWindow.hidePopUpWindow();
+            }
         }
     }
 
@@ -530,6 +532,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        hiddenPopup();
         if (requestCode == TAKE_PICTURE) {
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(this, CropImageActivity.class);
