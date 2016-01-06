@@ -47,6 +47,8 @@ public class UserVO implements Serializable {
     public String idNumber; //身份证
     public String realName; //真实姓名
 
+    public String returnItemMobile;//
+
     public String getPreviewUrl() {
         return CommonUtil.getImage_200(avartUrl);
     }
