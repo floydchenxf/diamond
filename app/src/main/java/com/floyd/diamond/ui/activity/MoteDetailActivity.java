@@ -161,6 +161,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         taskPicAdapter = new TaskPicAdapter(MoteDetailActivity.this, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
             @Override
             public void onItemClick(int position, View v) {
+                if (!LoginManager.isLogin(MoteDetailActivity.this)) {
+                    return;
+                }
+
                 TaskPicsVO taskPicsVO = taskPicsList.get(position);
                 List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
                 List<PicViewObject> picViewList = new ArrayList<PicViewObject>();

@@ -122,6 +122,16 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private ImageView redHot3;
     private ImageView redHot4;
 
+    private TextView womenView;
+    private TextView menView;
+    private TextView babyView;
+    private TextView otherView;
+
+    private View redHot1Layout;
+    private View redHot2Layout;
+    private View redHot3Layout;
+    private View redHot4Layout;
+
     Map<Integer, Boolean> showRedHotMap = new HashMap<Integer, Boolean>();
 
     private NetworkImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
@@ -450,6 +460,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             loadUnReadMsgs(true);
         } else {
             loadDialog.show();
+            loadUnReadMsgs(false);
         }
         IndexManager.getIndexInfoJob().startUI(new ApiCallback<IndexVO>() {
             @Override
@@ -511,28 +522,28 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                             femaleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 20);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 40);
                                 }
                             });
                         } else if (type == 2) {
                             maleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 40);
                                 }
                             });
                         } else if (type == 3) {
                             babyProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 40);
                                 }
                             });
                         } else if (type == 4) {
                             multiPriduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
-                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 10);
+                                    return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 40);
                                 }
                             });
                         }
@@ -553,6 +564,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     }
 
     public void loadUnReadMsgs(boolean atOnce) {
+        if (!atOnce) {
+            long saveTime = LoginManager.getMsgReadTimes(this.getActivity());
+            if ((System.currentTimeMillis() - saveTime) < 30*1000*60 ) {
+                return;
+            }
+        }
+
         MoteManager.fetchUnReadMsgs().startUI(new ApiCallback<UnReadMsgVO>() {
             @Override
             public void onError(int code, String errorInfo) {
@@ -567,28 +585,38 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 showRedHotMap.put(4, unReadMsgVO.other > 0);
 
                 if (showRedHotMap.get(1)) {
-                    redHot1.setVisibility(View.VISIBLE);
+                    String womenNum = unReadMsgVO.women > 99?"99+":unReadMsgVO.women+"";
+                    womenView.setText(womenNum);
+                    redHot1Layout.setVisibility(View.VISIBLE);
                 } else {
-                    redHot1.setVisibility(View.GONE);
+                    redHot1Layout.setVisibility(View.GONE);
                 }
 
                 if (showRedHotMap.get(2)) {
-                    redHot2.setVisibility(View.VISIBLE);
+                    String menNum = unReadMsgVO.men > 99?"99+":unReadMsgVO.men+"";
+                    menView.setText(menNum);
+                    redHot2Layout.setVisibility(View.VISIBLE);
                 } else {
-                    redHot2.setVisibility(View.GONE);
+                    redHot2Layout.setVisibility(View.GONE);
                 }
 
                 if (showRedHotMap.get(3)) {
-                    redHot3.setVisibility(View.VISIBLE);
+                    String boyNum = unReadMsgVO.boy > 99?"99+":unReadMsgVO.boy+"";
+                    babyView.setText(boyNum);
+                    redHot3Layout.setVisibility(View.VISIBLE);
                 } else {
-                    redHot3.setVisibility(View.GONE);
+                    redHot3Layout.setVisibility(View.GONE);
                 }
 
                 if (showRedHotMap.get(4)) {
-                    redHot4.setVisibility(View.VISIBLE);
+                    String otherNum = unReadMsgVO.other > 99?"99+":unReadMsgVO.other+"";
+                    otherView.setText(otherNum);
+                    redHot4Layout.setVisibility(View.VISIBLE);
                 } else {
-                    redHot4.setVisibility(View.GONE);
+                    redHot4Layout.setVisibility(View.GONE);
                 }
+
+                LoginManager.setMsgReadTimes(IndexFragment.this.getActivity(), System.currentTimeMillis());
             }
 
             @Override
@@ -659,6 +687,17 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         redHot2 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_2);
         redHot3 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_3);
         redHot4 = (ImageView) productTypeLayout.findViewById(R.id.red_hot_4);
+
+        womenView = (TextView) productTypeLayout.findViewById(R.id.women_num_view);
+        menView = (TextView) productTypeLayout.findViewById(R.id.men_num_view);
+        babyView = (TextView) productTypeLayout.findViewById(R.id.baby_num_view);
+        otherView = (TextView) productTypeLayout.findViewById(R.id.other_num_view);
+
+        redHot1Layout = productTypeLayout.findViewById(R.id.redHot1_layout);
+        redHot2Layout = productTypeLayout.findViewById(R.id.redHot2_layout);
+        redHot3Layout = productTypeLayout.findViewById(R.id.redHot3_layout);
+        redHot4Layout = productTypeLayout.findViewById(R.id.redHot4_layout);
+
         femaleProduct = (NetworkImageView) productTypeLayout.findViewById(R.id.female_type);
         maleProduct = (NetworkImageView) productTypeLayout.findViewById(R.id.male_type);
         babyProduct = (NetworkImageView) productTypeLayout.findViewById(R.id.baby_type);
@@ -784,25 +823,25 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 loadData(true);
                 break;
             case R.id.female_type:
-                processRedHot(1, redHot1);
+                processRedHot(1, redHot1Layout);
                 Intent it = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 1);
                 startActivity(it);
                 break;
             case R.id.male_type:
-                processRedHot(2, redHot2);
+                processRedHot(2, redHot2Layout);
                 Intent it2 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it2.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 2);
                 startActivity(it2);
                 break;
             case R.id.baby_type:
-                processRedHot(3, redHot3);
+                processRedHot(3, redHot3Layout);
                 Intent it3 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it3.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 3);
                 startActivity(it3);
                 break;
             case R.id.multi_type:
-                processRedHot(4, redHot4);
+                processRedHot(4, redHot4Layout);
                 Intent it4 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it4.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 4);
                 startActivity(it4);
