@@ -29,11 +29,15 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.IndexManager;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.IndexItemVO;
 import com.floyd.diamond.biz.vo.IndexVO;
+import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
+import com.floyd.diamond.biz.vo.mote.UnReadMsgVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
@@ -49,7 +53,9 @@ import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -116,6 +122,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private ImageView redHot3;
     private ImageView redHot4;
 
+    Map<Integer, Boolean> showRedHotMap = new HashMap<Integer, Boolean>();
+
     private NetworkImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
 
     private TextView shuaixuan;//筛选模特
@@ -158,45 +166,12 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mImageLoader = ImageLoaderFactory.createImageLoader();
+        showRedHotMap.put(1, Boolean.FALSE);
+        showRedHotMap.put(2, Boolean.FALSE);
+        showRedHotMap.put(3, Boolean.FALSE);
+        showRedHotMap.put(4, Boolean.FALSE);
         mTopBannerList = new ArrayList<AdvVO>();
         loadDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
-        mGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
-            @Override
-            public boolean onDown(MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public void onShowPress(MotionEvent e) {
-
-            }
-
-            @Override
-            public boolean onSingleTapUp(MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                Log.i(TAG, "-----onScroll----x:" + distanceX + "--------y:" + distanceY);
-                if (Math.abs(distanceX) > 30) {
-                    Toast.makeText(IndexFragment.this.getActivity(), "移动了", Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-
-            @Override
-            public void onLongPress(MotionEvent e) {
-
-            }
-
-            @Override
-            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                Log.i(TAG, "----onFling-----x:" + velocityX + "--------y:" + velocityY);
-                return false;
-            }
-        });
-
         listViewGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
             @Override
             public boolean onDown(MotionEvent e) {
@@ -472,6 +447,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private void loadData(final boolean isFirst) {
         if (isFirst) {
             dataLoadingView.startLoading();
+            loadUnReadMsgs(true);
         } else {
             loadDialog.show();
         }
@@ -574,8 +550,52 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             }
         });
+    }
 
+    public void loadUnReadMsgs(boolean atOnce) {
+        MoteManager.fetchUnReadMsgs().startUI(new ApiCallback<UnReadMsgVO>() {
+            @Override
+            public void onError(int code, String errorInfo) {
 
+            }
+
+            @Override
+            public void onSuccess(UnReadMsgVO unReadMsgVO) {
+                showRedHotMap.put(1, unReadMsgVO.women > 0);
+                showRedHotMap.put(2, unReadMsgVO.men > 0);
+                showRedHotMap.put(3, unReadMsgVO.boy > 0);
+                showRedHotMap.put(4, unReadMsgVO.other > 0);
+
+                if (showRedHotMap.get(1)) {
+                    redHot1.setVisibility(View.VISIBLE);
+                } else {
+                    redHot1.setVisibility(View.GONE);
+                }
+
+                if (showRedHotMap.get(2)) {
+                    redHot2.setVisibility(View.VISIBLE);
+                } else {
+                    redHot2.setVisibility(View.GONE);
+                }
+
+                if (showRedHotMap.get(3)) {
+                    redHot3.setVisibility(View.VISIBLE);
+                } else {
+                    redHot3.setVisibility(View.GONE);
+                }
+
+                if (showRedHotMap.get(4)) {
+                    redHot4.setVisibility(View.VISIBLE);
+                } else {
+                    redHot4.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
     }
 
     private void initListViewHeader() {
@@ -587,13 +607,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);
         mHeaderViewIndicator = (CircleLoopPageIndicator) mHeaderView.findViewById(R.id.indicator);
         productTypeLayout = (ScrollView) mHeaderView.findViewById(R.id.product_type_layout);
-        productTypeLayout.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ;
-                return mGestureDetector.onTouchEvent(event);
-            }
-        });
+//        productTypeLayout.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                ;
+//                return mGestureDetector.onTouchEvent(event);
+//            }
+//        });
 
         initProductType();
 
@@ -764,28 +784,61 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 loadData(true);
                 break;
             case R.id.female_type:
+                processRedHot(1, redHot1);
                 Intent it = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 1);
                 startActivity(it);
                 break;
             case R.id.male_type:
+                processRedHot(2, redHot2);
                 Intent it2 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it2.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 2);
                 startActivity(it2);
-
                 break;
             case R.id.baby_type:
+                processRedHot(3, redHot3);
                 Intent it3 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it3.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 3);
                 startActivity(it3);
                 break;
             case R.id.multi_type:
+                processRedHot(4, redHot4);
                 Intent it4 = new Intent(this.getActivity(), MoteTaskTypeActivity.class);
                 it4.putExtra(MoteTaskTypeActivity.PRODUCT_TYPE_KEY, 4);
                 startActivity(it4);
                 break;
         }
 
+    }
+
+    private void processRedHot(final int type, final View v) {
+
+        Boolean show = showRedHotMap.get(type);
+        if (!show) {
+            return;
+        }
+        LoginVO loginVO = LoginManager.getLoginInfo(this.getActivity());
+        if (loginVO != null) {
+            MoteManager.hasReadMsg(loginVO.token, type).startUI(new ApiCallback<Boolean>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+
+                }
+
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    if (!IndexFragment.this.getActivity().isFinishing()) {
+                        v.setVisibility(View.GONE);
+                        showRedHotMap.put(type, Boolean.FALSE);
+                    }
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+        }
     }
 
 

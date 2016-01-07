@@ -15,6 +15,7 @@ public class PrefsTools {
 
     public static final String IS_LOGIN = "IS_LOGIN";
     public static final String LOGIN_NAME = "LOGIN_NAME";
+    public static final String UNREAD_MSG_TIME = "UNREADMSGTIME";
     private static final HashMap<String, SharedPreferences> sSharedPrefs = new HashMap();
     private static SharedPreferences defalultSprefs = null;
 

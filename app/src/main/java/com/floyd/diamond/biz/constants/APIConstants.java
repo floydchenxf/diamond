@@ -48,6 +48,8 @@ public class APIConstants {
     public static final String CHOOSEMOTE = "api/index/filterMote";//筛选模特
     public static final String API_GET_USER_INFO= "api/user/getUserInfo";
     public static final String API_TASK_PIC_DETAIL = "api/taskPic/getTaskPicDetail"; //任务图片详情
+    public static final String API_UNREAD_MSG_NUM = "api/index/getUnReadMsgNum"; //未读消息接口
+    public static final String API_HAS_READ_MSG = "api/index/hasReadMsg";//已经读取
 
     //----------------------------------------------------------卖家------------------------------------------------
     public static final String API_SELLER_TASK_LIST = "api/task/getSellerTaskList"; //我的任务
