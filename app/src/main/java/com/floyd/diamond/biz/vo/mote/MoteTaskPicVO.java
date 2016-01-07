@@ -1,11 +1,12 @@
 package com.floyd.diamond.biz.vo.mote;
 
+import com.floyd.diamond.biz.vo.IKeepClassForProguard;
 import com.floyd.diamond.utils.CommonUtil;
 
 /**
  * Created by floyd on 15-12-5.
  */
-public class MoteTaskPicVO {
+public class MoteTaskPicVO implements IKeepClassForProguard {
     public long id;
     public long moteTaskId;
     public String imgUrl;
