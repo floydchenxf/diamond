@@ -635,16 +635,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);
         mHeaderViewIndicator = (CircleLoopPageIndicator) mHeaderView.findViewById(R.id.indicator);
         productTypeLayout = (ScrollView) mHeaderView.findViewById(R.id.product_type_layout);
-//        productTypeLayout.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                ;
-//                return mGestureDetector.onTouchEvent(event);
-//            }
-//        });
-
         initProductType();
-
 
         mNavigationContainer = (LinearLayout) mHeaderView.findViewById(R.id.navigation_container);
 

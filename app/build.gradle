@@ -13,11 +13,11 @@ android {
     }
 
     signingConfigs {
-        myConfig{
-            storeFile file("gradle.keystore")
-            storePassword "gradle"
-            keyAlias "gradle"
-            keyPassword "gradle"
+        release {
+            storeFile file("diamond.keystore")
+            storePassword "diamondcxf128"
+            keyAlias "diamond"
+            keyPassword "diamondpwd"
         }
     }
 
@@ -32,8 +32,10 @@ android {
 
     buildTypes {
         release {
+            debuggable false
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            //proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         debug {
