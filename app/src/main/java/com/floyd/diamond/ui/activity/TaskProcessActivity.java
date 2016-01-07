@@ -196,7 +196,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     confirmGoodsDescView.setText("等待商家确认收货");
                 }
 
-                if (status >=8) {
+                if (status >=8 || taskProcessVO.moteTask.finishStatus == 1) {
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(taskProcessVO.moteTask.finishStatusTime);
                     confirmGoodsTimeView.setText(dateStr);

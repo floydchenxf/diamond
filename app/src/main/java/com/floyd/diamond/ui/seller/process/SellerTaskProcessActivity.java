@@ -340,7 +340,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             finishView.setOnClickListener(this);
         }
 
-        if (status == 7 || status == 8) {
+        if (status == 7 || status == 8 || taskProcessVO.moteTask.finishStatus == 1) {
             finishLayout.setVisibility(View.VISIBLE);
             finishView.setChecked(false);
             line5.setVisibility(View.VISIBLE);
