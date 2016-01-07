@@ -40,6 +40,9 @@ import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by floyd on 15-12-27.
  */
@@ -296,7 +299,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, true, new FinishCallback() {
             @Override
             public void doFinish(int type) {
                 loadData(false);
@@ -469,7 +472,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
             });
         } else {
-            MoteManager.cancelFollow(taskProcessVO.user.id, vo.token).startUI(new ApiCallback<Integer>() {
+            List<Long> moteIds = Arrays.asList(new Long[]{taskProcessVO.user.id});
+            MoteManager.cancelFollow(moteIds, vo.token).startUI(new ApiCallback<Boolean>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(SellerTaskProcessActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -479,12 +483,12 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
 
                 @Override
-                public void onSuccess(Integer num) {
+                public void onSuccess(Boolean num) {
                     Toast.makeText(SellerTaskProcessActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
                     if (!SellerTaskProcessActivity.this.isFinishing()) {
                         dataLoadingDailog.dismiss();
                     }
-                    guanzhuView.setText("关注度:" + num);
+                    guanzhuView.setText("关注度:" + moteDetail.followNum);
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }

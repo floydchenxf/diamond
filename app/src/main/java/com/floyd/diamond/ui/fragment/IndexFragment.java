@@ -61,7 +61,7 @@ import java.util.List;
 public class IndexFragment extends BackHandledFragment implements AbsListView.OnScrollListener, View.OnClickListener {
 
     private static final String TAG = "IndexFragment";
-    public static final int MIN_JULI = 800;
+    public static final int MIN_JULI = 600;
     public static final int MIN_VELOCITY_X = 130;
 
     private static int BANNER_HEIGHT_IN_DP = 300;

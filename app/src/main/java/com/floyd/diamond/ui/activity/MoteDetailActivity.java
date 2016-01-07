@@ -50,6 +50,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -467,7 +468,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
             });
         } else {
-            MoteManager.cancelFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
+            List<Long> moteIds = Arrays.asList(new Long[]{moteId});
+            MoteManager.cancelFollow(moteIds, vo.token).startUI(new ApiCallback<Boolean>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MoteDetailActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -477,12 +479,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
 
                 @Override
-                public void onSuccess(Integer num) {
+                public void onSuccess(Boolean num) {
                     Toast.makeText(MoteDetailActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
                         loadingDialog.dismiss();
                     }
-                    guanzhuView.setText("关注度:" + num);
+                    guanzhuView.setText("关注度:" + infoVO.followNum);
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }

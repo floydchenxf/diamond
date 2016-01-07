@@ -48,6 +48,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
     private static final String TAG = "ProcessUploadImageFragment";
     private static final String TASK_PROCESS_VO = "TASK_PROCESS_VO";
     public static final int MULIT_PIC_CHOOSE_WITH_DATA = 10;
+    public static final String TASK_PIC_IS_SELLER = "TASK_PIC_IS_SELLER";
 
     private TaskProcessVO taskProcessVO;
     private ImageLoader mImageLoader;
@@ -64,10 +65,13 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
 
     private int widthpixels, heightpixels;//分辨率
 
-    public static ProcessUploadImageFragment newInstance(TaskProcessVO taskProcessVO, FinishCallback callback) {
+    private boolean isSelller;
+
+    public static ProcessUploadImageFragment newInstance(TaskProcessVO taskProcessVO, boolean isSeller, FinishCallback callback) {
         ProcessUploadImageFragment fragment = new ProcessUploadImageFragment();
         Bundle args = new Bundle();
         args.putSerializable(TASK_PROCESS_VO, taskProcessVO);
+        args.putBoolean(TASK_PIC_IS_SELLER, isSeller);
         fragment.setArguments(args);
         fragment.callback = callback;
         return fragment;
@@ -81,6 +85,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         taskProcessVO = (TaskProcessVO) getArguments().getSerializable(TASK_PROCESS_VO);
+        isSelller = getArguments().getBoolean(TASK_PIC_IS_SELLER);
         if (taskProcessVO != null && taskProcessVO.picList != null) {
             this.picList.addAll(taskProcessVO.picList);
         }
@@ -117,19 +122,25 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         } else {
             long time = this.taskProcessVO.moteTask.uploadPicTime;
             uploadPicTimeView.setText(DateUtil.getDateStr(time));
-            if (status == 2) {
-                String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
-                uploadPicTimeView.setText(dateStr);
-                drawPicLayout(this.picList, false, true);
-            } else if (status > 4) {
-                //已经上传图片了．不能修改
+            if (isSelller) {
                 drawPicLayout(this.picList, false, false);
                 deletePicButton.setVisibility(View.GONE);
                 confirmPicButton.setVisibility(View.GONE);
-            } else if (status == 4){
-                drawPicLayout(this.picList, false, true);
-                deletePicButton.setVisibility(View.VISIBLE);
-                confirmPicButton.setVisibility(View.GONE);
+            } else {
+                if (status == 2) {
+                    String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
+                    uploadPicTimeView.setText(dateStr);
+                    drawPicLayout(this.picList, false, true);
+                } else if (status > 4) {
+                    //已经上传图片了．不能修改
+                    drawPicLayout(this.picList, false, false);
+                    deletePicButton.setVisibility(View.GONE);
+                    confirmPicButton.setVisibility(View.GONE);
+                } else if (status == 4){
+                    drawPicLayout(this.picList, false, true);
+                    deletePicButton.setVisibility(View.VISIBLE);
+                    confirmPicButton.setVisibility(View.GONE);
+                }
             }
         }
 

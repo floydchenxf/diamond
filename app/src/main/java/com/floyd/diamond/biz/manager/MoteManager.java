@@ -110,16 +110,16 @@ public class MoteManager {
     /**
      * 取消关注模特儿
      *
-     * @param moteId
+     * @param moteIds
      * @param token
      * @return
      */
-    public static AsyncJob<Integer> cancelFollow(long moteId, String token) {
-        String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
+    public static AsyncJob<Boolean> cancelFollow(List<Long> moteIds, String token) {
+        String url = APIConstants.HOST + APIConstants.API_CANCEL_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteId", moteId + "");
+        params.put("moteIds", moteIds.toString().substring(1, moteIds.toString().length() - 1));
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Integer.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
     /**

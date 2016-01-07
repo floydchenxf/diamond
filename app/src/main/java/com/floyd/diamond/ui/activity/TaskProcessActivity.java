@@ -235,7 +235,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, false, new FinishCallback() {
             @Override
             public void doFinish(int type) {
                 loadData(false);

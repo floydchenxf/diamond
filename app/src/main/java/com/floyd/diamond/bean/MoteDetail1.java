@@ -22,7 +22,7 @@ public class MoteDetail1 {
      */
 
     public boolean isFollow;
-    public Object followNum;
+    public int followNum;
     public String avartUrl;
     public int height;
     public String area;
@@ -37,7 +37,7 @@ public class MoteDetail1 {
         this.isFollow = isFollow;
     }
 
-    public void setFollowNum(Object followNum) {
+    public void setFollowNum(int followNum) {
         this.followNum = followNum;
     }
 
