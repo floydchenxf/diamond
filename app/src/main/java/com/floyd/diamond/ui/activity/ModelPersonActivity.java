@@ -380,7 +380,7 @@ public class ModelPersonActivity extends Activity {
     private void doGuanzhu() {
         if (LoginManager.isLogin(this)) {
             LoginVO vo = LoginManager.getLoginInfo(this);
-            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
+            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(ModelPersonActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -390,7 +390,7 @@ public class ModelPersonActivity extends Activity {
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
+                public void onSuccess(Integer aBoolean) {
                     Toast.makeText(ModelPersonActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                     if (!ModelPersonActivity.this.isFinishing()) {
                         loadingDialog.dismiss();

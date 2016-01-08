@@ -1,9 +1,11 @@
 package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.CheckedTextView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -68,7 +70,7 @@ public class SellerTaskAdapter extends BaseAdapter {
             holder.titleView = (TextView) convertView.findViewById(R.id.task_title);
             holder.taskPicView = (NetworkImageView) convertView.findViewById(R.id.task_pic);
             holder.taskNumberView = (TextView) convertView.findViewById(R.id.task_number);
-            holder.taskStatusView = (TextView) convertView.findViewById(R.id.task_status);
+            holder.taskStatusView = (CheckedTextView) convertView.findViewById(R.id.task_status);
             convertView.setTag(holder);
         }
 
@@ -79,11 +81,15 @@ public class SellerTaskAdapter extends BaseAdapter {
         holder.titleView.setText(taskItemVO.title);
         holder.taskNumberView.setVisibility(View.GONE);
         holder.taskStatusView.setVisibility(View.GONE);
+        holder.taskStatusView.setChecked(false);
+        holder.taskStatusView.setTextColor(Color.parseColor("#666666"));
         int status = taskItemVO.status;
         if (status == 0) {
             //支付
             holder.taskStatusView.setVisibility(View.VISIBLE);
             holder.taskStatusView.setText("待支付");
+            holder.taskStatusView.setTextColor(Color.parseColor("#cecece"));
+            holder.taskStatusView.setChecked(true);
             if (statusCallback != null) {
                 statusCallback.doCallback(holder.taskStatusView, status);
             }
@@ -97,6 +103,7 @@ public class SellerTaskAdapter extends BaseAdapter {
             //再发布
             holder.taskStatusView.setVisibility(View.VISIBLE);
             holder.taskStatusView.setText("已结束");
+            holder.taskStatusView.setChecked(false);
             if (statusCallback != null) {
                 statusCallback.doCallback(holder.taskStatusView, status);
             }
@@ -110,7 +117,7 @@ public class SellerTaskAdapter extends BaseAdapter {
         public NetworkImageView taskPicView;
         public TextView titleView;
         public TextView taskNumberView;
-        public TextView taskStatusView;
+        public CheckedTextView taskStatusView;
     }
 
     public interface StatusCallback {

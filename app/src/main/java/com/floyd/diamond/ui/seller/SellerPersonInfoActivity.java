@@ -28,6 +28,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
@@ -43,6 +44,8 @@ import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.ProfileAddressActivity;
 import com.floyd.diamond.ui.activity.SetReturnItemMobileActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
+import com.floyd.diamond.ui.loading.DataLoadingView;
+import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.floyd.diamond.ui.view.YWPopupWindow;
 import com.floyd.pickview.popwindow.DatePickerPopWin;
@@ -104,8 +107,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private File tempFile;
 
     private Dialog dataLoadingDialog;
+    private DataLoadingView dataLoadingView;
 
     private AreaDetailVO areaDetailVO;
+    private LoginVO loginVO;
 
 
     @Override
@@ -116,19 +121,24 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         mImageLoader = ImageLoaderFactory.createImageLoader();
         imm = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
+        dataLoadingView = new DefaultDataLoadingView();
+        dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         findViewById(R.id.title_back).setOnClickListener(this);
         rightView = (TextView) findViewById(R.id.right);
         rightView.setVisibility(View.VISIBLE);
         rightView.setText("编辑");
         rightView.setOnClickListener(this);
         initView();
-        fillData();
+        loginVO = LoginManager.getLoginInfo(this);
+        userVO = loginVO.user;
+        if (userVO != null) {
+            fillData(userVO);
+        }
+        loadData(false);
     }
 
-    private void fillData() {
+    private void fillData(UserVO userVO) {
 
-        LoginVO vo = LoginManager.getLoginInfo(this);
-        userVO = vo.user;
         if (userVO == null) {
             Toast.makeText(this, "登录用户出错", Toast.LENGTH_SHORT).show();
             this.finish();
@@ -148,9 +158,51 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         qqView.setText(userVO.qq);
         shopNameView.setText(sellerInfoVO.shopName);
         nickNameView.setText(sellerInfoVO.nickname);
-
+        returnItemMobileView.setText(userVO.returnItemMobile);
         goodsCityView.setText(userVO.getAddressSummary());
         goodsAddressView.setText(userVO.address);
+    }
+
+
+    private void loadData(final boolean isFirst) {
+//        if (isFirst) {
+//            dataLoadingView.startLoading();
+//        } else {
+//            dataLoadingDialog.show();
+//        }
+
+        MoteManager.getUserInfo(loginVO.token).startUI(new ApiCallback<UserVO>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+//                if (isFirst) {
+//                    dataLoadingView.loadFail();
+//                } else {
+//                    dataLoadingDialog.dismiss();
+//                }
+
+                Toast.makeText(SellerPersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(UserVO userVO) {
+//                if (isFirst) {
+//                    dataLoadingView.loadSuccess();
+//                } else {
+//                    dataLoadingDialog.dismiss();
+//                }
+
+                fillData(userVO);
+                loginVO.user = userVO;
+                LoginManager.saveLoginInfo(SellerPersonInfoActivity.this, loginVO);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+
     }
 
     private void initView() {
@@ -219,8 +271,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     }
 
     private void hiddenPopup() {
-        if (ywPopupWindow.isShowing()) {
-            ywPopupWindow.hidePopUpWindow();
+        if (!SellerPersonInfoActivity.this.isFinishing()) {
+            if (ywPopupWindow.isShowing()) {
+                ywPopupWindow.hidePopUpWindow();
+            }
         }
     }
 
@@ -362,7 +416,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
                 break;
             case R.id.return_item_mobile_layout:
                 Intent returnItemMobileIntent = new Intent(this, SetReturnItemMobileActivity.class);
-                startActivityForResult(returnItemMobileIntent,CODE_ITEM_MOBILE_REQUEST);
+                startActivityForResult(returnItemMobileIntent, CODE_ITEM_MOBILE_REQUEST);
+                break;
+            case R.id.act_lsloading:
+                loadData(false);
                 break;
         }
 
@@ -475,6 +532,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        hiddenPopup();
         if (requestCode == TAKE_PICTURE) {
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(this, CropImageActivity.class);

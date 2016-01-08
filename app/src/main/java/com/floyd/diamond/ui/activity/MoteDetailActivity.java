@@ -50,6 +50,7 @@ import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -93,6 +94,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private TextView jingyanzhi, manyidu;
 
     private MoteDetailInfoVO infoVO;
+
+    private boolean isFollow;//关注
 
 
     @Override
@@ -158,6 +161,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         taskPicAdapter = new TaskPicAdapter(MoteDetailActivity.this, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
             @Override
             public void onItemClick(int position, View v) {
+                if (!LoginManager.isLogin(MoteDetailActivity.this)) {
+                    return;
+                }
+
                 TaskPicsVO taskPicsVO = taskPicsList.get(position);
                 List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
                 List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
@@ -167,6 +174,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     picViewObject.setPicPreViewUrl(taskPic.getPreviewImageUrl());
                     picViewObject.setPicUrl(taskPic.getDetailImageUrl());
                     picViewObject.setPicType(PicViewObject.IMAGE);
+                    picViewObject.setExtData(taskPic.id + "");
                     picViewList.add(picViewObject);
                 }
                 MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
@@ -349,7 +357,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                 usernickView.setText(vo.getNickname());
 
-                boolean isFollow = vo.isFollow;
+                isFollow = vo.isFollow;
                 if (isFollow) {
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);
@@ -357,11 +365,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     int num = infoVO.getFollowNum();
                     guanzhuView.setText("关注度:" + num);
                     guanzhuView.setChecked(false);
-                    // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
                 }
 
-                jingyanzhi.setText("经验值：" + vo.getOrderNum() + "");
-                manyidu.setText("满意度：" + vo.getGoodeEvalRate() + "");
+                jingyanzhi.setText("经验值：" + vo.getOrderNum());
+                manyidu.setText("满意度：" + vo.goodeEvalRate);
 
             }
 
@@ -433,10 +440,13 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     }
 
     private void doGuanzhu() {
-        if (LoginManager.isLogin(this)) {
-            loadingDialog.show();
-            LoginVO vo = LoginManager.getLoginInfo(this);
-            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Boolean>() {
+        if (!LoginManager.isLogin(this)) {
+            return;
+        }
+        loadingDialog.show();
+        LoginVO vo = LoginManager.getLoginInfo(this);
+        if (!isFollow) {
+            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MoteDetailActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
@@ -446,14 +456,41 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
 
                 @Override
-                public void onSuccess(Boolean aBoolean) {
+                public void onSuccess(Integer aBoolean) {
                     Toast.makeText(MoteDetailActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
                     if (!MoteDetailActivity.this.isFinishing()) {
                         loadingDialog.dismiss();
                     }
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);
-                    guanzhuView.setOnClickListener(null);
+                    isFollow = true;
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+        } else {
+            List<Long> moteIds = Arrays.asList(new Long[]{moteId});
+            MoteManager.cancelFollow(moteIds, vo.token).startUI(new ApiCallback<Boolean>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(MoteDetailActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                    if (!MoteDetailActivity.this.isFinishing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onSuccess(Boolean num) {
+                    Toast.makeText(MoteDetailActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
+                    if (!MoteDetailActivity.this.isFinishing()) {
+                        loadingDialog.dismiss();
+                    }
+                    guanzhuView.setText("关注度:" + infoVO.followNum);
+                    guanzhuView.setChecked(false);
+                    isFollow = false;
                 }
 
                 @Override

@@ -9,9 +9,9 @@ import java.io.File;
  */
 public class EnvConstants {
 
-    public static final String imageRootPath = Environment
-            .getExternalStorageDirectory().getAbsolutePath()
-            + "/diamond/images";
+    public static final String diamondPath = Environment.getExternalStorageDirectory().getAbsolutePath()+"/diamond";
+
+    public static final String imageRootPath = diamondPath + "/images";
 
     public static final String thumbRootPath = Environment
             .getExternalStorageDirectory().getAbsolutePath() + "/全名模特相册";

@@ -2,12 +2,13 @@ package com.floyd.diamond.biz.vo.mote;
 
 import android.text.TextUtils;
 
+import com.floyd.diamond.biz.vo.IKeepClassForProguard;
 import com.floyd.diamond.utils.CommonUtil;
 
 /**
  * Created by floyd on 15-11-28.
  */
-public class MoteInfoVO {
+public class MoteInfoVO implements IKeepClassForProguard {
     public long id;
     public String nickname;//别名
     private String avartUrl;//avatarUrl;//头像地址

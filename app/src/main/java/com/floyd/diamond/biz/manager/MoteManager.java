@@ -22,7 +22,9 @@ import com.floyd.diamond.biz.vo.mote.MoteWalletPageVO;
 import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
+import com.floyd.diamond.biz.vo.mote.UnReadMsgVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
+import com.floyd.diamond.biz.vo.mote.UserExtVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -68,7 +70,7 @@ public class MoteManager {
         return vo;
     }
 
-    public static AsyncJob<MoteInfoVO> fetchMoteInfoJob(final Context context, String accessToken) {
+    public static AsyncJob<MoteInfoVO> fetchMoteInfoJob(String accessToken) {
         String url = APIConstants.HOST + APIConstants.API_MY_MOTE_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", accessToken);
@@ -98,25 +100,25 @@ public class MoteManager {
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> addFollow(long moteId, String token) {
+    public static AsyncJob<Integer> addFollow(long moteId, String token) {
         String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
         params.put("moteId", moteId + "");
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Integer.class);
     }
 
     /**
      * 取消关注模特儿
      *
-     * @param moteId
+     * @param moteIds
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> cancelFollow(long moteId, String token) {
-        String url = APIConstants.HOST + APIConstants.API_ADD_FOLLOW;
+    public static AsyncJob<Boolean> cancelFollow(List<Long> moteIds, String token) {
+        String url = APIConstants.HOST + APIConstants.API_CANCEL_FOLLOW;
         Map<String, String> params = new HashMap<String, String>();
-        params.put("moteId", moteId + "");
+        params.put("moteIds", moteIds.toString().substring(1, moteIds.toString().length() - 1));
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
@@ -573,10 +575,90 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, TaskItemVO.class);
     }
 
+    /**
+     * 获取用户信息
+     * @param token
+     * @return
+     */
     public static AsyncJob<UserVO> getUserInfo(String token) {
         String url = APIConstants.HOST +  APIConstants.API_GET_USER_INFO;
         Map<String, String> params = new HashMap<String, String>();
         params.put("token",token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UserVO.class);
+    }
+
+    /**
+     * 获取图片详情
+     * @param id
+     * @return
+     */
+    public static AsyncJob<MoteTaskPicVO> fetchMoteTaskPicDetail(long id) {
+        String url = APIConstants.HOST +  APIConstants.API_TASK_PIC_DETAIL;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id",id+"");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
+    }
+
+    public static AsyncJob<UserExtVO> fetchUserExtInfo(final String token) {
+        AsyncJob<UserVO> userJob = getUserInfo(token);
+        AsyncJob<UserExtVO> aa = userJob.flatMap(new Func<UserVO, AsyncJob<UserExtVO>>() {
+            @Override
+            public AsyncJob<UserExtVO> call(final UserVO userVO) {
+                AsyncJob<UserExtVO> bb = MoteManager.fetchMoteInfoJob(token).flatMap(new Func<MoteInfoVO, AsyncJob<UserExtVO>>() {
+                    @Override
+                    public AsyncJob<UserExtVO> call(final MoteInfoVO moteInfoVO) {
+                        return new AsyncJob<UserExtVO>() {
+                            @Override
+                            public void start(ApiCallback<UserExtVO> callback) {
+                                UserExtVO userExtVO = new UserExtVO();
+                                userExtVO.fenNum = moteInfoVO.fenNum;
+                                userExtVO.followNum = moteInfoVO.followNum;
+                                userExtVO.goodeEvalRate = moteInfoVO.goodeEvalRate;
+                                userExtVO.orderNum = moteInfoVO.orderNum;
+                                userExtVO.address = userVO.address;
+                                userExtVO.alipayId = userVO.alipayId;
+                                userExtVO.areaId = userVO.areaId;
+                                userExtVO.authenPic1 = userVO.authenPic1;
+                                userExtVO.authenPic2 = userVO.authenPic2;
+                                userExtVO.authenPic3 = userVO.authenPic3;
+                                userExtVO.authenStatus = userVO.authenStatus;
+                                userExtVO.avartUrl = userVO.avartUrl;
+                                userExtVO.birdthday = userVO.birdthday;
+                                userExtVO.birdthdayStr = userVO.birdthdayStr;
+                                userExtVO.idcardPic = userVO.idcardPic;
+                                callback.onSuccess(userExtVO);
+                            }
+                        };
+                    }
+                });
+
+                return bb;
+            }
+        });
+        return aa;
+    }
+
+
+    /**
+     * 获取未读消息数接口
+     * @return
+     */
+    public static AsyncJob<UnReadMsgVO> fetchUnReadMsgs() {
+        String url = APIConstants.HOST + APIConstants.API_UNREAD_MSG_NUM;
+        return JsonHttpJobFactory.getJsonAsyncJob(url, null, HttpMethod.POST, UnReadMsgVO.class);
+    }
+
+    /**
+     * 设置已读
+     * @param token 用户信息
+     * @param type　1女装2男装3童装4综合
+     * @return
+     */
+    public static AsyncJob<Boolean> hasReadMsg(String token, int type) {
+        String url = APIConstants.HOST + APIConstants.API_HAS_READ_MSG;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("msgType", type+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 }

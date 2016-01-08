@@ -196,7 +196,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     confirmGoodsDescView.setText("等待商家确认收货");
                 }
 
-                if (status >=8) {
+                if (status >=8 || taskProcessVO.moteTask.finishStatus == 1) {
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(taskProcessVO.moteTask.finishStatusTime);
                     confirmGoodsTimeView.setText(dateStr);
@@ -235,7 +235,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, false, new FinishCallback() {
             @Override
             public void doFinish(int type) {
                 loadData(false);

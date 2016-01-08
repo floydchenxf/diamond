@@ -1,5 +1,7 @@
 package com.floyd.diamond.bean;
 
+import com.floyd.diamond.utils.CommonUtil;
+
 /**
  * Created by Administrator on 2015/12/30.
  */
@@ -20,22 +22,22 @@ public class MoteDetail1 {
      */
 
     public boolean isFollow;
-    private Object followNum;
-    private String avartUrl;
-    private int height;
-    private String area;
-    private String nickname;
-    private int age;
-    private int gender;
-    private int orderNum;
+    public int followNum;
+    public String avartUrl;
+    public int height;
+    public String area;
+    public String nickname;
+    public int age;
+    public int gender;
+    public int orderNum;
     private Object shape;
-    private Object goodeEvalRate;
+    public float goodeEvalRate;
 
     public void setIsFollow(boolean isFollow) {
         this.isFollow = isFollow;
     }
 
-    public void setFollowNum(Object followNum) {
+    public void setFollowNum(int followNum) {
         this.followNum = followNum;
     }
 
@@ -71,10 +73,6 @@ public class MoteDetail1 {
         this.shape = shape;
     }
 
-    public void setGoodeEvalRate(Object goodeEvalRate) {
-        this.goodeEvalRate = goodeEvalRate;
-    }
-
     public boolean isIsFollow() {
         return isFollow;
     }
@@ -84,7 +82,11 @@ public class MoteDetail1 {
     }
 
     public String getAvartUrl() {
-        return avartUrl;
+        return CommonUtil.getImage_800(avartUrl);
+    }
+
+    public String getPreviewUrl() {
+        return CommonUtil.getImage_200(this.avartUrl);
     }
 
     public int getHeight() {
@@ -113,9 +115,5 @@ public class MoteDetail1 {
 
     public Object getShape() {
         return shape;
-    }
-
-    public Object getGoodeEvalRate() {
-        return goodeEvalRate;
     }
 }

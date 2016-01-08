@@ -40,6 +40,8 @@ public class DiamodApplication extends Application {
     public void onCreate() {
         super.onCreate();
         com.umeng.socialize.utils.Log.LOG = true;
+        CrashHandler handler = CrashHandler.getInstance();
+        handler.init();
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
         IMChannel.setApplication(this);
 

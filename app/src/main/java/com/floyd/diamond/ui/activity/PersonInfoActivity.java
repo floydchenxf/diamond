@@ -200,31 +200,31 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     }
 
     private void loadData(final boolean isFirst) {
-        if (isFirst) {
-            dataLoadingView.startLoading();
-        } else {
-            dataLoadingDialog.show();
-        }
+//        if (isFirst) {
+//            dataLoadingView.startLoading();
+//        } else {
+//            dataLoadingDialog.show();
+//        }
 
         MoteManager.getUserInfo(loginVO.token).startUI(new ApiCallback<UserVO>() {
             @Override
             public void onError(int code, String errorInfo) {
-                if (isFirst) {
-                    dataLoadingView.loadFail();
-                } else {
-                    dataLoadingDialog.dismiss();
-                }
+//                if (isFirst) {
+//                    dataLoadingView.loadFail();
+//                } else {
+//                    dataLoadingDialog.dismiss();
+//                }
 
                 Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onSuccess(UserVO userVO) {
-                if (isFirst) {
-                    dataLoadingView.loadSuccess();
-                } else {
-                    dataLoadingDialog.dismiss();
-                }
+//                if (isFirst) {
+//                    dataLoadingView.loadSuccess();
+//                } else {
+//                    dataLoadingDialog.dismiss();
+//                }
 
                 fillData(userVO);
                 loginVO.user = userVO;
@@ -353,6 +353,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 });
 
                 twoLoopView.setInitPosition(5);
+                two = 5;
                 threeLoopView.setListener(new LoopListener() {
                     @Override
                     public void onItemSelect(int item) {
@@ -411,16 +412,18 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     }
 
     private void hiddenPopup() {
-        if (ywPopupWindow.isShowing()) {
-            ywPopupWindow.hidePopUpWindow();
-        }
+        if (!PersonInfoActivity.this.isFinishing()) {
+            if (ywPopupWindow.isShowing()) {
+                ywPopupWindow.hidePopUpWindow();
+            }
 
-        if (genderPopupWindow.isShowing()) {
-            genderPopupWindow.hidePopUpWindow();
-        }
+            if (genderPopupWindow.isShowing()) {
+                genderPopupWindow.hidePopUpWindow();
+            }
 
-        if (heightTypePopupWindow.isShowing()) {
-            heightTypePopupWindow.hidePopUpWindow();
+            if (heightTypePopupWindow.isShowing()) {
+                heightTypePopupWindow.hidePopUpWindow();
+            }
         }
     }
 
@@ -614,7 +617,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 startActivity(authIntent);
                 break;
             case R.id.act_lsloading:
-                loadData(false);
+                loadData(true);
                 break;
         }
 
@@ -713,6 +716,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        hiddenPopup();
         if (requestCode == TAKE_PICTURE) {
             if (resultCode == RESULT_OK) {
                 Intent intent = new Intent(this, CropImageActivity.class);

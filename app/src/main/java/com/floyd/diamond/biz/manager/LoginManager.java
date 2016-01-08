@@ -33,6 +33,8 @@ public class LoginManager {
 
     public static final String LOGIN_INFO = "LOGIN_INFO";
 
+    public static final String MSG_READ_TIMES = "MSG_READ_TIMES";
+
     public static LoginVO getLoginInfo(Context context) {
         String data = PrefsTools.getStringPrefs(context, LOGIN_INFO, "");
         if (TextUtils.isEmpty(data)) {
@@ -181,6 +183,15 @@ public class LoginManager {
         }
 
         return true;
+    }
+
+    public static long getMsgReadTimes(Context context) {
+        long time = PrefsTools.getLongPrefs(context, MSG_READ_TIMES, 0l);
+        return time;
+    }
+
+    public static void setMsgReadTimes(Context context, long time) {
+        PrefsTools.setLongPrefs(context, MSG_READ_TIMES, time);
     }
 }
 

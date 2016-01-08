@@ -49,6 +49,10 @@ public class MyTaskAdapter extends BaseAdapter {
                     }
 
                     TextView timeView = view.get();
+                    if (timeView == null) {
+                        return;
+                    }
+
                     TaskItemVO itemVO = (TaskItemVO) timeView.getTag(R.id.LEFT_TIME_ID);
                     if (itemVO == null || itemVO.id == 0l || id != itemVO.id) {
                         return;

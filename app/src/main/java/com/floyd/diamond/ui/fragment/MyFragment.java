@@ -39,10 +39,12 @@ import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
+import com.floyd.diamond.biz.vo.mote.UserExtVO;
 import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.CareActivity;
+import com.floyd.diamond.ui.activity.MoteAuthActivity;
 import com.floyd.diamond.ui.activity.MoteWalletSummaryActivity;
 import com.floyd.diamond.ui.activity.MyPicActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
@@ -91,6 +93,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private LoginVO loginVO;
 
+    private View authView;
+
     private String tempImage = "image_temp";
     private String tempImageCompress = "image_tmp";
     private int avatorSize = 720;
@@ -124,12 +128,15 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         pictrueView = (TextView) view.findViewById(R.id.pictrue);
         volleyView = (TextView) view.findViewById(R.id.volley);
         setView = (TextView) view.findViewById(R.id.set);
+        authView = view.findViewById(R.id.auth_view);
+        authView.setVisibility(View.GONE);
 
         careView.setOnClickListener(this);
         taskView.setOnClickListener(this);
         pictrueView.setOnClickListener(this);
         volleyView.setOnClickListener(this);
         setView.setOnClickListener(this);
+        authView.setOnClickListener(this);
 
 
         headView = (NetworkImageView) view.findViewById(R.id.mine_touxiang);
@@ -178,7 +185,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
         }
 
-        loadData(true);
+        loadData(true, true);
         return view;
     }
 
@@ -198,14 +205,16 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     public void onResume() {
         super.onResume();
-        loadData(false);
+        loadData(false, false);
     }
 
-    private void loadData(final boolean isFirst) {
-        if (isFirst) {
-            dataLoadingView.startLoading();
-        } else {
-            dataLoadingDialog.show();
+    private void loadData(final boolean needDialog, final boolean isFirst) {
+        if (needDialog) {
+            if (isFirst) {
+                dataLoadingView.startLoading();
+            } else {
+                dataLoadingDialog.show();
+            }
         }
         if (loginVO.isModel()) {
             //模特儿
@@ -234,37 +243,47 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 }
             }
 
-            MoteManager.fetchMoteInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<MoteInfoVO>() {
+            MoteManager.fetchUserExtInfo(loginVO.token).startUI(new ApiCallback<UserExtVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    if (isFirst) {
-                        dataLoadingView.loadFail();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadFail();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                 }
 
                 @Override
-                public void onSuccess(MoteInfoVO moteInfoVO) {
-                    Log.i(TAG, "---" + moteInfoVO);
-                    if (isFirst) {
-                        dataLoadingView.loadSuccess();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                public void onSuccess(UserExtVO userExtVO) {
+                    Log.i(TAG, "---" + userExtVO);
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadSuccess();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
-                    shopView.setText(moteInfoVO.orderNum + "");
-                    qiangView.setText(moteInfoVO.goodeEvalRate + "%");
-                    placeView.setText(moteInfoVO.followNum + "");
-                    nicknameView.setText(moteInfoVO.nickname);
-                    if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
+
+                    if (userExtVO.authenStatus == 0) {
+                        authView.setVisibility(View.VISIBLE);
+                    } else {
+                        authView.setVisibility(View.GONE);
+                    }
+                    shopView.setText(userExtVO.orderNum + "");
+                    qiangView.setText(userExtVO.goodeEvalRate + "%");
+                    placeView.setText(userExtVO.followNum + "");
+                    nicknameView.setText(userExtVO.nickname);
+                    if (!TextUtils.isEmpty(userExtVO.getPreviewUrl())) {
                         showNetworkImage();
-                        headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
+                        headView.setImageUrl(userExtVO.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
                             }
                         });
-                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
+                        bgHeadView.setImageUrl(userExtVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
                                 return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
@@ -280,6 +299,57 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
                 }
             });
+
+//            MoteManager.fetchMoteInfoJob(loginVO.token).startUI(new ApiCallback<MoteInfoVO>() {
+//                @Override
+//                public void onError(int code, String errorInfo) {
+//                    if (needDialog) {
+//                        if (isFirst) {
+//                            dataLoadingView.loadFail();
+//                        } else {
+//                            dataLoadingDialog.dismiss();
+//                        }
+//                    }
+//                }
+//
+//                @Override
+//                public void onSuccess(MoteInfoVO moteInfoVO) {
+//                    Log.i(TAG, "---" + moteInfoVO);
+//                    if (needDialog) {
+//                        if (isFirst) {
+//                            dataLoadingView.loadSuccess();
+//                        } else {
+//                            dataLoadingDialog.dismiss();
+//                        }
+//                    }
+//                    shopView.setText(moteInfoVO.orderNum + "");
+//                    qiangView.setText(moteInfoVO.goodeEvalRate + "%");
+//                    placeView.setText(moteInfoVO.followNum + "");
+//                    nicknameView.setText(moteInfoVO.nickname);
+//                    if (!TextUtils.isEmpty(moteInfoVO.getHeadUrl())) {
+//                        showNetworkImage();
+//                        headView.setImageUrl(moteInfoVO.getHeadUrl(), mImageLoader, new BitmapProcessor() {
+//                            @Override
+//                            public Bitmap processBitmpa(Bitmap bitmap) {
+//                                return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
+//                            }
+//                        });
+//                        bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
+//                            @Override
+//                            public Bitmap processBitmpa(Bitmap bitmap) {
+//                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+//                            }
+//                        });
+//                    } else {
+//                        hiddenNetworkImage();
+//                    }
+//                }
+//
+//                @Override
+//                public void onProgress(int progress) {
+//
+//                }
+//            });
         } else {
             //店铺
             final SellerInfoVO sellerInfoVO = SellerManager.getSellerInfo(this.getActivity());
@@ -309,20 +379,24 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             SellerManager.fetchSellerInfoJob(this.getActivity(), loginVO.token).startUI(new ApiCallback<SellerInfoVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
-                    if (isFirst) {
-                        dataLoadingView.loadFail();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadFail();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
                 public void onSuccess(SellerInfoVO vo) {
-                    if (isFirst) {
-                        dataLoadingView.loadSuccess();
-                    } else {
-                        dataLoadingDialog.dismiss();
+                    if (needDialog) {
+                        if (isFirst) {
+                            dataLoadingView.loadSuccess();
+                        } else {
+                            dataLoadingDialog.dismiss();
+                        }
                     }
                     shopView.setText(vo.shopName);
                     nicknameView.setText(vo.nickname);
@@ -413,12 +487,17 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 break;
             case R.id.act_ls_fail_layout:
                 //加载失败刷新
-                loadData(true);
+                loadData(true, true);
                 break;
             case R.id.pictrue:
                 Log.i(TAG, "--------model type:" + loginVO.isModel());
                 Intent it = new Intent(this.getActivity(), MyPicActivity.class);
                 startActivity(it);
+                break;
+            case R.id.auth_view:
+                Intent authIntent = new Intent(this.getActivity(), MoteAuthActivity.class);
+                authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(authIntent);
                 break;
         }
     }

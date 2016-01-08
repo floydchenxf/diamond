@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="14dp"
+            android:layout_marginBottom="8dp"
             android:padding="1dp"
             app:radius="3dp" />
 
@@ -43,11 +43,11 @@
             android:id="@+id/product_type"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="18dp"
             android:background="@color/white"
             android:orientation="horizontal"
-            android:paddingBottom="14dp"
-            android:paddingTop="14dp">
+            android:paddingBottom="8dp"
+            android:paddingTop="8dp">
 
 
             <RelativeLayout
@@ -55,26 +55,54 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/red_hot_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true">
 
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/female_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/weixinhaoyou" />
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/female_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/weixinhaoyou" />
+
+                    <RelativeLayout
+                        android:id="@+id/redHot1_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/red_hot_1"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/aliwx_news_background" />
+
+                        <TextView
+                            android:id="@+id/women_num_view"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:text="99+"
+                            android:textColor="@color/white"
+                            android:textSize="8dp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="24dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="30dp"
                     android:text="女装"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -82,26 +110,54 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/red_hot_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true">
 
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/male_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/penyouquan" />
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/male_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/penyouquan" />
+
+                    <RelativeLayout
+                        android:id="@+id/redHot2_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/red_hot_2"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/aliwx_news_background" />
+
+                        <TextView
+                            android:id="@+id/men_num_view"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:text="99+"
+                            android:textColor="@color/white"
+                            android:textSize="8dp" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="24dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="30dp"
                     android:text="男装"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -109,26 +165,55 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/red_hot_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true">
 
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/baby_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/qqkonjing" />
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/baby_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/qqkonjing" />
+
+                    <RelativeLayout
+                        android:id="@+id/redHot3_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/red_hot_3"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/aliwx_news_background" />
+
+                        <TextView
+                            android:id="@+id/baby_num_view"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:text="99+"
+                            android:textColor="@color/white"
+                            android:textSize="8dp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="24dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="30dp"
                     android:text="童装"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -136,26 +221,57 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/red_hot_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/multi_type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/tengxunweib" />
+                <RelativeLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerInParent="true">
+
+                    <com.android.volley.toolbox.NetworkImageView
+                        android:id="@+id/multi_type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/tengxunweib" />
+
+                    <RelativeLayout
+                        android:id="@+id/redHot4_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:visibility="gone">
+
+                        <ImageView
+                            android:id="@+id/red_hot_4"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/aliwx_news_background" />
+
+                        <TextView
+                            android:id="@+id/other_num_view"
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:gravity="center"
+                            android:text="99+"
+                            android:textColor="@color/white"
+                            android:textSize="8dp" />
+                    </RelativeLayout>
+
+                </RelativeLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:paddingTop="24dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingTop="30dp"
                     android:text="综合"
                     android:textColor="#ffffff"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -165,7 +281,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/product_type_layout"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="18dp"
         android:background="#ffffff"
         android:gravity="center_vertical"
         android:visibility="gone">

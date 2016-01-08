@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
@@ -20,6 +21,8 @@ import java.io.StreamCorruptedException;
 public class FileUtils {
 
     private static final String TAG = FileUtils.class.getSimpleName();
+
+    private static final String ENTER = "\r\n";
 
     /**
      * 读取序列化对象
@@ -146,30 +149,6 @@ public class FileUtils {
         return fis;
     }
 
-
-    /**
-     * 删除文件，包含所有子文件
-     *
-     * @param file
-     */
-    public static void deleteFile(File file) {
-        if (!file.exists()) {
-            return;
-        }
-
-        boolean isDirectory = file.isDirectory();
-        if (!isDirectory) {
-            file.delete();
-            return;
-        }
-
-        File[] subFiles = file.listFiles();
-        for (File subFile : subFiles) {
-            deleteFile(subFile);
-        }
-
-        file.delete();
-    }
 
     /**
      * 拷贝文件目录内容，包含所有子文件
@@ -328,5 +307,62 @@ public class FileUtils {
         }
         return size;
     }
+
+    public static void write(File file, String content) {
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Log.e("LogWriter", "createNewFile cause error:" + e.getMessage());
+                return;
+            }
+        }
+
+        FileWriter writer = null;
+        try {
+            writer = new FileWriter(file, true);
+            writer.write(content);
+            writer.write(ENTER);
+        } catch (IOException e) {
+            Log.e("LogWriter", "write content cause error:" + e.getMessage());
+        } finally {
+            if (writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException e) {
+                }
+            }
+        }
+    }
+
+    /**
+     * 删除文件，包含所有子文件
+     * @param file
+     */
+    public static void deleteFile(File file) {
+        if (!file.exists()) {
+            return;
+        }
+
+        boolean isDirectory = file.isDirectory();
+        if (!isDirectory) {
+            file.delete();
+            return;
+        }
+
+        File[] subFiles = file.listFiles();
+        for (File subFile : subFiles) {
+            deleteFile(subFile);
+        }
+
+        file.delete();
+    }
+
+    public static boolean rename(File file, String name) {
+        String target = file.getParentFile().getAbsolutePath();
+        File targetFile = new File(target + File.separator + name);
+        return file.renameTo(targetFile);
+    }
+
 
 }

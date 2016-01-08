@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.manager.SellerManager;
@@ -37,6 +39,9 @@ import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.view.UIAlertDialog;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by floyd on 15-12-27.
@@ -68,6 +73,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     private View goodsProcessLayout;
     private View line4;
     private View line5;
+    private View line1;
+    private View orderLayout;
 
     //-------------------mote信息-------------------------//
     private TextView moteInfoSummaryView; //mote资料
@@ -86,6 +93,9 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
     private LoginVO loginVO;
     private float oneDp;
+
+    private MoteDetail1 moteDetail;
+    private boolean isFollow;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +124,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
     private void initTaskFinishLayout() {
         finishLayout = findViewById(R.id.confirm_task_layout);
+        finishLayout.setVisibility(View.GONE);
         finishView = (CheckedTextView) findViewById(R.id.finish_button);
         finishView.setChecked(false);
         finishView.setTextColor(Color.parseColor("#999999"));
@@ -139,6 +150,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         agreeKeyView = (TextView) findViewById(R.id.agree_key_view);
         experienceView = (TextView) findViewById(R.id.experience_view);
         moteDetailInfoLayout.setVisibility(View.GONE);
+        guanzhuView = (CheckedTextView) findViewById(R.id.guanzhu);
         findViewById(R.id.jiantou_up).setOnClickListener(this);
         moteInfoSummaryView.setOnClickListener(this);
     }
@@ -149,6 +161,10 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     }
 
     private void initOrderNoView() {
+        orderLayout = findViewById(R.id.confirm_order_layout);
+        orderLayout.setVisibility(View.GONE);
+        line1 = findViewById(R.id.line1);
+        line1.setVisibility(View.GONE);
         confirmButton = (TextView) findViewById(R.id.confirm_order_button);
         confirmTimeView = (TextView) findViewById(R.id.confirm_time);
         confirmOrderNoTextView = (TextView) findViewById(R.id.confirm_order_id);
@@ -189,11 +205,14 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
 
                 SellerTaskProcessActivity.this.taskProcessVO = taskProcessVO;
-                fillMoteInfo(taskProcessVO);
-                fillAcceptStatus(taskProcessVO);
-                fillOrderStatus(taskProcessVO);
+//                fillMoteInfo(taskProcessVO);
 
                 int status = taskProcessVO.moteTask.status;
+                fillAcceptStatus(taskProcessVO);
+                if (status > 1) {
+                    fillOrderStatus(taskProcessVO);
+                }
+
                 if (status > 2) {
                     initAndFillUploadPic(taskProcessVO);
                 }
@@ -211,19 +230,58 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     }
 
     private void fillMoteInfo(TaskProcessVO taskProcessVO) {
+        dataLoadingDailog.show();
         UserVO userVO = taskProcessVO.user;
-        headImage.setImageUrl(userVO.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
+        MoteManager.fetchMoteDetailInfo(userVO.id, LoginManager.getLoginInfo(this).token).startUI(new ApiCallback<MoteDetail1>() {
             @Override
-            public Bitmap processBitmpa(Bitmap bitmap) {
-                return ImageUtils.getCircleBitmap(bitmap, 90*oneDp);
+            public void onError(int code, String errorInfo) {
+                dataLoadingDailog.dismiss();
+                Toast.makeText(SellerTaskProcessActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                moteDetailInfoLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onSuccess(MoteDetail1 vo) {
+                dataLoadingDailog.dismiss();
+                SellerTaskProcessActivity.this.moteDetail = vo;
+                String imageUrl = vo.getAvartUrl();
+                if (!TextUtils.isEmpty(imageUrl)) {
+                    headImage.setImageUrl(vo.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.getCircleBitmap(bitmap, 90 * oneDp);
+                        }
+                    });
+                    nicknameView.setText(vo.getNickname());
+                }
+
+                isFollow = vo.isFollow;
+                if (isFollow) {
+                    guanzhuView.setText("已关注");
+                    guanzhuView.setChecked(true);
+                } else {
+                    Object num = vo.getFollowNum();
+                    guanzhuView.setText("关注度:" + num);
+                    guanzhuView.setChecked(false);
+                }
+
+                guanzhuView.setOnClickListener(SellerTaskProcessActivity.this);
+                experienceView.setText("经验值：" + vo.getOrderNum());
+                agreeKeyView.setText("满意度：" + vo.goodeEvalRate);
+                moteDetailInfoLayout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
             }
         });
-        nicknameView.setText(userVO.nickname);
-
 
     }
 
     private void fillOrderStatus(TaskProcessVO taskProcessVO) {
+        line1.setVisibility(View.VISIBLE);
+        orderLayout.setVisibility(View.VISIBLE);
         long orderNoTime = taskProcessVO.moteTask.orderNoTime;
         String dateStr = DateUtil.getDateStr(orderNoTime);
         String orderNo = taskProcessVO.moteTask.orderNo;
@@ -241,7 +299,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         FragmentManager fragmentManager = getFragmentManager();
         Fragment uploadPicFragment = fragmentManager.findFragmentById(R.id.upload_pic);
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, new FinishCallback() {
+        uploadPicFragment = ProcessUploadImageFragment.newInstance(taskProcessVO, true, new FinishCallback() {
             @Override
             public void doFinish(int type) {
                 loadData(false);
@@ -282,7 +340,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             finishView.setOnClickListener(this);
         }
 
-        if (status == 7 || status == 8) {
+        if (status == 7 || status == 8 || taskProcessVO.moteTask.finishStatus == 1) {
+            finishLayout.setVisibility(View.VISIBLE);
             finishView.setChecked(false);
             line5.setVisibility(View.VISIBLE);
             finishView.setTextColor(Color.parseColor("#999999"));
@@ -365,7 +424,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 break;
             case R.id.mote_info_summary:
                 moteInfoSummaryView.setCompoundDrawables(null, null, null, null);
-                moteDetailInfoLayout.setVisibility(View.VISIBLE);
+                fillMoteInfo(taskProcessVO);
                 break;
             case R.id.act_ls_fail_layout:
                 loadData(true);
@@ -373,8 +432,72 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             case R.id.title_back:
                 this.finish();
                 break;
+            case R.id.guanzhu:
+                doGuanzhu();
+                break;
+        }
 
+    }
 
+    private void doGuanzhu() {
+        if (!LoginManager.isLogin(this)) {
+            return;
+        }
+        dataLoadingDailog.show();
+        LoginVO vo = LoginManager.getLoginInfo(this);
+        if (!isFollow) {
+            MoteManager.addFollow(taskProcessVO.user.id, vo.token).startUI(new ApiCallback<Integer>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(SellerTaskProcessActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                    if (!SellerTaskProcessActivity.this.isFinishing()) {
+                        dataLoadingDailog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onSuccess(Integer num) {
+                    Toast.makeText(SellerTaskProcessActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                    if (!SellerTaskProcessActivity.this.isFinishing()) {
+                        dataLoadingDailog.dismiss();
+                    }
+                    guanzhuView.setText("已关注");
+                    guanzhuView.setChecked(true);
+                    isFollow = true;
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+        } else {
+            List<Long> moteIds = Arrays.asList(new Long[]{taskProcessVO.user.id});
+            MoteManager.cancelFollow(moteIds, vo.token).startUI(new ApiCallback<Boolean>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(SellerTaskProcessActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                    if (!SellerTaskProcessActivity.this.isFinishing()) {
+                        dataLoadingDailog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onSuccess(Boolean num) {
+                    Toast.makeText(SellerTaskProcessActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
+                    if (!SellerTaskProcessActivity.this.isFinishing()) {
+                        dataLoadingDailog.dismiss();
+                    }
+                    guanzhuView.setText("关注度:" + moteDetail.followNum);
+                    guanzhuView.setChecked(false);
+                    isFollow = false;
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
         }
 
     }
