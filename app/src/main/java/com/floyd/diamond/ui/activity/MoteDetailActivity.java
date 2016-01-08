@@ -226,8 +226,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
 
         // 打开分享面板
-        // mShare.openShare(this, false);//系统默认的
-        startActivity(new Intent(MoteDetailActivity.this, DialogActivity.class));
+         mShare.openShare(this, false);//系统默认的
+//        startActivity(new Intent(MoteDetailActivity.this, DialogActivity.class));
 
 
     }

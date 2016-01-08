@@ -1,11 +1,12 @@
 package com.floyd.diamond.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/1/3.
  */
-public class ChoiceCondition {
+public class ChoiceCondition implements Serializable{
 
     /**
      * userId : null
@@ -49,20 +50,20 @@ public class ChoiceCondition {
         return success;
     }
 
-    public static class DataEntity {
-        private Object userId;
-        private Object gender;
+    public static class DataEntity implements Serializable{
+        private int userId;
+        private int gender;
         private int ageMin;
         private int ageMax;
         private int heightMin;
         private int heightMax;
-        private Object shapes;
+        private List<String> shapes;
         private int creditMin;
         private int creditMax;
-        private Object levels;
-        private Object areaids;
-        private Object createTime;
-        private Object updateTime;
+        private int levels;
+        private List<String> areaids;
+        private long createTime;
+        private long updateTime;
         /**
          * id : 1
          * type : 1
@@ -82,11 +83,11 @@ public class ChoiceCondition {
 
         private List<AreaListEntity> areaList;
 
-        public void setUserId(Object userId) {
+        public void setUserId(int userId) {
             this.userId = userId;
         }
 
-        public void setGender(Object gender) {
+        public void setGender(int gender) {
             this.gender = gender;
         }
 
@@ -106,7 +107,7 @@ public class ChoiceCondition {
             this.heightMax = heightMax;
         }
 
-        public void setShapes(Object shapes) {
+        public void setShapes(List<String>shapes) {
             this.shapes = shapes;
         }
 
@@ -118,19 +119,19 @@ public class ChoiceCondition {
             this.creditMax = creditMax;
         }
 
-        public void setLevels(Object levels) {
+        public void setLevels(int levels) {
             this.levels = levels;
         }
 
-        public void setAreaids(Object areaids) {
+        public void setAreaids(List<String> areaids) {
             this.areaids = areaids;
         }
 
-        public void setCreateTime(Object createTime) {
+        public void setCreateTime(long createTime) {
             this.createTime = createTime;
         }
 
-        public void setUpdateTime(Object updateTime) {
+        public void setUpdateTime(long updateTime) {
             this.updateTime = updateTime;
         }
 
@@ -142,11 +143,11 @@ public class ChoiceCondition {
             this.areaList = areaList;
         }
 
-        public Object getUserId() {
+        public int getUserId() {
             return userId;
         }
 
-        public Object getGender() {
+        public int getGender() {
             return gender;
         }
 
@@ -166,7 +167,7 @@ public class ChoiceCondition {
             return heightMax;
         }
 
-        public Object getShapes() {
+        public List<String> getShapes() {
             return shapes;
         }
 
@@ -178,19 +179,19 @@ public class ChoiceCondition {
             return creditMax;
         }
 
-        public Object getLevels() {
+        public int getLevels() {
             return levels;
         }
 
-        public Object getAreaids() {
+        public List<String> getAreaids() {
             return areaids;
         }
 
-        public Object getCreateTime() {
+        public long getCreateTime() {
             return createTime;
         }
 
-        public Object getUpdateTime() {
+        public long getUpdateTime() {
             return updateTime;
         }
 
@@ -202,7 +203,7 @@ public class ChoiceCondition {
             return areaList;
         }
 
-        public static class ShapesListEntity {
+        public static class ShapesListEntity implements Serializable{
             private int id;
             private int type;
             private String name;
@@ -259,7 +260,7 @@ public class ChoiceCondition {
             }
         }
 
-        public static class AreaListEntity {
+        public static class AreaListEntity implements Serializable{
             private int id;
             private String name;
             private int pid;

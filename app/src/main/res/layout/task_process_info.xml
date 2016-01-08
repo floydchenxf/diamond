@@ -9,7 +9,7 @@
         android:id="@+id/task_info_summary"
         android:layout_width="fill_parent"
         android:layout_height="40dp"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="36dp"
         android:layout_marginRight="12dp"
         android:drawableRight="@drawable/jiantou_down"
         android:gravity="center"
@@ -138,15 +138,21 @@
             android:textColor="@color/white"
             android:textSize="12sp" />
 
-
-        <ImageView
-            android:id="@+id/jiantou_up"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/jiantou_upTask"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
             android:layout_marginTop="100dp"
             android:layout_marginBottom="6dp"
-            android:layout_alignParentRight="true"
-            android:src="@drawable/jiantou_up" />
+            android:gravity="right">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/jiantou_up"
+                android:layout_marginRight="20dp"/>
+        </LinearLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

@@ -72,7 +72,8 @@ public class CareDialogActivity extends Activity {
                     public void onResponse(String response) {
                         if (GlobalParams.isDebug) {
                             Log.e("response_success", response);
-                            Log.e("response_list",deleteModel.toString());
+                            Log.e("response_list", deleteModel.toString().substring(1,deleteModel.toString().length()-1).replaceAll(" +","").trim());
+                            Log.e("kongge","1039,1100");
                         }
 
 
@@ -104,7 +105,7 @@ public class CareDialogActivity extends Activity {
 
                         //在这里设置需要post的参数
                         Map<String, String> params = new HashMap<>();
-                        params.put("moteId", deleteModel + "");
+                        params.put("moteIds", deleteModel.toString().substring(1,deleteModel.toString().length()-1).replaceAll(" +","").trim());
                         params.put("token", loginVO.token);
                         return params;
                     }

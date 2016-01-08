@@ -66,58 +66,26 @@ public class MessageItemActivity extends Activity {
         });
     }
 
-//    public void setImg() {
-//
-//        String imgUrl = getIntent().getStringExtra("imgUrl");
-//        MyImageLoader loader = new MyImageLoader(queue, imgUrl, imageView, MessageItemActivity.this);
-//
-//    }
+    public void setData() {
 
-    public void setData(){
-        String url= URl.BASEURL+ APIConstants.API_ADV_DETAIL_INFO;
-        id=getIntent().getLongExtra("id",0);
-        if (GlobalParams.isDebug){
-            Log.e("TAG", id+"");
+        id = getIntent().getLongExtra("id", 0);
+        if (GlobalParams.isDebug) {
+            Log.e("TAG", id + "");
         }
-        StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
 
-                if (GlobalParams.isDebug){
-                    Log.e("TAG", response);
-                }
-                Gson gson=new Gson();
-                MessageItem messageItem=gson.fromJson(response,MessageItem.class);
-
-                String content=messageItem.getData().getContent();
-                String html = "<p><img src='http://wanzao2.b0.upaiyun.com/system/pictures/4837853/original/20131002140008.png' title='1451806618242088360.jpg' alt='模特推荐.jpg'/></p>";
-                webView.loadDataWithBaseURL(null,html, "text/html",  "utf-8", null);
-                // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
-                webView.setWebViewClient(new WebViewClient() {
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
-                        view.loadUrl(url);
-                        return true;
-                    }
-                });
-
-            }
-        }, new Response.ErrorListener() {
+        String url = URl.BASEURL + APIConstants.API_ADV_DETAIL_INFO+"?id="+id;
+        String html = "<p><img src='http://wanzao2.b0.upaiyun.com/system/pictures/4837853/original/20131002140008.png' title='1451806618242088360.jpg' alt='模特推荐.jpg'/></p>";
+//        webView.loadDataWithBaseURL(null, url, "text/html", "utf-8", null);
+        webView.loadUrl(url);
+        // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
+        webView.setWebViewClient(new WebViewClient() {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MessageItemActivity.this,"请检查网络连接...", Toast.LENGTH_SHORT).show();
+            public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                // 返回值是true的时候控制去WebView打开，为false调用系统浏览器或第三方浏览器
+                view.loadUrl(url);
+                return true;
             }
-        }){
-            @Override
-            protected Map<String, String> getParams() {
-                //在这里设置需要post的参数
-                Map<String, String> params = new HashMap<>();
-                params.put("id",4+"");
-                return params;
-            }
-        };
-        queue.add(request);
+        });
+
     }
-
 }

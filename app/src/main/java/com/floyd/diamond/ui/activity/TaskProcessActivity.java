@@ -310,7 +310,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         goodsLinkView = (TextView) findViewById(R.id.goods_link);
 
         taskInfoSummaryView.setOnClickListener(this);
-        findViewById(R.id.jiantou_up).setOnClickListener(this);
+        findViewById(R.id.jiantou_upTask).setOnClickListener(this);
         goodsLinkView.setOnClickListener(this);
     }
 
@@ -345,7 +345,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             case R.id.title_back:
                 this.finish();
                 break;
-            case R.id.jiantou_up:
+            case R.id.jiantou_upTask:
                 Drawable down = null;
                 if(android.os.Build.VERSION.SDK_INT >= 21){
                     down = getResources().getDrawable(R.drawable.jiantou_down, getTheme());

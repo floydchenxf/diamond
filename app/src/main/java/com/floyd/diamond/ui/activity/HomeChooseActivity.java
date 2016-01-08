@@ -63,7 +63,6 @@ public class HomeChooseActivity extends Activity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
-
         adapter.notifyDataSetChanged();
 
         }
@@ -149,7 +148,7 @@ public class HomeChooseActivity extends Activity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeChooseActivity.this, ChooseActivity.class));
+                startActivity(new Intent(HomeChooseActivity.this, ChooseActivity1.class));
             }
         });
 

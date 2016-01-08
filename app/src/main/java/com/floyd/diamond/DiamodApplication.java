@@ -39,6 +39,7 @@ public class DiamodApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        com.umeng.socialize.utils.Log.LOG = true;
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
         IMChannel.setApplication(this);
 

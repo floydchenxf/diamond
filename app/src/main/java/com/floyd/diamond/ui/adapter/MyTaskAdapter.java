@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -115,6 +116,7 @@ public class MyTaskAdapter extends BaseAdapter {
             holder.leftTimeView = (TextView) convertView.findViewById(R.id.left_time);
             holder.fillOrderView = (TextView) convertView.findViewById(R.id.fill_order);
             holder.uploadImageView = (TextView) convertView.findViewById(R.id.upload_pic);
+            holder.orderInfo= ((RelativeLayout) convertView.findViewById(R.id.orderInfo));
             convertView.setTag(holder);
         }
 
@@ -158,7 +160,7 @@ public class MyTaskAdapter extends BaseAdapter {
         } else {
             holder.fillOrderView.setText("未知");
         }
-        holder.fillOrderView.setOnClickListener(new View.OnClickListener() {
+        holder.orderInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent it = new Intent(mContext, TaskProcessActivity.class);
@@ -176,6 +178,7 @@ public class MyTaskAdapter extends BaseAdapter {
         public TextView leftTimeView;
         public TextView uploadImageView;
         public TextView fillOrderView;
+        public RelativeLayout orderInfo;
     }
 
     public static class MsgObj {

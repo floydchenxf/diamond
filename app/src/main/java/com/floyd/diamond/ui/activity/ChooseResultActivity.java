@@ -20,6 +20,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.ChoiceCondition;
 import com.floyd.diamond.bean.ChooseCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.Model;
@@ -50,6 +51,7 @@ public class ChooseResultActivity extends Activity {
     private boolean needClear;
     private GridLayoutManager mLayoutManager;
     private MasonryAdapter adapter;
+    private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(android.os.Message msg) {
@@ -107,54 +109,27 @@ public class ChooseResultActivity extends Activity {
         queue= Volley.newRequestQueue(ChooseResultActivity.this);
         modelsList=new ArrayList<>();//用于存放每一页的模特
         allModel=new ArrayList<>();//用于存储所有的模特
-       // mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.swipe_container);
-        // mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
-        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
+        swipeRefreshLayout = ((com.floyd.diamond.bean.SwipeRefreshLayout) findViewById(R.id.swip));
+        //设置刷新时动画的颜色，可以设置4个
+        swipeRefreshLayout.setBottomColor(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
+        swipeRefreshLayout.setTopColor(android.R.color.holo_purple, android.R.color.holo_orange_light, android.R.color.holo_blue_bright, android.R.color.holo_green_light);
+        swipeRefreshLayout.setOnRefreshListener(new com.floyd.diamond.bean.SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onPullDownToRefresh() {
-                needClear = false;
-                pageNo=1;
-                setData();
-                mPullToRefreshListView.onRefreshComplete(true, true);
+            public void onRefresh() {
+                pageNo = 1;
                 allModel.clear();
-                //messageList.clear();
-                //handler.sendEmptyMessage(1);
+                setData();
+                swipeRefreshLayout.setRefreshing(false);
             }
-
+        });
+        swipeRefreshLayout.setOnLoadListener(new com.floyd.diamond.bean.SwipeRefreshLayout.OnLoadListener() {
             @Override
-            public void onPullUpToRefresh() {
-                needClear = false;
-                mPullToRefreshListView.onRefreshComplete(true, true);
+            public void onLoad() {
                 pageNo++;
                 setData();
-                //adapter.notifyDataSetChanged();
-                // handler.sendEmptyMessage(1);
+                swipeRefreshLayout.setLoading(false);
             }
         });
-
-        mPullToRefreshListView.setOnTouchListener(new View.OnTouchListener() {
-
-            float y1 = 0, y2 = 0;
-
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        if (y1 == 0) {
-                            y1 = event.getRawY();
-                        }
-                        y2 = event.getRawY();
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                        break;
-                }
-                return false;
-            }
-        });
-
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,7 +142,7 @@ public class ChooseResultActivity extends Activity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ChooseResultActivity.this, ChooseActivity.class));
+                startActivity(new Intent(ChooseResultActivity.this, ChooseActivity1.class));
             }
         });
 
@@ -190,7 +165,14 @@ public class ChooseResultActivity extends Activity {
     }
 
     public void setData(){
-        final ChooseCondition chooseCondition= (ChooseCondition) getIntent().getSerializableExtra("chooseCondition");
+
+        final ChoiceCondition.DataEntity dataEntity= (ChoiceCondition.DataEntity) getIntent().getSerializableExtra("chooseCondition");
+
+        if (GlobalParams.isDebug){
+            Log.e("TAG_shapes",dataEntity.getShapes().toString().substring(1,dataEntity.getShapes().toString().length()-1).replace(" ",""));
+            Log.e("TAG_areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ",""));
+        }
+
         String url= APIConstants.HOST+APIConstants.CHOOSEMOTE;
         StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
@@ -217,15 +199,15 @@ public class ChooseResultActivity extends Activity {
             protected Map<String, String> getParams() {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
-                params.put("gender",chooseCondition.getGender()+"");
-                params.put("ageMin",chooseCondition.getAgeMin()+"");
-                params.put("ageMax",chooseCondition.getAgeMax()+"");
-                params.put("heightMin",chooseCondition.getHeightMin()+"");
-                params.put("heightMax",chooseCondition.getHeightMax()+"");
-                params.put("creditMin",chooseCondition.getCreditMin()+"");
-                params.put("creditMax",chooseCondition.getCreditMax()+"");
-                params.put("shapes",chooseCondition.getShapesList()+"");
-                params.put("",chooseCondition.getProvincesList()+"");
+                params.put("gender",dataEntity.getGender()+"");
+                params.put("ageMin",dataEntity.getAgeMin()+"");
+                params.put("ageMax",dataEntity.getAgeMax()+"");
+                params.put("heightMin",dataEntity.getHeightMin()+"");
+                params.put("heightMax",dataEntity.getHeightMax()+"");
+                params.put("creditMin",dataEntity.getCreditMin()+"");
+                params.put("creditMax",dataEntity.getCreditMax()+"");
+                params.put("shapes",dataEntity.getShapes().toString().substring(1,dataEntity.getShapes().toString().length()-1).replace(" ","")+"");
+                params.put("areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ","")+"");
                 params.put("pageNo",pageNo+"");
                 params.put("pageSize",10+"");
                 return params;

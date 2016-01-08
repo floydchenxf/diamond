@@ -155,7 +155,7 @@ public class SeekBarPressure2 extends View {
         notScrollBarBg.draw(canvas);
 
         //蓝色，中间部分会动
-        hasScrollBarBg.setBounds((int)mOffsetLow, aaa+9, (int)mOffsetHigh, bbb-9);
+        hasScrollBarBg.setBounds((int)mOffsetLow, aaa+10, (int)mOffsetHigh, bbb-10);
         hasScrollBarBg.draw(canvas);
 
         //前滑块

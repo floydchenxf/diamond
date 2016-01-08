@@ -190,6 +190,8 @@ public class CareActivity extends Activity {
                         intent.putStringArrayListExtra("deleteList", deleteModel);
                         startActivity(intent);
 
+                        deleteModel.clear();
+
                         edit.setText("编辑");
                         editOrdelete = "编辑";
 
