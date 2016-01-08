@@ -33,7 +33,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
     public void addAll(List<MoteTypeTaskVO> productTypeVOs, boolean isClear) {
         if (isClear) {
-            productTypeVOs.clear();
+            this.productTypeVOs.clear();
         }
 
         this.productTypeVOs.addAll(productTypeVOs);

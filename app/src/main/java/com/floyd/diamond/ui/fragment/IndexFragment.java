@@ -38,6 +38,7 @@ import com.floyd.diamond.biz.vo.IndexVO;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.biz.vo.mote.UnReadMsgVO;
+import com.floyd.diamond.event.LoginEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
@@ -56,6 +57,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -180,6 +184,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         showRedHotMap.put(2, Boolean.FALSE);
         showRedHotMap.put(3, Boolean.FALSE);
         showRedHotMap.put(4, Boolean.FALSE);
+
+        EventBus.getDefault().register(this);
         mTopBannerList = new ArrayList<AdvVO>();
         loadDialog = DialogCreator.createDataLoadingDialog(this.getActivity());
         listViewGestureDetector = new GestureDetector(this.getActivity(), new GestureDetector.OnGestureListener() {
@@ -717,10 +723,23 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         return false;
     }
 
+    @Subscribe
+    public void onEventMainThread(LoginEvent event) {
+        if (!IndexFragment.this.getActivity().isFinishing()) {
+            Log.i(TAG, "unReadMsg when login");
+            loadUnReadMsgs(true);
+        }
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     @Override
     public void onDetach() {
         super.onDetach();
+
     }
 
     @Override

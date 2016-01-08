@@ -662,4 +662,5 @@ public class MoteManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
+
 }
