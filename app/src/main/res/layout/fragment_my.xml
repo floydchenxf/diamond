@@ -96,6 +96,8 @@
                 android:layout_below="@id/mine_touxiang"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
+                android:singleLine="true"
+                android:ellipsize="middle"
                 android:text="yoyo"
                 android:textColor="#ffffff"
                 app:layout_heightPercent="15%"

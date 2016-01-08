@@ -193,14 +193,14 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
                     confirmGoodsTimeView.setText(dateStr);
-                    confirmGoodsDescView.setText("等待商家确认收货");
+                    confirmGoodsDescView.setText("等待商家确认");
                 }
 
                 if (status >=8 || taskProcessVO.moteTask.finishStatus == 1) {
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(taskProcessVO.moteTask.finishStatusTime);
                     confirmGoodsTimeView.setText(dateStr);
-                    confirmGoodsDescView.setText("商家确认收货");
+                    confirmGoodsDescView.setText("商家已确认");
                 }
             }
 

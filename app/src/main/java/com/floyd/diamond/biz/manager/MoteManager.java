@@ -613,6 +613,7 @@ public class MoteManager {
                                 UserExtVO userExtVO = new UserExtVO();
                                 userExtVO.fenNum = moteInfoVO.fenNum;
                                 userExtVO.followNum = moteInfoVO.followNum;
+                                userExtVO.nickname = moteInfoVO.nickname;
                                 userExtVO.goodeEvalRate = moteInfoVO.goodeEvalRate;
                                 userExtVO.orderNum = moteInfoVO.orderNum;
                                 userExtVO.address = userVO.address;
