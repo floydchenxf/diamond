@@ -74,6 +74,32 @@ public abstract class AsyncJob<T> {
         };
     }
 
+    public AsyncJob<T> process(final Processor<T> processor) {
+        final AsyncJob<T> source = this;
+
+        return new AsyncJob<T>() {
+            @Override
+            public void start(final ApiCallback<T> callback) {
+                source.start(new ApiCallback<T>() {
+                    @Override
+                    public void onSuccess(T result) {
+                        processor.doProcess(result);
+                        callback.onSuccess(result);
+                    }
+
+                    @Override
+                    public void onError(int code, String e) {
+                        callback.onError(code, e);
+                    }
+
+                    public void onProgress(int progress) {
+                        callback.onProgress(progress);
+                    }
+                });
+            }
+        };
+    }
+
     public <R> AsyncJob<R> map(final Func<T, R> func) {
         final AsyncJob<T> source = this;
         return new AsyncJob<R>() {
@@ -140,5 +166,6 @@ public abstract class AsyncJob<T> {
             }
         };
     }
+
 
 }

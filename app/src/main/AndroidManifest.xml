@@ -18,11 +18,11 @@
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES"/>
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.RESTART_PACKAGES"/>
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.RESTART_PACKAGES" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
     <uses-permission android:name="android.permission.READ_LOGS" />
     <uses-permission android:name="android.permission.GET_TASKS" />
@@ -31,7 +31,6 @@
     <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <!-- QQ、QQ空间所需权限 -->
-
     <application
         android:name=".DiamodApplication"
         android:allowBackup="true"
@@ -206,10 +205,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-        <activity android:name=".ui.activity.CareActivity"
+        <activity
+            android:name=".ui.activity.CareActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay"/>
+            android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.PersonInfoActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -300,31 +300,31 @@
             android:name=".ui.activity.AboutUsActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay"/>
+            android:theme="@style/ContentOverlay" />
 
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->
         <!-- 【必须】 exported设置为true -->
         <activity
             android:name="com.tencent.android.tpush.XGPushActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.Translucent">
-            <intent-filter><!-- 若使用AndroidStudio，请设置android:name="android.intent.action"
--->
+            android:theme="@android:style/Theme.Translucent" >
+            <intent-filter>
+<!--  若使用AndroidStudio，请设置android:name="android.intent.action" -->
                 <action android:name="android.intent.action" />
             </intent-filter>
         </activity>
         <!-- 【必须】 信鸽receiver广播接收 -->
         <receiver
             android:name="com.tencent.android.tpush.XGPushReceiver"
-            android:process=":xg_service_v2">
-            <intent-filter android:priority="0x7fffffff">
+            android:process=":xg_service_v2" >
+            <intent-filter android:priority="0x7fffffff" >
+
                 <!-- 【必须】 信鸽SDK的内部广播 -->
                 <action android:name="com.tencent.android.tpush.action.SDK" />
                 <action android:name="com.tencent.android.tpush.action.INTERNAL_PUSH_MESSAGE" />
                 <!-- 【必须】 系统广播：开屏和网络切换 -->
                 <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
-
                 <action android:name="android.bluetooth.adapter.action.STATE_CHANGED" />
                 <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
                 <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
@@ -339,16 +339,27 @@
         <!-- 【必须】 通知service，其中android:name部分要改为当前包名 -->
         <service
             android:name="com.tencent.android.tpush.rpc.XGRemoteService"
-            android:exported="true">
-            <intent-filter><!-- 【必须】 请修改为当前APP名包.PUSH_ACTION，如demo的包名为：com.qq.xgdemo-->
+            android:exported="true" >
+            <intent-filter> <!-- 【必须】 请修改为当前APP名包.PUSH_ACTION，如demo的包名为：com.qq.xgdemo -->
                 <action android:name="com.floyd.diamond.ui.PUSH_ACTION" />
             </intent-filter>
         </service>
 
         <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
-        <meta-data android:name="XG_V2_ACCESS_ID" android:value="2100175149"/>
+        <meta-data
+            android:name="XG_V2_ACCESS_ID"
+            android:value="2100175149" />
         <!-- 【必须】 请修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
-        <meta-data android:name="XG_V2_ACCESS_KEY" android:value="AYD97KW1S56T"/>
+        <meta-data
+            android:name="XG_V2_ACCESS_KEY"
+            android:value="AYD97KW1S56T" />
+
+        <activity
+            android:name=".ui.activity.ExpressActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay">
+        </activity>
     </application>
 
 </manifest>
