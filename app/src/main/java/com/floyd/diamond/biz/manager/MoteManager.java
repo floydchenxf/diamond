@@ -8,6 +8,8 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
+import com.floyd.diamond.aync.JobFactory;
+import com.floyd.diamond.aync.Processor;
 import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.MoteTaskStatus;
@@ -15,6 +17,8 @@ import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.parser.AbstractJsonParser;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.AreaVO;
+import com.floyd.diamond.biz.vo.ExpressCompanyVO;
+import com.floyd.diamond.biz.vo.ExpressInfoVO;
 import com.floyd.diamond.biz.vo.mote.MoteInfoVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskVO;
@@ -23,8 +27,8 @@ import com.floyd.diamond.biz.vo.mote.MoteWalletVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.biz.vo.mote.UnReadMsgVO;
-import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.mote.UserExtVO;
+import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
@@ -613,6 +617,7 @@ public class MoteManager {
                                 UserExtVO userExtVO = new UserExtVO();
                                 userExtVO.fenNum = moteInfoVO.fenNum;
                                 userExtVO.followNum = moteInfoVO.followNum;
+                                userExtVO.nickname = moteInfoVO.nickname;
                                 userExtVO.goodeEvalRate = moteInfoVO.goodeEvalRate;
                                 userExtVO.orderNum = moteInfoVO.orderNum;
                                 userExtVO.address = userVO.address;
@@ -661,4 +666,53 @@ public class MoteManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
+
+    /**
+     * 获取快递公司
+     *
+     * @param context
+     * @return
+     */
+    public static AsyncJob<List<ExpressCompanyVO>> fetchExpressCompanies(final Context context) {
+        final String expressSaveTimeKey = "_EXPRESSCOMPANYVO_TIME_";
+        final String expressCompanyStrKey = "_EXPRESSCOMPANYVO_CONTENT_";
+        Long visitorTime = PrefsTools.getLongPrefs(context, expressSaveTimeKey, 0);
+        AsyncJob<List<ExpressCompanyVO>> expressCompaniesJob = null;
+        if (visitorTime != 0l && (System.currentTimeMillis() - visitorTime) > 24 * 60 * 60 * 1000) {
+            String data = PrefsTools.getStringPrefs(context, expressCompanyStrKey);
+            expressCompaniesJob = JobFactory.createJob(data).threadOn().map(new Func<String, List<ExpressCompanyVO>>() {
+                @Override
+                public List<ExpressCompanyVO> call(String s) {
+                    Gson gson = new Gson();
+                    List<ExpressCompanyVO> dataResult = gson.fromJson(s, new TypeToken<ArrayList<ExpressCompanyVO>>() {
+                    }.getType());
+                    return dataResult;
+                }
+            });
+        } else {
+            String url = APIConstants.HOST + APIConstants.API_KUAIDI_LIST;
+            Type type = new TypeToken<ArrayList<ExpressCompanyVO>>() {
+            }.getType();
+            expressCompaniesJob = JsonHttpJobFactory.getJsonAsyncJob(url, null, HttpMethod.POST, type);
+            expressCompaniesJob = expressCompaniesJob.process(new Processor<List<ExpressCompanyVO>>() {
+                @Override
+                public void doProcess(List<ExpressCompanyVO> expressCompanyVOs) {
+                    String data = new Gson().toJson(expressCompanyVOs);
+                    PrefsTools.setStringPrefs(context, expressCompanyStrKey, data);
+                    PrefsTools.setLongPrefs(context, expressSaveTimeKey, System.currentTimeMillis());
+                }
+            });
+        }
+        return expressCompaniesJob;
+    }
+
+    public static AsyncJob<List<ExpressInfoVO>> fetchExpressInfos(String token, long moteTaskId) {
+        String url = APIConstants.HOST + APIConstants.API_GET_EXPRESS_INFO;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("id", moteTaskId+"");
+        params.put("token", token);
+        Type type = new TypeToken<ArrayList<ExpressInfoVO>>(){}.getType();
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
+    }
+
 }

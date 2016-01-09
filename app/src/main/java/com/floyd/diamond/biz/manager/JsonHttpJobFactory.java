@@ -1,5 +1,6 @@
 package com.floyd.diamond.biz.manager;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.floyd.diamond.aync.ApiCallback;
@@ -32,6 +33,9 @@ public class JsonHttpJobFactory {
                         new AbstractJsonParser<T>() {
                             @Override
                             protected T convert2Obj(String data) {
+                                if (TextUtils.isEmpty(data)) {
+                                    return null;
+                                }
                                 Gson gson = new Gson();
                                 if (GlobalParams.isDebug){
                                     Log.d("TAG",data+"");

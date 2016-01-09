@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -34,6 +35,7 @@ import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
+import com.floyd.diamond.ui.activity.ExpressActivity;
 import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
@@ -330,6 +332,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             goodsOrderTypeView.setVisibility(View.VISIBLE);
             goodsOrderTypeView.setText("承运来源：" + taskProcessVO.moteTask.expressCompanyId);
             goodsOrderNoView.setText("运单编号：" + taskProcessVO.moteTask.expressNo);
+            goodsOrderNoView.setOnClickListener(this);
         }
 
         if (status > 4 && status < 7) {
@@ -434,6 +437,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 break;
             case R.id.guanzhu:
                 doGuanzhu();
+                break;
+            case R.id.goods_order_no_view:
+                Intent orderIntent = new Intent(this, ExpressActivity.class);
+                orderIntent.putExtra(ExpressActivity.EXPRESS_MOTE_TASK_ID, taskProcessVO.moteTask.id);
+                startActivity(orderIntent);
                 break;
         }
 

@@ -203,7 +203,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
             case R.id.title_back:
                 this.finish();
                 break;
-            case R.id.act_lsloading:
+            case R.id.act_ls_fail_layout:
                 isClear = true;
                 pageNo = 1;
                 loadData(true);

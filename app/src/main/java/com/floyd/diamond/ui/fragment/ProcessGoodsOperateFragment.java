@@ -24,12 +24,16 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DateUtil;
+import com.floyd.diamond.biz.vo.ExpressCompanyVO;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.process.ProcessStatus;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.floyd.zxing.MipcaActivityCapture;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -71,7 +75,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
     private int expressCompanyId = -1;
     private String expressNO;
 
-    private String[] expressCompanies = new String[]{"圆通", "申通", "天天", "EMS", "顺丰", "韵达", "中通", "汇通", "国通", "全峰", "京东", "优速", "速尔", "佳吉"};
+    private List<ExpressCompanyVO> expressCompanies = new ArrayList<ExpressCompanyVO>();//new String[]{"圆通", "申通", "天天", "EMS", "顺丰", "韵达", "中通", "汇通", "国通", "全峰", "京东", "优速", "速尔", "佳吉"};
 
     private TextView layoutExpressNoEditView;
     private ImageView layoutSaoView;
@@ -201,32 +205,48 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
     }
 
     private void initExpressGridLayout() {
-        expressInfoSettingLayout.setVisibility(View.VISIBLE);
-        expressCompanyLayout.removeAllViews();
-        int width = this.getActivity().getWindowManager().getDefaultDisplay().getWidth();
-        float ondp = this.getActivity().getResources().getDimension(R.dimen.one_dp);
-        final float eachWidth = (width - 24 * ondp) / 4;
-        int idx = 0;
-        for (String s : expressCompanies) {
-            View item = View.inflate(this.getActivity(), R.layout.process_express_company_item, null);
-            GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
-            lp.width = (int) eachWidth;
-            lp.height = (int) (60 * ondp);
-            item.setLayoutParams(lp);
-            CheckedTextView companyView = (CheckedTextView) item.findViewById(R.id.express_company_item);
-            companyView.setText(s);
-            companyView.setTextColor(Color.WHITE);
-            companyView.setTag(idx++);
-            companyView.setOnClickListener(this);
-            expressCompanyLayout.addView(item);
-        }
+        MoteManager.fetchExpressCompanies(ProcessGoodsOperateFragment.this.getActivity()).startUI(new ApiCallback<List<ExpressCompanyVO>>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                expressInfoSettingLayout.setVisibility(View.GONE);
+                Toast.makeText(ProcessGoodsOperateFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
+            }
 
-        layoutExpressNoEditView = (EditText) expressInfoSettingLayout.findViewById(R.id.express_no_edit_view);
-        layoutExpressNoConfirmView = (TextView) expressInfoSettingLayout.findViewById(R.id.express_no_confirm_button);
-        layoutExpressNoConfirmView.setOnClickListener(this);
-        layoutSaoView = (ImageView) expressInfoSettingLayout.findViewById(R.id.express_sao);
-        layoutSaoView.setOnClickListener(this);
+            @Override
+            public void onSuccess(List<ExpressCompanyVO> expressCompanyVOs) {
+                ProcessGoodsOperateFragment.this.expressCompanies = expressCompanyVOs;
+                expressInfoSettingLayout.setVisibility(View.VISIBLE);
+                expressCompanyLayout.removeAllViews();
+                int width = ProcessGoodsOperateFragment.this.getActivity().getWindowManager().getDefaultDisplay().getWidth();
+                float ondp = ProcessGoodsOperateFragment.this.getActivity().getResources().getDimension(R.dimen.one_dp);
+                final float eachWidth = (width - 24 * ondp) / 4;
+                int idx = 0;
+                for (ExpressCompanyVO s : expressCompanyVOs) {
+                    View item = View.inflate(ProcessGoodsOperateFragment.this.getActivity(), R.layout.process_express_company_item, null);
+                    GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
+                    lp.width = (int) eachWidth;
+                    lp.height = (int) (60 * ondp);
+                    item.setLayoutParams(lp);
+                    CheckedTextView companyView = (CheckedTextView) item.findViewById(R.id.express_company_item);
+                    companyView.setText(s.name);
+                    companyView.setTextColor(Color.BLACK);
+                    companyView.setTag(idx++);
+                    companyView.setOnClickListener(ProcessGoodsOperateFragment.this);
+                    expressCompanyLayout.addView(item);
+                }
 
+                layoutExpressNoEditView = (EditText) expressInfoSettingLayout.findViewById(R.id.express_no_edit_view);
+                layoutExpressNoConfirmView = (TextView) expressInfoSettingLayout.findViewById(R.id.express_no_confirm_button);
+                layoutExpressNoConfirmView.setOnClickListener(ProcessGoodsOperateFragment.this);
+                layoutSaoView = (ImageView) expressInfoSettingLayout.findViewById(R.id.express_sao);
+                layoutSaoView.setOnClickListener(ProcessGoodsOperateFragment.this);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
     }
 
     private void initReturnGoodsView(View v) {
@@ -318,14 +338,14 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
             case R.id.express_company_item:
                 if (expressCompanyId > -1) {
                     CheckedTextView textView = (CheckedTextView) expressCompanyLayout.findViewWithTag(expressCompanyId);
-                    textView.setTextColor(Color.WHITE);
-                    textView.setChecked(true);
+                    textView.setTextColor(Color.BLACK);
+                    textView.setChecked(false);
                 }
 
                 CheckedTextView view = (CheckedTextView) v;
                 expressCompanyId = (int) v.getTag();
-                view.setChecked(false);
-                view.setTextColor(Color.BLACK);
+                view.setChecked(true);
+                view.setTextColor(Color.WHITE);
                 break;
             case R.id.express_no_confirm_button:
                 if (expressCompanyId == -1) {
@@ -333,7 +353,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                     return;
                 }
 
-                final String expressCompany = expressCompanies[expressCompanyId];
+                final ExpressCompanyVO expressCompany = expressCompanies.get(expressCompanyId);//[expressCompanyId];
                 final String expressNo = layoutExpressNoEditView.getText().toString();
                 if (TextUtils.isEmpty(expressNo)) {
                     Toast.makeText(this.getActivity(), "请输入快递单号", Toast.LENGTH_SHORT).show();
@@ -342,7 +362,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
 
                 dataLoadingDialog.show();
                 LoginVO vo = LoginManager.getLoginInfo(this.getActivity());
-                MoteManager.returnGoods(taskProcessVO.moteTask.id, vo.token, expressCompany, expressNo).startUI(new ApiCallback<Boolean>() {
+                MoteManager.returnGoods(taskProcessVO.moteTask.id, vo.token, expressCompany.name, expressNo).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         if (!ProcessGoodsOperateFragment.this.getActivity().isFinishing()) {
@@ -356,7 +376,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                         if (!ProcessGoodsOperateFragment.this.getActivity().isFinishing()) {
                             dataLoadingDialog.dismiss();
                             expressInfoSettingLayout.setVisibility(View.GONE);
-                            showEditExpressInfo(expressCompany, expressNo);
+                            showEditExpressInfo(expressCompany.name, expressNo);
                             if (ProcessGoodsOperateFragment.this.callback != null) {
                                 ProcessGoodsOperateFragment.this.callback.doFinish(FinishCallback.TYPE_RETURN_ITEM_EVENT);
                             }

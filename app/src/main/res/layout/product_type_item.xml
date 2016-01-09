@@ -60,8 +60,8 @@
             android:background="#44000000"
             android:gravity="center"
             android:text="已接完"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textColor="#cecece"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 
@@ -120,8 +120,8 @@
             android:background="#44000000"
             android:gravity="center"
             android:text="已接完"
-            android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textColor="#cecece"
+            android:textSize="20sp"/>
 
     </RelativeLayout>
 

@@ -51,6 +51,8 @@ public class APIConstants {
     public static final String API_UNREAD_MSG_NUM = "api/index/getUnReadMsgNum"; //未读消息接口
     public static final String API_HAS_READ_MSG = "api/index/hasReadMsg";//已经读取
 
+    public static final String API_KUAIDI_LIST = "api/common/getKuaidiList";//快递公司
+    public static final String API_GET_EXPRESS_INFO = "api/motetask/getExpressInfo";
     //----------------------------------------------------------卖家------------------------------------------------
     public static final String API_SELLER_TASK_LIST = "api/task/getSellerTaskList"; //我的任务
     public static final String API_MOTE_LIST_APP = "api/task/getMoteList4APP"; //我的任务详情
