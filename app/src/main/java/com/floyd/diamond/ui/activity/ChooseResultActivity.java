@@ -169,6 +169,7 @@ public class ChooseResultActivity extends Activity {
         final ChoiceCondition.DataEntity dataEntity= (ChoiceCondition.DataEntity) getIntent().getSerializableExtra("chooseCondition");
 
         if (GlobalParams.isDebug){
+            Log.e("TAG_shapes_result",dataEntity.getShapes().toString());
             Log.e("TAG_shapes",dataEntity.getShapes().toString().substring(1,dataEntity.getShapes().toString().length()-1).replace(" ",""));
             Log.e("TAG_areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ",""));
         }
@@ -178,7 +179,7 @@ public class ChooseResultActivity extends Activity {
             @Override
             public void onResponse(String response) {
                 if (GlobalParams.isDebug){
-                    Log.e("TAG",response);
+                    Log.e("TAG_result",response);
                 }
                 Gson gson=new Gson();
                 Model model=gson.fromJson(response,Model.class);
