@@ -36,8 +36,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-        >
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="keyboardHidden|orientation"
@@ -49,7 +48,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.ChooseActivity1"/>
+        <activity android:name=".ui.activity.ChooseActivity1" />
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login"
@@ -306,7 +305,8 @@
             android:exported="true"
             android:theme="@android:style/Theme.Translucent" >
             <intent-filter>
-<!--  若使用AndroidStudio，请设置android:name="android.intent.action" -->
+
+                <!-- 若使用AndroidStudio，请设置android:name="android.intent.action" -->
                 <action android:name="android.intent.action" />
             </intent-filter>
         </activity>
@@ -355,8 +355,12 @@
             android:name=".ui.activity.ExpressActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay">
-        </activity>
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.activity.H5Activity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
     </application>
 
 </manifest>

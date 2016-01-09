@@ -324,6 +324,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             goodsProcessTimeTextView.setText(time);
             goodsOrderTypeView.setVisibility(View.GONE);
             goodsOrderNoView.setText("模特已购");
+            goodsOrderNoView.setOnClickListener(null);
         }
 
         if (status == 6 || taskProcessVO.moteTask.returnItemTime != 0) {

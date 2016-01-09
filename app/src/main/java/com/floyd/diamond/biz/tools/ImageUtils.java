@@ -2,6 +2,7 @@ package com.floyd.diamond.biz.tools;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
@@ -17,6 +18,7 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -29,6 +31,7 @@ import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +42,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.utils.WXUtil;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -108,6 +112,20 @@ public class ImageUtils {
 		drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
 		drawable.draw(canvas);
 		return bitmap;
+	}
+
+	public static Drawable toDrawable(Resources res, String imageStr) {
+		if(imageStr == null){
+			return null;
+		}
+		try{
+			byte[] b = Base64.decode(imageStr, Base64.DEFAULT);
+			ByteArrayInputStream in = new ByteArrayInputStream(b);
+			Bitmap bm = BitmapFactory.decodeStream(in);
+			return new BitmapDrawable(res, bm);
+		}catch (IllegalArgumentException e){
+			return null;
+		}
 	}
 
 	/**

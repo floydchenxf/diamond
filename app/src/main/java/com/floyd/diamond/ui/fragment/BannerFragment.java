@@ -1,5 +1,6 @@
 package com.floyd.diamond.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.vo.AdvVO;
+import com.floyd.diamond.ui.activity.H5Activity;
 import com.floyd.diamond.utils.CommonUtil;
 
 import org.json.JSONArray;
@@ -104,41 +106,15 @@ public class BannerFragment extends BaseFragment {
     }
 
     private void callAction(final List<String> actions, final String param, final AdvVO banner) {
-//        if (actions != null && actions.size() > 0) {
-//            ActionParam actionParam = new ActionParam();
-//            actionParam.setAsync(true);
-//            actionParam.setContext(getActivity());
-//            actionParam.setReturnIntent(true);
-//            actionParam.setUri(getActionParam(actions));
-//            ActionProxy proxy = ActionProxy.getInstance();
-//            proxy.callAction(actionParam, new IActionCallback() {
-//                @Override
-//                public void onSuccess(Map<String, Object> map) {
-//
-//                }
-//
-//                @Override
-//                public void onSuccessResultIntent(int i, Intent intent) {
-//                    if (param != null && param.equals("BANNER")) {
-//                        Bundle bundle = new Bundle();
-//                        bundle.putString("contentUrl", banner.getContentUrl());
-//                        bundle.putString("shareUrl", banner.getShareUrl());
-//                        bundle.putString("title", banner.getTitle());
-//                        bundle.putString("recommend", banner.getRecommend());
-//                        bundle.putString("mainPic", banner.getMainPic());
-//                        intent.putExtra("extra", bundle);
-//
-//                        intent.putExtra(CustomHybirdActivity.FROM, LsConstants.LS_SHARE_IN_WEBVIEW);
-//                    }
-//                    startActivity(intent);
-//                }
-//
-//                @Override
-//                public void onError(int i, String s) {
-//
-//                }
-//            });
-//        }
+
+        Intent actionIntent = new Intent(getActivity(), H5Activity.class);
+        H5Activity.H5Data data = new H5Activity.H5Data();
+//        data.data = "<html><body><font color=\"red\">brsdf</font</body></html>";
+        data.data = "http://www.baidu.com";
+        data.title = "百度";
+        data.dataType = 1;
+        actionIntent.putExtra(H5Activity.H5Data.H5_DATA, data);
+        startActivity(actionIntent);
     }
 
     private String getActionParam(List<String> actions) {
