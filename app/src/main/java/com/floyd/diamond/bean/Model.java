@@ -43,7 +43,7 @@ public class Model {
         private long id;
         private String avatarUrl;
         private String nickname;
-        private Object followNum;
+        private int followNum;
         private Object area;
 
         public void setId(long id) {
@@ -58,7 +58,7 @@ public class Model {
             this.nickname = nickname;
         }
 
-        public void setFollowNum(Object followNum) {
+        public void setFollowNum(int followNum) {
             this.followNum = followNum;
         }
 
@@ -78,7 +78,7 @@ public class Model {
             return nickname;
         }
 
-        public Object getFollowNum() {
+        public int getFollowNum() {
             return followNum;
         }
 

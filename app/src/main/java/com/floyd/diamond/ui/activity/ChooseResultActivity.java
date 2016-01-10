@@ -187,13 +187,19 @@ public class ChooseResultActivity extends Activity {
 
                 allModel.addAll(modelsList);
 
-                handler.sendEmptyMessage(1);
-
+                if (modelsList.size()==0){
+//                    startActivity(new Intent(ChooseResultActivity.this, ChooseResultNullActivity.class));
+//                    finish();
+                    setContentView(R.layout.activity_chooseresultnull);
+                }else{
+                    handler.sendEmptyMessage(1);
+                }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(ChooseResultActivity.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ChooseResultActivity.this, "请检查网络连接...", Toast.LENGTH_LONG).show();
+                finish();
             }
         }) {
             @Override
