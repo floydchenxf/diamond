@@ -59,7 +59,7 @@
                 android:layout_width="140dp"
                 android:layout_height="40dp"
                 android:background="@drawable/common_button"
-                android:checked="true"
+                android:checked="false"
                 android:gravity="center"
                 android:paddingLeft="8dp"
                 android:text="@string/seller"
@@ -69,6 +69,10 @@
             <CheckedTextView
                 android:id="@+id/model"
                 android:layout_width="140dp"
+
+
+
+
                 android:layout_height="40dp"
                 android:layout_alignParentRight="true"
                 android:layout_centerInParent="true"
