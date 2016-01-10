@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,8 +57,10 @@ public class CareActivity extends Activity {
     private PullToRefreshListView mPullToRefreshListView;
     private TextView edit;
     private boolean needClear;
+    private ProgressBar progressBar;
     private LoginVO loginVO;
     private String editOrdelete = "编辑";
+    private boolean isFirst=true;
     private ArrayList<String>deleteModel;//取消关注的模特
     private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private CareAdapter adapter;
@@ -66,6 +69,7 @@ public class CareActivity extends Activity {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
 
+            progressBar.setVisibility(View.INVISIBLE);
             adapter.notifyDataSetChanged();
 
             if (editOrdelete.equals("编辑")) {
@@ -121,6 +125,7 @@ public class CareActivity extends Activity {
 
     public void init() {
         loginVO = LoginManager.getLoginInfo(this);
+        progressBar= ((ProgressBar) findViewById(R.id.progress));
         care = ((TextView) findViewById(R.id.center));
         care.setText("我的关注");
         care.setTextColor(Color.WHITE);
@@ -186,9 +191,10 @@ public class CareActivity extends Activity {
                         if(GlobalParams.isDebug){
                             Log.e("deleteModel",deleteModel.toString());
                         }
-                        Intent intent=new Intent(CareActivity.this, CareDialogActivity.class);
-                        intent.putStringArrayListExtra("deleteList", deleteModel);
-                        startActivity(intent);
+
+                            Intent intent=new Intent(CareActivity.this, CareDialogActivity.class);
+                            intent.putStringArrayListExtra("deleteList", deleteModel);
+                            startActivity(intent);
 
                         deleteModel.clear();
 
@@ -234,6 +240,10 @@ public class CareActivity extends Activity {
                     modelsList = care.getData().getDataList();
 
                     allModel.addAll(modelsList);
+
+                    if (allModel.size()==0){
+                        Toast.makeText(CareActivity.this,"~你还没有关注模特，赶快去关注吧~",Toast.LENGTH_LONG).show();
+                    }
 
                     handler.sendEmptyMessage(1);
 

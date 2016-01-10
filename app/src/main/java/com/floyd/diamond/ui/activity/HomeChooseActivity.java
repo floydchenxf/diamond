@@ -17,6 +17,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,11 +58,15 @@ public class HomeChooseActivity extends Activity {
     private boolean needClear;
     private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private MasonryAdapter adapter;
+    private boolean isFirst=true;
+    private ProgressBar progressBar;
     private com.floyd.diamond.bean.SwipeRefreshLayout.Mode mLastDirection = com.floyd.diamond.bean.SwipeRefreshLayout.Mode.DISABLED;
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+
+            progressBar.setVisibility(View.INVISIBLE);
 
         adapter.notifyDataSetChanged();
 
@@ -109,6 +114,7 @@ public class HomeChooseActivity extends Activity {
     }
 
     public void init() {
+        progressBar= ((ProgressBar) findViewById(R.id.progress));
         swipeRefreshLayout = ((com.floyd.diamond.bean.SwipeRefreshLayout) findViewById(R.id.swip));
         //设置刷新时动画的颜色，可以设置4个
         swipeRefreshLayout.setBottomColor(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -148,7 +154,9 @@ public class HomeChooseActivity extends Activity {
         find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeChooseActivity.this, ChooseActivity1.class));
+
+                        startActivity(new Intent(HomeChooseActivity.this, ChooseActivity1.class));
+
             }
         });
 
@@ -169,6 +177,7 @@ public class HomeChooseActivity extends Activity {
     }
 
     public void setData() {
+
         String url = APIConstants.HOST + APIConstants.CHOOSEMOTE;
 
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {

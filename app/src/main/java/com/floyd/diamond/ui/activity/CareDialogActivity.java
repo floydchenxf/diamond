@@ -84,7 +84,9 @@ public class CareDialogActivity extends Activity {
                             if (isSuccess){
                                 //传递要删除的模特id的集合，返回我的关注取消关注之后的界面
                                 Intent intent = new Intent(CareDialogActivity.this, CareActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                 startActivity(intent);
+                                finish();
                                 Toast.makeText(CareDialogActivity.this,"删除成功...",Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(CareDialogActivity.this,"删除失败...",Toast.LENGTH_SHORT).show();

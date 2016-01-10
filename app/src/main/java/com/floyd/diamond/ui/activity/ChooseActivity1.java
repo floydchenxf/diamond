@@ -29,6 +29,7 @@ import com.floyd.diamond.bean.SeekBarPressure2;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
@@ -58,11 +59,12 @@ public class ChooseActivity1 extends Activity {
     private RequestQueue queue;
     private LoginVO vo;
     private ChoiceCondition.DataEntity dataEntity;
-    private List<String>shapes;
-    private List<String>areaids;
-    private boolean isFirstShape=true;
-    private boolean isFirshArea=true;
-    private Handler handler=new Handler(){
+    private List<String> shapes;
+    private List<String> areaids;
+    private DataLoadingView dataLoadingView;
+    private boolean isFirstShape = true;
+    private boolean isFirshArea = true;
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
@@ -81,18 +83,18 @@ public class ChooseActivity1 extends Activity {
 
         initView();
 
-        if (vo==null){
+        if (vo == null) {
             setData();
-        }else{
+        } else {
             setDataUser();
         }
 
     }
 
     //获取默认的筛选条件(未登录的)
-    public void setData(){
-        String url= APIConstants.HOST+APIConstants.API_GET_MOTE_FILTER;
-        StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+    public void setData() {
+        String url = APIConstants.HOST + APIConstants.API_GET_MOTE_FILTER;
+        StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -107,7 +109,7 @@ public class ChooseActivity1 extends Activity {
                 seekBarAge.setProgressLow(dataEntity.getAgeMin());
                 seekBarAge.setProgressHigh(dataEntity.getAgeMax());
 
-                seekBarHeight.setProgressHigh(dataEntity.getHeightMax()-80);
+                seekBarHeight.setProgressHigh(dataEntity.getHeightMax() - 80);
                 seekBarHeight.setProgressLow(dataEntity.getHeightMin() - 80);
 
                 seekBarCredit.setProgressLow(dataEntity.getCreditMin());
@@ -135,14 +137,15 @@ public class ChooseActivity1 extends Activity {
 
         queue.add(request);
     }
-    //获取保存的筛选条件（已登录）
-    public void setDataUser(){
 
-        if (GlobalParams.isDebug){
-            Log.e("token",vo.token+"");
+    //获取保存的筛选条件（已登录）
+    public void setDataUser() {
+
+        if (GlobalParams.isDebug) {
+            Log.e("token", vo.token + "");
         }
-        String url= APIConstants.HOST+APIConstants.API_GET_MOTE_FILTER;
-        StringRequest requestLogin=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+        String url = APIConstants.HOST + APIConstants.API_GET_MOTE_FILTER;
+        StringRequest requestLogin = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
 
@@ -157,8 +160,8 @@ public class ChooseActivity1 extends Activity {
                 seekBarAge.setProgressLow(dataEntity.getAgeMin());
                 seekBarAge.setProgressHigh(dataEntity.getAgeMax());
 
-                seekBarHeight.setProgressHigh(dataEntity.getHeightMax()-80);
-                seekBarHeight.setProgressLow(dataEntity.getHeightMin()-80);
+                seekBarHeight.setProgressHigh(dataEntity.getHeightMax() - 80);
+                seekBarHeight.setProgressLow(dataEntity.getHeightMin() - 80);
 
                 seekBarCredit.setProgressLow(dataEntity.getCreditMin());
 //
@@ -167,25 +170,25 @@ public class ChooseActivity1 extends Activity {
 //                }
 
 
-                List<ChoiceCondition.DataEntity.ShapesListEntity> shapesLists=dataEntity.getShapesList();
-                if (dataEntity.getShapes()!=null){
-                    for (int i=0;i<shapesLists.size();i++){
-                        if (shapesLists.get(i).getId()==1){
-                            if (dataEntity.getShapes().contains(1)){
+                List<ChoiceCondition.DataEntity.ShapesListEntity> shapesLists = dataEntity.getShapesList();
+                if (dataEntity.getShapes() != null) {
+                    for (int i = 0; i < shapesLists.size(); i++) {
+                        if (shapesLists.get(i).getId() == 1) {
+                            if (dataEntity.getShapes().contains(1)) {
                                 gugan.setChecked(true);
-                            }else{
+                            } else {
                                 gugan.setChecked(false);
                             }
-                        }else if (shapesLists.get(i).getId()==2){
-                            if (dataEntity.getShapes().contains(2)){
+                        } else if (shapesLists.get(i).getId() == 2) {
+                            if (dataEntity.getShapes().contains(2)) {
                                 biaozhi.setChecked(true);
-                            }else{
+                            } else {
                                 biaozhi.setChecked(false);
                             }
-                        }else if(shapesLists.get(i).getId()==3){
-                            if (dataEntity.getShapes().contains(3)){
+                        } else if (shapesLists.get(i).getId() == 3) {
+                            if (dataEntity.getShapes().contains(3)) {
                                 fengman.setChecked(true);
-                            }else{
+                            } else {
                                 fengman.setChecked(false);
                             }
                         }
@@ -193,9 +196,9 @@ public class ChooseActivity1 extends Activity {
                 }
 
 
-                List<ChoiceCondition.DataEntity.AreaListEntity> areaLists=dataEntity.getAreaList();
-                if (dataEntity.getAreaids()!=null){
-                    for (int i=0;i<areaLists.size();i++) {
+                List<ChoiceCondition.DataEntity.AreaListEntity> areaLists = dataEntity.getAreaList();
+                if (dataEntity.getAreaids() != null) {
+                    for (int i = 0; i < areaLists.size(); i++) {
                         if (areaLists.get(i).getId() == 110000) {
                             if (dataEntity.getAreaids().contains(110000)) {
                                 beijing.setChecked(true);
@@ -416,10 +419,10 @@ public class ChooseActivity1 extends Activity {
         vo = LoginManager.getLoginInfo(this);
 //        chooseCondition = new ChooseCondition();
 //        chooseCondition.setCreditMax(100);
-        dataEntity=new ChoiceCondition.DataEntity();
-        shapes=new ArrayList<>();
-        areaids=new ArrayList<>();
-        queue= Volley.newRequestQueue(this);
+        dataEntity = new ChoiceCondition.DataEntity();
+        shapes = new ArrayList<>();
+        areaids = new ArrayList<>();
+        queue = Volley.newRequestQueue(this);
         shapesList = new ArrayList<>();
         provincesList = new ArrayList<>();
         search = ((TextView) findViewById(R.id.search));
@@ -476,46 +479,58 @@ public class ChooseActivity1 extends Activity {
             @Override
             public void onClick(View v) {
 
-                if (vo!=null){
-                    String saveUrl=APIConstants.HOST+APIConstants.API_SAVE_MOTE_FILTER;
-                    StringRequest submitCondition=new StringRequest(Request.Method.POST, saveUrl, new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-
-                            if (GlobalParams.isDebug){
-                                Log.e("TAG_submit",response);
-                            }
-
-                        }
-                    }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-
-                        }
-                    }){
-                        @Override
-                        protected Map<String, String> getParams() {
-                            //在这里设置需要post的参数
-                            Map<String, String> params = new HashMap<>();
-                            params.put("gender",dataEntity.getGender()+"");
-                            params.put("ageMin",dataEntity.getAgeMin()+"");
-                            params.put("ageMax",dataEntity.getAgeMax()+"");
-                            params.put("heightMin",dataEntity.getHeightMin()+"");
-                            params.put("heightMax",dataEntity.getHeightMax()+"");
-                            params.put("creditMin",dataEntity.getCreditMin()+"");
-                            params.put("creditMax",dataEntity.getCreditMax()+"");
-                            params.put("shapes",dataEntity.getShapes().toString().substring(1,dataEntity.getShapes().toString().length()-1).replace(" ","")+"");
-                            params.put("areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ","")+"");
-                            params.put("token",vo.token+"");
-                            return params;
-                        }
-                    };
-
-                    queue.add(submitCondition);
+                if (GlobalParams.isDebug){
+                    Log.e("dataEntity",dataEntity.toString());
                 }
-                Intent intent = new Intent(ChooseActivity1.this, ChooseResultActivity.class);
-                intent.putExtra("chooseCondition", (Serializable) dataEntity);
-                startActivity(intent);
+
+                if (dataEntity != null) {
+                    if (vo != null) {
+                        String saveUrl = APIConstants.HOST + APIConstants.API_SAVE_MOTE_FILTER;
+                        StringRequest submitCondition = new StringRequest(Request.Method.POST, saveUrl, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                if (GlobalParams.isDebug) {
+                                    Log.e("TAG_submit", response);
+                                }
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                //在这里设置需要post的参数
+                                Map<String, String> params = new HashMap<>();
+                                params.put("gender", dataEntity.getGender() + "");
+                                params.put("ageMin", dataEntity.getAgeMin() + "");
+                                params.put("ageMax", dataEntity.getAgeMax() + "");
+                                params.put("heightMin", dataEntity.getHeightMin() + "");
+                                params.put("heightMax", dataEntity.getHeightMax() + "");
+                                params.put("creditMin", dataEntity.getCreditMin() + "");
+                                params.put("creditMax", dataEntity.getCreditMax() + "");
+                                params.put("shapes", dataEntity.getShapes().toString().substring(1, dataEntity.getShapes().toString().length() - 1).replace(" ", "") + "");
+                                params.put("areaids", dataEntity.getAreaids().toString().substring(1, dataEntity.getAreaids().toString().length() - 1).replace(" ", "") + "");
+                                params.put("token", vo.token + "");
+                                return params;
+                            }
+                        };
+
+                        queue.add(submitCondition);
+                    }
+
+
+                    Intent intent = new Intent(ChooseActivity1.this, ChooseResultActivity.class);
+                    intent.putExtra("chooseCondition", (Serializable) dataEntity);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -628,7 +643,7 @@ public class ChooseActivity1 extends Activity {
 
     }
 
-    public void clickCondition(){
+    public void clickCondition() {
         seekBarAge.setOnSeekBarChangeListener(new SeekBarPressure.OnSeekBarChangeListener() {
             @Override
             public void onProgressBefore() {
@@ -709,14 +724,13 @@ public class ChooseActivity1 extends Activity {
         });
 
 
-
         gugan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (gugan.isChecked()) {
                     shapes.add(1 + "");
                 } else {
-                   shapes.remove(1 + "");
+                    shapes.remove(1 + "");
                 }
 
             }
@@ -746,7 +760,6 @@ public class ChooseActivity1 extends Activity {
 
             }
         });
-
 
 
         beijing.setOnClickListener(new View.OnClickListener() {
