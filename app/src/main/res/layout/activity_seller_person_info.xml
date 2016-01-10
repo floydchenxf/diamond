@@ -63,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
-                    android:text="店主名称"
+                    android:text="负责人"
                     android:textColor="#666666"
                     android:textSize="14sp" />
 

@@ -104,11 +104,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
         <activity
-            android:name=".ui.activity.MessageItemActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" />
-        <activity
             android:name=".ui.activity.ModelPersonActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
@@ -345,11 +340,11 @@
         <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_ID"
-            android:value="2100175149" />
+            android:value="2100176449" />
         <!-- 【必须】 请修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_KEY"
-            android:value="AYD97KW1S56T" />
+            android:value="A98Y9QU61BRL" />
 
         <activity
             android:name=".ui.activity.ExpressActivity"

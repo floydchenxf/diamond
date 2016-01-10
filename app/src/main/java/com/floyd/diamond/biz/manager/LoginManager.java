@@ -35,6 +35,8 @@ public class LoginManager {
 
     public static final String MSG_READ_TIMES = "MSG_READ_TIMES";
 
+    public static final String DEVICE_ID_KEY = "__device_id_key__";
+
     public static LoginVO getLoginInfo(Context context) {
         String data = PrefsTools.getStringPrefs(context, LOGIN_INFO, "");
         if (TextUtils.isEmpty(data)) {
@@ -53,13 +55,13 @@ public class LoginManager {
         PrefsTools.setStringPrefs(context, LOGIN_INFO, data);
     }
 
-    public static AsyncJob<LoginVO> createLoginJob(final Context context, String phoneNum, String password, int loginType) {
+    public static AsyncJob<LoginVO> createLoginJob(final Context context, String phoneNum, String password, int loginType, String deviceId) {
         String url = APIConstants.HOST + APIConstants.API_USER_LOGIN;
         final Map<String, String> params = new HashMap<String, String>();
         params.put("phoneNumber", phoneNum);
         params.put("password", password);
         params.put("lastDeviceType", loginType + "");
-        params.put("lastDeviceId", "");
+        params.put("lastDeviceId", deviceId);
         final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
 
         AsyncJob<LoginVO> targetJob = new AsyncJob<LoginVO>() {
@@ -192,6 +194,15 @@ public class LoginManager {
 
     public static void setMsgReadTimes(Context context, long time) {
         PrefsTools.setLongPrefs(context, MSG_READ_TIMES, time);
+    }
+
+    public static void saveDeviceId(Context context, String deviceId) {
+        PrefsTools.setStringPrefs(context, DEVICE_ID_KEY, deviceId);
+    }
+
+    public static String getDeviceId(Context context) {
+        String deviceId = PrefsTools.getStringPrefs(context, DEVICE_ID_KEY);
+        return deviceId == null ? "" : deviceId;
     }
 }
 

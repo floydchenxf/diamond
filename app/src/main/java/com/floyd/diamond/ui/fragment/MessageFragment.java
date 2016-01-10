@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +15,12 @@ import android.widget.Toast;
 import com.android.volley.toolbox.ImageLoader;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
-import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.activity.MessageItemActivity;
+import com.floyd.diamond.ui.activity.H5Activity;
 import com.floyd.diamond.ui.adapter.MessageAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
@@ -69,11 +68,15 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), MessageItemActivity.class);
-                if (GlobalParams.isDebug){
-                    Log.e("TAG_idd",advList.get(position).id+"");
-                }
-                intent.putExtra("id",advList.get(position).id);
+                Intent intent = new Intent(getActivity(), H5Activity.class);
+                String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO + "?id=" + advList.get(position).id;
+                H5Activity.H5Data h5Data = new H5Activity.H5Data();
+                h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                h5Data.data = url;
+                h5Data.showProcess = true;
+                h5Data.showNav = true;
+                h5Data.title = "通告";
+                intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
                 startActivity(intent);
             }
         });

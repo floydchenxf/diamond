@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
@@ -20,19 +21,26 @@ import com.floyd.diamond.ui.webview.XBlinkUIModel;
 
 public class H5Activity extends Activity implements View.OnClickListener, DiamondWebViewClient.WebViewErrorListener, DiamondWebViewClient.WebViewPageCallback {
 
+    private static final String TAG = "H5Activity";
+
     private WebView webView;
     private TextView titlenameView;
     protected DiamondWebViewClient webViewClient;
 
     private ProgressBar progressbar;
 
+    private View titleLayout;
+
     private XBlinkUIModel wvUIModel = null;
+
+    private boolean showProcess;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_h5);
         findViewById(R.id.title_back).setOnClickListener(this);
+        titleLayout = findViewById(R.id.title);
         initWebView();
         titlenameView = (TextView) findViewById(R.id.title_name);
         wvUIModel = new XBlinkUIModel(this, webView);
@@ -44,10 +52,19 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         wvUIModel.enableShowLoading();
 
         H5Data data = getIntent().getParcelableExtra(H5Data.H5_DATA);
+        showProcess = data.showProcess;
         if (!TextUtils.isEmpty(data.title)) {
+            titlenameView.setVisibility(View.VISIBLE);
             titlenameView.setText(data.title);
         }
 
+        if (data.showNav) {
+            titleLayout.setVisibility(View.VISIBLE);
+        } else {
+            titleLayout.setVisibility(View.GONE);
+        }
+
+        Log.i(TAG, "data is ======:" + data.data);
         if (data.isUrl()) {
             webView.loadUrl(data.data);
         } else {
@@ -93,12 +110,16 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
 
     @Override
     public void onPageStarted(WebView view, String url, Bitmap favicon) {
-        wvUIModel.showLoadingView();
+        if (showProcess) {
+            wvUIModel.showLoadingView();
+        }
     }
 
     @Override
     public void onPageFinished(WebView view, String url) {
-        wvUIModel.hideLoadingView();
+        if (showProcess) {
+            wvUIModel.hideLoadingView();
+        }
     }
 
     public static class H5Data implements Parcelable {
@@ -108,6 +129,8 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         public int dataType;
         public String title;
         public String data;
+        public boolean showNav;
+        public boolean showProcess;
 
         public H5Data() {
 
@@ -117,6 +140,8 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             dataType = in.readInt();
             title = in.readString();
             data = in.readString();
+            showNav = in.readByte() != 0;
+            showProcess = in.readByte() != 0;
         }
 
         @Override
@@ -129,6 +154,8 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             dest.writeInt(dataType);
             dest.writeString(title);
             dest.writeString(data);
+            dest.writeByte((byte) (showNav ? 1 : 0));
+            dest.writeByte((byte) (showProcess ? 1 : 0));
         }
 
         public static final Parcelable.Creator<H5Data> CREATOR = new Parcelable.Creator<H5Data>() {

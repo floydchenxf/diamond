@@ -15,6 +15,7 @@ import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
+import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.ui.activity.H5Activity;
@@ -107,14 +108,16 @@ public class BannerFragment extends BaseFragment {
 
     private void callAction(final List<String> actions, final String param, final AdvVO banner) {
 
-        Intent actionIntent = new Intent(getActivity(), H5Activity.class);
-        H5Activity.H5Data data = new H5Activity.H5Data();
-//        data.data = "<html><body><font color=\"red\">brsdf</font</body></html>";
-        data.data = "http://www.baidu.com";
-        data.title = "百度";
-        data.dataType = 1;
-        actionIntent.putExtra(H5Activity.H5Data.H5_DATA, data);
-        startActivity(actionIntent);
+        Intent intent = new Intent(getActivity(), H5Activity.class);
+        String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO + "?id=" + mDataList.id;
+        H5Activity.H5Data h5Data = new H5Activity.H5Data();
+        h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+        h5Data.data = url;
+        h5Data.showProcess = true;
+        h5Data.showNav = true;
+        h5Data.title = "广告";
+        intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
+        startActivity(intent);
     }
 
     private String getActionParam(List<String> actions) {

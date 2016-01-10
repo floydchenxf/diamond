@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.floyd.diamond.biz.manager.LoginManager;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.android.tpush.XGIOperateCallback;
@@ -56,6 +57,7 @@ public class DiamodApplication extends Application {
                 public void onSuccess(Object data, int flag) {
                     Log.w(Constants.LogTag,
                             "+++ register push sucess. token:" + data);
+                    LoginManager.saveDeviceId(DiamodApplication.this, data.toString());
                 }
 
                 @Override

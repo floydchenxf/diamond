@@ -61,7 +61,7 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
                     return;
                 }
 
-                LoginManager.createLoginJob(this, userName, password, 1).startUI(new ApiCallback<LoginVO>() {
+                LoginManager.createLoginJob(this, userName, password, 1, LoginManager.getDeviceId(PhoneLoginActivity.this)).startUI(new ApiCallback<LoginVO>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         Toast.makeText(PhoneLoginActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
