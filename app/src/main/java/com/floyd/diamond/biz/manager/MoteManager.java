@@ -375,7 +375,7 @@ public class MoteManager {
     }
 
     /**
-     * 放弃接收任务
+     * 商家放弃接收任务
      *
      * @param taskId
      * @param token
@@ -386,6 +386,20 @@ public class MoteManager {
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
         params.put("taskId", taskId + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
+    /**
+     * 模特放弃接收任务
+     * @param moteTaskId
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> giveupMoteTask(long moteTaskId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GIVE_UP_MOTE_TASK;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        params.put("id", moteTaskId + "");
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
 
@@ -596,10 +610,11 @@ public class MoteManager {
      * @param id
      * @return
      */
-    public static AsyncJob<MoteTaskPicVO> fetchMoteTaskPicDetail(long id) {
+    public static AsyncJob<MoteTaskPicVO> fetchMoteTaskPicDetail(long id, String token) {
         String url = APIConstants.HOST +  APIConstants.API_TASK_PIC_DETAIL;
         Map<String, String> params = new HashMap<String, String>();
         params.put("id",id+"");
+        params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
     }
 
@@ -714,5 +729,4 @@ public class MoteManager {
         Type type = new TypeToken<ArrayList<ExpressInfoVO>>(){}.getType();
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
     }
-
 }

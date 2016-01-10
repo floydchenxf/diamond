@@ -26,6 +26,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.ui.multiimage.base.PicViewObject;
 import com.floyd.diamond.ui.multiimage.gif.GifFrame;
@@ -157,7 +158,9 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
         } else {
             picVoteLayout.setVisibility(View.GONE);
             Long id = Long.parseLong(picView.getExtData());
-            MoteManager.fetchMoteTaskPicDetail(id).startUI(new ApiCallback<MoteTaskPicVO>() {
+            LoginVO loginVO = LoginManager.getLoginInfo(this.getActivity());
+            String token = TextUtils.isEmpty(loginVO.token)?"":loginVO.token;
+            MoteManager.fetchMoteTaskPicDetail(id, token).startUI(new ApiCallback<MoteTaskPicVO>() {
                 @Override
                 public void onError(int code, String errorInfo) {
 
@@ -165,6 +168,10 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
                 @Override
                 public void onSuccess(MoteTaskPicVO moteTaskPicVO) {
+                    if (ImageDetailFragment.this.getActivity().isFinishing()) {
+                        return;
+                    }
+
                     picVoteLayout.setVisibility(View.VISIBLE);
                     taskPicVO = moteTaskPicVO;
                     Drawable zan = null;

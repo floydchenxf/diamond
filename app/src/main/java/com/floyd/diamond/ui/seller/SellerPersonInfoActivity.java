@@ -250,14 +250,14 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         shopNameView.setEnabled(true);
         qqView.setEnabled(true);
         nickNameView.setEnabled(true);
-        returnItemMobileLayout.setEnabled(true);
+        returnItemMobileView.setEnabled(true);
 
         weixinView.setOnClickListener(this);
         alipayView.setOnClickListener(this);
         shopNameView.setOnClickListener(this);
         qqView.setOnClickListener(this);
         nickNameView.setOnClickListener(this);
-        returnItemMobileLayout.setOnClickListener(this);
+        returnItemMobileView.setOnClickListener(this);
     }
 
     private void disableEditable() {
@@ -265,6 +265,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         alipayView.setEnabled(false);
         shopNameView.setEnabled(false);
         qqView.setEnabled(false);
+        returnItemMobileView.setEnabled(false);
         nickNameView.setEnabled(false);
         returnItemMobileLayout.setEnabled(false);
     }
@@ -410,6 +411,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
             case R.id.qq_view:
                 qqView.requestFocus();
                 imm.showSoftInput(qqView, 0);
+                break;
+            case R.id.return_item_mobile_view:
+                returnItemMobileView.requestFocus();
+                imm.showSoftInput(returnItemMobileView, 0);
                 break;
             case R.id.act_lsloading:
                 loadData(false);
