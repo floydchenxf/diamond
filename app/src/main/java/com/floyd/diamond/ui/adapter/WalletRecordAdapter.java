@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
@@ -69,6 +70,7 @@ public class WalletRecordAdapter extends BaseAdapter {
             holder.alipayIdView = (TextView) convertView.findViewById(R.id.alipay_id_view);
             holder.alipayNoView = (TextView) convertView.findViewById(R.id.alipay_no_view);
             holder.alipayNameView = (TextView) convertView.findViewById(R.id.alipay_name_view);
+            holder.drawMoneyStatusView = (ImageView) convertView.findViewById(R.id.draw_money_status_view);
             convertView.setTag(holder);
         }
 
@@ -85,13 +87,15 @@ public class WalletRecordAdapter extends BaseAdapter {
             holder.drawMoneyView.setTextColor(Color.parseColor("#666666"));
             holder.drawDetailLayout.setVisibility(View.GONE);
             holder.payDrawView.setVisibility(View.VISIBLE);
+            holder.drawMoneyStatusView.setImageResource(R.drawable.draw_money_process);
         } else {
-            holder.drawMoneyView.setTextColor(Color.RED);
+            holder.drawMoneyView.setTextColor(Color.parseColor("#d4377e"));
             holder.drawDetailLayout.setVisibility(View.VISIBLE);
             holder.payDrawView.setVisibility(View.GONE);
             holder.alipayIdView.setText(moteWalletRecordVO.alipayId);
             holder.alipayNameView.setText(moteWalletRecordVO.alipayName);
             holder.alipayNoView.setText(moteWalletRecordVO.alipayNo);
+            holder.drawMoneyStatusView.setImageResource(R.drawable.draw_money_finish);
         }
         return convertView;
     }
@@ -107,5 +111,6 @@ public class WalletRecordAdapter extends BaseAdapter {
         public TextView alipayIdView; //支付宝ID
         public TextView alipayNoView; //支付流水号
         public TextView alipayNameView; //支付宝名称
+        public ImageView drawMoneyStatusView;
     }
 }

@@ -46,17 +46,20 @@
                 android:id="@+id/pay_draw_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:singleLine="false"
                 android:text="申请提现"
                 android:textColor="#666666"
-                android:textSize="24sp"
-                android:visibility="gone" />
+                android:textSize="24sp" />
 
             <LinearLayout
                 android:id="@+id/pay_detail_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -135,11 +138,11 @@
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/draw_money_status_view"
+            android:id="@+id/wallet_status_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:src="@drawable/draw_money_finish"/>
+            android:src="@drawable/draw_money_finish" />
 
     </RelativeLayout>
 

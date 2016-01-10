@@ -18,6 +18,7 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.DialogCreator;
+import com.floyd.diamond.ui.seller.SellerWalletRecordActivity;
 
 public class AlipayActivity extends Activity implements View.OnClickListener {
 
@@ -105,8 +106,13 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.right:
-                Intent payRecordIntent = new Intent(this, MoteWalletRecordsActivity.class);
-                startActivity(payRecordIntent);
+                if (loginVO.isModel()) {
+                    Intent payRecordIntent = new Intent(this, MoteWalletRecordsActivity.class);
+                    startActivity(payRecordIntent);
+                } else {
+                    Intent sellerWalletRecordIntent = new Intent(this, SellerWalletRecordActivity.class);
+                    startActivity(sellerWalletRecordIntent);
+                }
                 break;
             case R.id.title_back:
                 this.finish();

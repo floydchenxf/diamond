@@ -95,5 +95,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_express">物流信息</string>
     <string name="title_activity_h5">H5Activity</string>
+    <string name="title_activity_seller_wallet_record">SellerWalletRecordActivity</string>
 
 </resources>

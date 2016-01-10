@@ -65,4 +65,5 @@ public class APIConstants {
     public static final String API_UPDATE_SELLER_INFO = "api/user/updateSeller";//更新卖家信息
     public static final String API_GET_SELLER_WALLET = "api/user/getMySellerWallet"; //获取商家钱包
     public static final String API_USER_SUGGESTION = "api/user/suggestion";//提建议
+    public static final String API_GET_FEE_CHANGE_FLOW = "api/user/getFeeChangeFlow"; //获取费用变更记录
 }

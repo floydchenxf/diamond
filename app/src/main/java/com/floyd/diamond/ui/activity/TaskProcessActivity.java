@@ -384,6 +384,11 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     return;
                 }
 
+                if (orderNo.length() < 11) {
+                    Toast.makeText(this, "订单号不能小于11位", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 confirmOrderNo(moteTaskId, orderNo, token);
                 break;
             case R.id.drop_order:

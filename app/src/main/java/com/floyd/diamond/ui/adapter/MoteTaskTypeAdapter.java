@@ -153,7 +153,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 holder.finishStatusView2.setText("已结束");
                 holder.finishStatusView2.setVisibility(View.VISIBLE);
             } else if (itemVO2.acceptStauts == 2) {
-                holder.finishStatusView2.setText("已接完");
+                holder.finishStatusView2.setText("不可接");
                 holder.finishStatusView2.setVisibility(View.VISIBLE);
             }else if (itemVO2.acceptStauts == 3) {
                 holder.finishStatusView2.setText("已完成");

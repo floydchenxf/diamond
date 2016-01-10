@@ -319,9 +319,9 @@
         </receiver>
 
         <!-- 【可选】APP实现的Receiver，用于接收消息透传和操作结果的回调，请根据需要添加 -->
-        <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver：-->
+        <!-- YOUR_PACKAGE_PATH.CustomPushReceiver需要改为自己的Receiver： -->
 
-        <receiver android:name="com.floyd.diamond.MessageReceiver">
+        <receiver android:name=".MessageReceiver" >
             <intent-filter>
                 <action android:name="com.tencent.android.tpush.action.PUSH_MESSAGE" />
                 <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
@@ -358,6 +358,11 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.activity.H5Activity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay" />
+        <activity
+            android:name=".ui.seller.SellerWalletRecordActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />

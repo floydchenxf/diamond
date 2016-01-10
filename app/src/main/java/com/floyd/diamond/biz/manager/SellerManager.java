@@ -19,6 +19,7 @@ import com.floyd.diamond.biz.vo.seller.SellerInfoUpdateParams;
 import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskVO;
+import com.floyd.diamond.biz.vo.seller.SellerWalletSummaryVO;
 import com.floyd.diamond.biz.vo.seller.SellerWalletVO;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.google.gson.Gson;
@@ -210,5 +211,23 @@ public class SellerManager {
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerWalletVO.class);
+    }
+
+    /**
+     * 获取商家金额明细
+     * @param type
+     * @param pageNo
+     * @param pageSize
+     * @param token
+     * @return
+     */
+    public static AsyncJob<SellerWalletSummaryVO> getSellerWalletRecord(int type, int pageNo, int pageSize, String token) {
+        String url = APIConstants.HOST + APIConstants.API_GET_FEE_CHANGE_FLOW;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("type", type+"");
+        params.put("pageSize", pageSize+"");
+        params.put("pageNo", pageNo+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerWalletSummaryVO.class);
     }
 }
