@@ -42,7 +42,6 @@ import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.ProfileAddressActivity;
-import com.floyd.diamond.ui.activity.SetReturnItemMobileActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
@@ -71,7 +70,6 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private TextView rightView;
     private NetworkImageView personHeadView;
 
-    private ImageView returnItemMobileJiantou;
     private ImageView goodsAddressJiantou;
 
     private View returnItemMobileLayout;
@@ -83,7 +81,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private EditText weixinView;
     private EditText qqView;
 
-    private TextView returnItemMobileView;
+    private EditText returnItemMobileView;
     private TextView goodsCityView;
     private TextView goodsAddressView;
     private TextView takePhotoView;
@@ -192,6 +190,8 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 //                }
 
                 fillData(userVO);
+                UserVO lastUser = loginVO.user;
+                userVO.type = lastUser.type;
                 loginVO.user = userVO;
                 LoginManager.saveLoginInfo(SellerPersonInfoActivity.this, loginVO);
             }
@@ -207,7 +207,6 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
     private void initView() {
         goodsAddressJiantou = (ImageView) findViewById(R.id.goods_address_jiantou);
-        returnItemMobileJiantou = (ImageView) findViewById(R.id.return_item_mobile_jiantou);
         personHeadView = (NetworkImageView) findViewById(R.id.touxiang_personinfo);
 
         goodsAddressLayout = findViewById(R.id.goods_address_layout);
@@ -221,7 +220,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
         goodsAddressView = (TextView) findViewById(R.id.goods_address_view);
         goodsCityView = (TextView) findViewById(R.id.goods_city_view);
-        returnItemMobileView = (TextView) findViewById(R.id.return_item_mobile_view);
+        returnItemMobileView = (EditText) findViewById(R.id.return_item_mobile_view);
 
         hiddenJiantou();
         removeClickListener();
@@ -251,14 +250,14 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         shopNameView.setEnabled(true);
         qqView.setEnabled(true);
         nickNameView.setEnabled(true);
-        returnItemMobileLayout.setEnabled(true);
+        returnItemMobileView.setEnabled(true);
 
         weixinView.setOnClickListener(this);
         alipayView.setOnClickListener(this);
         shopNameView.setOnClickListener(this);
         qqView.setOnClickListener(this);
         nickNameView.setOnClickListener(this);
-        returnItemMobileLayout.setOnClickListener(this);
+        returnItemMobileView.setOnClickListener(this);
     }
 
     private void disableEditable() {
@@ -266,6 +265,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         alipayView.setEnabled(false);
         shopNameView.setEnabled(false);
         qqView.setEnabled(false);
+        returnItemMobileView.setEnabled(false);
         nickNameView.setEnabled(false);
         returnItemMobileLayout.setEnabled(false);
     }
@@ -280,12 +280,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
     private void hiddenJiantou() {
         goodsAddressJiantou.setVisibility(View.GONE);
-        returnItemMobileJiantou.setVisibility(View.GONE);
     }
 
     private void showJiantou() {
         goodsAddressJiantou.setVisibility(View.VISIBLE);
-        returnItemMobileJiantou.setVisibility(View.VISIBLE);
     }
 
     private void removeClickListener() {
@@ -414,9 +412,9 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
                 qqView.requestFocus();
                 imm.showSoftInput(qqView, 0);
                 break;
-            case R.id.return_item_mobile_layout:
-                Intent returnItemMobileIntent = new Intent(this, SetReturnItemMobileActivity.class);
-                startActivityForResult(returnItemMobileIntent, CODE_ITEM_MOBILE_REQUEST);
+            case R.id.return_item_mobile_view:
+                returnItemMobileView.requestFocus();
+                imm.showSoftInput(returnItemMobileView, 0);
                 break;
             case R.id.act_lsloading:
                 loadData(false);

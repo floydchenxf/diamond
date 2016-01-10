@@ -390,7 +390,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 dataLoadingDailog.show();
                 long taskId = taskProcessVO.task.id;
                 LoginVO loginVO = LoginManager.getLoginInfo(this);
-                MoteManager.giveupUnAcceptTask(taskId, loginVO.token).startUI(new ApiCallback<Boolean>() {
+                MoteManager.giveupMoteTask(taskProcessVO.moteTask.id, loginVO.token).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         dataLoadingDailog.dismiss();
@@ -400,7 +400,9 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     @Override
                     public void onSuccess(Boolean aBoolean) {
                         dataLoadingDailog.dismiss();
-                        loadData(false);
+                        Intent myTaskIntent = new Intent(TaskProcessActivity.this, MyTaskActivity.class);
+                        myTaskIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(myTaskIntent);
                     }
 
                     @Override

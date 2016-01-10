@@ -20,7 +20,7 @@ public class RegActivity extends Activity implements View.OnClickListener {
     private TextView backView;
     private TextView nextStepView;
 
-    private int checkType = 1;
+    private int checkType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,11 @@ public class RegActivity extends Activity implements View.OnClickListener {
                 String phoneNumber = phoneNumberView.getText().toString();
                 if (TextUtils.isEmpty(phoneNumber)) {
                     Toast.makeText(this, "请输入手机号", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (checkType < 1) {
+                    Toast.makeText(this, "请选择帐号类型", Toast.LENGTH_SHORT).show();
                     return;
                 }
 

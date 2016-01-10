@@ -227,6 +227,8 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 //                }
 
                 fillData(userVO);
+                UserVO lastUser = loginVO.user;
+                userVO.type = lastUser.type;
                 loginVO.user = userVO;
                 LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
             }
