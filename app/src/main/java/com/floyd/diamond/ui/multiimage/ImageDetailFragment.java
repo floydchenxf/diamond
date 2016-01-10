@@ -63,7 +63,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
     private View picVoteLayout;
     private TextView picVoteTextView;
-    private boolean isVoted;
+    private MoteTaskPicVO taskPicVO;
 
 
     private OnImageFragmentListener mCallback;
@@ -166,9 +166,9 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 @Override
                 public void onSuccess(MoteTaskPicVO moteTaskPicVO) {
                     picVoteLayout.setVisibility(View.VISIBLE);
-                    isVoted = moteTaskPicVO.isUpvoted;
+                    taskPicVO = moteTaskPicVO;
                     Drawable zan = null;
-                    if (isVoted) {
+                    if (taskPicVO.isUpvoted) {
                         if(android.os.Build.VERSION.SDK_INT >= 21){
                             zan = getResources().getDrawable(R.drawable.zan_pressed, ImageDetailFragment.this.getActivity().getTheme());
                         } else {
@@ -582,17 +582,17 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                 }
 
                 String token = LoginManager.getLoginInfo(ImageDetailFragment.this.getActivity()).token;
-                if (isVoted) {
+                if (taskPicVO.isUpvoted) {
 
-                    MoteManager.cancelPicUpVote(moteTaskPicVO.id, token).startUI(new ApiCallback<Boolean>() {
+                    MoteManager.cancelPicUpVote(moteTaskPicVO.id, token).startUI(new ApiCallback<MoteTaskPicVO>() {
                         @Override
                         public void onError(int code, String errorInfo) {
                             Toast.makeText(ImageDetailFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
-                        public void onSuccess(Boolean aBoolean) {
-                            isVoted = false;
+                        public void onSuccess(MoteTaskPicVO picVO) {
+                            taskPicVO = picVO;
                             Drawable zan = null;
                             if(android.os.Build.VERSION.SDK_INT >= 21){
                                 zan = getResources().getDrawable(R.drawable.zan_nomal, ImageDetailFragment.this.getActivity().getTheme());
@@ -610,15 +610,15 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                         }
                     });
                 } else {
-                    MoteManager.picUpVote(moteTaskPicVO.id, token).startUI(new ApiCallback<Boolean>() {
+                    MoteManager.picUpVote(moteTaskPicVO.id, token).startUI(new ApiCallback<MoteTaskPicVO>() {
                         @Override
                         public void onError(int code, String errorInfo) {
                             Toast.makeText(ImageDetailFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
-                        public void onSuccess(Boolean aBoolean) {
-                            isVoted = true;
+                        public void onSuccess(MoteTaskPicVO picVO) {
+                            taskPicVO = picVO;
                             Drawable zan = null;
                             if(android.os.Build.VERSION.SDK_INT >= 21){
                                 zan = getResources().getDrawable(R.drawable.zan_pressed, ImageDetailFragment.this.getActivity().getTheme());

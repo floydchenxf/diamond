@@ -438,12 +438,12 @@ public class MoteManager {
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> picUpVote(long picId, String token) {
+    public static AsyncJob<MoteTaskPicVO> picUpVote(long picId, String token) {
         String url = APIConstants.HOST + APIConstants.API_PIC_UPVOTE;
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", picId + "");
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
     }
 
     /**
@@ -453,12 +453,12 @@ public class MoteManager {
      * @param token
      * @return
      */
-    public static AsyncJob<Boolean> cancelPicUpVote(long picId, String token) {
+    public static AsyncJob<MoteTaskPicVO> cancelPicUpVote(long picId, String token) {
         String url = APIConstants.HOST + APIConstants.API_CANCEL_PIC_UPVOTE;
         Map<String, String> params = new HashMap<String, String>();
         params.put("id", picId + "");
         params.put("token", token);
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
     }
 
     /**

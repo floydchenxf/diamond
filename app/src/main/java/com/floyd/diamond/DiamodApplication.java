@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.notice.NotificationAppConfig;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.tencent.android.tpush.XGIOperateCallback;
@@ -46,6 +47,7 @@ public class DiamodApplication extends Application {
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
         IMChannel.setApplication(this);
 
+        NotificationAppConfig.appIcon = R.drawable.icon;
         if (isMainProcess()) {
             // 为保证弹出通知前一定调用本方法，需要在application的onCreate注册
             // 收到通知时，会调用本回调函数。
@@ -80,12 +82,13 @@ public class DiamodApplication extends Application {
                     String content = xGNotifaction.getContent();
                     String customContent = xGNotifaction
                             .getCustomContent();
+
+
                     // 其它的处理
                     // 如果还要弹出通知，可直接调用以下代码或自己创建Notifaction，否则，本通知将不会弹出在通知栏中。
-                    xGNotifaction.doNotify();
+//                    xGNotifaction.doNotify();
                 }
             });
-
 
             Intent service = new Intent(this, XGPushService.class);
             this.startService(service);
