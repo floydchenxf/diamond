@@ -45,6 +45,7 @@ public class LogoActivity extends Activity {
                     it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(it);
                 }
+                LogoActivity.this.finish();
             }
         }, 1000);
 
