@@ -2,10 +2,12 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.FileUtils;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.biz.vo.mote.UserVO;
+import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.seller.SellerPersonInfoActivity;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -53,10 +57,13 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     private LoginVO loginVO;
     private Switch msgSwitch;
 
+    private Dialog dataloadingDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_setting);
+        dataloadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         // 得到UM的社会化分享组件
         mShare = UMServiceFactory.getUMSocialService("com.umeng.share");
@@ -121,6 +128,14 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         suggest.setOnClickListener(this);
         aboutUs.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
+        msgSwitch = (Switch)findViewById(R.id.msg_switch_view);
+
+        msgSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SettingPersonInfoActivity.this.setMsgSetting(isChecked);
+            }
+        });
 
         loginVO = LoginManager.getLoginInfo(this);
         phoneNum.setText(loginVO.user.phoneNumber);
@@ -142,6 +157,38 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         if (ssoHandler != null) {
             ssoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
+    }
+
+    public void setMsgSetting(boolean checked) {
+        dataloadingDialog.show();
+        if (checked) {
+            loginVO.user.msgSwitch = 1;
+        } else {
+            loginVO.user.msgSwitch = 0;
+        }
+        MoteManager.updateMoteInfo(loginVO.user, loginVO.token).startUI(new ApiCallback<UserVO>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                dataloadingDialog.dismiss();
+                Toast.makeText(SettingPersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(UserVO userVO) {
+                dataloadingDialog.dismiss();
+                int type = loginVO.user.type;
+                int msgSwitch = loginVO.user.msgSwitch;
+                userVO.type = type;
+                userVO.msgSwitch = msgSwitch;
+                loginVO.user = userVO;
+                LoginManager.saveLoginInfo(SettingPersonInfoActivity.this, loginVO);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
     }
 
     @Override
@@ -239,7 +286,6 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 Intent aboutUsIntent = new Intent(SettingPersonInfoActivity.this, AboutUsActivity.class);
                 startActivity(aboutUsIntent);
                 break;
-
         }
 
     }
