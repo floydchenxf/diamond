@@ -1,4 +1,4 @@
-package com.floyd.diamond.ui;
+package com.floyd.diamond.ui.activity;
 
 import android.app.FragmentTransaction;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.event.LoginEvent;
-import com.floyd.diamond.ui.activity.LoginActivity;
+import com.floyd.diamond.ui.BackHandledInterface;
 import com.floyd.diamond.ui.fragment.BackHandledFragment;
 import com.floyd.diamond.ui.fragment.FragmentTabAdapter;
 import com.floyd.diamond.ui.fragment.IndexFragment;

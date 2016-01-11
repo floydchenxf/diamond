@@ -37,16 +37,32 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
+
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.LogoActivity"
+            android:alwaysRetainTaskState="true"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait" >
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.action.CREATE_SHORTCUT" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.activity.IndexGuideActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
+        </activity>
+
+        <activity
+            android:name=".ui.activity.MainActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait" >
         </activity>
         <activity android:name=".ui.activity.ChooseActivity1" />
         <activity
@@ -366,10 +382,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
-        <activity android:name=".ui.activity.ChooseResultNullActivity"
+        <activity
+            android:name=".ui.activity.ChooseResultNullActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay"/>
+            android:theme="@style/ContentOverlay" />
     </application>
 
 </manifest>

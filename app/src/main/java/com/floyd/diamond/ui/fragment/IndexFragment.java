@@ -42,7 +42,6 @@ import com.floyd.diamond.event.LoginEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
-import com.floyd.diamond.ui.activity.H5Activity;
 import com.floyd.diamond.ui.activity.HomeChooseActivity;
 import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
@@ -117,7 +116,6 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private CheckedTextView babyView1, babyView2;
 
     private ScrollView productTypeLayout;
-    private GestureDetector mGestureDetector;
 
     private GestureDetector listViewGestureDetector;
 

@@ -22,7 +22,6 @@ import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.tools.FileUtils;
 import com.floyd.diamond.biz.tools.PrefsTools;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.ui.MainActivity;
 import com.floyd.diamond.ui.seller.SellerPersonInfoActivity;
 import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.umeng.socialize.bean.SHARE_MEDIA;

@@ -37,6 +37,8 @@ public class LoginManager {
 
     public static final String DEVICE_ID_KEY = "__device_id_key__";
 
+    public static final String HAS_GUIDED = "__has_guide__";
+
     public static LoginVO getLoginInfo(Context context) {
         String data = PrefsTools.getStringPrefs(context, LOGIN_INFO, "");
         if (TextUtils.isEmpty(data)) {
@@ -203,6 +205,15 @@ public class LoginManager {
     public static String getDeviceId(Context context) {
         String deviceId = PrefsTools.getStringPrefs(context, DEVICE_ID_KEY);
         return deviceId == null ? "" : deviceId;
+    }
+
+    public static boolean hasGuided(Context context) {
+        boolean hasGuided = PrefsTools.getBooleanPrefs(context, HAS_GUIDED);
+        return hasGuided;
+    }
+
+    public static void saveGuided(Context context, boolean guided) {
+        PrefsTools.setBooleanPrefs(context, HAS_GUIDED, guided);
     }
 }
 

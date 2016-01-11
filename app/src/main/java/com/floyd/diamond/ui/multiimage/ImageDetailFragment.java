@@ -168,7 +168,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
                 @Override
                 public void onSuccess(MoteTaskPicVO moteTaskPicVO) {
-                    if (ImageDetailFragment.this.getActivity().isFinishing()) {
+                    if (ImageDetailFragment.this.getActivity() == null || ImageDetailFragment.this.getActivity().isFinishing()) {
                         return;
                     }
 
