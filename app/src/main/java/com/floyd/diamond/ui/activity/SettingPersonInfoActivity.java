@@ -138,6 +138,11 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         });
 
         loginVO = LoginManager.getLoginInfo(this);
+        if (loginVO.user.msgSwitch == 1) {
+            msgSwitch.setChecked(true);
+        } else {
+            msgSwitch.setChecked(false);
+        }
         phoneNum.setText(loginVO.user.phoneNumber);
 
         tuijian.setOnClickListener(new View.OnClickListener() {
