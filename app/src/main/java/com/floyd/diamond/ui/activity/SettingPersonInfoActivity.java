@@ -181,11 +181,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
             @Override
             public void onSuccess(UserVO userVO) {
                 dataloadingDialog.dismiss();
-                int type = loginVO.user.type;
-                int msgSwitch = loginVO.user.msgSwitch;
-                userVO.type = type;
-                userVO.msgSwitch = msgSwitch;
-                loginVO.user = userVO;
+                loginVO.user.msgSwitch = userVO.msgSwitch;
                 LoginManager.saveLoginInfo(SettingPersonInfoActivity.this, loginVO);
             }
 

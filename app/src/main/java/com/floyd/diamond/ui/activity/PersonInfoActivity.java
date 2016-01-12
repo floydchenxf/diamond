@@ -670,7 +670,18 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 }
 
                 LoginVO loginVO = LoginManager.getLoginInfo(PersonInfoActivity.this);
-                loginVO.user = userVO;
+                loginVO.user.gender = userVO.gender;
+                loginVO.user.height = userVO.height;
+                loginVO.user.shape = userVO.shape;
+                loginVO.user.address = userVO.address;
+                loginVO.user.provinceId = userVO.provinceId;
+                loginVO.user.cityId = userVO.cityId;
+                loginVO.user.districtId = userVO.districtId;
+                loginVO.user.nickname = userVO.nickname;
+                loginVO.user.birdthdayStr = userVO.birdthdayStr;
+                loginVO.user.birdthday = userVO.birdthday;
+                loginVO.user.weixin = userVO.weixin;
+                loginVO.user.alipayId = userVO.alipayId;
                 LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
             }
 
