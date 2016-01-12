@@ -464,7 +464,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         sellerInfoUpdateParams.shopName = shopNameStr;
         sellerInfoUpdateParams.returnItemMobile = returnItemMobile;
 
-        SellerManager.updateSellerInfo(sellerInfoUpdateParams).startUI(new ApiCallback<Boolean>() {
+        SellerManager.updateSellerInfo(sellerInfoUpdateParams).startUI(new ApiCallback<SellerInfoUpdateParams>() {
             @Override
             public void onError(int code, String errorInfo) {
                 if (!SellerPersonInfoActivity.this.isFinishing()) {
@@ -474,16 +474,25 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
             }
 
             @Override
-            public void onSuccess(Boolean aBoolean) {
+            public void onSuccess(SellerInfoUpdateParams params) {
                 if (!SellerPersonInfoActivity.this.isFinishing()) {
                     dataLoadingDialog.dismiss();
                 }
 
                 LoginVO loginVO = LoginManager.getLoginInfo(SellerPersonInfoActivity.this);
-                loginVO.user = userVO;
+                loginVO.user.qq = params.qq;
+                loginVO.user.nickname = params.nickname;
+                loginVO.user.address = params.address;
+                loginVO.user.provinceId = params.provineId;
+                loginVO.user.cityId = params.cityId;
+                loginVO.user.districtId = params.districtId;
+                loginVO.user.alipayId = params.alipayId;
+                loginVO.user.weixin = params.weixin;
+                loginVO.user.returnItemMobile = params.returnItemMobile;
                 LoginManager.saveLoginInfo(SellerPersonInfoActivity.this, loginVO);
-                sellerInfoVO.nickname = nicknameStr;
-                sellerInfoVO.shopName = shopNameStr;
+
+                sellerInfoVO.nickname = params.nickname;
+                sellerInfoVO.shopName = params.shopName;
                 SellerManager.saveSellerInfo(SellerPersonInfoActivity.this, sellerInfoVO);
             }
 

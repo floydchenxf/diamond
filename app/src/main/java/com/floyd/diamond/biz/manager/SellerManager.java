@@ -200,10 +200,10 @@ public class SellerManager {
      * @param updateParams
      * @return
      */
-    public static AsyncJob<Boolean> updateSellerInfo(SellerInfoUpdateParams updateParams) {
+    public static AsyncJob<SellerInfoUpdateParams> updateSellerInfo(SellerInfoUpdateParams updateParams) {
         String url = APIConstants.HOST + APIConstants.API_UPDATE_SELLER_INFO;
         Map<String, String> params = updateParams.convert2Map();
-        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerInfoUpdateParams.class);
     }
 
     public static AsyncJob<SellerWalletVO> getSellerWallet(String token) {
