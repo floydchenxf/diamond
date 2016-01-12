@@ -207,7 +207,6 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
 
                 SellerTaskProcessActivity.this.taskProcessVO = taskProcessVO;
-//                fillMoteInfo(taskProcessVO);
 
                 int status = taskProcessVO.moteTask.status;
                 fillAcceptStatus(taskProcessVO);
@@ -260,10 +259,12 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 isFollow = vo.isFollow;
                 if (isFollow) {
                     guanzhuView.setText("已关注");
+                    guanzhuView.setTextColor(Color.WHITE);
                     guanzhuView.setChecked(true);
                 } else {
                     Object num = vo.getFollowNum();
                     guanzhuView.setText("关注度:" + num);
+                    guanzhuView.setTextColor(Color.parseColor("#666666"));
                     guanzhuView.setChecked(false);
                 }
 
@@ -472,6 +473,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                     }
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);
+                    guanzhuView.setTextColor(Color.WHITE);
                     isFollow = true;
                 }
 
@@ -498,6 +500,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                         dataLoadingDailog.dismiss();
                     }
                     guanzhuView.setText("关注度:" + moteDetail.followNum);
+                    guanzhuView.setTextColor(Color.parseColor("#666666"));
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }
