@@ -46,6 +46,8 @@ import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
 import com.umeng.socialize.sso.UMSsoHandler;
 import com.umeng.socialize.weixin.controller.UMWXHandler;
+import com.umeng.socialize.weixin.media.CircleShareContent;
+import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -355,21 +357,38 @@ public class ModelPersonActivity extends Activity {
         qZoneSsoHandler.addToSocialSDK();
     }
 
-    // 添加微信分享平台
+    //添加微信分享平台
     private void addWXPlatform() {
         // 注意：在微信授权的时候，必须传递appSecret
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
-        // String appId = "wx967daebe835fbeac";
-        // String appSecret = "5bb696d9ccd75a38c8a0bfe0675559b3";
+
         String appId = "wx6f4a5ebb3d2cd11e";
         String appSecret = "64710023bac7d1b314c1b3ed3db5949d";
-//        String appId="wxd570a10aaf918fa7";
-//        String appSecret="d4624c36b6795d1 d99dcf0547af5443d";
 
+        //设置微信好友分享内容
+        WeiXinShareContent weixinContent = new WeiXinShareContent();
+        //设置分享文字
+        weixinContent.setShareContent("给你一个舞台，成就你的明星梦");
+        //设置title
+        weixinContent.setTitle("来自“全民模特”的分享");
+        //设置分享内容跳转URL
+        weixinContent.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
+        //设置分享图片
+        weixinContent.setShareImage(new UMImage(ModelPersonActivity.this,"http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+        mShare.setShareMedia(weixinContent);
         // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(ModelPersonActivity.this, appId,
                 appSecret);
         wxHandler.addToSocialSDK();
+
+        //设置微信朋友圈分享内容
+        CircleShareContent circleMedia = new CircleShareContent();
+        circleMedia.setShareContent("给你一个舞台，成就你的明星梦");
+        //设置朋友圈title
+        circleMedia.setTitle("来自“全民模特”的分享");
+        circleMedia.setShareImage(new UMImage(ModelPersonActivity.this, "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+        circleMedia.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
+        mShare.setShareMedia(circleMedia);
 
         // 支持微信朋友圈
         UMWXHandler wxCircleHandler = new UMWXHandler(ModelPersonActivity.this, appId, appSecret);

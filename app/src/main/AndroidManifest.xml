@@ -133,6 +133,7 @@
             android:name="UMENG_APPKEY"
             android:value="567f6cb567e58e65bf000cad" />
 
+
         <!-- ###################注册SDK使用的Activity###################### -->
         <activity
             android:name="com.umeng.socialize.view.ShareActivity"
@@ -157,7 +158,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.wxapi.WXEntryActivity"
+            android:name="com.floyd.diamond.ui.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
