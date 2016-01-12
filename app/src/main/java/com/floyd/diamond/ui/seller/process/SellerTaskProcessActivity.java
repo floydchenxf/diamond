@@ -88,6 +88,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     private CheckedTextView guanzhuView;//关注
     private ImageView jiantouView;
 
+    private View waitLine;
+    private View waitLayout;
+    private TextView waitTimeView;
+    private TextView waitStatusView;
+
 
     private CheckedTextView finishView;
     //--------------------任务完成-------------------------//
@@ -114,6 +119,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         initMoteInfo();
         initAcceptView();
         initOrderNoView();
+        initWaitLayout();
+        hiddenWaitLayout();
         line4 = findViewById(R.id.line4);
         line5 = findViewById(R.id.line5);
         line4.setVisibility(View.GONE);
@@ -172,6 +179,25 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         confirmOrderNoTextView = (TextView) findViewById(R.id.confirm_order_id);
     }
 
+    private void hiddenWaitLayout() {
+        waitLayout.setVisibility(View.GONE);
+        waitLine.setVisibility(View.GONE);
+    }
+
+    private void showWaitLayout(String time, String statusName) {
+        waitLine.setVisibility(View.VISIBLE);
+        waitLayout.setVisibility(View.VISIBLE);
+        waitTimeView.setText(time);
+        waitStatusView.setText(statusName);
+    }
+
+    private void initWaitLayout() {
+        waitLine = this.findViewById(R.id.wait_line);
+        waitLayout = this.findViewById(R.id.wait_layout);
+        waitTimeView = (TextView) this.findViewById(R.id.wait_time_view);
+        waitStatusView = (TextView) this.findViewById(R.id.wait_status_view);
+    }
+
 
     private void loadData(final boolean isFirst) {
         LoginVO vo = LoginManager.getLoginInfo(this);
@@ -220,6 +246,19 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
                 if (status > 4) {
                     initAndFillGoodsOperate(taskProcessVO);
+                }
+
+                if (status <= 1) {
+                    String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
+                    showWaitLayout(dateTime, "等待模特上传订单");
+                } else if (status > 1 && status <=3) {
+                    String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
+                    showWaitLayout(dateTime, "等待模特上传照片");
+                } else if (status == 4) {
+                    String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
+                    showWaitLayout(dateTime, "等待模特上传单号");
+                } else {
+                    hiddenWaitLayout();
                 }
             }
 
