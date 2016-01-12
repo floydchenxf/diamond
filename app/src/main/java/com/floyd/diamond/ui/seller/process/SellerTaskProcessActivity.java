@@ -103,11 +103,16 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
     private MoteDetail1 moteDetail;
     private boolean isFollow;
+    private TextView titleNameView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_task_process);
+        titleNameView = (TextView)findViewById(R.id.title_name);
+        titleNameView.setText("任务进度");
+        titleNameView.setVisibility(View.VISIBLE);
+
         oneDp = this.getResources().getDimension(R.dimen.one_dp);
         moteTaskId = getIntent().getLongExtra(SELLER_MOTE_TASK_ID, 0l);
         mImageLoader = ImageLoaderFactory.createImageLoader();
