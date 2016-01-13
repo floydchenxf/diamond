@@ -88,7 +88,7 @@ public class SellerTaskAdapter extends BaseAdapter {
             //支付
             holder.taskStatusView.setVisibility(View.VISIBLE);
             holder.taskStatusView.setText("待支付");
-            holder.taskStatusView.setTextColor(Color.parseColor("#cecece"));
+            holder.taskStatusView.setTextColor(Color.WHITE);
             holder.taskStatusView.setChecked(true);
             if (statusCallback != null) {
                 statusCallback.doCallback(holder.taskStatusView, status);

@@ -43,6 +43,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
 
     @Override
     public void onTextMessage(Context context, XGPushTextMessage xgPushTextMessage) {
+        Log.i(TAG, "-----------receive msg "+xgPushTextMessage);
         String title = xgPushTextMessage.getTitle();
         String content = xgPushTextMessage.getContent();
         String customContent = xgPushTextMessage.getCustomContent();

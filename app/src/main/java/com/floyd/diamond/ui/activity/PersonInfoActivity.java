@@ -153,9 +153,14 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
-        findViewById(R.id.left).setOnClickListener(this);
+        findViewById(R.id.title_back).setOnClickListener(this);
         rightView = (TextView) findViewById(R.id.right);
+        rightView.setVisibility(View.VISIBLE);
         rightView.setOnClickListener(this);
+
+        TextView titleNameView = (TextView)findViewById(R.id.title_name);
+        titleNameView.setVisibility(View.VISIBLE);
+        titleNameView.setText("个人资料");
         initView();
 
         loginVO = LoginManager.getLoginInfo(this);
@@ -469,7 +474,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.left:
+            case R.id.title_back:
                 if (isEditorMode) {
                     final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
                     builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
@@ -670,7 +675,18 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 }
 
                 LoginVO loginVO = LoginManager.getLoginInfo(PersonInfoActivity.this);
-                loginVO.user = userVO;
+                loginVO.user.gender = userVO.gender;
+                loginVO.user.height = userVO.height;
+                loginVO.user.shape = userVO.shape;
+                loginVO.user.address = userVO.address;
+                loginVO.user.provinceId = userVO.provinceId;
+                loginVO.user.cityId = userVO.cityId;
+                loginVO.user.districtId = userVO.districtId;
+                loginVO.user.nickname = userVO.nickname;
+                loginVO.user.birdthdayStr = userVO.birdthdayStr;
+                loginVO.user.birdthday = userVO.birdthday;
+                loginVO.user.weixin = userVO.weixin;
+                loginVO.user.alipayId = userVO.alipayId;
                 LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
             }
 

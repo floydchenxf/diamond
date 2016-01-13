@@ -30,7 +30,7 @@ public class MoteDetail1 {
     public int age;
     public int gender;
     public int orderNum;
-    private Object shape;
+    private int shape;
     public float goodeEvalRate;
 
     public void setIsFollow(boolean isFollow) {
@@ -69,7 +69,7 @@ public class MoteDetail1 {
         this.orderNum = orderNum;
     }
 
-    public void setShape(Object shape) {
+    public void setShape(int shape) {
         this.shape = shape;
     }
 
@@ -77,7 +77,7 @@ public class MoteDetail1 {
         return isFollow;
     }
 
-    public Object getFollowNum() {
+    public int getFollowNum() {
         return followNum;
     }
 
@@ -113,7 +113,7 @@ public class MoteDetail1 {
         return orderNum;
     }
 
-    public Object getShape() {
+    public int getShape() {
         return shape;
     }
 

@@ -88,6 +88,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
     private CheckedTextView guanzhuView;//关注
     private ImageView jiantouView;
 
+    private View waitLine;
+    private View waitLayout;
+    private TextView waitTimeView;
+    private TextView waitStatusView;
+
 
     private CheckedTextView finishView;
     //--------------------任务完成-------------------------//
@@ -98,11 +103,16 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
     private MoteDetail1 moteDetail;
     private boolean isFollow;
+    private TextView titleNameView;
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_task_process);
+        titleNameView = (TextView)findViewById(R.id.title_name);
+        titleNameView.setText("任务进度");
+        titleNameView.setVisibility(View.VISIBLE);
+
         oneDp = this.getResources().getDimension(R.dimen.one_dp);
         moteTaskId = getIntent().getLongExtra(SELLER_MOTE_TASK_ID, 0l);
         mImageLoader = ImageLoaderFactory.createImageLoader();
@@ -114,6 +124,8 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         initMoteInfo();
         initAcceptView();
         initOrderNoView();
+        initWaitLayout();
+        hiddenWaitLayout();
         line4 = findViewById(R.id.line4);
         line5 = findViewById(R.id.line5);
         line4.setVisibility(View.GONE);
@@ -172,6 +184,25 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         confirmOrderNoTextView = (TextView) findViewById(R.id.confirm_order_id);
     }
 
+    private void hiddenWaitLayout() {
+        waitLayout.setVisibility(View.GONE);
+        waitLine.setVisibility(View.GONE);
+    }
+
+    private void showWaitLayout(String time, String statusName) {
+        waitLine.setVisibility(View.VISIBLE);
+        waitLayout.setVisibility(View.VISIBLE);
+        waitTimeView.setText(time);
+        waitStatusView.setText(statusName);
+    }
+
+    private void initWaitLayout() {
+        waitLine = this.findViewById(R.id.wait_line);
+        waitLayout = this.findViewById(R.id.wait_layout);
+        waitTimeView = (TextView) this.findViewById(R.id.wait_time_view);
+        waitStatusView = (TextView) this.findViewById(R.id.wait_status_view);
+    }
+
 
     private void loadData(final boolean isFirst) {
         LoginVO vo = LoginManager.getLoginInfo(this);
@@ -207,7 +238,6 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 }
 
                 SellerTaskProcessActivity.this.taskProcessVO = taskProcessVO;
-//                fillMoteInfo(taskProcessVO);
 
                 int status = taskProcessVO.moteTask.status;
                 fillAcceptStatus(taskProcessVO);
@@ -221,6 +251,19 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
                 if (status > 4) {
                     initAndFillGoodsOperate(taskProcessVO);
+                }
+
+                if (status <= 1) {
+                    String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
+                    showWaitLayout(dateTime, "等待模特上传订单");
+                } else if (status > 1 && status <=3) {
+                    String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
+                    showWaitLayout(dateTime, "等待模特上传照片");
+                } else if (status == 4) {
+                    String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
+                    showWaitLayout(dateTime, "等待模特上传单号");
+                } else {
+                    hiddenWaitLayout();
                 }
             }
 
@@ -260,10 +303,12 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 isFollow = vo.isFollow;
                 if (isFollow) {
                     guanzhuView.setText("已关注");
+                    guanzhuView.setTextColor(Color.WHITE);
                     guanzhuView.setChecked(true);
                 } else {
                     Object num = vo.getFollowNum();
                     guanzhuView.setText("关注度:" + num);
+                    guanzhuView.setTextColor(Color.parseColor("#666666"));
                     guanzhuView.setChecked(false);
                 }
 
@@ -472,6 +517,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                     }
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);
+                    guanzhuView.setTextColor(Color.WHITE);
                     isFollow = true;
                 }
 
@@ -498,6 +544,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                         dataLoadingDailog.dismiss();
                     }
                     guanzhuView.setText("关注度:" + moteDetail.followNum);
+                    guanzhuView.setTextColor(Color.parseColor("#666666"));
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }

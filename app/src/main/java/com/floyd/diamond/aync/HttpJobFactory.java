@@ -1,10 +1,12 @@
 package com.floyd.diamond.aync;
 
+import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.channel.request.BaseRequest;
 import com.floyd.diamond.channel.request.FileItem;
 import com.floyd.diamond.channel.request.HttpMethod;
 import com.floyd.diamond.channel.request.RequestCallback;
+import com.floyd.diamond.utils.NetworkUtil;
 
 import java.util.Map;
 
@@ -17,6 +19,12 @@ public class HttpJobFactory {
         return new AsyncJob<byte[]>() {
             @Override
             public void start(final ApiCallback<byte[]> callback) {
+
+                boolean isNetworkAvailable = NetworkUtil.isNetworkAvailable(IMChannel.getApplication());
+                if (!isNetworkAvailable) {
+                    callback.onError(APIError.API_NETWORK_ERROR, "无网络，请检查网络设置．");
+                    return;
+                }
 
                 new BaseRequest(url, params, httpMethod, new RequestCallback() {
                     @Override
