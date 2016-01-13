@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,13 +28,15 @@ public class CareAdapter extends RecyclerView.Adapter<CareAdapter.MasonryView>{
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
     private List<Care.DataEntity.DataListEntity> allModel;
-    private RequestQueue queue;
+    private MyImageLoader mImageLoader;
     private List<String>deleteModel;//取消关注的模特
 
     public CareAdapter(List<Care.DataEntity.DataListEntity> allModel, Context context,List<String>deleteModel) {
         this.allModel = allModel;
         this.context = context;
         this.deleteModel=deleteModel;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        this.mImageLoader = new MyImageLoader(queue);
     }
 
     @Override
@@ -54,8 +55,7 @@ public class CareAdapter extends RecyclerView.Adapter<CareAdapter.MasonryView>{
             Log.e("TAG", imgUrl + "");
         }
         if (imgUrl != null) {
-            queue = Volley.newRequestQueue(context);
-            MyImageLoader loader = new MyImageLoader(queue, CommonUtil.getImage_400(imgUrl), masonryView.imageView, context);
+            mImageLoader.bindView(CommonUtil.getImage_400(imgUrl), masonryView.imageView);
         }
     }
 

@@ -1,6 +1,5 @@
 package com.floyd.diamond.bean;
 
-import android.content.Context;
 import android.view.View;
 
 import com.android.volley.RequestQueue;
@@ -15,8 +14,11 @@ public class MyImageLoader extends ImageLoader {
      *
      * @param queue The RequestQueue to use for making image requests.
      */
-    public MyImageLoader(RequestQueue queue, String url, View view, Context context) {
+    public MyImageLoader(RequestQueue queue) {
         super(queue, MyImageCache.getMyImageCache());
-        this.get(url, new MyImageListener(view, context));
+    }
+
+    public void bindView(String url, View view) {
+        this.get(url, new MyImageListener(view, view.getContext()));
     }
 }

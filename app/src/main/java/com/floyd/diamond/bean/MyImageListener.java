@@ -5,12 +5,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
+import com.floyd.diamond.biz.constants.EnvConstants;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -26,7 +26,7 @@ public class MyImageListener implements ImageLoader.ImageListener {
 
     public MyImageListener(View view, Context context) {
         this.view = view;
-        path = Environment.getExternalStorageDirectory() + "/" + context.getPackageName();
+        path = EnvConstants.imageRootPath;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -41,7 +41,7 @@ public class MyImageListener implements ImageLoader.ImageListener {
         try {
             Bitmap bitmap = response.getBitmap();
             if (bitmap != null) {
-                File imgFile = new File(file, MD5Util.encodeBy32BitMD5(response.getRequestUrl()) + ".jpg");
+                File imgFile = new File(file, MD5Util.encodeBy32BitMD5(response.getRequestUrl()));
                 FileOutputStream fos = new FileOutputStream(imgFile);
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
             }
@@ -58,7 +58,7 @@ public class MyImageListener implements ImageLoader.ImageListener {
             ((ImageView) view).setImageBitmap(bitmap);
 
         } else {
-            Drawable drawable = Drawable.createFromPath(path + "/" + MD5Util.encodeBy32BitMD5(response.getRequestUrl()) + ".jpg");
+            Drawable drawable = Drawable.createFromPath(path + "/" + MD5Util.encodeBy32BitMD5(response.getRequestUrl()));
             view.setBackground(drawable);
         }
 

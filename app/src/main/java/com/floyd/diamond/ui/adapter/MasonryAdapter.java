@@ -29,12 +29,14 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
     private List<Model.DataEntity> allModel;
-    private RequestQueue queue;
+    private MyImageLoader myImageLoader;
 
     public MasonryAdapter(List<Model.DataEntity> allModel, Context context, ChangeText changeText) {
         this.allModel = allModel;
         this.context = context;
         this.changeText = changeText;
+        RequestQueue queue = Volley.newRequestQueue(context);
+        this.myImageLoader = new MyImageLoader(queue);
     }
 
     @Override
@@ -55,8 +57,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
             Log.e("TAG", imgUrl + "");
         }
         if (imgUrl != null) {
-            queue = Volley.newRequestQueue(context);
-            MyImageLoader loader = new MyImageLoader(queue, CommonUtil.getImage_400(imgUrl), masonryView.imageView, context);
+            myImageLoader.bindView(CommonUtil.getImage_400(imgUrl), masonryView.imageView);
         }
     }
 
