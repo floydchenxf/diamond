@@ -12,8 +12,12 @@ import com.floyd.diamond.biz.constants.EnvConstants;
  */
 public class ImageLoaderFactory {
 
+    private static RequestQueue mQueue;
+
     public static ImageLoader createImageLoader() {
-        RequestQueue mQueue = Volley.newRequestQueue(IMChannel.getApplication());
+        if (mQueue == null) {
+            mQueue = Volley.newRequestQueue(IMChannel.getApplication());
+        }
         IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
                 IMChannel.getApplication(), EnvConstants.imageRootPath);
         ImageLoader mImageLoader = new ImageLoader(mQueue, wxImageCache);
