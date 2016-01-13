@@ -3,6 +3,8 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.ui.webview.DiamondWebViewClient;
 import com.floyd.diamond.ui.webview.XBlinkUIModel;
+
 
 public class H5Activity extends Activity implements View.OnClickListener, DiamondWebViewClient.WebViewErrorListener, DiamondWebViewClient.WebViewPageCallback {
 
@@ -34,6 +38,9 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
     private XBlinkUIModel wvUIModel = null;
 
     private boolean showProcess;
+    private Handler mHandler = new Handler(Looper.getMainLooper());
+
+    private H5Data data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +51,19 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         initWebView();
         titlenameView = (TextView) findViewById(R.id.title_name);
         wvUIModel = new XBlinkUIModel(this, webView);
+        View errorView = View.inflate(this, R.layout.custom_hybird_error, null);
+        Button btn = (Button) errorView.findViewById(R.id.error_view_refresh_btn);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                H5Activity.this.finish();
+            }
 
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
-                RelativeLayout.LayoutParams.MATCH_PARENT, 6);
-        params.addRule(RelativeLayout.ALIGN_PARENT_TOP, -1);
-        wvUIModel.setLoadingView(progressbar, params);
+        });
+        wvUIModel.setErrorView(errorView);
         wvUIModel.enableShowLoading();
 
-        H5Data data = getIntent().getParcelableExtra(H5Data.H5_DATA);
+        data = getIntent().getParcelableExtra(H5Data.H5_DATA);
         showProcess = data.showProcess;
         if (!TextUtils.isEmpty(data.title)) {
             titlenameView.setVisibility(View.VISIBLE);
@@ -65,6 +77,16 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         }
 
         Log.i(TAG, "data is ======:" + data.data);
+        loadData();
+    }
+
+    private void loadData() {
+        if (showProcess) {
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.MATCH_PARENT, 6);
+            params.addRule(RelativeLayout.ALIGN_PARENT_TOP, -1);
+            wvUIModel.setLoadingView(progressbar, params);
+        }
         if (data.isUrl()) {
             webView.loadUrl(data.data);
         } else {
