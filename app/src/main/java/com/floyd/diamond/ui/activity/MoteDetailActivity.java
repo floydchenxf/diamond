@@ -228,6 +228,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         // 添加微信平台
         addWXPlatform();
+
         // 添加QQ平台
         addQQZonePlatform();
 
@@ -362,6 +363,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             public void onSuccess(MoteDetail1 vo) {
                 countDownLatch.countDown();
 
+                if (GlobalParams.isDebug){
+                    Log.e("TAG_detail",vo.getFollowNum()+"");
+                }
+
                 String imageUrl = vo.getAvartUrl();
                 if (!TextUtils.isEmpty(imageUrl)) {
                     headView.setDefaultImageResId(R.drawable.head);
@@ -387,8 +392,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);
                 } else {
-                    int num = infoVO.getFollowNum();
-                    guanzhuView.setText("关注度:" + num);
+//                    int num = infoVO.getFollowNum();
+                    guanzhuView.setText("关注度:" + vo.getFollowNum());
                     guanzhuView.setChecked(false);
                 }
 

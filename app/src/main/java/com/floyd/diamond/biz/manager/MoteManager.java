@@ -126,6 +126,21 @@ public class MoteManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
     }
+    /**
+     * 取消关注单个模特儿
+     *
+     * @param moteId
+     * @param token
+     * @return
+     */
+    public static AsyncJob<Boolean> cancelOneFollow(long moteId, String token) {
+        String url = APIConstants.HOST + APIConstants.API_CANCEL_FOLLOW;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("moteIds", moteId+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Boolean.class);
+    }
+
 
     /**
      * 获取模特的详细信息

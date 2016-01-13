@@ -2,23 +2,16 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.LabeledIntent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,14 +21,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.Model;
+import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.bean.SpacesItemDecoration;
 import com.floyd.diamond.biz.constants.APIConstants;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.adapter.MasonryAdapter;
-import com.floyd.diamond.utils.CommonUtil;
-import com.floyd.pullrefresh.widget.PullToRefreshBase;
-import com.floyd.pullrefresh.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -52,14 +46,15 @@ public class HomeChooseActivity extends Activity {
     private LinearLayout back;//返回按钮
     private LinearLayout find;//查找模特
     private RequestQueue queue;
-    private List<Model.DataEntity> modelsList;
-    private List<Model.DataEntity> allModel;//大集合
+    private List<ModelInfo.DataEntity> modelsList;
+    private List<ModelInfo.DataEntity> allModel;//大集合
     private int pageNo = 1;//当前页数
     private boolean needClear;
     private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private MasonryAdapter adapter;
     private boolean isFirst=true;
     private ProgressBar progressBar;
+    private LoginVO vo;
     private com.floyd.diamond.bean.SwipeRefreshLayout.Mode mLastDirection = com.floyd.diamond.bean.SwipeRefreshLayout.Mode.DISABLED;
     private Handler handler = new Handler() {
         @Override
@@ -67,6 +62,7 @@ public class HomeChooseActivity extends Activity {
             super.handleMessage(msg);
 
             progressBar.setVisibility(View.INVISIBLE);
+
 
         adapter.notifyDataSetChanged();
 
@@ -85,13 +81,52 @@ public class HomeChooseActivity extends Activity {
         //设置adapter
         adapter = new MasonryAdapter(allModel, HomeChooseActivity.this, new MasonryAdapter.ChangeText() {
             @Override
-            public void setText(String tag, boolean isChecked) {
-                CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
+            public void setText(String tag, boolean isChecked, final int position) {
+
+                final CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
                 if (cb != null) {
                     if (isChecked) {
-                        cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+
+                        MoteManager.addFollow(allModel.get(position).getId(), vo.token).startUI(new ApiCallback<Integer>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+                                Toast.makeText(HomeChooseActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(Integer aBoolean) {
+                                Toast.makeText(HomeChooseActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                                cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+                                allModel.get(position).setIsFollow(true);
+
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
+
                     } else {
-                        cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                        MoteManager.cancelOneFollow(allModel.get(position).getId(), vo.token).startUI(new ApiCallback<Boolean>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+                                Toast.makeText(HomeChooseActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean num) {
+                                Toast.makeText(HomeChooseActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
+                                cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                                allModel.get(position).setIsFollow(false);
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
+
                     }
                 }
             }
@@ -113,7 +148,9 @@ public class HomeChooseActivity extends Activity {
 
     }
 
+
     public void init() {
+        vo = LoginManager.getLoginInfo(HomeChooseActivity.this);
         progressBar= ((ProgressBar) findViewById(R.id.progress));
         swipeRefreshLayout = ((com.floyd.diamond.bean.SwipeRefreshLayout) findViewById(R.id.swip));
         //设置刷新时动画的颜色，可以设置4个
@@ -187,7 +224,7 @@ public class HomeChooseActivity extends Activity {
                     Log.e("TAG", response);
                 }
                 Gson gson = new Gson();
-                Model model = gson.fromJson(response, Model.class);
+                ModelInfo model = gson.fromJson(response, ModelInfo.class);
                 modelsList = model.getData();
 
                 allModel.addAll(modelsList);
@@ -207,6 +244,9 @@ public class HomeChooseActivity extends Activity {
                 Map<String, String> params = new HashMap<>();
                 params.put("pageNo", pageNo + "");
                 params.put("pageSize", 10 + "");
+                if (vo!=null){
+                    params.put("token",vo.token);
+                }
                 return params;
             }
         };

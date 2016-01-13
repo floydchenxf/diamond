@@ -7,10 +7,10 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -20,14 +20,16 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.ChoiceCondition;
-import com.floyd.diamond.bean.ChooseCondition;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.Model;
+import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.bean.SpacesItemDecoration;
 import com.floyd.diamond.biz.constants.APIConstants;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
+import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.adapter.MasonryAdapter;
-import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 import com.google.gson.Gson;
 
@@ -44,20 +46,24 @@ public class ChooseResultActivity extends Activity {
     private LinearLayout back;//返回按钮
     private LinearLayout find;//查找模特
     private RequestQueue queue;
-    private List<Model.DataEntity> modelsList;
-    private List<Model.DataEntity>allModel;//大集合
+    private List<ModelInfo.DataEntity> modelsList;
+    private List<ModelInfo.DataEntity>allModel;//大集合
     private int pageNo=1;//当前页数
     private PullToRefreshListView mPullToRefreshListView;
     private boolean needClear;
     private GridLayoutManager mLayoutManager;
     private MasonryAdapter adapter;
+    private LoginVO vo;
+    private ProgressBar progressBar;
     private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(android.os.Message msg) {
             super.handleMessage(msg);
 
-               adapter.notifyDataSetChanged();
+            progressBar.setVisibility(View.INVISIBLE);
+
+            adapter.notifyDataSetChanged();
             }
 
     };
@@ -74,13 +80,51 @@ public class ChooseResultActivity extends Activity {
         //设置adapter
         adapter = new MasonryAdapter(allModel, ChooseResultActivity.this, new MasonryAdapter.ChangeText() {
             @Override
-            public void setText(String tag, boolean isChecked) {
-                CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
+            public void setText(String tag, boolean isChecked,final int position) {
+               final CheckBox cb = (CheckBox) recyclerView.findViewWithTag(tag);
                 if (cb != null) {
                     if (isChecked) {
-                        cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+
+                        MoteManager.addFollow(allModel.get(position).getId(), vo.token).startUI(new ApiCallback<Integer>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+                                Toast.makeText(ChooseResultActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(Integer aBoolean) {
+                                Toast.makeText(ChooseResultActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+                                cb.setText((Integer.parseInt(cb.getText().toString()) + 1) + "");
+                                allModel.get(position).setIsFollow(true);
+
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
+
                     } else {
-                        cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                        MoteManager.cancelOneFollow(allModel.get(position).getId(), vo.token).startUI(new ApiCallback<Boolean>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+                                Toast.makeText(ChooseResultActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean num) {
+                                Toast.makeText(ChooseResultActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
+                                cb.setText((Integer.parseInt(cb.getText().toString()) - 1) + "");
+                                allModel.get(position).setIsFollow(false);
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
+
                     }
                 }
             }
@@ -103,6 +147,8 @@ public class ChooseResultActivity extends Activity {
     }
 
     public void init() {
+        progressBar= ((ProgressBar) findViewById(R.id.progress));
+        vo = LoginManager.getLoginInfo(ChooseResultActivity.this);
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         back = ((LinearLayout) findViewById(R.id.left));
         find = ((LinearLayout) findViewById(R.id.right));
@@ -143,6 +189,7 @@ public class ChooseResultActivity extends Activity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ChooseResultActivity.this, ChooseActivity1.class));
+                finish();
             }
         });
 
@@ -182,12 +229,12 @@ public class ChooseResultActivity extends Activity {
                     Log.e("TAG_result",response);
                 }
                 Gson gson=new Gson();
-                Model model=gson.fromJson(response,Model.class);
+                ModelInfo model=gson.fromJson(response,ModelInfo.class);
                 modelsList=model.getData();
 
                 allModel.addAll(modelsList);
 
-                if (modelsList.size()==0){
+                if (allModel.size()==0){
 //                    startActivity(new Intent(ChooseResultActivity.this, ChooseResultNullActivity.class));
 //                    finish();
                     setContentView(R.layout.activity_chooseresultnull);
@@ -217,6 +264,9 @@ public class ChooseResultActivity extends Activity {
                 params.put("areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ","")+"");
                 params.put("pageNo",pageNo+"");
                 params.put("pageSize",10+"");
+                if (vo!=null){
+                    params.put("token",vo.token);
+                }
                 return params;
             }
         };
