@@ -35,8 +35,6 @@ public class MyImageListener implements ImageLoader.ImageListener {
             Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
             view.setBackground(drawable);
         }
-
-
     }
 
     @Override

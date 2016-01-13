@@ -21,7 +21,6 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.MoteDetail;
 import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -164,7 +163,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         taskPicAdapter = new TaskPicAdapter(MoteDetailActivity.this, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
             @Override
-            public void onItemClick(int position, View v) {
+            public void onItemClick(int position, int picNum, View v) {
                 if (!LoginManager.isLogin(MoteDetailActivity.this)) {
                     return;
                 }
@@ -181,7 +180,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     picViewObject.setExtData(taskPic.id + "");
                     picViewList.add(picViewObject);
                 }
-                MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
+                MulitImageVO mulitImageVO = new MulitImageVO(picNum, picViewList);
                 Intent it = new Intent(MoteDetailActivity.this, MultiImageActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);

@@ -75,14 +75,6 @@ public class TaskPicAdapter extends BaseAdapter {
 
         holder = (ViewHolder) convertView.getTag();
         TaskPicsVO taskPicsVO = getItem(position);
-        holder.imageLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (itemClick != null) {
-                    itemClick.onItemClick(position, v);
-                }
-            }
-        });
         holder.imageLayout.removeAllViews();
         List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
         if (pics != null && !pics.isEmpty()) {
@@ -91,12 +83,23 @@ public class TaskPicAdapter extends BaseAdapter {
             float eachWidth = (Width - 16 * ondp) / 3;
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams((int) eachWidth, (int) (100 * ondp));
             lp.setMargins((int) (2 * ondp), 0, (int) (2 * ondp), 0);
+            int idx = 0;
             for (MoteTaskPicVO vo : pics) {
                 NetworkImageView imageView = new NetworkImageView(mContext);
                 imageView.setLayoutParams(lp);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                 imageView.setImageUrl(vo.getPreviewImageUrl(), imageLoader);
+                final int k = idx;
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (itemClick != null) {
+                            itemClick.onItemClick(position, k, v);
+                        }
+                    }
+                });
                 holder.imageLayout.addView(imageView);
+                idx++;
             }
         }
 
@@ -111,6 +114,6 @@ public class TaskPicAdapter extends BaseAdapter {
     }
 
     public interface TaskPicItemClick {
-        void onItemClick(int position, View v);
+        void onItemClick(int position, int picNum, View v);
     }
 }

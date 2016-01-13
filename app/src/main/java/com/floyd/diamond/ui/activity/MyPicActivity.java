@@ -88,7 +88,7 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
 
         taskPicAdapter = new TaskPicAdapter(MyPicActivity.this, mImageLoader, new TaskPicAdapter.TaskPicItemClick() {
             @Override
-            public void onItemClick(int position, View v) {
+            public void onItemClick(int position,int picNum, View v) {
                 TaskPicsVO taskPicsVO = taskPicsList.get(position);
                 List<MoteTaskPicVO> pics = taskPicsVO.taskPics;
                 List<PicViewObject> picViewList = new ArrayList<PicViewObject>();
@@ -101,7 +101,7 @@ public class MyPicActivity extends Activity implements View.OnClickListener {
                     picViewObject.setExtData(taskPic.id + "");
                     picViewList.add(picViewObject);
                 }
-                MulitImageVO mulitImageVO = new MulitImageVO(0, picViewList);
+                MulitImageVO mulitImageVO = new MulitImageVO(picNum, picViewList);
                 Intent it = new Intent(MyPicActivity.this, MultiImageActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(MultiImageActivity.MULIT_IMAGE_VO, mulitImageVO);
