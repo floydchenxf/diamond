@@ -22,6 +22,7 @@ import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.ChoiceCondition;
+import com.floyd.diamond.bean.DLCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.bean.SpacesItemDecoration;
@@ -213,13 +214,7 @@ public class ChooseResultActivity extends Activity {
 
     public void setData(){
 
-        final ChoiceCondition.DataEntity dataEntity= (ChoiceCondition.DataEntity) getIntent().getSerializableExtra("chooseCondition");
-
-        if (GlobalParams.isDebug){
-            Log.e("TAG_shapes_result",dataEntity.getShapes().toString());
-            Log.e("TAG_shapes",dataEntity.getShapes().toString().substring(1,dataEntity.getShapes().toString().length()-1).replace(" ",""));
-            Log.e("TAG_areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ",""));
-        }
+        final DLCondition.DataEntity dataEntity= (DLCondition.DataEntity) getIntent().getSerializableExtra("chooseCondition");
 
         String url= APIConstants.HOST+APIConstants.CHOOSEMOTE;
         StringRequest request=new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
@@ -260,8 +255,8 @@ public class ChooseResultActivity extends Activity {
                 params.put("heightMax",dataEntity.getHeightMax()+"");
                 params.put("creditMin",dataEntity.getCreditMin()+"");
                 params.put("creditMax",dataEntity.getCreditMax()+"");
-                params.put("shapes",dataEntity.getShapes().toString().substring(1,dataEntity.getShapes().toString().length()-1).replace(" ","")+"");
-                params.put("areaids",dataEntity.getAreaids().toString().substring(1,dataEntity.getAreaids().toString().length()-1).replace(" ","")+"");
+                params.put("shapes",dataEntity.getShapes()+"");
+                params.put("areaids",dataEntity.getAreaids()+"");
                 params.put("pageNo",pageNo+"");
                 params.put("pageSize",10+"");
                 if (vo!=null){

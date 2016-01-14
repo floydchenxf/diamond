@@ -1,11 +1,12 @@
 package com.floyd.diamond.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by hy on 2016/1/13.
  */
-public class DLCondition {
+public class DLCondition implements Serializable{
 
 
     /**
@@ -50,7 +51,7 @@ public class DLCondition {
         return success;
     }
 
-    public static class DataEntity {
+    public static class DataEntity implements Serializable{
         private int userId;
         private int gender;
         private int ageMin;
@@ -60,7 +61,7 @@ public class DLCondition {
         private String shapes;
         private int creditMin;
         private int creditMax;
-        private Object levels;
+        private int levels;
         private String areaids;
         private long createTime;
         private long updateTime;
@@ -119,7 +120,7 @@ public class DLCondition {
             this.creditMax = creditMax;
         }
 
-        public void setLevels(Object levels) {
+        public void setLevels(int levels) {
             this.levels = levels;
         }
 
@@ -179,7 +180,7 @@ public class DLCondition {
             return creditMax;
         }
 
-        public Object getLevels() {
+        public int getLevels() {
             return levels;
         }
 
@@ -203,7 +204,7 @@ public class DLCondition {
             return areaList;
         }
 
-        public static class ShapesListEntity {
+        public static class ShapesListEntity implements Serializable{
             private int id;
             private int type;
             private String name;
@@ -260,7 +261,7 @@ public class DLCondition {
             }
         }
 
-        public static class AreaListEntity {
+        public static class AreaListEntity implements Serializable{
             private int id;
             private String name;
             private int pid;

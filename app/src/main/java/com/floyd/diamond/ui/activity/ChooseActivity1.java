@@ -59,7 +59,6 @@ public class ChooseActivity1 extends Activity {
     private TextView search;
     private RequestQueue queue;
     private LoginVO vo;
-    private ChoiceCondition.DataEntity dataEntity;
     private DLCondition.DataEntity dlEntity;
     private List<String> shapes;
     private List<String> areaids;
@@ -73,9 +72,13 @@ public class ChooseActivity1 extends Activity {
 
             clickCondition();
 
-            dataEntity.setAreaids(areaids);
-            dataEntity.setShapes(shapes);
 
+            if (GlobalParams.isDebug) {
+                Log.e("TAG_areaids", areaids.toString());
+                Log.e("TAG_shapes", shapes.toString());
+            }
+
+            searchMote();
         }
     };
 
@@ -105,18 +108,17 @@ public class ChooseActivity1 extends Activity {
                     Log.e("weidenglu", response);
                 }
                 Gson gson = new Gson();
-                ChoiceCondition choiceCondition = gson.fromJson(response, ChoiceCondition.class);
+                DLCondition choiceCondition = gson.fromJson(response, DLCondition.class);
 
-                dataEntity = choiceCondition.getData();
+                dlEntity = choiceCondition.getData();
 
-                seekBarAge.setProgressLow(dataEntity.getAgeMin());
-                seekBarAge.setProgressHigh(dataEntity.getAgeMax());
+                seekBarAge.setProgressLow(dlEntity.getAgeMin());
+                seekBarAge.setProgressHigh(dlEntity.getAgeMax());
 
-                seekBarHeight.setProgressHigh(dataEntity.getHeightMax()-80);
-                seekBarHeight.setProgressLow(dataEntity.getHeightMin()-80);
+                seekBarHeight.setProgressHigh(dlEntity.getHeightMax() - 80);
+                seekBarHeight.setProgressLow(dlEntity.getHeightMin() - 80);
 
-                seekBarCredit.setProgressLow(dataEntity.getCreditMin());
-
+                seekBarCredit.setProgressLow(dlEntity.getCreditMin());
 
 
                 handler.sendEmptyMessage(1);
@@ -152,236 +154,143 @@ public class ChooseActivity1 extends Activity {
 //
                 dlEntity = choiceCondition.getData();
 
+                if (dlEntity.getGender() == 0) {
+                    girl.setChecked(true);
+                } else {
+                    boy.setChecked(true);
+                }
+
                 seekBarAge.setProgressLow(dlEntity.getAgeMin());
                 seekBarAge.setProgressHigh(dlEntity.getAgeMax());
 
-                seekBarHeight.setProgressHigh(dlEntity.getHeightMax()-80 );
-                seekBarHeight.setProgressLow(dlEntity.getHeightMin()-80 );
+                seekBarHeight.setProgressHigh(dlEntity.getHeightMax() - 80);
+                seekBarHeight.setProgressLow(dlEntity.getHeightMin() - 80);
 
                 seekBarCredit.setProgressLow(dlEntity.getCreditMin());
 
+                if (dlEntity.getShapes() != null) {
+                    String[] shapesLists = dlEntity.getShapes().split(",");
+                    shapes.clear();
+                    for (int i = 0; i < shapesLists.length; i++) {
 
+                        shapes.add(shapesLists[i]);
 
-                List<ChoiceCondition.DataEntity.ShapesListEntity> shapesLists = dataEntity.getShapesList();
-                if (dataEntity.getShapes() != null) {
-                    for (int i = 0; i < shapesLists.size(); i++) {
-                        if (shapesLists.get(i).getId() == 1) {
-                            if (dataEntity.getShapes().contains(1)) {
-                                gugan.setChecked(true);
-                            } else {
-                                gugan.setChecked(false);
-                            }
-                        } else if (shapesLists.get(i).getId() == 2) {
-                            if (dataEntity.getShapes().contains(2)) {
-                                biaozhi.setChecked(true);
-                            } else {
-                                biaozhi.setChecked(false);
-                            }
-                        } else if (shapesLists.get(i).getId() == 3) {
-                            if (dataEntity.getShapes().contains(3)) {
-                                fengman.setChecked(true);
-                            } else {
-                                fengman.setChecked(false);
-                            }
+                        if (shapesLists[i].equals(1 + "")) {
+                            gugan.setChecked(true);
+                        }
+                        if (shapesLists[i].equals(2 + "")) {
+                            biaozhi.setChecked(true);
+                        }
+                        if (shapesLists[i].equals(3 + "")) {
+                            fengman.setChecked(true);
                         }
                     }
                 }
 
+                if (dlEntity.getAreaids() != null) {
 
-                List<ChoiceCondition.DataEntity.AreaListEntity> areaLists = dataEntity.getAreaList();
-                if (dataEntity.getAreaids() != null) {
-                    for (int i = 0; i < areaLists.size(); i++) {
-                        if (areaLists.get(i).getId() == 110000) {
-                            if (dataEntity.getAreaids().contains(110000)) {
-                                beijing.setChecked(true);
-                            } else {
-                                beijing.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 120000) {
-                            if (dataEntity.getAreaids().contains(120000)) {
-                                tianjin.setChecked(true);
-                            } else {
-                                tianjin.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 130000) {
-                            if (dataEntity.getAreaids().contains(130000)) {
-                                hebei.setChecked(true);
-                            } else {
-                                hebei.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 140000) {
-                            if (dataEntity.getAreaids().contains(140000)) {
-                                shanxi1.setChecked(true);
-                            } else {
-                                shanxi1.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 150000) {
-                            if (dataEntity.getAreaids().contains(150000)) {
-                                neimenggu.setChecked(true);
-                            } else {
-                                neimenggu.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 210000) {
-                            if (dataEntity.getAreaids().contains(210000)) {
-                                liaoning.setChecked(true);
-                            } else {
-                                liaoning.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 220000) {
-                            if (dataEntity.getAreaids().contains(220000)) {
-                                jilin.setChecked(true);
-                            } else {
-                                jilin.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 230000) {
-                            if (dataEntity.getAreaids().contains(230000)) {
-                                heilongjiang.setChecked(true);
-                            } else {
-                                heilongjiang.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 310000) {
-                            if (dataEntity.getAreaids().contains(310000)) {
-                                shanghai.setChecked(true);
-                            } else {
-                                shanghai.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 320000) {
-                            if (dataEntity.getAreaids().contains(320000)) {
-                                jiangsu.setChecked(true);
-                            } else {
-                                jiangsu.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 330000) {
-                            if (dataEntity.getAreaids().contains(330000)) {
-                                zhejiang.setChecked(true);
-                            } else {
-                                zhejiang.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 340000) {
-                            if (dataEntity.getAreaids().contains(340000)) {
-                                anhui.setChecked(true);
-                            } else {
-                                anhui.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 350000) {
-                            if (dataEntity.getAreaids().contains(350000)) {
-                                fujian.setChecked(true);
-                            } else {
-                                fujian.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 360000) {
-                            if (dataEntity.getAreaids().contains(360000)) {
-                                jiangxi.setChecked(true);
-                            } else {
-                                jiangxi.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 370000) {
-                            if (dataEntity.getAreaids().contains(370000)) {
-                                shandong.setChecked(true);
-                            } else {
-                                shandong.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 410000) {
-                            if (dataEntity.getAreaids().contains(410000)) {
-                                henan.setChecked(true);
-                            } else {
-                                henan.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 420000) {
-                            if (dataEntity.getAreaids().contains(420000)) {
-                                hubei.setChecked(true);
-                            } else {
-                                hubei.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 430000) {
-                            if (dataEntity.getAreaids().contains(430000)) {
-                                hunan.setChecked(true);
-                            } else {
-                                hunan.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 440000) {
-                            if (dataEntity.getAreaids().contains(440000)) {
-                                guangdong.setChecked(true);
-                            } else {
-                                guangdong.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 450000) {
-                            if (dataEntity.getAreaids().contains(450000)) {
-                                guangxi.setChecked(true);
-                            } else {
-                                hainan.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 460000) {
-                            if (dataEntity.getAreaids().contains(460000)) {
-                                hainan.setChecked(true);
-                            } else {
-                                hainan.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 500000) {
-                            if (dataEntity.getAreaids().contains(500000)) {
-                                chongqing.setChecked(true);
-                            } else {
-                                chongqing.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 510000) {
-                            if (dataEntity.getAreaids().contains(510000)) {
-                                sichuan.setChecked(true);
-                            } else {
-                                sichuan.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 520000) {
-                            if (dataEntity.getAreaids().contains(520000)) {
-                                guizhou.setChecked(true);
-                            } else {
-                                guizhou.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 530000) {
-                            if (dataEntity.getAreaids().contains(530000)) {
-                                yunnan.setChecked(true);
-                            } else {
-                                yunnan.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 540000) {
-                            if (dataEntity.getAreaids().contains(540000)) {
-                                xizang.setChecked(true);
-                            } else {
-                                xizang.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 610000) {
-                            if (dataEntity.getAreaids().contains(610000)) {
-                                shanxi3.setChecked(true);
-                            } else {
-                                shanxi3.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 620000) {
-                            if (dataEntity.getAreaids().contains(620000)) {
-                                gansu.setChecked(true);
-                            } else {
-                                gansu.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 630000) {
-                            if (dataEntity.getAreaids().contains(630000)) {
-                                qinghai.setChecked(true);
-                            } else {
-                                qinghai.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 640000) {
-                            if (dataEntity.getAreaids().contains(640000)) {
-                                ningxia.setChecked(true);
-                            } else {
-                                ningxia.setChecked(false);
-                            }
-                        } else if (areaLists.get(i).getId() == 650000) {
-                            if (dataEntity.getAreaids().contains(650000)) {
-                                xinjiang.setChecked(true);
-                            } else {
-                                xinjiang.setChecked(false);
-                            }
+                    String[] areaLists = dlEntity.getAreaids().split(",");
+                    areaids.clear();
+                    for (int i = 0; i < areaLists.length; i++) {
+
+                        areaids.add(areaLists[i]);
+
+                        if (areaLists[i].equals(110000 + "")) {
+                            beijing.setChecked(true);
+                        }
+                        if (areaLists[i].equals(120000 + "")) {
+                            tianjin.setChecked(true);
+                        }
+                        if (areaLists[i].equals(130000 + "")) {
+                            hebei.setChecked(true);
+                        }
+                        if (areaLists[i].equals(140000 + "")) {
+                            shanxi1.setChecked(true);
+                        }
+                        if (areaLists[i].equals(150000 + "")) {
+                            neimenggu.setChecked(true);
+                        }
+                        if (areaLists[i].equals(210000 + "")) {
+                            liaoning.setChecked(true);
+                        }
+                        if (areaLists[i].equals(220000 + "")) {
+                            jilin.setChecked(true);
+                        }
+                        if (areaLists[i].equals(230000 + "")) {
+                            heilongjiang.setChecked(true);
+                        }
+                        if (areaLists[i].equals(310000 + "")) {
+                            shanghai.setChecked(true);
+                        }
+                        if (areaLists[i].equals(320000 + "")) {
+                            jiangsu.setChecked(true);
+                        }
+                        if (areaLists[i].equals(330000 + "")) {
+                            zhejiang.setChecked(true);
+                        }
+                        if (areaLists[i].equals(340000 + "")) {
+                            anhui.setChecked(true);
+                        }
+                        if (areaLists[i].equals(350000 + "")) {
+                            fujian.setChecked(true);
+                        }
+                        if (areaLists[i].equals(360000 + "")) {
+                            jiangxi.setChecked(true);
+                        }
+                        if (areaLists[i].equals(370000 + "")) {
+                            shandong.setChecked(true);
+                        }
+                        if (areaLists[i].equals(410000 + "")) {
+                            henan.setChecked(true);
+                        }
+                        if (areaLists[i].equals(420000 + "")) {
+                            hubei.setChecked(true);
+                        }
+                        if (areaLists[i].equals(430000 + "")) {
+                            hunan.setChecked(true);
+                        }
+                        if (areaLists[i].equals(440000 + "")) {
+                            guangdong.setChecked(true);
+                        }
+                        if (areaLists[i].equals(450000 + "")) {
+                            guangxi.setChecked(true);
+                        }
+                        if (areaLists[i].equals(460000 + "")) {
+                            hainan.setChecked(true);
+                        }
+                        if (areaLists[i].equals(500000 + "")) {
+                            chongqing.setChecked(true);
+                        }
+                        if (areaLists[i].equals(510000 + "")) {
+                            sichuan.setChecked(true);
+                        }
+                        if (areaLists[i].equals(520000 + "")) {
+                            guizhou.setChecked(true);
+                        }
+                        if (areaLists[i].equals(530000 + "")) {
+                            yunnan.setChecked(true);
+                        }
+                        if (areaLists[i].equals(540000 + "")) {
+                            xizang.setChecked(true);
+                        }
+                        if (areaLists[i].equals(610000 + "")) {
+                            shanxi3.setChecked(true);
+                        }
+                        if (areaLists[i].equals(620000 + "")) {
+                            gansu.setChecked(true);
+                        }
+                        if (areaLists[i].equals(630000 + "")) {
+                            qinghai.setChecked(true);
+                        }
+                        if (areaLists[i].equals(640000 + "")) {
+                            ningxia.setChecked(true);
+                        }
+                        if (areaLists[i].equals(650000 + "")) {
+                            xinjiang.setChecked(true);
                         }
 
                     }
                 }
-
 
 
                 handler.sendEmptyMessage(2);
@@ -393,8 +302,7 @@ public class ChooseActivity1 extends Activity {
 
                 Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
             }
-        })
-        {
+        }) {
             @Override
             protected Map<String, String> getParams() {
                 //在这里设置需要post的参数
@@ -402,8 +310,7 @@ public class ChooseActivity1 extends Activity {
                 params.put("token", vo.token);
                 return params;
             }
-        }
-                ;
+        };
 
         queue.add(requestLogin);
     }
@@ -413,7 +320,7 @@ public class ChooseActivity1 extends Activity {
         vo = LoginManager.getLoginInfo(this);
 //        chooseCondition = new ChooseCondition();
 //        chooseCondition.setCreditMax(100);
-        dataEntity = new ChoiceCondition.DataEntity();
+        dlEntity = new DLCondition.DataEntity();
         shapes = new ArrayList<>();
         areaids = new ArrayList<>();
         queue = Volley.newRequestQueue(this);
@@ -469,69 +376,6 @@ public class ChooseActivity1 extends Activity {
         biaozhi = ((CheckBox) findViewById(R.id.biaozhi));
         fengman = ((CheckBox) findViewById(R.id.fengman));
 
-        search.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (GlobalParams.isDebug){
-                    Log.e("dataEntity",dataEntity.toString());
-                }
-
-                if (dataEntity != null) {
-                    if (vo != null) {
-                        String saveUrl = APIConstants.HOST + APIConstants.API_SAVE_MOTE_FILTER;
-                        StringRequest submitCondition = new StringRequest(Request.Method.POST, saveUrl, new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-
-                                if (GlobalParams.isDebug) {
-                                    Log.e("TAG_submit", response);
-                                    Log.e("TAG_manyi",dataEntity.getCreditMin()+"");
-                                    Log.e("TAG_heightmax",dataEntity.getHeightMax()+"");
-                                    Log.e("TAG_heightmin",dataEntity.getHeightMin()+"");
-
-                                }
-
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-
-                            }
-                        }) {
-                            @Override
-                            protected Map<String, String> getParams() {
-                                //在这里设置需要post的参数
-                                Map<String, String> params = new HashMap<>();
-                                params.put("gender", dataEntity.getGender() + "");
-                                params.put("ageMin", dataEntity.getAgeMin() + "");
-                                params.put("ageMax", dataEntity.getAgeMax() + "");
-                                params.put("heightMin", dataEntity.getHeightMin() + "");
-                                params.put("heightMax", dataEntity.getHeightMax() + "");
-                                params.put("creditMin", dataEntity.getCreditMin() + "");
-                                params.put("creditMax", dataEntity.getCreditMax() + "");
-                                params.put("shapes", dataEntity.getShapes().toString().substring(1, dataEntity.getShapes().toString().length() - 1).replace(" ", "") + "");
-                                params.put("areaids", dataEntity.getAreaids().toString().substring(1, dataEntity.getAreaids().toString().length() - 1).replace(" ", "") + "");
-                                params.put("token", vo.token + "");
-                                return params;
-                            }
-                        };
-
-                        queue.add(submitCondition);
-                    }
-
-
-                    Intent intent = new Intent(ChooseActivity1.this, ChooseResultActivity.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("chooseCondition", (Serializable) dataEntity);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_LONG).show();
-                }
-
-            }
-        });
 
         //点击返回上一个界面
         back.setOnClickListener(new View.OnClickListener() {
@@ -642,7 +486,68 @@ public class ChooseActivity1 extends Activity {
 
     }
 
+    //点击search按钮搜索
+    public void searchMote() {
+
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (vo != null) {
+                    if (dlEntity != null) {
+                        String saveUrl = APIConstants.HOST + APIConstants.API_SAVE_MOTE_FILTER;
+                        StringRequest submitCondition = new StringRequest(Request.Method.POST, saveUrl, new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+
+                                Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_LONG).show();
+                            }
+                        }) {
+                            @Override
+                            protected Map<String, String> getParams() {
+                                //在这里设置需要post的参数
+                                Map<String, String> params = new HashMap<>();
+                                params.put("gender", dlEntity.getGender() + "");
+                                params.put("ageMin", dlEntity.getAgeMin() + "");
+                                params.put("ageMax", dlEntity.getAgeMax() + "");
+                                params.put("heightMin", dlEntity.getHeightMin() + "");
+                                params.put("heightMax", dlEntity.getHeightMax() + "");
+                                params.put("creditMin", dlEntity.getCreditMin() + "");
+                                params.put("creditMax", dlEntity.getCreditMax() + "");
+//                                params.put("shapes", dlEntity.getShapes().toString().substring(1, dlEntity.getShapes().toString().length() - 1).replace(" ", "") + "");
+//                                params.put("areaids", dlEntity.getAreaids().toString().substring(1, dlEntity.getAreaids().toString().length() - 1).replace(" ", "") + "");
+                                params.put("shapes", dlEntity.getShapes());
+                                params.put("areaids", dlEntity.getAreaids());
+                                params.put("token", vo.token + "");
+                                return params;
+                            }
+                        };
+
+                        queue.add(submitCondition);
+                    }
+
+
+                }
+                Intent intent = new Intent(ChooseActivity1.this, ChooseResultActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("chooseCondition", (Serializable) dlEntity);
+                startActivity(intent);
+                finish();
+
+            }
+        });
+
+
+    }
+
+    //点击改变筛选条件
     public void clickCondition() {
+        //年龄刻度尺
         seekBarAge.setOnSeekBarChangeListener(new SeekBarPressure.OnSeekBarChangeListener() {
             @Override
             public void onProgressBefore() {
@@ -652,9 +557,9 @@ public class ChooseActivity1 extends Activity {
             @Override
             public void onProgressChanged(SeekBarPressure seekBar, double progressLow, double progressHigh) {
 
-                dataEntity.setAgeMin((int) progressLow);
+                dlEntity.setAgeMin((int) progressLow);
 
-                dataEntity.setAgeMax((int) progressHigh);
+                dlEntity.setAgeMax((int) progressHigh);
 
             }
 
@@ -663,43 +568,47 @@ public class ChooseActivity1 extends Activity {
                 isScreen = false;
             }
         });
+        //身高刻度尺
         seekBarHeight.setOnSeekBarChangeListener(new SeekBarPressure1.OnSeekBarChangeListener() {
             @Override
             public void onProgressBefore() {
-
+                isScreen = true;
             }
 
             @Override
             public void onProgressChanged(SeekBarPressure1 seekBar, double progressLow, double progressHigh) {
 
-                dataEntity.setHeightMin((int) progressLow);
+                dlEntity.setHeightMin((int) progressLow);
 
-                dataEntity.setHeightMax((int) progressHigh);
+                dlEntity.setHeightMax((int) progressHigh);
+
             }
 
             @Override
             public void onProgressAfter() {
-
+                isScreen = false;
             }
         });
-
+        //满意度刻度尺
         seekBarCredit.setOnSeekBarChangeListener(new SeekBarPressure2.OnSeekBarChangeListener() {
             @Override
             public void onProgressBefore() {
-
+                isScreen = true;
             }
 
             @Override
-            public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow, double progressHigh) {
+            public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow) {
 
-                dataEntity.setCreditMin((int) progressLow);
+                dlEntity.setCreditMin((int) progressLow);
 
-//                dataEntity.setCreditMax(100);
+//                Toast.makeText(ChooseActivity1.this, "你选择的最低满意度是" + progressLow, Toast.LENGTH_LONG).show();
+
+                dlEntity.setCreditMax(100);
             }
 
             @Override
             public void onProgressAfter() {
-
+                isScreen = false;
             }
         });
 
@@ -707,8 +616,13 @@ public class ChooseActivity1 extends Activity {
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if (boy.isChecked()) {
-                    dataEntity.setGender(1);
+                    if (GlobalParams.isDebug) {
+                        Log.e("areaid", areaids.toString());
+
+                    }
+                    dlEntity.setGender(1);
                 }
             }
         });
@@ -717,7 +631,7 @@ public class ChooseActivity1 extends Activity {
             @Override
             public void onClick(View v) {
                 if (girl.isChecked()) {
-                    dataEntity.setGender(0);
+                    dlEntity.setGender(0);
                 }
             }
         });
@@ -732,6 +646,8 @@ public class ChooseActivity1 extends Activity {
                     shapes.remove(1 + "");
                 }
 
+                dlEntity.setShapes(shapes.toString().substring(1, shapes.toString().length() - 1).replace(" ", ""));
+
             }
         });
 
@@ -745,6 +661,8 @@ public class ChooseActivity1 extends Activity {
                     shapes.remove(2 + "");
                 }
 
+                dlEntity.setShapes(shapes.toString().substring(1, shapes.toString().length() - 1).replace(" ", ""));
+
             }
         });
 
@@ -756,6 +674,8 @@ public class ChooseActivity1 extends Activity {
                 } else {
                     shapes.remove(3 + "");
                 }
+
+                dlEntity.setShapes(shapes.toString().substring(1, shapes.toString().length() - 1).replace(" ", ""));
 
             }
         });
@@ -772,6 +692,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(beijing.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -786,6 +707,8 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(shanghai.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
+
             }
         });
         tianjin.setOnClickListener(new View.OnClickListener() {
@@ -799,6 +722,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(tianjin.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
         chongqing.setOnClickListener(new View.OnClickListener() {
@@ -812,6 +736,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(chongqing.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -825,6 +750,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(jiangsu.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -838,6 +764,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(zhejiang.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -851,6 +778,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(liaoning.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -864,6 +792,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(heilongjiang.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -877,6 +806,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(jilin.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -890,6 +820,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(shandong.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -903,6 +834,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(anhui.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -916,6 +848,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(hebei.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -929,6 +862,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(henan.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -942,6 +876,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(hubei.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -955,6 +890,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(hunan.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -968,6 +904,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(jiangxi.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -981,6 +918,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(tianjin.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -994,6 +932,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(shanxi3.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1007,6 +946,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(shanxi1.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1020,6 +960,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(sichuan.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1033,6 +974,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(qinghai.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1046,6 +988,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(hainan.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1059,6 +1002,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(guangdong.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1072,6 +1016,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(guizhou.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1085,6 +1030,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(fujian.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1098,6 +1044,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(taiwan.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1111,6 +1058,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(gansu.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1124,6 +1072,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(yunnan.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
         neimenggu.setOnClickListener(new View.OnClickListener() {
@@ -1136,6 +1085,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(neimenggu.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1149,6 +1099,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(ningxia.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1162,6 +1113,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(xinjiang.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1175,6 +1127,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(xizang.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1188,6 +1141,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(guangxi.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1201,6 +1155,7 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(xianggang.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
@@ -1214,9 +1169,9 @@ public class ChooseActivity1 extends Activity {
                     areaids.remove(aomen.getTag() + "");
                 }
 
+                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
-
 
     }
 

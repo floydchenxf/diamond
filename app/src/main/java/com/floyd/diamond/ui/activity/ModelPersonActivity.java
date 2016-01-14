@@ -160,7 +160,15 @@ public class ModelPersonActivity extends Activity {
                 }
 
                 height.setText(moteDetail.getData().getHeight() + "");
-                shapes.setText(moteDetail.getData().getShape() + "");
+                float shape= ((float) moteDetail.getData().getShape());
+                if (shape==1){
+                    shapes.setText("骨感");
+                }else if(shape==2){
+                    shapes.setText("标致");
+                }else if (shape==3){
+                    shapes.setText("丰满");
+                }
+
                 area.setText(moteDetail.getData().getArea());
                 jianyanzhi.setText(moteDetail.getData().getOrderNum() + "");
                 manyidu.setText(moteDetail.getData().getGoodeEvalRate() + "");

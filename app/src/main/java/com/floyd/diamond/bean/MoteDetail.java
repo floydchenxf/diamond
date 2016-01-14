@@ -53,7 +53,7 @@ public class MoteDetail {
         private int age;
         private int orderNum;
         private int gender;
-        private Object shape;
+        private double shape;
         private Object goodeEvalRate;
 
         public void setFollowNum(int followNum) {
@@ -92,7 +92,7 @@ public class MoteDetail {
             this.gender = gender;
         }
 
-        public void setShape(Object shape) {
+        public void setShape(double shape) {
             this.shape = shape;
         }
 
@@ -136,7 +136,7 @@ public class MoteDetail {
             return gender;
         }
 
-        public Object getShape() {
+        public double getShape() {
             return shape;
         }
 
