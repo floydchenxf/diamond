@@ -174,7 +174,7 @@ public class SeekBarPressure2 extends View {
 
         if (mBarChangeListener != null) {
             if (!isEdit) {
-                mBarChangeListener.onProgressChanged(this, progressLow, progressHigh);
+                mBarChangeListener.onProgressChanged(this, progressLow);
             }
         }
     }
@@ -344,8 +344,8 @@ public class SeekBarPressure2 extends View {
         public void onProgressBefore();
 
         //滑动时
-        public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow,
-                                      double progressHigh);
+        public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow
+                                      );
 
         //滑动后
         public void onProgressAfter();
