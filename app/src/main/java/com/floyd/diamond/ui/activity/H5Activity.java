@@ -48,8 +48,9 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         setContentView(R.layout.activity_h5);
         findViewById(R.id.title_back).setOnClickListener(this);
         titleLayout = findViewById(R.id.title);
-        initWebView();
         titlenameView = (TextView) findViewById(R.id.title_name);
+        data = getIntent().getParcelableExtra(H5Data.H5_DATA);
+        initWebView();
         wvUIModel = new XBlinkUIModel(this, webView);
         View errorView = View.inflate(this, R.layout.custom_hybird_error, null);
         Button btn = (Button) errorView.findViewById(R.id.error_view_refresh_btn);
@@ -58,12 +59,10 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             public void onClick(View v) {
                 H5Activity.this.finish();
             }
-
         });
         wvUIModel.setErrorView(errorView);
         wvUIModel.enableShowLoading();
 
-        data = getIntent().getParcelableExtra(H5Data.H5_DATA);
         showProcess = data.showProcess;
         if (!TextUtils.isEmpty(data.title)) {
             titlenameView.setVisibility(View.VISIBLE);
@@ -97,8 +96,15 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
     private void initWebView() {
         webView = (WebView) findViewById(R.id.h5_web_view);
         webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setSupportZoom(false);
-        webView.getSettings().setBuiltInZoomControls(false);
+        if (data.canZoom) {
+            webView.getSettings().setSupportZoom(true);
+            webView.getSettings().setBuiltInZoomControls(true);
+            webView.getSettings().setDisplayZoomControls(false);
+        } else {
+            webView.getSettings().setSupportZoom(false);
+            webView.getSettings().setBuiltInZoomControls(false);
+        }
+
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setDefaultFontSize(18);
@@ -153,6 +159,7 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         public String data;
         public boolean showNav;
         public boolean showProcess;
+        public boolean canZoom = false;
 
         public H5Data() {
 
@@ -164,6 +171,7 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             data = in.readString();
             showNav = in.readByte() != 0;
             showProcess = in.readByte() != 0;
+            canZoom = in.readByte() != 0;
         }
 
         @Override
@@ -178,6 +186,7 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             dest.writeString(data);
             dest.writeByte((byte) (showNav ? 1 : 0));
             dest.writeByte((byte) (showProcess ? 1 : 0));
+            dest.writeByte((byte)(canZoom?1:0));
         }
 
         public static final Parcelable.Creator<H5Data> CREATOR = new Parcelable.Creator<H5Data>() {

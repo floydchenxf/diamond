@@ -129,9 +129,9 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
         };
 
         int finishStatus = taskItemVO.finishStatus;
-        if (finishStatus == 1) {
+        if (finishStatus == 1 || status == 8) {
             holder.taskStatusView.setText("已结束");
-            holder.taskStatusView.setTextColor(Color.parseColor("#333333"));
+            holder.taskStatusView.setTextColor(Color.parseColor("#999999"));
             holder.taskStatusView.setChecked(false);
         } else {
             if (status >=5 ) {

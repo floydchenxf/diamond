@@ -678,9 +678,11 @@ public class MoteManager {
      * 获取未读消息数接口
      * @return
      */
-    public static AsyncJob<UnReadMsgVO> fetchUnReadMsgs() {
+    public static AsyncJob<UnReadMsgVO> fetchUnReadMsgs(String token) {
         String url = APIConstants.HOST + APIConstants.API_UNREAD_MSG_NUM;
-        return JsonHttpJobFactory.getJsonAsyncJob(url, null, HttpMethod.POST, UnReadMsgVO.class);
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UnReadMsgVO.class);
     }
 
     /**

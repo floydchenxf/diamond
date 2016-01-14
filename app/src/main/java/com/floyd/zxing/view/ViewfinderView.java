@@ -26,6 +26,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.floyd.diamond.R;
 import com.floyd.zxing.camera.CameraManager;
@@ -76,6 +77,8 @@ public final class ViewfinderView extends View {
 	 * 手机的屏幕密度
 	 */
 	private static float density;
+
+	private static int screenWidth;
 	/**
 	 * 字体大小
 	 */
@@ -127,6 +130,9 @@ public final class ViewfinderView extends View {
 
 		resultPointColor = resources.getColor(R.color.possible_result_points);
 		possibleResultPoints = new HashSet<ResultPoint>(5);
+		WindowManager wm = (WindowManager) getContext()
+				.getSystemService(Context.WINDOW_SERVICE);
+		screenWidth = wm.getDefaultDisplay().getWidth();
 	}
 
 	@Override
@@ -191,7 +197,7 @@ public final class ViewfinderView extends View {
 			if(slideTop >= frame.bottom){
 				slideTop = frame.top;
 			}
-			canvas.drawRect(frame.left + MIDDLE_LINE_PADDING, slideTop - MIDDLE_LINE_WIDTH/2, frame.right - MIDDLE_LINE_PADDING,slideTop + MIDDLE_LINE_WIDTH/2, paint);
+			canvas.drawRect(frame.left + MIDDLE_LINE_PADDING, slideTop - MIDDLE_LINE_WIDTH / 2, frame.right - MIDDLE_LINE_PADDING, slideTop + MIDDLE_LINE_WIDTH / 2, paint);
 
 
 			//画扫描框下面的字
@@ -199,9 +205,12 @@ public final class ViewfinderView extends View {
 			paint.setTextSize(TEXT_SIZE * density);
 			paint.setAlpha(0x40);
 			paint.setTypeface(Typeface.create("System", Typeface.BOLD));
-			canvas.drawText(getResources().getString(R.string.scan_text), frame.left, (float) (frame.bottom + (float)TEXT_PADDING_TOP *density), paint);
 
-
+			String desc = getResources().getString(R.string.scan_text);
+			Rect rect = new Rect();
+			paint.getTextBounds(desc, 0, desc.length(), rect);
+			int left = (int) ((screenWidth - rect.width()) / 2);
+			canvas.drawText(desc, left, (float) (frame.bottom + (float) TEXT_PADDING_TOP * density), paint);
 
 			Collection<ResultPoint> currentPossible = possibleResultPoints;
 			Collection<ResultPoint> currentLast = lastPossibleResultPoints;

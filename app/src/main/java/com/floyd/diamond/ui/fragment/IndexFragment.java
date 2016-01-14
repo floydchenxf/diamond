@@ -577,7 +577,9 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             }
         }
 
-        MoteManager.fetchUnReadMsgs().startUI(new ApiCallback<UnReadMsgVO>() {
+        LoginVO loginVO = LoginManager.getLoginInfo(this.getActivity());
+        String token = loginVO == null ? "":loginVO.token;
+        MoteManager.fetchUnReadMsgs(token).startUI(new ApiCallback<UnReadMsgVO>() {
             @Override
             public void onError(int code, String errorInfo) {
 

@@ -367,7 +367,7 @@ public class AlertController {
 		boolean hasTitle = setupTitle(topPanel);
 
 		if(!hasTitle){
-			contentPanel.setBackgroundResource(R.drawable.dialog_content_bg);
+			//contentPanel.setBackgroundResource(R.drawable.dialog_content_bg);
 		}
 		
 		View buttonPanel = mWindow.findViewById(R.id.buttonPanel);

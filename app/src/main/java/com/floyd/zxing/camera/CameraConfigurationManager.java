@@ -29,7 +29,7 @@ import java.util.regex.Pattern;
 
 final class CameraConfigurationManager {
 
-  private static final String TAG = CameraConfigurationManager.class.getSimpleName();
+  private static final String TAG = "CameraConfigurationManager";
 
   private static final int TEN_DESIRED_ZOOM = 27;
   private static final int DESIRED_SHARPNESS = 30;
@@ -59,7 +59,7 @@ final class CameraConfigurationManager {
     screenResolution = new Point(display.getWidth(), display.getHeight());
     Log.d(TAG, "Screen resolution: " + screenResolution);
     cameraResolution = getCameraResolution(parameters, screenResolution);
-    Log.d(TAG, "Camera resolution: " + screenResolution);
+    Log.d(TAG, "Camera resolution: " + cameraResolution);
   }
 
   /**
@@ -233,6 +233,7 @@ final class CameraConfigurationManager {
     }
 
     String motZoomValuesString = parameters.get("mot-zoom-values");
+    Log.i(TAG, "mot-zoom-value"+motZoomValuesString);
     if (motZoomValuesString != null) {
       tenDesiredZoom = findBestMotZoomValue(motZoomValuesString, tenDesiredZoom);
     }

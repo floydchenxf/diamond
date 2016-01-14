@@ -75,6 +75,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 h5Data.data = url;
                 h5Data.showProcess = true;
                 h5Data.showNav = true;
+                h5Data.canZoom = true;
                 h5Data.title = "通告";
                 intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
                 startActivity(intent);
