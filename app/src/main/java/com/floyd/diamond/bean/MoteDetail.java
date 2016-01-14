@@ -44,7 +44,7 @@ public class MoteDetail {
     }
 
     public static class DataEntity {
-        private Object followNum;
+        private int followNum;
         private boolean isFollow;
         private String area;
         private int height;
@@ -56,7 +56,7 @@ public class MoteDetail {
         private Object shape;
         private Object goodeEvalRate;
 
-        public void setFollowNum(Object followNum) {
+        public void setFollowNum(int followNum) {
             this.followNum = followNum;
         }
 
@@ -100,7 +100,7 @@ public class MoteDetail {
             this.goodeEvalRate = goodeEvalRate;
         }
 
-        public Object getFollowNum() {
+        public int getFollowNum() {
             return followNum;
         }
 

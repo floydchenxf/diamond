@@ -227,11 +227,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         // 添加微信平台
         addWXPlatform();
+
         // 添加QQ平台
         addQQZonePlatform();
 
-        //设置新浪SSO handler
-        mShare.getConfig().setSsoHandler(new SinaSsoHandler());
 
         // 设置分享面板上的分享平台
         mShare.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
@@ -266,7 +265,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         qZoneSsoHandler.addToSocialSDK();
     }
 
-    // 添加微信分享平台
+    //添加微信分享平台
     private void addWXPlatform() {
         // 注意：在微信授权的时候，必须传递appSecret
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
@@ -277,7 +276,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();
         //设置分享文字
-        mShare.setShareContent("给你一个舞台，成就你的明星梦");
+        weixinContent.setShareContent("给你一个舞台，成就你的明星梦");
         //设置title
         weixinContent.setTitle("来自“全民模特”的分享");
         //设置分享内容跳转URL
@@ -295,16 +294,15 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         circleMedia.setShareContent("给你一个舞台，成就你的明星梦");
         //设置朋友圈title
         circleMedia.setTitle("来自“全民模特”的分享");
-//        circleMedia.setShareImage(new UMImage(MoteDetailActivity.this, "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
-//        circleMedia.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
-//        mShare.setShareMedia(circleMedia);
+        circleMedia.setShareImage(new UMImage(MoteDetailActivity.this, "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+        circleMedia.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
+        mShare.setShareMedia(circleMedia);
 
         // 支持微信朋友圈
         UMWXHandler wxCircleHandler = new UMWXHandler(MoteDetailActivity.this, appId, appSecret);
         wxCircleHandler.setToCircle(true);
         wxCircleHandler.addToSocialSDK();
     }
-
 
     private void loadData(final boolean isFirst) {
         success = true;
@@ -361,6 +359,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             public void onSuccess(MoteDetail1 vo) {
                 countDownLatch.countDown();
 
+                if (GlobalParams.isDebug){
+                    Log.e("TAG_detail",vo.getFollowNum()+"");
+                }
+
                 String imageUrl = vo.getAvartUrl();
                 if (!TextUtils.isEmpty(imageUrl)) {
                     headView.setDefaultImageResId(R.drawable.head);
@@ -386,8 +388,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     guanzhuView.setText("已关注");
                     guanzhuView.setChecked(true);
                 } else {
-                    int num = infoVO.getFollowNum();
-                    guanzhuView.setText("关注度:" + num);
+//                    int num = infoVO.getFollowNum();
+                    guanzhuView.setText("关注度:" + vo.getFollowNum());
                     guanzhuView.setChecked(false);
                 }
 

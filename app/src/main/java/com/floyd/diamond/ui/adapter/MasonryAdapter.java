@@ -15,7 +15,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.Model;
+import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.bean.MyImageLoader;
 import com.floyd.diamond.utils.CommonUtil;
 
@@ -24,14 +24,15 @@ import java.util.List;
 /**
  * Created by Administrator on 2015/11/24.
  */
-public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> implements CompoundButton.OnCheckedChangeListener {
+public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryView> {
     private ChangeText changeText;
     private Context context;
     private MyOnItemClickListener myOnItemClickListener;//点击事件监听
-    private List<Model.DataEntity> allModel;
     private MyImageLoader myImageLoader;
+    private List<ModelInfo.DataEntity> allModel;
+    private RequestQueue queue;
 
-    public MasonryAdapter(List<Model.DataEntity> allModel, Context context, ChangeText changeText) {
+    public MasonryAdapter(List<ModelInfo.DataEntity> allModel, Context context, ChangeText changeText) {
         this.allModel = allModel;
         this.context = context;
         this.changeText = changeText;
@@ -46,10 +47,32 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
     }
 
     @Override
-    public void onBindViewHolder(MasonryView masonryView, int position) {
+    public void onBindViewHolder(MasonryView masonryView, final int position) {
+        if (allModel.get(position).isIsFollow()){
+            masonryView.likecount.setChecked(true);
+            masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
+            masonryView.likecount.setTag("cb" + position);
+            masonryView.likecount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (changeText != null) {
+
+                        changeText.setText((String) buttonView.getTag(), isChecked, position);
+                    }
+                }
+            });
+        }
         masonryView.likecount.setText(allModel.get(position).getFollowNum() + "");
         masonryView.likecount.setTag("cb" + position);
-        masonryView.likecount.setOnCheckedChangeListener(this);
+        masonryView.likecount.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (changeText != null) {
+
+                    changeText.setText((String) buttonView.getTag(), isChecked,position);
+                }
+            }
+        });
         masonryView.name.setText(allModel.get(position).getNickname());
         masonryView.place.setText(allModel.get(position).getArea() + "");
         String imgUrl = allModel.get(position).getAvatarUrl();
@@ -61,13 +84,10 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
         }
     }
 
-    @Override
-    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        if (changeText != null) {
-
-            changeText.setText((String) buttonView.getTag(), isChecked);
-        }
-    }
+//    @Override
+//    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//
+//    }
 
     public void setMyOnItemClickListener(MyOnItemClickListener myOnItemClickListener) {
         this.myOnItemClickListener = myOnItemClickListener;
@@ -111,7 +131,7 @@ public class MasonryAdapter extends RecyclerView.Adapter<MasonryAdapter.MasonryV
 
 
     public static interface ChangeText {
-        void setText(String tag, boolean isChecked);
+        void setText(String tag, boolean isChecked,int position);
     }
 
 

@@ -68,6 +68,7 @@ public class ModelPersonActivity extends Activity {
     private MoteDetailInfoVO vo;
     private RequestQueue queue;
     private MoteDetail moteDetail;
+    private LoginVO loginVO;
 
 
     @Override
@@ -87,6 +88,7 @@ public class ModelPersonActivity extends Activity {
 
     public void init() {
         vo = new MoteDetailInfoVO();
+        loginVO = LoginManager.getLoginInfo(ModelPersonActivity.this);
         queue = Volley.newRequestQueue(this);
         RequestQueue mQueue = Volley.newRequestQueue(this);
         IMImageCache wxImageCache = IMImageCache.findOrCreateCache(
@@ -162,12 +164,12 @@ public class ModelPersonActivity extends Activity {
                 area.setText(moteDetail.getData().getArea());
                 jianyanzhi.setText(moteDetail.getData().getOrderNum() + "");
                 manyidu.setText(moteDetail.getData().getGoodeEvalRate() + "");
-                boolean isFollow = vo.isFollow;
+                boolean isFollow = moteDetail.getData().isIsFollow();
                 if (isFollow) {
                     careCount.setText("已关注");
                     careCount.setChecked(true);
                 } else {
-                    int num = vo.followNum;
+                    int num = moteDetail.getData().getFollowNum();
                     careCount.setText("关注度:" + num);
                     careCount.setChecked(false);
                    // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
@@ -207,6 +209,9 @@ public class ModelPersonActivity extends Activity {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
                 params.put("id", moteId + "");
+                if (vo!=null){
+                    params.put("token",loginVO.token);
+                }
                 return params;
             }
         };

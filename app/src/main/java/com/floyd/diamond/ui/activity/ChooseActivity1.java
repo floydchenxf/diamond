@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
 import com.floyd.diamond.bean.ChoiceCondition;
+import com.floyd.diamond.bean.DLCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.SeekBarPressure;
 import com.floyd.diamond.bean.SeekBarPressure1;
@@ -59,6 +60,7 @@ public class ChooseActivity1 extends Activity {
     private RequestQueue queue;
     private LoginVO vo;
     private ChoiceCondition.DataEntity dataEntity;
+    private DLCondition.DataEntity dlEntity;
     private List<String> shapes;
     private List<String> areaids;
     private DataLoadingView dataLoadingView;
@@ -73,6 +75,7 @@ public class ChooseActivity1 extends Activity {
 
             dataEntity.setAreaids(areaids);
             dataEntity.setShapes(shapes);
+
         }
     };
 
@@ -109,10 +112,12 @@ public class ChooseActivity1 extends Activity {
                 seekBarAge.setProgressLow(dataEntity.getAgeMin());
                 seekBarAge.setProgressHigh(dataEntity.getAgeMax());
 
-                seekBarHeight.setProgressHigh(dataEntity.getHeightMax() - 80);
-                seekBarHeight.setProgressLow(dataEntity.getHeightMin() - 80);
+                seekBarHeight.setProgressHigh(dataEntity.getHeightMax()-80);
+                seekBarHeight.setProgressLow(dataEntity.getHeightMin()-80);
 
                 seekBarCredit.setProgressLow(dataEntity.getCreditMin());
+
+
 
                 handler.sendEmptyMessage(1);
 
@@ -123,17 +128,7 @@ public class ChooseActivity1 extends Activity {
 
                 Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
             }
-        })
-//        {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                //在这里设置需要post的参数
-//                Map<String, String> params = new HashMap<>();
-//                params.put("token",vo.token );
-//                return params;
-//            }
-//        }
-                ;
+        });
 
         queue.add(request);
     }
@@ -153,21 +148,18 @@ public class ChooseActivity1 extends Activity {
                     Log.e("TAG_denglu", response);
                 }
                 Gson gson = new Gson();
-                ChoiceCondition choiceCondition = gson.fromJson(response, ChoiceCondition.class);
-
-                dataEntity = choiceCondition.getData();
-
-                seekBarAge.setProgressLow(dataEntity.getAgeMin());
-                seekBarAge.setProgressHigh(dataEntity.getAgeMax());
-
-                seekBarHeight.setProgressHigh(dataEntity.getHeightMax() - 80);
-                seekBarHeight.setProgressLow(dataEntity.getHeightMin() - 80);
-
-                seekBarCredit.setProgressLow(dataEntity.getCreditMin());
+                DLCondition choiceCondition = gson.fromJson(response, DLCondition.class);
 //
-//                if (GlobalParams.isDebug){
-//                    Log.e("TAG_huoqu",dataEntity.getShapes().toString());
-//                }
+                dlEntity = choiceCondition.getData();
+
+                seekBarAge.setProgressLow(dlEntity.getAgeMin());
+                seekBarAge.setProgressHigh(dlEntity.getAgeMax());
+
+                seekBarHeight.setProgressHigh(dlEntity.getHeightMax()-80 );
+                seekBarHeight.setProgressLow(dlEntity.getHeightMin()-80 );
+
+                seekBarCredit.setProgressLow(dlEntity.getCreditMin());
+
 
 
                 List<ChoiceCondition.DataEntity.ShapesListEntity> shapesLists = dataEntity.getShapesList();
@@ -390,7 +382,9 @@ public class ChooseActivity1 extends Activity {
                     }
                 }
 
-                handler.sendEmptyMessage(1);
+
+
+                handler.sendEmptyMessage(2);
 
             }
         }, new Response.ErrorListener() {
@@ -400,15 +394,15 @@ public class ChooseActivity1 extends Activity {
                 Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
             }
         })
-//        {
-//            @Override
-//            protected Map<String, String> getParams() {
-//                //在这里设置需要post的参数
-//                Map<String, String> params = new HashMap<>();
-//                params.put("token",vo.token );
-//                return params;
-//            }
-//        }
+        {
+            @Override
+            protected Map<String, String> getParams() {
+                //在这里设置需要post的参数
+                Map<String, String> params = new HashMap<>();
+                params.put("token", vo.token);
+                return params;
+            }
+        }
                 ;
 
         queue.add(requestLogin);
@@ -492,6 +486,10 @@ public class ChooseActivity1 extends Activity {
 
                                 if (GlobalParams.isDebug) {
                                     Log.e("TAG_submit", response);
+                                    Log.e("TAG_manyi",dataEntity.getCreditMin()+"");
+                                    Log.e("TAG_heightmax",dataEntity.getHeightMax()+"");
+                                    Log.e("TAG_heightmin",dataEntity.getHeightMin()+"");
+
                                 }
 
                             }
@@ -524,6 +522,7 @@ public class ChooseActivity1 extends Activity {
 
 
                     Intent intent = new Intent(ChooseActivity1.this, ChooseResultActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     intent.putExtra("chooseCondition", (Serializable) dataEntity);
                     startActivity(intent);
                     finish();

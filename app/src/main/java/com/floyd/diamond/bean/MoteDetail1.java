@@ -116,4 +116,9 @@ public class MoteDetail1 {
     public int getShape() {
         return shape;
     }
+
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }
