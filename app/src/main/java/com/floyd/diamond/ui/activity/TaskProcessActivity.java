@@ -94,7 +94,8 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             }
 
             if (status == 1) {
-                confirmTimeView.setText("请在" + leftTimes + "秒内完成下单并输入订单号");
+                String t = DateUtil.getDateBefore(taskProcessVO.moteTask.acceptedTime);
+                confirmTimeView.setText("请在" + t + "内完成下单并输入订单号");
                 dropOrderNoView.setVisibility(View.VISIBLE);
                 mHandler.postDelayed(this, 1000);
             }

@@ -425,7 +425,7 @@ public class HighDefinitionImageLoader {
             int actualHeight = decodeOptions.outHeight;
             if (decodeOptions != null)
 
-                if (decodeOptions != null && !TextUtils.isEmpty(decodeOptions.outMimeType) && decodeOptions.outMimeType.contains("gif") || decodeOptions.outMimeType.contains("GIF")) {
+                if (decodeOptions != null && !TextUtils.isEmpty(decodeOptions.outMimeType) && decodeOptions.outMimeType != null && (decodeOptions.outMimeType.contains("gif") || decodeOptions.outMimeType.contains("GIF"))) {
                     byte[] data = null;
                     try {
                         data = readFileByProgress(filePath);

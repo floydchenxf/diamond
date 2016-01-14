@@ -78,7 +78,7 @@ public class DateUtil {
         long secs = (after - now)/1000;
         if (secs > 60) {
             long min = secs/60;
-            result.append(min);
+            result.append(min).append(":");
             long sec = secs%60;
             if (sec < 10) {
                 result.append("0").append(sec);

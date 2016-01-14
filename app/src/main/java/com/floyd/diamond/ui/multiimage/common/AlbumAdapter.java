@@ -125,9 +125,7 @@ public class AlbumAdapter extends BaseAdapter {
                         holder.albumPic.setImageBitmap(cacheBitmap);
 					} else {
 						holder.albumPic.setTag(path);
-//                        ImageLoaderHelper.getHelper(mContext).loadBitmap(path, holder.albumPic, mImageCache,imageItem.getOrientation());
-						new MultiPickImageGetTask(path, holder.albumPic,
-								mImageCache, oriPath, imageItem.getOrientation()).executeOnThreadPool();
+                        ImageLoaderHelper.getHelper(mContext).loadBitmap(path, holder.albumPic, mImageCache,imageItem.getOrientation());
 					}
 				}
 

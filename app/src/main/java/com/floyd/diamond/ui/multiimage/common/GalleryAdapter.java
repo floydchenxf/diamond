@@ -155,8 +155,8 @@ public class GalleryAdapter extends BaseAdapter implements OnClickListener {
 			if (cacheBitmap != null) {
 				holder.imageItem.setImageBitmap(cacheBitmap);
 			} else {
-			new MultiPickImageGetTask(path, holder.imageItem, mImageCache,oriPath,imageItem.getOrientation()).executeOnThreadPool();
-//				ImageLoaderHelper.getHelper(mContext).loadBitmap(path, holder.imageItem, mImageCache, imageItem.getOrientation());
+//			new MultiPickImageGetTask(path, holder.imageItem, mImageCache,oriPath,imageItem.getOrientation()).executeOnThreadPool();
+				ImageLoaderHelper.getHelper(mContext).loadBitmap(path, holder.imageItem, mImageCache, imageItem.getOrientation());
 			}
 		}
 		holder.imageCheck.setTag(position);
