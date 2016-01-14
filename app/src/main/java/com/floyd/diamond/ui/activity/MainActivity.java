@@ -1,7 +1,6 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -87,10 +86,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tab_my:
-                LoginVO loginVO = LoginManager.getLoginInfo(MainActivity.this);
-                if (loginVO == null) {
-                    Intent it = new Intent(MainActivity.this, LoginActivity.class);
-                    MainActivity.this.startActivity(it);
+                boolean isLogin = LoginManager.isLogin(this);
+                if (!isLogin) {
+                    int currentTab = tabAdapter.getCurrentTab();
+                    if (currentTab == 0) {
+                        rgs.check(R.id.tab_index_page);
+                    } else if (currentTab == 1) {
+                        rgs.check(R.id.tab_message);
+                    } else {
+                        rgs.check(R.id.tab_my);
+                    }
                 }
 
                 break;
@@ -117,7 +122,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     @Subscribe
     public void onEventMainThread(LoginEvent event) {
         Log.i(TAG, "-----------login event fire");
-        tabAdapter.onCheckedChanged(rgs, R.id.tab_my);
+//        tabAdapter.onCheckedChanged(rgs, R.id.tab_my);
     }
 
     @Override
