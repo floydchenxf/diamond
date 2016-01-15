@@ -129,8 +129,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
 //            holder.addressView1.setText(itemVO1.areaid+"");
             holder.priductImage1.setImageUrl(itemVO1.getPreviewImageUrl(), mImageLoader);
-            holder.priceView11.setText(itemVO1.price+"");
-            holder.priceView12.setText(itemVO1.shotFee+"");
+            holder.priceView11.setText("商品售价：" + itemVO1.price + "");
+            holder.priceView12.setText("酬金："+itemVO1.shotFee+"");
         }
 
         if (vo.productItemVO2 == null) {
@@ -164,8 +164,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
 //            holder.addressView2.setText(itemVO2.areaid+"");
             holder.productImage2.setImageUrl(itemVO2.getPreviewImageUrl(), mImageLoader);
-            holder.priceView21.setText(itemVO2.price+"");
-            holder.priceView22.setText(itemVO2.shotFee+"");
+            holder.priceView21.setText("商品售价："+itemVO2.price+"");
+            holder.priceView22.setText("酬金："+itemVO2.shotFee+"");
         }
 
         return convertView;

@@ -109,10 +109,10 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
                 shotDescView.setText(taskItemVO.shotDesc);
                 taskProductNameView.setText(taskItemVO.title);
-                priceView.setText(taskItemVO.price + "");
-                shotFeeView.setText(taskItemVO.shotFee + "");
-                shotAreaIdView.setText(taskItemVO.areaName);
-                selfBuyRateView.setText(taskItemVO.selfBuyRate + "");
+                priceView.setText("商品售价："+taskItemVO.price + "");
+                shotFeeView.setText("酬金："+taskItemVO.shotFee + "");
+                shotAreaIdView.setText("所在地："+taskItemVO.areaName);
+                selfBuyRateView.setText("自购折扣："+taskItemVO.selfBuyRate + "");
 
                 if (taskItemVO.canAccept()) {
                     newTaskButton.setOnClickListener(NewTaskActivity.this);

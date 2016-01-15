@@ -195,8 +195,7 @@ public class ChooseResultActivity extends Activity {
         });
 
         //设置layoutManager
-        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
-
+        recyclerView.setLayoutManager(new GridLayoutManager(ChooseResultActivity.this,2));
 
         //设置item之间的间隔
         SpacesItemDecoration decoration = new SpacesItemDecoration(6);
@@ -233,6 +232,12 @@ public class ChooseResultActivity extends Activity {
 //                    startActivity(new Intent(ChooseResultActivity.this, ChooseResultNullActivity.class));
 //                    finish();
                     setContentView(R.layout.activity_chooseresultnull);
+                    findViewById(R.id.back_null).setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            finish();
+                        }
+                    });
                 }else{
                     handler.sendEmptyMessage(1);
                 }
