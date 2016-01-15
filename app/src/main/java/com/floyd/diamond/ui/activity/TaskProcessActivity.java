@@ -340,11 +340,13 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         });
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_back:
+                Intent myTaskIntent = new Intent(TaskProcessActivity.this, MyTaskActivity.class);
+                myTaskIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(myTaskIntent);
                 this.finish();
                 break;
             case R.id.jiantou_upTask:
@@ -425,6 +427,13 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 break;
         }
 
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent myTaskIntent = new Intent(TaskProcessActivity.this, MyTaskActivity.class);
+        myTaskIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(myTaskIntent);
     }
 
     protected void onDestroy() {
