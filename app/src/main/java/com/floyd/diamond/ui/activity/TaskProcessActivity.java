@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -95,7 +96,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
 
             if (status == 1) {
                 String t = DateUtil.getDateBefore(taskProcessVO.moteTask.acceptedTime);
-                confirmTimeView.setText("请在" + t + "内完成下单并输入订单号");
+                confirmTimeView.setText(Html.fromHtml("请在<font color=\"red\">" + t + "</font>内完成下单并输入订单号"));
                 dropOrderNoView.setVisibility(View.VISIBLE);
                 mHandler.postDelayed(this, 1000);
             }

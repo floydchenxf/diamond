@@ -207,9 +207,8 @@ public final class ViewfinderView extends View {
 			paint.setTypeface(Typeface.create("System", Typeface.BOLD));
 
 			String desc = getResources().getString(R.string.scan_text);
-			Rect rect = new Rect();
-			paint.getTextBounds(desc, 0, desc.length(), rect);
-			int left = (int) ((screenWidth - rect.width()) / 2);
+			float textWidth = paint.measureText(desc);
+			int left = (int) ((width - textWidth) / 2);
 			canvas.drawText(desc, left, (float) (frame.bottom + (float) TEXT_PADDING_TOP * density), paint);
 
 			Collection<ResultPoint> currentPossible = possibleResultPoints;
