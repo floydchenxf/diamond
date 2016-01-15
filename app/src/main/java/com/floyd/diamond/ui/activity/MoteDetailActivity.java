@@ -65,6 +65,8 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
     private static final String TAG = "MoteDetailActivity";
 
+    public static final String MOTE_ID = "moteId";
+
     private NetworkImageView headBgView;
     private NetworkImageView headView;
     private TextView jinyanView;
@@ -114,7 +116,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         infoVO = new MoteDetailInfoVO();
 
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
-        moteId = getIntent().getLongExtra("moteId", 0);
+        moteId = getIntent().getLongExtra(MOTE_ID, 0);
 
         if (GlobalParams.isDebug){
             Log.e("moteId",moteId+"");

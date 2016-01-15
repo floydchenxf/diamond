@@ -18,6 +18,7 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        findViewById(R.id.login_close_view).setOnClickListener(this);
         loginButton = (CheckedTextView) findViewById(R.id.login);
         regButton = (CheckedTextView) findViewById(R.id.regest);
         loginButton.setOnClickListener(this);
@@ -27,6 +28,9 @@ public class LoginActivity extends Activity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.login_close_view:
+                this.finish();
+                break;
             case R.id.login:
                 Intent phoneIntent = new Intent(this, PhoneLoginActivity.class);
                 this.startActivity(phoneIntent);

@@ -36,6 +36,7 @@ import com.floyd.diamond.biz.vo.process.TaskProcessVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.ExpressActivity;
+import com.floyd.diamond.ui.activity.MoteDetailActivity;
 import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
@@ -297,6 +298,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                             return ImageUtils.getCircleBitmap(bitmap, 90 * oneDp);
                         }
                     });
+                    headImage.setOnClickListener(SellerTaskProcessActivity.this);
                     nicknameView.setText(vo.getNickname());
                 }
 
@@ -480,6 +482,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 break;
             case R.id.title_back:
                 this.finish();
+                break;
+            case R.id.mote_head_image:
+                Intent moteDetailIntent = new Intent(SellerTaskProcessActivity.this, MoteDetailActivity.class);
+                moteDetailIntent.putExtra(MoteDetailActivity.MOTE_ID, taskProcessVO.moteTask.userId);
+                startActivity(moteDetailIntent);
                 break;
             case R.id.guanzhu:
                 doGuanzhu();

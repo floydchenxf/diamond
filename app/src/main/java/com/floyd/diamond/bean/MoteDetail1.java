@@ -21,6 +21,7 @@ public class MoteDetail1 {
      * goodeEvalRate : null
      */
 
+    public long id;
     public boolean isFollow;
     public int followNum;
     public String avartUrl;
