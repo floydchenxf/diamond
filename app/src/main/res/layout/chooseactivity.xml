@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:rsb="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#ffffff">
 
@@ -115,13 +116,12 @@
                 android:textColor="#3d3d3d"
                 android:textSize="10sp" />
 
-            <com.floyd.diamond.bean.SeekBarPressure
+            <com.floyd.diamond.bean.RangeSeekBar
                 android:id="@+id/seekBar_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="12dp"
                 />
 
             <TextView
@@ -133,13 +133,15 @@
                 android:textColor="#3d3d3d"
                 android:textSize="10sp" />
 
-            <com.floyd.diamond.bean.SeekBarPressure1
+            <com.floyd.diamond.bean.RangeSeekBar
                 android:id="@+id/seekBar_height"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="12dp"
+                app:absoluteMaxValue="180"
+                app:absoluteMinValue="80"
+
                 />
 
             <TextView
@@ -223,16 +225,13 @@
                 android:textColor="#3d3d3d"
                 android:textSize="10sp" />
 
-            <com.floyd.diamond.bean.SeekBarPressure2
-                android:id="@+id/seekBar_manyi"
+            <com.floyd.diamond.bean.RangeSeekBar
+                android:id="@+id/seekBar_credit"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="12dp"
-                android:maxHeight="1dip"
-                android:minHeight="1dip"
-                android:paddingLeft="10dp"
+                app:singleThumb="true" />
                 />
 
             <TextView

@@ -24,6 +24,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.ChoiceCondition;
 import com.floyd.diamond.bean.DLCondition;
 import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.RangeSeekBar;
 import com.floyd.diamond.bean.SeekBarPressure;
 import com.floyd.diamond.bean.SeekBarPressure1;
 import com.floyd.diamond.bean.SeekBarPressure2;
@@ -49,9 +50,6 @@ public class ChooseActivity1 extends Activity {
     private CheckBox allChoose, beijing, shanghai, tianjin, chongqing, jiangsu, zhejiang, liaoning, heilongjiang, jilin, shandong, anhui, hebei, henan, hubei,
             hunan, jiangxi, shanxi3, shanxi1, sichuan, qinghai, hainan, guangdong, guizhou, fujian, taiwan, gansu, yunnan, neimenggu, ningxia, xinjiang, xizang,
             guangxi, xianggang, aomen, gugan, biaozhi, fengman;
-    private SeekBarPressure seekBarAge;
-    private SeekBarPressure2 seekBarCredit;
-    private SeekBarPressure1 seekBarHeight;
     private boolean isScreen;
     private RadioButton boy, girl;
     private List<String> shapesList;
@@ -62,6 +60,9 @@ public class ChooseActivity1 extends Activity {
     private DLCondition.DataEntity dlEntity;
     private List<String> shapes;
     private List<String> areaids;
+    private RangeSeekBar seekBar_age;
+    private RangeSeekBar seekBar_height;
+    private RangeSeekBar seekBar_credit;
     private DataLoadingView dataLoadingView;
     private boolean isFirstShape = true;
     private boolean isFirshArea = true;
@@ -112,13 +113,21 @@ public class ChooseActivity1 extends Activity {
 
                 dlEntity = choiceCondition.getData();
 
-                seekBarAge.setProgressLow(dlEntity.getAgeMin());
-                seekBarAge.setProgressHigh(dlEntity.getAgeMax());
+                seekBar_age.setSelectedMaxValue(dlEntity.getAgeMax());
+                seekBar_age.setSelectedMinValue(dlEntity.getAgeMin());
 
-                seekBarHeight.setProgressHigh(dlEntity.getHeightMax() - 80);
-                seekBarHeight.setProgressLow(dlEntity.getHeightMin() - 80);
+                seekBar_height.setSelectedMaxValue(dlEntity.getHeightMax());
+                seekBar_height.setSelectedMinValue(dlEntity.getHeightMin());
 
-                seekBarCredit.setProgressLow(dlEntity.getCreditMin());
+                seekBar_credit.setSelectedMaxValue(dlEntity.getCreditMin());
+
+//                seekBarAge.setProgressLow(dlEntity.getAgeMin());
+//                seekBarAge.setProgressHigh(dlEntity.getAgeMax());
+
+//                seekBarHeight.setProgressHigh(dlEntity.getHeightMax() - 80);
+//                seekBarHeight.setProgressLow(dlEntity.getHeightMin() - 80);
+//
+//                seekBarCredit.setProgressLow(dlEntity.getCreditMin());
 
 
                 handler.sendEmptyMessage(1);
@@ -160,13 +169,14 @@ public class ChooseActivity1 extends Activity {
                     boy.setChecked(true);
                 }
 
-                seekBarAge.setProgressLow(dlEntity.getAgeMin());
-                seekBarAge.setProgressHigh(dlEntity.getAgeMax());
+                seekBar_age.setSelectedMaxValue(dlEntity.getAgeMax());
+                seekBar_age.setSelectedMinValue(dlEntity.getAgeMin());
 
-                seekBarHeight.setProgressHigh(dlEntity.getHeightMax() - 80);
-                seekBarHeight.setProgressLow(dlEntity.getHeightMin() - 80);
+                seekBar_height.setSelectedMaxValue(dlEntity.getHeightMax());
+                seekBar_height.setSelectedMinValue(dlEntity.getHeightMin());
 
-                seekBarCredit.setProgressLow(dlEntity.getCreditMin());
+                seekBar_credit.setSelectedMaxValue(dlEntity.getCreditMin());
+
 
                 if (dlEntity.getShapes() != null) {
                     String[] shapesLists = dlEntity.getShapes().split(",");
@@ -318,8 +328,11 @@ public class ChooseActivity1 extends Activity {
     //初始化操作
     public void initView() {
         vo = LoginManager.getLoginInfo(this);
-//        chooseCondition = new ChooseCondition();
-//        chooseCondition.setCreditMax(100);
+
+        seekBar_age= ((RangeSeekBar) findViewById(R.id.seekBar_age));
+        seekBar_height= ((RangeSeekBar) findViewById(R.id.seekBar_height));
+        seekBar_credit= ((RangeSeekBar) findViewById(R.id.seekBar_credit));
+
         dlEntity = new DLCondition.DataEntity();
         shapes = new ArrayList<>();
         areaids = new ArrayList<>();
@@ -369,9 +382,6 @@ public class ChooseActivity1 extends Activity {
         guangxi = ((CheckBox) findViewById(R.id.guangxi));
         xianggang = ((CheckBox) findViewById(R.id.xianggang));
         aomen = ((CheckBox) findViewById(R.id.aomen));
-        seekBarAge = (SeekBarPressure) findViewById(R.id.seekBar_age);
-        seekBarHeight = ((SeekBarPressure1) findViewById(R.id.seekBar_height));
-        seekBarCredit = ((SeekBarPressure2) findViewById(R.id.seekBar_manyi));
         gugan = ((CheckBox) findViewById(R.id.gugan));
         biaozhi = ((CheckBox) findViewById(R.id.biaozhi));
         fengman = ((CheckBox) findViewById(R.id.fengman));
@@ -547,72 +557,31 @@ public class ChooseActivity1 extends Activity {
 
     //点击改变筛选条件
     public void clickCondition() {
-        //年龄刻度尺
-        seekBarAge.setOnSeekBarChangeListener(new SeekBarPressure.OnSeekBarChangeListener() {
+          //年龄刻度尺
+        seekBar_age.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
-            public void onProgressBefore() {
-                isScreen = true;
-            }
-
-            @Override
-            public void onProgressChanged(SeekBarPressure seekBar, double progressLow, double progressHigh) {
-
-                dlEntity.setAgeMin((int) progressLow);
-
-                dlEntity.setAgeMax((int) progressHigh);
-
-            }
-
-            @Override
-            public void onProgressAfter() {
-                isScreen = false;
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                dlEntity.setAgeMin((int) minValue);
+                dlEntity.setAgeMax((int) maxValue);
             }
         });
-        //身高刻度尺
-        seekBarHeight.setOnSeekBarChangeListener(new SeekBarPressure1.OnSeekBarChangeListener() {
+         // 身高刻度尺
+        seekBar_height.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
-            public void onProgressBefore() {
-                isScreen = true;
-            }
-
-            @Override
-            public void onProgressChanged(SeekBarPressure1 seekBar, double progressLow, double progressHigh) {
-
-                dlEntity.setHeightMin((int) progressLow);
-
-                dlEntity.setHeightMax((int) progressHigh);
-
-            }
-
-            @Override
-            public void onProgressAfter() {
-                isScreen = false;
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                dlEntity.setHeightMin((int) minValue);
+                dlEntity.setHeightMax((int) maxValue);
             }
         });
-        //满意度刻度尺
-        seekBarCredit.setOnSeekBarChangeListener(new SeekBarPressure2.OnSeekBarChangeListener() {
+        // 满意度刻度尺
+
+        seekBar_credit.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
-            public void onProgressBefore() {
-                isScreen = true;
-            }
-
-            @Override
-            public void onProgressChanged(SeekBarPressure2 seekBar, double progressLow) {
-
-                dlEntity.setCreditMin((int) progressLow);
-
-//                Toast.makeText(ChooseActivity1.this, "你选择的最低满意度是" + progressLow, Toast.LENGTH_LONG).show();
-
+            public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
+                dlEntity.setCreditMin((int)maxValue);
                 dlEntity.setCreditMax(100);
             }
-
-            @Override
-            public void onProgressAfter() {
-                isScreen = false;
-            }
         });
-
-
         boy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
