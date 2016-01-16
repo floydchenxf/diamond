@@ -57,6 +57,7 @@ import com.floyd.diamond.ui.seller.SellerPersonInfoActivity;
 import com.floyd.diamond.ui.seller.SellerTaskActivity;
 import com.floyd.diamond.ui.seller.SellerWalletActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
+import com.floyd.diamond.utils.CommonUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -643,16 +644,22 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 @Override
                 public void onError(int code, String errorInfo) {
                     Toast.makeText(MyFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
-                    avatorDialog.hide();
+                    avatorDialog.dismiss();
                 }
 
                 @Override
                 public void onSuccess(String booleanApiResult) {
-                    avatorDialog.hide();
-                    Bitmap bitmap = FileTools.readBitmap(newFile.getAbsolutePath());
+                    avatorDialog.dismiss();
+                    Log.i(TAG, booleanApiResult);
                     showNetworkImage();
-                    headView.setImageBitmap(ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size)));
-                    bgHeadView.setImageBitmap(bitmap);
+                    headView.setImageUrl(CommonUtil.getImage_200(booleanApiResult), mImageLoader, new BitmapProcessor() {
+                        @Override
+                        public Bitmap processBitmpa(Bitmap bitmap) {
+                            return ImageUtils.getCircleBitmap(bitmap, MyFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
+                        }
+                    });
+
+                    bgHeadView.setImageUrl(CommonUtil.getImage_400(booleanApiResult), mImageLoader);
                     newFile.delete();
                 }
 
