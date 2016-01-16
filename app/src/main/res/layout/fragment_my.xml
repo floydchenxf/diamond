@@ -18,13 +18,6 @@
             android:layout_height="0dp"
             app:layout_heightPercent="40%">
 
-            <ImageView
-                android:id="@+id/image_bg_head_lay"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/head_lay" />
-
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/bg_head_lay"
                 android:layout_width="match_parent"
@@ -32,27 +25,15 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/head_lay" />
 
-            <RelativeLayout
-                android:id="@+id/touxiang_layout"
+            <com.android.volley.toolbox.NetworkImageView
+                android:id="@+id/mine_touxiang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
+                android:src="@drawable/head"
                 app:layout_heightPercent="35%"
                 app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%">
-
-                <ImageView
-                    android:id="@+id/image_mine_touxiang"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/head" />
-
-                <com.android.volley.toolbox.NetworkImageView
-                    android:id="@+id/mine_touxiang"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:src="@drawable/head" />
-            </RelativeLayout>
+                app:layout_widthPercent="20%" />
 
 
             <ImageView
@@ -95,7 +76,7 @@
                 android:id="@+id/mine_name"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_below="@+id/touxiang_layout"
+                android:layout_below="@+id/mine_touxiang"
                 android:layout_centerHorizontal="true"
                 android:ellipsize="middle"
                 android:gravity="center"
