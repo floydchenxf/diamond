@@ -137,6 +137,9 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
 
                     @Override
                     public void onSuccess(Boolean s) {
+                        userNickView.setText("");
+                        passwordView.setText("");
+                        checkCodeView.setText("");
                         Toast.makeText(Reg2Activity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     }
 

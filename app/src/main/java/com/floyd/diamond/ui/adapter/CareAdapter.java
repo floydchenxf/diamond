@@ -49,8 +49,9 @@ public class CareAdapter extends RecyclerView.Adapter<CareAdapter.MasonryView>{
     public void onBindViewHolder(final MasonryView masonryView, int position) {
         masonryView.bg_recycle.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
         masonryView.bg_recycle.setTag("bg" + position);
-        masonryView.name.setText(allModel.get(position).getNickname());
-        String imgUrl = allModel.get(position).getAvartUrl();
+        Care.DataEntity.DataListEntity entity = allModel.get(position);
+        masonryView.name.setText(entity.getNickname());
+        String imgUrl = entity.getAvartUrl();
         if (GlobalParams.isDebug) {
             Log.e("TAG", imgUrl + "");
         }

@@ -8,9 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -18,30 +16,22 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.SpacesItemDecoration;
 import com.floyd.diamond.bean.SwipeRefreshLayout;
-import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.adapter.CareAdapter;
-import com.floyd.diamond.utils.CommonUtil;
-import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/19.
@@ -230,43 +220,66 @@ public class CareActivity extends Activity {
 
     public void setData() {
 
-            String url = APIConstants.HOST + APIConstants.MYCARE;
-            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    if (GlobalParams.isDebug) {
-                        Log.e("TAG_care", response);
-                    }
-                    Gson gson = new Gson();
-                    Care care = gson.fromJson(response, Care.class);
-                    modelsList = care.getData().getDataList();
+        MoteManager.fetchMyCareInfos(loginVO.token, pageNo, 10).startUI(new ApiCallback<Care.DataEntity>() {
+            @Override
+            public void onError(int code, String errorInfo) {
+                Toast.makeText(CareActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+            }
 
-                    allModel.addAll(modelsList);
-
-                    if (allModel.size()==0){
-                        Toast.makeText(CareActivity.this,"~你还没有关注模特，赶快去关注吧~",Toast.LENGTH_LONG).show();
-                    }
-
-                    handler.sendEmptyMessage(1);
-
+            @Override
+            public void onSuccess(Care.DataEntity dataEntity) {
+                modelsList = dataEntity.getDataList();
+                allModel.addAll(modelsList);
+                if (allModel.size() == 0) {
+                    Toast.makeText(CareActivity.this, "~你还没有关注模特，赶快去关注吧~", Toast.LENGTH_LONG).show();
                 }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(CareActivity.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
-                }
-            }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    //在这里设置需要post的参数
-                    Map<String, String> params = new HashMap<>();
-                    params.put("pageNo", pageNo + "");
-                    params.put("pageSize", 10 + "");
-                    params.put("token", loginVO.token);
-                    return params;
-                }
-            };
-            queue.add(request);
+
+                handler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
+
+//            String url = APIConstants.HOST + APIConstants.MYCARE;
+//            StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
+//                @Override
+//                public void onResponse(String response) {
+//                    if (GlobalParams.isDebug) {
+//                        Log.e("TAG_care", response);
+//                    }
+//                    Gson gson = new Gson();
+//                    Care care = gson.fromJson(response, Care.class);
+//                    modelsList = care.getData().getDataList();
+//
+//                    allModel.addAll(modelsList);
+//
+//                    if (allModel.size()==0){
+//                        Toast.makeText(CareActivity.this,"~你还没有关注模特，赶快去关注吧~",Toast.LENGTH_LONG).show();
+//                    }
+//
+//                    handler.sendEmptyMessage(1);
+//
+//                }
+//            }, new Response.ErrorListener() {
+//                @Override
+//                public void onErrorResponse(VolleyError error) {
+//                    Toast.makeText(CareActivity.this, "请检查网络连接...", Toast.LENGTH_SHORT).show();
+//                }
+//            }) {
+//                @Override
+//                protected Map<String, String> getParams() {
+//                    //在这里设置需要post的参数
+//                    Map<String, String> params = new HashMap<String, String>();
+//                    params.put("pageNo", pageNo + "");
+//                    params.put("pageSize", 10 + "");
+//                    params.put("token", loginVO.token);
+//                    return params;
+//                }
+//            };
+//            queue.add(request);
 
     }
 

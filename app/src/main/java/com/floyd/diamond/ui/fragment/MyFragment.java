@@ -53,6 +53,7 @@ import com.floyd.diamond.ui.activity.SettingPersonInfoActivity;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.seller.SellerPersonInfoActivity;
 import com.floyd.diamond.ui.seller.SellerTaskActivity;
 import com.floyd.diamond.ui.seller.SellerWalletActivity;
 import com.floyd.diamond.ui.view.YWPopupWindow;
@@ -453,7 +454,12 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
                 break;
             case R.id.edit_profile:
-                Intent editProfileIntent = new Intent(this.getActivity(), PersonInfoActivity.class);
+                Intent editProfileIntent = new Intent();
+                if (loginVO.isModel()) {
+                    editProfileIntent.setClass(this.getActivity(), PersonInfoActivity.class);
+                } else {
+                    editProfileIntent.setClass(this.getActivity(), SellerPersonInfoActivity.class);
+                }
                 startActivity(editProfileIntent);
                 break;
             case R.id.set:

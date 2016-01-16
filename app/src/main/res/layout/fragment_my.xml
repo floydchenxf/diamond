@@ -32,26 +32,28 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/head_lay" />
 
-
-            <ImageView
-                android:id="@+id/image_mine_touxiang"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <RelativeLayout
+                android:id="@+id/touxiang_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:src="@drawable/head"
                 app:layout_heightPercent="35%"
                 app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%" />
+                app:layout_widthPercent="20%">
 
-            <com.android.volley.toolbox.NetworkImageView
-                android:id="@+id/mine_touxiang"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/head"
-                app:layout_heightPercent="35%"
-                app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%" />
+                <ImageView
+                    android:id="@+id/image_mine_touxiang"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/head" />
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:id="@+id/mine_touxiang"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:src="@drawable/head" />
+            </RelativeLayout>
+
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -77,14 +79,14 @@
                     android:src="@drawable/round_bg" />
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_width="wrap_content"
                     android:layout_marginBottom="10dp"
-                    android:layout_height="wrap_content"
+                    android:text="未认证"
                     android:textColor="#ffffff"
-                    android:textSize="12sp"
-                    android:text="未认证" />
+                    android:textSize="12sp" />
 
             </RelativeLayout>
 
@@ -93,11 +95,11 @@
                 android:id="@+id/mine_name"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_below="@id/mine_touxiang"
+                android:layout_below="@+id/touxiang_layout"
                 android:layout_centerHorizontal="true"
+                android:ellipsize="middle"
                 android:gravity="center"
                 android:singleLine="true"
-                android:ellipsize="middle"
                 android:text="yoyo"
                 android:textColor="#ffffff"
                 app:layout_heightPercent="15%"

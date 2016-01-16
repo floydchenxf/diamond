@@ -10,6 +10,7 @@ import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.aync.JobFactory;
 import com.floyd.diamond.aync.Processor;
+import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.MoteTaskStatus;
@@ -738,6 +739,12 @@ public class MoteManager {
         return expressCompaniesJob;
     }
 
+    /**
+     * 获取物流信息
+     * @param token
+     * @param moteTaskId
+     * @return
+     */
     public static AsyncJob<List<ExpressInfoVO>> fetchExpressInfos(String token, long moteTaskId) {
         String url = APIConstants.HOST + APIConstants.API_GET_EXPRESS_INFO;
         Map<String, String> params = new HashMap<String, String>();
@@ -745,5 +752,14 @@ public class MoteManager {
         params.put("token", token);
         Type type = new TypeToken<ArrayList<ExpressInfoVO>>(){}.getType();
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, type);
+    }
+
+    public static AsyncJob<Care.DataEntity> fetchMyCareInfos(String token, int pageNo, int pageSize) {
+        String url = APIConstants.HOST + APIConstants.MYCARE;
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", 10 + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Care.DataEntity.class);
     }
 }
