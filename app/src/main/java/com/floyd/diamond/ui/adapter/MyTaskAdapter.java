@@ -16,6 +16,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
+import com.floyd.diamond.event.TaskEvent;
 import com.floyd.diamond.ui.activity.TaskProcessActivity;
 
 import java.lang.ref.SoftReference;
@@ -87,6 +88,26 @@ public class MyTaskAdapter extends BaseAdapter {
         }
         taskItems.addAll(tasks);
         this.notifyDataSetChanged();
+    }
+
+    public void updateStatus(TaskEvent taskEvent) {
+        if (taskItems == null || taskItems.isEmpty()) {
+            return;
+        }
+
+        boolean isChanged = false;
+        for (TaskItemVO vo : taskItems) {
+            if (vo.moteTaskId == taskEvent.moteTaskId) {
+                vo.status = taskEvent.status;
+                vo.finishStatus = taskEvent.finishStatus;
+                isChanged = true;
+                break;
+            }
+        }
+
+        if (isChanged) {
+            this.notifyDataSetChanged();
+        }
     }
 
     public List<TaskItemVO> getData() {

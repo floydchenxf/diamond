@@ -28,6 +28,7 @@ import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.event.TaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.fragment.FinishCallback;
@@ -35,6 +36,8 @@ import com.floyd.diamond.ui.fragment.ProcessGoodsOperateFragment;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+
+import de.greenrobot.event.EventBus;
 
 public class TaskProcessActivity extends Activity implements View.OnClickListener {
 
@@ -330,7 +333,6 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             public void onSuccess(Boolean aBoolean) {
                 dataLoadingDailog.dismiss();
                 taskProcessVO.moteTask.status = 2;
-//                initAndFillUploadPic(taskProcessVO);
                 loadData(false);
             }
 
@@ -345,9 +347,11 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_back:
-                Intent myTaskIntent = new Intent(TaskProcessActivity.this, MyTaskActivity.class);
-                myTaskIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(myTaskIntent);
+                TaskEvent taskEvent = new TaskEvent();
+                taskEvent.moteTaskId = moteTaskId;
+                taskEvent.status = taskProcessVO.moteTask.status;
+                taskEvent.finishStatus = taskProcessVO.moteTask.finishStatus;
+                EventBus.getDefault().post(taskEvent);
                 this.finish();
                 break;
             case R.id.jiantou_upTask:
@@ -432,9 +436,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
 
     public void onBackPressed() {
         super.onBackPressed();
-        Intent myTaskIntent = new Intent(TaskProcessActivity.this, MyTaskActivity.class);
-        myTaskIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(myTaskIntent);
+
+        TaskEvent taskEvent = new TaskEvent();
+        taskEvent.moteTaskId = moteTaskId;
+        taskEvent.status = taskProcessVO.moteTask.status;
+        taskEvent.finishStatus = taskProcessVO.moteTask.finishStatus;
+        EventBus.getDefault().post(taskEvent);
     }
 
     protected void onDestroy() {

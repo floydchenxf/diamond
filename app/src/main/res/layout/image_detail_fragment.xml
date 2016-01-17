@@ -26,7 +26,7 @@
         android:layout_height="106dip"
         android:layout_centerInParent="true"
         android:contentDescription="@string/app_name"
-        android:src="@drawable/tuqian" />
+        android:src="@drawable/default_image" />
 
     <ImageView
         android:id="@+id/image_detail_download_fail_view"

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
@@ -220,7 +221,26 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                                                                 int id) {
                                                 dialog.dismiss();
                                             }
-                                        });
+                                        }).setNegativeButton("打开链接", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url = taskItemVO.url;
+                                if (TextUtils.isEmpty(url)) {
+                                    Toast.makeText(NewTaskActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Intent goodsItemIntent = new Intent(NewTaskActivity.this, H5Activity.class);
+                                H5Activity.H5Data goodsData = new H5Activity.H5Data();
+                                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                                goodsData.data = url;
+                                goodsData.showProcess = true;
+                                goodsData.showNav = false;
+                                goodsData.title = "商品";
+                                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
+                                startActivity(goodsItemIntent);
+                                dialog.dismiss();
+                            }
+                        });
                         AlertDialog dialog = builder.create();
                         dialog.show();
                     }

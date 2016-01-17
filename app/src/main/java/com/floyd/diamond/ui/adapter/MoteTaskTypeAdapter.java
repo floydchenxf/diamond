@@ -183,11 +183,9 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
         public TextView priceView11;
         public TextView priceView12;
-//        public TextView addressView1;
 
         public TextView priceView21;
         public TextView priceView22;
-//        public TextView addressView2;
 
         public TextView finishStatusView1;
         public TextView finishStatusView2;
