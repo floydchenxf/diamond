@@ -8,61 +8,61 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:orientation="vertical">
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="推荐给好友"
-            android:textSize="18sp"
             android:gravity="center"
-            android:textColor="#515151"/>
+            android:text="推荐给好友"
+            android:textColor="#515151"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            >
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/weixin"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/weixinhaoyou"
                 android:gravity="center"
                 android:onClick="click"
                 android:text="微信"
                 android:textColor="#515151"
-                android:textSize="13sp"
-                android:layout_marginLeft="15dp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/pengyouquan"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/penyouquan"
                 android:gravity="center"
                 android:onClick="click"
                 android:text="朋友圈"
                 android:textColor="#515151"
-                android:textSize="13sp"
-                android:layout_marginLeft="15dp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/xinlangweibo"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/xinlangweibuo"
                 android:gravity="center"
                 android:onClick="click"
                 android:text="新浪微博"
                 android:textColor="#515151"
-                android:textSize="13sp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"/>
+                android:textSize="13sp" />
 
 
         </LinearLayout>
@@ -76,54 +76,55 @@
                 android:id="@+id/tengxunweibo"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/tengxunweib"
                 android:gravity="center"
                 android:onClick="click"
                 android:text="腾讯微博"
                 android:textColor="#515151"
-                android:textSize="13sp"
-                android:layout_marginLeft="15dp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/QQ"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/qq"
                 android:gravity="center"
                 android:onClick="click"
                 android:text="QQ"
                 android:textColor="#515151"
-                android:textSize="13sp"
-                android:layout_marginLeft="15dp"/>
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/QQZone"
                 android:layout_width="0dp"
                 android:layout_height="80dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:layout_weight="1"
                 android:drawableTop="@drawable/qqkonjing"
                 android:gravity="center"
                 android:onClick="click"
                 android:text="QQ空间"
                 android:textColor="#515151"
-                android:textSize="13sp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"/>
+                android:textSize="13sp" />
 
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="10dp"
+            android:gravity="center">
+
             <ImageView
                 android:id="@+id/delete"
                 android:layout_width="44dp"
                 android:layout_height="44dp"
-                android:src="@drawable/delete_nomal"
-                />
+                android:src="@drawable/delete_nomal" />
         </LinearLayout>
 
     </LinearLayout>

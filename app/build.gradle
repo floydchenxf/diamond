@@ -19,6 +19,7 @@ android {
             keyAlias "diamond"
             keyPassword "diamondpwd"
         }
+
     }
 
     sourceSets {
@@ -41,7 +42,7 @@ android {
         debug {
             debuggable true
             minifyEnabled false
-            proguardFiles 'proguard.cfg'
+            signingConfig signingConfigs.release
         }
     }
 }
