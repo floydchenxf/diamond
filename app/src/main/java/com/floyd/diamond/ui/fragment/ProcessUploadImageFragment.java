@@ -163,6 +163,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 picItemView.setLayoutParams(lp);
 
                 NetworkImageView networkImage = (NetworkImageView)picItemView.findViewById(R.id.task_pic_item);
+                networkImage.setDefaultImageResId(R.drawable.tupian);
                 networkImage.setImageUrl(vo.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
                     @Override
                     public Bitmap processBitmpa(Bitmap bitmap) {

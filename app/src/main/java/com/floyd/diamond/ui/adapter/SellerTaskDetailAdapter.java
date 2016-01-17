@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
+import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.ui.activity.ExpressActivity;
 import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
@@ -81,6 +82,7 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
 
         final SellerTaskDetailVO taskItemVO = getItem(position);
         holder.titleView.setText(taskItemVO.title);
+        holder.taskPicView.setDefaultImageResId(R.drawable.tupian);
         holder.taskPicView.setImageUrl(taskItemVO.avartUrl, mImageLoader);
 
         String expressNo = taskItemVO.expressNo;
@@ -89,7 +91,16 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
             holder.goodsOrderNoView.setOnClickListener(null);
         } else {
             holder.goodsOrderNoView.setVisibility(View.VISIBLE);
-            holder.goodsOrderNoView.setText("运单编号：" + expressNo);
+            StringBuilder sb = new StringBuilder();
+            String expressCompanyName = taskItemVO.expressCompanyName;
+            if (TextUtils.isEmpty(expressCompanyName)) {
+                sb.append("运单编号：");
+            } else {
+                sb.append(expressCompanyName+"：");
+            }
+
+            sb.append(expressNo);
+            holder.goodsOrderNoView.setText(sb.toString());
             holder.goodsOrderNoView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -100,6 +111,8 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
             });
         }
 
+        String timeStr = DateUtil.getDateTime(taskItemVO.createTime);
+        holder.publishTimeView.setText("接单时间:" + timeStr);
         String nickName = taskItemVO.nickname;
         if (TextUtils.isEmpty(nickName)) {
             holder.moteNicknameView.setVisibility(View.GONE);
@@ -145,7 +158,6 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
             }
         }
 
-        holder.publishTimeView.setVisibility(View.GONE);
         holder.taskStatusView.setOnClickListener(click);
         return convertView;
     }

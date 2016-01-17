@@ -88,6 +88,7 @@ public class TaskPicAdapter extends BaseAdapter {
                 NetworkImageView imageView = new NetworkImageView(mContext);
                 imageView.setLayoutParams(lp);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageView.setDefaultImageResId(R.drawable.tupian);
                 imageView.setImageUrl(vo.getPreviewImageUrl(), imageLoader);
                 final int k = idx;
                 imageView.setOnClickListener(new View.OnClickListener() {

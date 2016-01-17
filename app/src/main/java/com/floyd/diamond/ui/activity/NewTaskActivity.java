@@ -124,6 +124,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                     newTaskButton.setChecked(false);
                 }
 
+                taskImageView.setDefaultImageResId(R.drawable.tupian);
                 taskImageView.setImageUrl(taskItemVO.getDetailImageUrl(), mImageLoader, new BitmapProcessor() {
                     @Override
                     public Bitmap processBitmpa(Bitmap bitmap) {

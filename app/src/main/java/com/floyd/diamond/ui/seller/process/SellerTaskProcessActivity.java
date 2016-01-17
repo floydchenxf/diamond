@@ -161,6 +161,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         moteInfoSummaryView = (TextView) findViewById(R.id.mote_info_summary);
         moteDetailInfoLayout = findViewById(R.id.mote_info_detail_layout);
         headImage = (NetworkImageView) findViewById(R.id.mote_head_image);
+        headImage.setDefaultImageResId(R.drawable.tupian);
         nicknameView = (TextView) findViewById(R.id.mote_nickname_view);
         agreeKeyView = (TextView) findViewById(R.id.agree_key_view);
         experienceView = (TextView) findViewById(R.id.experience_view);

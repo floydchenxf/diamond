@@ -67,6 +67,7 @@ public class MessageAdapter extends BaseAdapter {
 
         holder = (ViewHolder) convertView.getTag();
         AdvVO advVO = getItem(position);
+        holder.imageView.setDefaultImageResId(R.drawable.tupian);
         holder.imageView.setImageUrl(advVO.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {

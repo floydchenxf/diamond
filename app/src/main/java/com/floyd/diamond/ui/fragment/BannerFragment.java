@@ -87,6 +87,7 @@ public class BannerFragment extends BaseFragment {
         }
 
         mImageView = new NetworkImageView(getActivity());
+        mImageView.setDefaultImageResId(R.drawable.tupian);
         mImageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.dip2px(getActivity(), height)));
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override

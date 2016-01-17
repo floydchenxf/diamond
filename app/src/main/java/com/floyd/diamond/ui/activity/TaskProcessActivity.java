@@ -304,6 +304,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         taskInfoSummaryView.setVisibility(View.VISIBLE);
         taskInfoDetailLayout.setVisibility(View.GONE);
         taskImageView = (NetworkImageView) findViewById(R.id.task_image);
+        taskImageView.setDefaultImageResId(R.drawable.tupian);
         priceView = (TextView) findViewById(R.id.goods_price);
         shotFeeView = (TextView) findViewById(R.id.goods_shot_fee);
         addressView = (TextView) findViewById(R.id.goods_address);

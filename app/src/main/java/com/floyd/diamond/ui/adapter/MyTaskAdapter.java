@@ -117,6 +117,7 @@ public class MyTaskAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.titleView = (TextView) convertView.findViewById(R.id.task_title);
             holder.taskPicView = (NetworkImageView) convertView.findViewById(R.id.task_pic);
+            holder.taskPicView.setDefaultImageResId(R.drawable.tupian);
             holder.leftTimeView = (TextView) convertView.findViewById(R.id.left_time);
             holder.fillOrderView = (TextView) convertView.findViewById(R.id.fill_order);
             holder.uploadImageView = (TextView) convertView.findViewById(R.id.upload_pic);

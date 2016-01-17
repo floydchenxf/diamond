@@ -145,6 +145,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         sellerInfoVO = SellerManager.getSellerInfo(this);
 
         String avatarUrl = sellerInfoVO.getPreviewUrl();
+        personHeadView.setDefaultImageResId(R.drawable.tupian);
         personHeadView.setImageUrl(avatarUrl, mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {
