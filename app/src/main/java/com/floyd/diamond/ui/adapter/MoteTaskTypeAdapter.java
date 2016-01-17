@@ -82,16 +82,14 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.productItemLayout1 = convertView.findViewById(R.id.product_type_item_1);
             holder.productItemLayout2 = convertView.findViewById(R.id.product_type_item_2);
 
-            holder.priductImage1 = (NetworkImageView) convertView.findViewById(R.id.product_pic_1);
+            holder.productImage1 = (NetworkImageView) convertView.findViewById(R.id.product_pic_1);
             holder.productImage2 = (NetworkImageView) convertView.findViewById(R.id.product_pic_2);
 
             holder.priceView11 = (TextView) convertView.findViewById(R.id.price_1_1);
             holder.priceView12 = (TextView) convertView.findViewById(R.id.price_1_2);
-//            holder.addressView1 = (TextView) convertView.findViewById(R.id.address_1);
 
             holder.priceView21 = (TextView) convertView.findViewById(R.id.price_2_1);
             holder.priceView22 = (TextView) convertView.findViewById(R.id.price_2_2);
-//            holder.addressView2 = (TextView) convertView.findViewById(R.id.address_2);
 
             convertView.setTag(holder);
         }
@@ -127,8 +125,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 }
             });
 
-//            holder.addressView1.setText(itemVO1.areaid+"");
-            holder.priductImage1.setImageUrl(itemVO1.getPreviewImageUrl(), mImageLoader);
+            holder.productImage1.setDefaultImageResId(R.drawable.tupian);
+            holder.productImage1.setImageUrl(itemVO1.getPreviewImageUrl(), mImageLoader);
             holder.priceView11.setText("商品售价：" + itemVO1.price + "");
             holder.priceView12.setText("酬金："+itemVO1.shotFee+"");
         }
@@ -162,7 +160,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 holder.finishStatusView2.setVisibility(View.GONE);
             }
 
-//            holder.addressView2.setText(itemVO2.areaid+"");
+            holder.productImage2.setDefaultImageResId(R.drawable.tupian);
             holder.productImage2.setImageUrl(itemVO2.getPreviewImageUrl(), mImageLoader);
             holder.priceView21.setText("商品售价："+itemVO2.price+"");
             holder.priceView22.setText("酬金："+itemVO2.shotFee+"");
@@ -180,7 +178,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         public View productItemLayout1;
         public View productItemLayout2;
 
-        public NetworkImageView priductImage1;
+        public NetworkImageView productImage1;
         public NetworkImageView productImage2;
 
         public TextView priceView11;
