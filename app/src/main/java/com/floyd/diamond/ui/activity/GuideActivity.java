@@ -12,15 +12,29 @@ import com.floyd.diamond.R;
  */
 public class GuideActivity extends Activity implements View.OnClickListener {
 
-    private static final String MOTE_GUIDE_URL = "http://test.static.penghongwo.com/4.html";
-    private static final String ABOUT_APP = "http://test.static.penghongwo.com/1.html";
-    private static final String SELLER_GUIDE_URL = "http://test.static.penghongwo.com/7.html";
-    private static final String RENZHEN_URL = "http://test.static.penghongwo.com/3.html";
+    private static final String STATIC_HOST = "http://test.static.penghongwo.com/";
+    //联系我们
+    private static final String CONTACT_URL = STATIC_HOST + "1.html";
+    //关于我们
+    private static final String ABOUT_US = STATIC_HOST + "2.html";
+    //模特索引
+    private static final String MOTE_GUIDE_URL = STATIC_HOST + "3.html";
+    //商家索引
+    private static final String SELLER_GUIDE_URL = STATIC_HOST + "4.html";
+    //图标说明
+    private static final String ICON_ULR = STATIC_HOST + "5.html";
+    //新商家QA
+    private static final String NEWSELLER_QA = STATIC_HOST + "6.html";
+    //注册说明
+    private static final String REG_URL = STATIC_HOST + "7.html";
 
     private View moteGuideLayout;
-    private View aboutUsLayout;
-    private View renzhengLayout;
     private View sellerGuideLayout;
+    private View sellerQaLayout;
+    private View contactUsLayout;
+    private View iconLayout;
+    private View regLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,18 +44,20 @@ public class GuideActivity extends Activity implements View.OnClickListener {
         init();
     }
 
-    public void init(){
+    public void init() {
         moteGuideLayout = findViewById(R.id.mote_guide_layout);
         moteGuideLayout.setOnClickListener(this);
-
-        aboutUsLayout = findViewById(R.id.aboutus);
-        aboutUsLayout.setOnClickListener(this);
-
-        renzhengLayout = findViewById(R.id.renzheng_layout);
-        renzhengLayout.setOnClickListener(this);
-
         sellerGuideLayout = findViewById(R.id.seller_guide_layout);
         sellerGuideLayout.setOnClickListener(this);
+        sellerQaLayout = findViewById(R.id.seller_qa_layout);
+        sellerQaLayout.setOnClickListener(this);
+        contactUsLayout = findViewById(R.id.contact_us_layout);
+        contactUsLayout.setOnClickListener(this);
+        iconLayout = findViewById(R.id.icon_layout);
+        iconLayout.setOnClickListener(this);
+        regLayout = findViewById(R.id.reg_layout);
+        regLayout.setOnClickListener(this);
+
     }
 
     @Override
@@ -61,27 +77,38 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                 intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
                 startActivity(intent);
                 break;
-            case R.id.aboutus:
-                Intent aboutUsIntent = new Intent(this, H5Activity.class);
-                H5Activity.H5Data aboutUsData = new H5Activity.H5Data();
-                aboutUsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-                aboutUsData.data = ABOUT_APP;
-                aboutUsData.showProcess = true;
-                aboutUsData.showNav = true;
-                aboutUsData.title = "关于App";
-                aboutUsIntent.putExtra(H5Activity.H5Data.H5_DATA, aboutUsData);
-                startActivity(aboutUsIntent);
+            case R.id.seller_qa_layout:
+                Intent newSellerQAIntent = new Intent(this, H5Activity.class);
+                H5Activity.H5Data newSellerQAData = new H5Activity.H5Data();
+                newSellerQAData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                newSellerQAData.data = NEWSELLER_QA;
+                newSellerQAData.showProcess = true;
+                newSellerQAData.showNav = true;
+                newSellerQAData.title = "新商家QA";
+                newSellerQAIntent.putExtra(H5Activity.H5Data.H5_DATA, newSellerQAData);
+                startActivity(newSellerQAIntent);
                 break;
-            case R.id.renzheng_layout:
-                Intent renzhengIntent = new Intent(this, H5Activity.class);
-                H5Activity.H5Data renzhengData = new H5Activity.H5Data();
-                renzhengData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-                renzhengData.data = RENZHEN_URL;
-                renzhengData.showProcess = true;
-                renzhengData.showNav = true;
-                renzhengData.title = "认证说明";
-                renzhengIntent.putExtra(H5Activity.H5Data.H5_DATA, renzhengData);
-                startActivity(renzhengIntent);
+            case R.id.contact_us_layout:
+                Intent contactUsIntent = new Intent(this, H5Activity.class);
+                H5Activity.H5Data contactUsData = new H5Activity.H5Data();
+                contactUsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                contactUsData.data = CONTACT_URL;
+                contactUsData.showProcess = true;
+                contactUsData.showNav = true;
+                contactUsData.title = "联系我们";
+                contactUsIntent.putExtra(H5Activity.H5Data.H5_DATA, contactUsData);
+                startActivity(contactUsIntent);
+                break;
+            case R.id.icon_layout:
+                Intent iconIntent = new Intent(this, H5Activity.class);
+                H5Activity.H5Data iconData = new H5Activity.H5Data();
+                iconData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                iconData.data = ICON_ULR;
+                iconData.showProcess = true;
+                iconData.showNav = true;
+                iconData.title = "图标解释";
+                iconIntent.putExtra(H5Activity.H5Data.H5_DATA, iconData);
+                startActivity(iconIntent);
                 break;
             case R.id.seller_guide_layout:
                 Intent sellerGuideIntent = new Intent(this, H5Activity.class);
@@ -93,6 +120,17 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                 sellerData.title = "商家指引";
                 sellerGuideIntent.putExtra(H5Activity.H5Data.H5_DATA, sellerData);
                 startActivity(sellerGuideIntent);
+                break;
+            case R.id.reg_layout:
+                Intent regIntent = new Intent(this, H5Activity.class);
+                H5Activity.H5Data regData = new H5Activity.H5Data();
+                regData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                regData.data = SELLER_GUIDE_URL;
+                regData.showProcess = true;
+                regData.showNav = true;
+                regData.title = "注册协议";
+                regIntent.putExtra(H5Activity.H5Data.H5_DATA, regData);
+                startActivity(regIntent);
                 break;
 
         }
