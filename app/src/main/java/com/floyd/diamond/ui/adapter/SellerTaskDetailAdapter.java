@@ -112,7 +112,7 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
         if (status == 5) {
             holder.goodsStatusView.setVisibility(View.VISIBLE);
             holder.goodsStatusView.setText("商品：自购");
-        } else if (status == 6) {
+        } else if (status >= 6) {
             holder.goodsStatusView.setVisibility(View.VISIBLE);
             holder.goodsStatusView.setText("商品：退回");
         } else {

@@ -69,6 +69,8 @@
                 android:layout_below="@+id/goods_info_layout"
                 android:layout_marginTop="10dp"
                 android:text="订单号：xxxxxx"
+                android:singleLine="true"
+                android:ellipsize="middle"
                 android:textColor="#666666"
                 android:textSize="14dp" />
         </RelativeLayout>

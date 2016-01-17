@@ -131,38 +131,39 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.titleView.setText(taskItemVO.title);
 
         int status = taskItemVO.status;
+        int finishStatus = taskItemVO.finishStatus;
         Log.i(TAG, "status is" + status + "-----" + taskItemVO.title);
         holder.leftTimeView.setVisibility(View.GONE);
-        if (status == 1) {
-            holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
-            String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
-            if (dateleft == null && taskItemVO.createTime != 0l) {
-                taskItemVO.status = 2;
-            } else {
-                holder.leftTimeView.setVisibility(View.VISIBLE);
-                holder.leftTimeView.setText(dateleft + "");
-                Message msg = new Message();
-                msg.what = TIME_EVENT;
-                MsgObj msgObj = new MsgObj();
-                msgObj.id = taskItemVO.id;
-                msgObj.timeView = new SoftReference<TextView>(holder.leftTimeView);
-                msg.obj = msgObj;
-                mHandler.sendMessage(msg);
-            }
-
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
-            holder.fillOrderView.setText("填写订单");
-        } else if (status >=2 && status < 4) {
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
-            holder.fillOrderView.setText("上传图片");
-        } else if (status >=4 && status < 7 ) {
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
-            holder.fillOrderView.setText("处理商品");
-        } else if (status >= 8) {
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
+        if (finishStatus == 1) {
             holder.fillOrderView.setText("已结束");
         } else {
-            holder.fillOrderView.setText("未知");
+            if (status == 1) {
+                holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
+                String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
+                if (dateleft == null && taskItemVO.createTime != 0l) {
+                    taskItemVO.status = 2;
+                } else {
+                    holder.leftTimeView.setVisibility(View.VISIBLE);
+                    holder.leftTimeView.setText(dateleft + "");
+                    Message msg = new Message();
+                    msg.what = TIME_EVENT;
+                    MsgObj msgObj = new MsgObj();
+                    msgObj.id = taskItemVO.id;
+                    msgObj.timeView = new SoftReference<TextView>(holder.leftTimeView);
+                    msg.obj = msgObj;
+                    mHandler.sendMessage(msg);
+                }
+
+                holder.fillOrderView.setText("填写订单");
+            } else if (status >=2 && status < 4) {
+                holder.fillOrderView.setText("上传图片");
+            } else if (status >=4 && status < 7 ) {
+                holder.fillOrderView.setText("处理商品");
+            } else if (status >= 8) {
+                holder.fillOrderView.setText("已结束");
+            } else {
+                holder.fillOrderView.setText("未知");
+            }
         }
         holder.orderInfo.setOnClickListener(new View.OnClickListener() {
             @Override
