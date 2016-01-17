@@ -51,6 +51,7 @@
                 android:singleLine="false"
                 android:text="申请提现"
                 android:textColor="#666666"
+                android:visibility="gone"
                 android:textSize="24sp" />
 
             <LinearLayout
@@ -59,7 +60,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -82,6 +83,20 @@
                         android:textColor="#999999"
                         android:textSize="12sp" />
 
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="姓名:"
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
+
                     <TextView
                         android:id="@+id/alipay_name_view"
                         android:layout_width="wrap_content"
@@ -89,7 +104,6 @@
                         android:layout_alignParentRight="true"
                         android:textColor="#999999"
                         android:textSize="12sp" />
-
                 </RelativeLayout>
 
                 <RelativeLayout

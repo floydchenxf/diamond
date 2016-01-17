@@ -102,6 +102,11 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
                 holder.drawMoneyView.setTextColor(Color.parseColor("#666666"));
                 holder.walletStatusView.setImageResource(R.drawable.draw_money_process);
             } else if (sellerWalletRecordVO.reduceCashStatus == 2) {
+                holder.drawDetailLayout.setVisibility(View.VISIBLE);
+                holder.payDrawView.setVisibility(View.GONE);
+                holder.alipayIdView.setText(sellerWalletRecordVO.alipayId);
+                holder.alipayNameView.setText(sellerWalletRecordVO.alipayName);
+                holder.alipayNoView.setText(sellerWalletRecordVO.alipayNo);
                 holder.drawMoneyView.setTextColor(Color.parseColor("#4193c0"));
                 holder.walletStatusView.setImageResource(R.drawable.draw_money_finish);
             } else {
