@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.floyd.diamond.R;
@@ -132,7 +131,7 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 } else {
                     dataLoadingDialog.dismiss();
                 }
-                Toast.makeText(MessageFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MessageFragment.this.getActivity(), errorInfo, Toast.LENGTH_SHORT).show();
             }
 
             @Override

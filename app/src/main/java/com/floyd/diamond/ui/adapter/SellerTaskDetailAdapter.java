@@ -15,6 +15,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
+import com.floyd.diamond.event.SellerTaskEvent;
 import com.floyd.diamond.ui.activity.ExpressActivity;
 import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 
@@ -40,6 +41,26 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
         }
         taskItems.addAll(tasks);
         this.notifyDataSetChanged();
+    }
+
+    public void updateStatus(SellerTaskEvent taskEvent) {
+        if (taskItems == null || taskItems.isEmpty()) {
+            return;
+        }
+
+        boolean isChanged = false;
+        for (SellerTaskDetailVO vo : taskItems) {
+            if (vo.moteTaskId == taskEvent.moteTaskId) {
+                vo.status = taskEvent.status;
+                vo.finishStatus = taskEvent.finishStatus;
+                isChanged = true;
+                break;
+            }
+        }
+
+        if (isChanged) {
+            this.notifyDataSetChanged();
+        }
     }
 
     public List<SellerTaskDetailVO> getData() {

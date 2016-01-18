@@ -33,6 +33,7 @@ import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.event.SellerTaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.ExpressActivity;
@@ -45,6 +46,8 @@ import com.floyd.diamond.ui.view.UIAlertDialog;
 
 import java.util.Arrays;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by floyd on 15-12-27.
@@ -424,6 +427,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                                     public void onSuccess(Boolean aBoolean) {
                                         dataLoadingDailog.dismiss();
                                         loadData(false);
+                                        SellerTaskEvent event = new SellerTaskEvent();
+                                        event.finishStatus = 1;
+                                        event.status = 8;
+                                        event.moteTaskId = taskProcessVO.moteTask.id;
+                                        EventBus.getDefault().post(event);
                                     }
 
                                     @Override

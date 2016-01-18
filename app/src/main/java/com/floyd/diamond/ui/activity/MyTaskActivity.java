@@ -172,7 +172,9 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
 
     @Subscribe
     public void onEventMainThread(TaskEvent event) {
-        adapter.updateStatus(event);
+        if (!isFinishing()) {
+            adapter.updateStatus(event);
+        }
     }
 
     @Override
