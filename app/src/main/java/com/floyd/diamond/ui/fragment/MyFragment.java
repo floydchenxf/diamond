@@ -377,6 +377,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
                 break;
             case R.id.edit_profile:
+                ywPopupWindow.hidePopUpWindow();
                 Intent editProfileIntent = new Intent();
                 if (loginVO.isModel()) {
                     editProfileIntent.setClass(this.getActivity(), PersonInfoActivity.class);
