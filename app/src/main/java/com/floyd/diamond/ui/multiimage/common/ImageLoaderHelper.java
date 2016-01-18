@@ -103,7 +103,7 @@ public class ImageLoaderHelper {
     public void loadBitmap(String url, ImageView imageView, LruCache<String, Bitmap> cache, int orientation) {
         if (cancelPotentialWork(url, imageView)) {
             final BitmapWorkerTask task = new BitmapWorkerTask(imageView, cache, orientation);
-            Bitmap defaultBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.tuqian);
+            Bitmap defaultBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.default_image);
             final AsyncDrawable asyncDrawable = new AsyncDrawable(context.getResources(), defaultBitmap, task);
             imageView.setImageDrawable(asyncDrawable);
             task.execute(url);
