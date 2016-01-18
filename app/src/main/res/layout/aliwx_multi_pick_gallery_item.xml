@@ -10,7 +10,7 @@
         android:layout_width="80dip"
         android:layout_height="80dip"
         android:scaleType="centerCrop"
-        android:src="@drawable/tuqian" />
+        android:src="@drawable/default_image" />
 
     <ImageView
         android:id="@+id/image_check"

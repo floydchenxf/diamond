@@ -173,7 +173,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     private void fillData(UserVO userVO) {
         String avatarUrl = userVO.getPreviewUrl();
-        personHeadView.setDefaultImageResId(R.drawable.tupian);
+        personHeadView.setDefaultImageResId(R.drawable.head);
         personHeadView.setImageUrl(avatarUrl, mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {
