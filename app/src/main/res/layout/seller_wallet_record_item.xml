@@ -5,8 +5,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:layout_marginTop="6dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="6dp"
         android:background="@color/white">
 
         <LinearLayout
@@ -52,7 +52,7 @@
                 android:text="申请提现"
                 android:textColor="#666666"
                 android:visibility="gone"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:id="@+id/pay_detail_info_layout"
@@ -86,6 +86,7 @@
                 </RelativeLayout>
 
                 <RelativeLayout
+                    android:id="@+id/alipay_user_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp">
@@ -148,7 +149,7 @@
                 android:layout_height="wrap_content"
                 android:text="Y80000"
                 android:textColor="#666666"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
         </LinearLayout>
 
         <ImageView
