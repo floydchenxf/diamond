@@ -82,7 +82,51 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
-        android:id="@+id/renzheng_layout"
+        android:background="#ffffff"
+        android:id="@+id/seller_qa_layout"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="7%">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:drawableRight="@drawable/jiantou_next"
+            android:text="新商家QA"
+            android:textSize="13sp"
+            android:textColor="#999999"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginRightPercent="3%" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:background="#ffffff"
+        android:id="@+id/contact_us_layout"
+        android:gravity="center_vertical"
+        app:layout_heightPercent="7%">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:drawableRight="@drawable/jiantou_next"
+            android:text="联系我们"
+            android:textSize="13sp"
+            android:textColor="#999999"
+            app:layout_marginLeftPercent="3%"
+            app:layout_marginRightPercent="3%" />
+    </com.zhy.android.percent.support.PercentLinearLayout>
+
+
+    <com.zhy.android.percent.support.PercentLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/icon_layout"
         android:background="#ffffff"
         android:gravity="center_vertical"
         app:layout_heightPercent="7%">
@@ -92,7 +136,7 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:drawableRight="@drawable/jiantou_next"
-            android:text="认证说明"
+            android:text="图标解答"
             android:textColor="#999999"
             android:textSize="13sp"
             app:layout_marginLeftPercent="3%"
@@ -101,7 +145,7 @@
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/aboutus"
+        android:id="@+id/reg_layout"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:background="#ffffff"
@@ -113,7 +157,7 @@
             android:layout_height="wrap_content"
             android:background="#ffffff"
             android:drawableRight="@drawable/jiantou_next"
-            android:text="关于app"
+            android:text="注册协议"
             android:textSize="13sp"
             android:textColor="#999999"
             app:layout_marginLeftPercent="3%"

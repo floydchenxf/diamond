@@ -20,6 +20,7 @@ import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
+import com.floyd.diamond.event.TaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.adapter.MyTaskAdapter;
@@ -29,6 +30,9 @@ import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 public class MyTaskActivity extends Activity implements View.OnClickListener {
 
@@ -56,6 +60,7 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_task);
 
+        EventBus.getDefault().register(this);
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
@@ -165,6 +170,13 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
 
     }
 
+    @Subscribe
+    public void onEventMainThread(TaskEvent event) {
+        if (!isFinishing()) {
+            adapter.updateStatus(event);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -219,6 +231,10 @@ public class MyTaskActivity extends Activity implements View.OnClickListener {
                 loadData(true);
                 break;
         }
+    }
 
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

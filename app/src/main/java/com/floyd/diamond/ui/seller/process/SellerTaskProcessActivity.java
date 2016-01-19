@@ -33,9 +33,11 @@ import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.event.SellerTaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.ExpressActivity;
+import com.floyd.diamond.ui.activity.MoteDetailActivity;
 import com.floyd.diamond.ui.fragment.FinishCallback;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
@@ -44,6 +46,8 @@ import com.floyd.diamond.ui.view.UIAlertDialog;
 
 import java.util.Arrays;
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by floyd on 15-12-27.
@@ -160,6 +164,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         moteInfoSummaryView = (TextView) findViewById(R.id.mote_info_summary);
         moteDetailInfoLayout = findViewById(R.id.mote_info_detail_layout);
         headImage = (NetworkImageView) findViewById(R.id.mote_head_image);
+        headImage.setDefaultImageResId(R.drawable.tupian);
         nicknameView = (TextView) findViewById(R.id.mote_nickname_view);
         agreeKeyView = (TextView) findViewById(R.id.agree_key_view);
         experienceView = (TextView) findViewById(R.id.experience_view);
@@ -297,6 +302,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                             return ImageUtils.getCircleBitmap(bitmap, 90 * oneDp);
                         }
                     });
+                    headImage.setOnClickListener(SellerTaskProcessActivity.this);
                     nicknameView.setText(vo.getNickname());
                 }
 
@@ -421,6 +427,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                                     public void onSuccess(Boolean aBoolean) {
                                         dataLoadingDailog.dismiss();
                                         loadData(false);
+                                        SellerTaskEvent event = new SellerTaskEvent();
+                                        event.finishStatus = 1;
+                                        event.status = 8;
+                                        event.moteTaskId = taskProcessVO.moteTask.id;
+                                        EventBus.getDefault().post(event);
                                     }
 
                                     @Override
@@ -480,6 +491,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                 break;
             case R.id.title_back:
                 this.finish();
+                break;
+            case R.id.mote_head_image:
+                Intent moteDetailIntent = new Intent(SellerTaskProcessActivity.this, MoteDetailActivity.class);
+                moteDetailIntent.putExtra(MoteDetailActivity.MOTE_ID, taskProcessVO.moteTask.userId);
+                startActivity(moteDetailIntent);
                 break;
             case R.id.guanzhu:
                 doGuanzhu();

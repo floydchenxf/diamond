@@ -123,11 +123,6 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
     }
 
     private void loadData(final boolean isFirst) {
-//        if (loginVO == null) {
-//            Toast.makeText(this, "未登录状态无法获取数据", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-
         if (isFirst) {
             dataLoadingView.startLoading();
         } else {

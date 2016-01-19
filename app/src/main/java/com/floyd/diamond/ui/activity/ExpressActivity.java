@@ -37,6 +37,7 @@ public class ExpressActivity extends Activity implements View.OnClickListener {
         emptyView = findViewById(R.id.empty_info);
         titleNameView = (TextView) findViewById(R.id.title_name);
         titleNameView.setText(R.string.title_express);
+        titleNameView.setVisibility(View.VISIBLE);
         expressInfoLayout = (LinearLayout) findViewById(R.id.express_info_layout);
         dataLoadingView = new DefaultDataLoadingView();
         loginVO = LoginManager.getLoginInfo(this);

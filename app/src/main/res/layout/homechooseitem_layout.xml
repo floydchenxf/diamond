@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="@drawable/button_shape"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:src="@drawable/zhanweifu" />
 
     <TextView

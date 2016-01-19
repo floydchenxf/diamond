@@ -19,6 +19,7 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.SellerManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
+import com.floyd.diamond.event.SellerTaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.NewTaskActivity;
@@ -29,6 +30,9 @@ import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.List;
+
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 /**
  * Created by floyd on 15-12-26.
@@ -61,6 +65,7 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_seller_task_detail);
+        EventBus.getDefault().register(this);
         taskId = getIntent().getLongExtra(TASK_ID_PARAM, 0l);
 
         dataLoadingDailog = DialogCreator.createDataLoadingDialog(this);
@@ -227,5 +232,17 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
                 break;
         }
 
+    }
+
+    @Subscribe
+    public void onEventMainThread(SellerTaskEvent event) {
+        if (!this.isFinishing()) {
+            adapter.updateStatus(event);
+        }
+    }
+
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

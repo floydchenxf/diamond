@@ -63,9 +63,12 @@
         <activity
             android:name=".ui.activity.MainActivity"
             android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".ui.activity.ChooseActivity1" />
+        <activity android:name=".ui.activity.ChooseActivity1"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/ContentOverlay"/>
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/title_activity_login"
@@ -376,11 +379,6 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.seller.SellerWalletRecordActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" />
-        <activity
-            android:name=".ui.activity.ChooseResultNullActivity"
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />

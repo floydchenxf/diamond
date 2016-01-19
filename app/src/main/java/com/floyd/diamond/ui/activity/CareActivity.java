@@ -94,7 +94,7 @@ public class CareActivity extends Activity implements View.OnClickListener {
                     @Override
                     public void onItemClick(View v, Care.DataEntity.DataListEntity dataEntity) {
                         Intent it = new Intent(CareActivity.this, MoteDetailActivity.class);
-                        it.putExtra("moteId", dataEntity.getMoteId()+"");
+                        it.putExtra("moteId", dataEntity.getMoteId());
                         startActivity(it);
                     }
                 });
@@ -303,29 +303,29 @@ public class CareActivity extends Activity implements View.OnClickListener {
                     mPullToRefreshListView.setVisibility(View.GONE);
 
                 } else {
-                mPullToRefreshListView.setVisibility(View.VISIBLE);
-                emptyView.setVisibility(View.GONE);
+                    mPullToRefreshListView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
 
-                List<MoteTypeTaskVO> typeTasks = new ArrayList<MoteTypeTaskVO>();
+                    List<MoteTypeTaskVO> typeTasks = new ArrayList<MoteTypeTaskVO>();
 //
-                int idx = 0;
-                for (Care.DataEntity.DataListEntity vo : taskItemVOs) {
-                    if (idx % 2 == 0) {
-                        MoteTypeTaskVO moteTypeTaskVO = new MoteTypeTaskVO();
-                        moteTypeTaskVO.moteCareVO1 = vo;
-                        typeTasks.add(moteTypeTaskVO);
-                    } else {
-                        typeTasks.get(idx / 2).moteCareVO2 = vo;
+                    int idx = 0;
+                    for (Care.DataEntity.DataListEntity vo : taskItemVOs) {
+                        if (idx % 2 == 0) {
+                            MoteTypeTaskVO moteTypeTaskVO = new MoteTypeTaskVO();
+                            moteTypeTaskVO.moteCareVO1 = vo;
+                            typeTasks.add(moteTypeTaskVO);
+                        } else {
+                            typeTasks.get(idx / 2).moteCareVO2 = vo;
+                        }
+
+                        idx++;
                     }
 
-                    idx++;
-                }
-
                     if (!typeTasks.isEmpty()) {
-                    adapter.addAll(typeTasks, isClear);
-                }
+                        adapter.addAll(typeTasks, isClear);
+                    }
 
-            }
+                }
             }
 
             @Override

@@ -56,7 +56,6 @@ public class APIConstants {
     public static final String API_GET_EXPRESS_INFO = "api/motetask/getExpressInfo";
     //----------------------------------------------------------卖家------------------------------------------------
     public static final String API_SELLER_TASK_LIST = "api/task/getSellerTaskList"; //我的任务
-    public static final String API_MOTE_LIST_APP = "api/task/getMoteList4APP"; //我的任务详情
     public static final String API_MOTE_TASK_APPROVE_PIC = "api/motetask/approvePic"; //商家评价图片
     public static final String API_SELLER_TASK_PICS = "api/taskPic/getSellerTaskPics"; //商家我的图库
     public static final String API_SELLER_TASK_LIST_DETAIL = "api/task/getMoteList4APP"; //我的任务详情

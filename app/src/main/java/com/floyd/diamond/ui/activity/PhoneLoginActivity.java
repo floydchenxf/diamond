@@ -28,8 +28,6 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
     private LinearLayout backView;
     private TextView regView;
     private TextView forgotPwdView;
-    private TextView regTextView;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,14 +38,11 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
         userNameView = (EditText) findViewById(R.id.user_name);
         passwordView = (EditText) findViewById(R.id.password);
         forgotPwdView = (TextView) findViewById(R.id.forgot_pwd);
-        regTextView = (TextView) findViewById(R.id.reg_text);
         backView.setOnClickListener(this);
         regView.setOnClickListener(this);
         loginView = (TextView) findViewById(R.id.login);
         loginView.setOnClickListener(this);
         forgotPwdView.setOnClickListener(this);
-        regTextView.setOnClickListener(this);
-
     }
 
     @Override
@@ -90,7 +85,6 @@ public class PhoneLoginActivity extends Activity implements View.OnClickListener
                 this.finish();
                 break;
             case R.id.regButton:
-            case R.id.reg_text:
                 Intent it = new Intent(PhoneLoginActivity.this, RegActivity.class);
                 startActivity(it);
                 this.finish();

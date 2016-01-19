@@ -17,6 +17,9 @@ public class SellerTaskDetailVO implements IKeepClassForProguard {
     public int finishStatus;
     public int uploadPicNum;
     public long moteTaskId;
+    public long createTime;
+    public String expressCompanyName;
+    public String expressCompanyId;
 
     public String getPreviewUrl() {
         return CommonUtil.getImage_200(this.avartUrl);

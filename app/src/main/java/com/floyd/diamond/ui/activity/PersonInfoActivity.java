@@ -173,6 +173,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
 
     private void fillData(UserVO userVO) {
         String avatarUrl = userVO.getPreviewUrl();
+        personHeadView.setDefaultImageResId(R.drawable.head);
         personHeadView.setImageUrl(avatarUrl, mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {
@@ -195,12 +196,12 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
             heightTypeView.setText("丰满");
         }
 
-        if (userVO.authenStatus == 0) {
-            authView.setText("未认证");
-            authView.setTextColor(Color.RED);
-        } else {
+        if (userVO.authenStatus == 2) {
             authView.setTextColor(Color.parseColor("#666666"));
             authView.setText("已认证");
+        } else {
+            authView.setText("未认证");
+            authView.setTextColor(Color.RED);
         }
     }
 

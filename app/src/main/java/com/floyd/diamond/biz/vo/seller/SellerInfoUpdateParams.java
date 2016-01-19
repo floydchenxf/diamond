@@ -41,7 +41,7 @@ public class SellerInfoUpdateParams {
         params.put("returnItemMobile", returnItemMobile == null ? "" : returnItemMobile);
         params.put("returnItemTelCode", returnItemTelCode == null ? "" : returnItemTelCode);
         params.put("returnItemTelNumber", returnItemTelNumber == null ? "" : returnItemTelNumber);
-        params.put("provineId", provineId == 0l ? "" : provineId + "");
+        params.put("provinceId", provineId == 0l ? "" : provineId + "");
         params.put("cityId", cityId == 0l ? "" : cityId + "");
         params.put("districtId", districtId == 0l ? "" : districtId + "");
         params.put("address", address == null ? "" : address);

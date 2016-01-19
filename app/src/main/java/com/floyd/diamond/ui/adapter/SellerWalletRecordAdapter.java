@@ -67,6 +67,7 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
             holder.alipayNoView = (TextView) convertView.findViewById(R.id.alipay_no_view);
             holder.alipayNameView = (TextView) convertView.findViewById(R.id.alipay_name_view);
             holder.walletStatusView = (ImageView) convertView.findViewById(R.id.wallet_status_view);
+            holder.alipayUserLayout = convertView.findViewById(R.id.alipay_user_layout);
             convertView.setTag(holder);
         }
 
@@ -102,6 +103,12 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
                 holder.drawMoneyView.setTextColor(Color.parseColor("#666666"));
                 holder.walletStatusView.setImageResource(R.drawable.draw_money_process);
             } else if (sellerWalletRecordVO.reduceCashStatus == 2) {
+                holder.drawDetailLayout.setVisibility(View.VISIBLE);
+                holder.payDrawView.setVisibility(View.GONE);
+                holder.alipayIdView.setText(sellerWalletRecordVO.alipayId);
+                holder.alipayUserLayout.setVisibility(View.VISIBLE);
+                holder.alipayNameView.setText(sellerWalletRecordVO.alipayName);
+                holder.alipayNoView.setText(sellerWalletRecordVO.alipayNo);
                 holder.drawMoneyView.setTextColor(Color.parseColor("#4193c0"));
                 holder.walletStatusView.setImageResource(R.drawable.draw_money_finish);
             } else {
@@ -109,11 +116,12 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
                 holder.walletStatusView.setImageResource(R.drawable.draw_money_process);
             }
         } else if (type == 4) {
-            holder.drawMoneyView.setTextColor(Color.parseColor("#d4377e"));
-            holder.drawDetailLayout.setVisibility(View.GONE);
-            holder.payDrawView.setVisibility(View.VISIBLE);
-            holder.payDrawView.setText(sellerWalletRecordVO.reason);
-            holder.payDrawView.setTextSize(12);
+            holder.drawDetailLayout.setVisibility(View.VISIBLE);
+            holder.payDrawView.setVisibility(View.GONE);
+            holder.alipayIdView.setText(sellerWalletRecordVO.alipayId);
+            holder.alipayUserLayout.setVisibility(View.GONE);
+            holder.alipayNoView.setText(sellerWalletRecordVO.alipayNo);
+            holder.drawMoneyView.setTextColor(Color.parseColor("#4193c0"));
             holder.walletStatusView.setImageResource(R.drawable.add_cash);
         }
         return convertView;
@@ -130,5 +138,7 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
         public TextView alipayNoView; //支付流水号
         public TextView alipayNameView; //支付宝名称
         public ImageView walletStatusView;
+
+        public View alipayUserLayout;
     }
 }

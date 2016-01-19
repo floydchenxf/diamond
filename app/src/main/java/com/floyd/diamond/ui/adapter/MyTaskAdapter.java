@@ -16,6 +16,7 @@ import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
+import com.floyd.diamond.event.TaskEvent;
 import com.floyd.diamond.ui.activity.TaskProcessActivity;
 
 import java.lang.ref.SoftReference;
@@ -89,6 +90,26 @@ public class MyTaskAdapter extends BaseAdapter {
         this.notifyDataSetChanged();
     }
 
+    public void updateStatus(TaskEvent taskEvent) {
+        if (taskItems == null || taskItems.isEmpty()) {
+            return;
+        }
+
+        boolean isChanged = false;
+        for (TaskItemVO vo : taskItems) {
+            if (vo.moteTaskId == taskEvent.moteTaskId) {
+                vo.status = taskEvent.status;
+                vo.finishStatus = taskEvent.finishStatus;
+                isChanged = true;
+                break;
+            }
+        }
+
+        if (isChanged) {
+            this.notifyDataSetChanged();
+        }
+    }
+
     public List<TaskItemVO> getData() {
         return this.taskItems;
     }
@@ -117,6 +138,7 @@ public class MyTaskAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.titleView = (TextView) convertView.findViewById(R.id.task_title);
             holder.taskPicView = (NetworkImageView) convertView.findViewById(R.id.task_pic);
+            holder.taskPicView.setDefaultImageResId(R.drawable.tupian);
             holder.leftTimeView = (TextView) convertView.findViewById(R.id.left_time);
             holder.fillOrderView = (TextView) convertView.findViewById(R.id.fill_order);
             holder.uploadImageView = (TextView) convertView.findViewById(R.id.upload_pic);
@@ -131,38 +153,39 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.titleView.setText(taskItemVO.title);
 
         int status = taskItemVO.status;
+        int finishStatus = taskItemVO.finishStatus;
         Log.i(TAG, "status is" + status + "-----" + taskItemVO.title);
         holder.leftTimeView.setVisibility(View.GONE);
-        if (status == 1) {
-            holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
-            String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
-            if (dateleft == null && taskItemVO.createTime != 0l) {
-                taskItemVO.status = 2;
-            } else {
-                holder.leftTimeView.setVisibility(View.VISIBLE);
-                holder.leftTimeView.setText(dateleft + "");
-                Message msg = new Message();
-                msg.what = TIME_EVENT;
-                MsgObj msgObj = new MsgObj();
-                msgObj.id = taskItemVO.id;
-                msgObj.timeView = new SoftReference<TextView>(holder.leftTimeView);
-                msg.obj = msgObj;
-                mHandler.sendMessage(msg);
-            }
-
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
-            holder.fillOrderView.setText("填写订单");
-        } else if (status >=2 && status < 4) {
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
-            holder.fillOrderView.setText("上传图片");
-        } else if (status >=4 && status < 7 ) {
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
-            holder.fillOrderView.setText("处理商品");
-        } else if (status >= 8) {
-//            holder.fillOrderView.setVisibility(View.VISIBLE);
+        if (finishStatus == 1) {
             holder.fillOrderView.setText("已结束");
         } else {
-            holder.fillOrderView.setText("未知");
+            if (status == 1) {
+                holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
+                String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
+                if (dateleft == null && taskItemVO.createTime != 0l) {
+                    taskItemVO.status = 2;
+                } else {
+                    holder.leftTimeView.setVisibility(View.VISIBLE);
+                    holder.leftTimeView.setText(dateleft + "");
+                    Message msg = new Message();
+                    msg.what = TIME_EVENT;
+                    MsgObj msgObj = new MsgObj();
+                    msgObj.id = taskItemVO.id;
+                    msgObj.timeView = new SoftReference<TextView>(holder.leftTimeView);
+                    msg.obj = msgObj;
+                    mHandler.sendMessage(msg);
+                }
+
+                holder.fillOrderView.setText("填写订单");
+            } else if (status >=2 && status < 4) {
+                holder.fillOrderView.setText("上传图片");
+            } else if (status >=4 && status < 7 ) {
+                holder.fillOrderView.setText("处理商品");
+            } else if (status >= 8) {
+                holder.fillOrderView.setText("已结束");
+            } else {
+                holder.fillOrderView.setText("未知");
+            }
         }
         holder.orderInfo.setOnClickListener(new View.OnClickListener() {
             @Override

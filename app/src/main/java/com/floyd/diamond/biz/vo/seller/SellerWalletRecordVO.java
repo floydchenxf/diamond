@@ -15,4 +15,7 @@ public class SellerWalletRecordVO {
     public float beforeRemindFee;
     public float afterRemindFee;
     public int reduceCashStatus;
+    public String alipayNo;//流水号
+    public String alipayName;//
+    public String alipayId;//
 }

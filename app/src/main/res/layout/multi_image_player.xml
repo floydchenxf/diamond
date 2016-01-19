@@ -35,9 +35,8 @@
         <TextView
             android:id="@+id/title_back"
             style="@style/aliwx_common_title_left_btn_shadow_white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="" />
+            android:layout_width="60dp"
+            android:layout_height="wrap_content" />
 
 
 

@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
@@ -27,6 +28,7 @@ import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.TaskItemVO;
 import com.floyd.diamond.biz.vo.process.TaskProcessVO;
+import com.floyd.diamond.event.TaskEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.fragment.FinishCallback;
@@ -34,6 +36,8 @@ import com.floyd.diamond.ui.fragment.ProcessGoodsOperateFragment;
 import com.floyd.diamond.ui.fragment.ProcessUploadImageFragment;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+
+import de.greenrobot.event.EventBus;
 
 public class TaskProcessActivity extends Activity implements View.OnClickListener {
 
@@ -95,7 +99,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
 
             if (status == 1) {
                 String t = DateUtil.getDateBefore(taskProcessVO.moteTask.acceptedTime);
-                confirmTimeView.setText("请在" + t + "内完成下单并输入订单号");
+                confirmTimeView.setText(Html.fromHtml("请在<font color=\"red\">" + t + "</font>内完成下单并输入订单号"));
                 dropOrderNoView.setVisibility(View.VISIBLE);
                 mHandler.postDelayed(this, 1000);
             }
@@ -303,6 +307,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         taskInfoSummaryView.setVisibility(View.VISIBLE);
         taskInfoDetailLayout.setVisibility(View.GONE);
         taskImageView = (NetworkImageView) findViewById(R.id.task_image);
+        taskImageView.setDefaultImageResId(R.drawable.tupian);
         priceView = (TextView) findViewById(R.id.goods_price);
         shotFeeView = (TextView) findViewById(R.id.goods_shot_fee);
         addressView = (TextView) findViewById(R.id.goods_address);
@@ -328,7 +333,6 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             public void onSuccess(Boolean aBoolean) {
                 dataLoadingDailog.dismiss();
                 taskProcessVO.moteTask.status = 2;
-//                initAndFillUploadPic(taskProcessVO);
                 loadData(false);
             }
 
@@ -339,11 +343,15 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         });
     }
 
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.title_back:
+                TaskEvent taskEvent = new TaskEvent();
+                taskEvent.moteTaskId = moteTaskId;
+                taskEvent.status = taskProcessVO.moteTask.status;
+                taskEvent.finishStatus = taskProcessVO.moteTask.finishStatus;
+                EventBus.getDefault().post(taskEvent);
                 this.finish();
                 break;
             case R.id.jiantou_upTask:
@@ -424,6 +432,16 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 break;
         }
 
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        TaskEvent taskEvent = new TaskEvent();
+        taskEvent.moteTaskId = moteTaskId;
+        taskEvent.status = taskProcessVO.moteTask.status;
+        taskEvent.finishStatus = taskProcessVO.moteTask.finishStatus;
+        EventBus.getDefault().post(taskEvent);
     }
 
     protected void onDestroy() {

@@ -319,8 +319,8 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
 
 
         // 打开分享面板
-        // mShare.openShare(this, false);//系统默认的
-        startActivity(new Intent(SettingPersonInfoActivity.this, DialogActivity.class));
+         mShare.openShare(this, false);//系统默认的
+//        startActivity(new Intent(SettingPersonInfoActivity.this, DialogActivity.class));
 
 
     }
