@@ -15,8 +15,6 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.biz.vo.mote.MoteTypeTaskVO;
-import com.floyd.diamond.biz.vo.mote.TaskItemVO;
-import com.floyd.diamond.utils.CommonUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,6 +105,10 @@ public class HomeChooseAdapter1 extends BaseAdapter {
         }
 
         holder = (ViewHolder) convertView.getTag();
+
+        holder.moteImage1.setDefaultImageResId(R.drawable.tupian);
+        holder.moteImage2.setDefaultImageResId(R.drawable.tupian);
+
         MoteTypeTaskVO vo = getItem(position);
         final ModelInfo.DataEntity dataEntity_1 = vo.moteItemVO1;
         final ModelInfo.DataEntity dataEntity_2 = vo.moteItemVO2;
@@ -143,7 +145,7 @@ public class HomeChooseAdapter1 extends BaseAdapter {
 
             holder.name1.setText(dataEntity_1.getNickname());
             holder.address1.setText(dataEntity_1.getArea() + "");
-            String imgUrl = dataEntity_1.getAvatarUrl();
+            String imgUrl = dataEntity_1.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }
@@ -175,7 +177,7 @@ public class HomeChooseAdapter1 extends BaseAdapter {
 
             holder.name2.setText(dataEntity_2.getNickname());
             holder.address2.setText(dataEntity_2.getArea() + "");
-            String imgUrl = dataEntity_2.getAvatarUrl();
+            String imgUrl = dataEntity_2.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }

@@ -1,5 +1,7 @@
 package com.floyd.diamond.bean;
 
+import com.floyd.diamond.utils.CommonUtil;
+
 import java.util.List;
 
 /**
@@ -91,6 +93,10 @@ public class Care {
 
             public String getAvartUrl() {
                 return avartUrl;
+            }
+
+            public String getPreviewUrl() {
+                return CommonUtil.getImage_400(this.avartUrl);
             }
 
             public String getNickname() {

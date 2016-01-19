@@ -59,7 +59,6 @@ public class CareActivity extends Activity implements View.OnClickListener {
     private String editOrdelete = "编辑";
     private boolean isFirst = true;
     private ArrayList<String> deleteModel;//取消关注的模特
-    private com.floyd.diamond.bean.SwipeRefreshLayout swipeRefreshLayout;
     private CareAdapter1 adapter;
     private Handler handler = new Handler() {
         @Override
@@ -277,8 +276,8 @@ public class CareActivity extends Activity implements View.OnClickListener {
 //                    Toast.makeText(CareActivity.this,"~你还没有关注模特，赶紧去关注吧~",Toast.LENGTH_SHORT).show();
 //                }
                 if ((taskItemVOs == null || taskItemVOs.isEmpty()) && pageNo == 1) {
-//                    emptyView.setVisibility(View.VISIBLE);
-                    Toast.makeText(CareActivity.this,"~你还没有关注模特，赶紧去关注吧~",Toast.LENGTH_SHORT).show();
+                    emptyView.setVisibility(View.VISIBLE);
+//                    Toast.makeText(CareActivity.this,"~你还没有关注模特，赶紧去关注吧~",Toast.LENGTH_SHORT).show();
                     mPullToRefreshListView.setVisibility(View.GONE);
 
                 } else {

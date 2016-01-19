@@ -80,6 +80,7 @@ public class CareAdapter1 extends BaseAdapter {
             holder.moteImage1 = (NetworkImageView) convertView.findViewById(R.id.mote_pic_1);
             holder.moteImage2 = (NetworkImageView) convertView.findViewById(R.id.mote_pic_2);
 
+
             holder.carebg_1 = ((TextView) convertView.findViewById(R.id.bg_recycle_1));
             holder.carebg_2 = ((TextView) convertView.findViewById(R.id.bg_recycle_2));
 
@@ -97,16 +98,17 @@ public class CareAdapter1 extends BaseAdapter {
         }
 
         holder = (ViewHolder) convertView.getTag();
+        holder.moteImage1.setDefaultImageResId(R.drawable.tupian);
+        holder.moteImage2.setDefaultImageResId(R.drawable.tupian);
+
         MoteTypeTaskVO vo = getItem(position);
-        final Care.DataEntity.DataListEntity dataEntity_1 = vo.moteCareVO1;
-        final Care.DataEntity.DataListEntity dataEntity_2 = vo.moteCareVO2;
 
-        if (dataEntity_1 != null) {
+        if (vo.moteCareVO1 != null) {
+            holder.item_1.setVisibility(View.VISIBLE);
+            setLayout(holder.carebg_1, deleteModel, vo.moteCareVO1);
+            holder.carebg_1.setTag("cb" + vo.moteCareVO1.getMoteId());
 
-            setLayout(holder.carebg_1, deleteModel, dataEntity_1);
-
-            holder.carebg_1.setTag("cb" + dataEntity_1.getMoteId());
-
+            final Care.DataEntity.DataListEntity dataEntity_1 = vo.moteCareVO1;
             holder.item_1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -117,8 +119,8 @@ public class CareAdapter1 extends BaseAdapter {
             });
 
 
-            holder.name1.setText(dataEntity_1.getNickname());
-            String imgUrl = dataEntity_1.getAvartUrl();
+            holder.name1.setText(vo.moteCareVO1.getNickname());
+            String imgUrl = vo.moteCareVO1.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }
@@ -129,12 +131,12 @@ public class CareAdapter1 extends BaseAdapter {
             holder.item_1.setVisibility(View.INVISIBLE);
         }
 
-        if (dataEntity_2 != null) {
+        if (vo.moteCareVO2 != null) {
+            holder.item_2.setVisibility(View.VISIBLE);
+            setLayout(holder.carebg_2, deleteModel, vo.moteCareVO2);
 
-            setLayout(holder.carebg_2, deleteModel, dataEntity_2);
-
-//            holder.carebg_2.setLayoutParams(new RelativeLayout.LayoutParams(0, 0));
-            holder.carebg_2.setTag("cb" + dataEntity_2.getMoteId());
+            holder.carebg_2.setTag("cb" + vo.moteCareVO2.getMoteId());
+            final Care.DataEntity.DataListEntity dataEntity_2 = vo.moteCareVO2;
             holder.item_2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -144,8 +146,8 @@ public class CareAdapter1 extends BaseAdapter {
                 }
             });
 
-            holder.name2.setText(dataEntity_2.getNickname());
-            String imgUrl = dataEntity_2.getAvartUrl();
+            holder.name2.setText(vo.moteCareVO2.getNickname());
+            String imgUrl = vo.moteCareVO2.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }

@@ -1,5 +1,7 @@
 package com.floyd.diamond.bean;
 
+import com.floyd.diamond.utils.CommonUtil;
+
 import java.util.List;
 
 /**
@@ -169,6 +171,10 @@ public class ModelInfo {
 
         public String getAvatarUrl() {
             return avatarUrl;
+        }
+
+        public String getPreviewUrl() {
+            return CommonUtil.getImage_400(this.avatarUrl);
         }
 
         public Object getUserId() {
