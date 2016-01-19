@@ -81,7 +81,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     private TextView usernickView;
     private int pageNo = 1;
     private static int PAGE_SIZE = 10;
-    private TextView share;
+    private LinearLayout share;
 
     private List<TaskPicsVO> taskPicsList;
     private TaskPicAdapter taskPicAdapter;
@@ -133,7 +133,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.detail_list);
         mListView = mPullToRefreshListView.getRefreshableView();
         usernickView = (TextView) findViewById(R.id.usernick);
-        share = ((TextView) findViewById(R.id.share));
+        share = ((LinearLayout) findViewById(R.id.share));
         jingyanzhi = ((TextView) findViewById(R.id.jinyan));
         manyidu = ((TextView) findViewById(R.id.agree));
         share.setOnClickListener(new View.OnClickListener() {

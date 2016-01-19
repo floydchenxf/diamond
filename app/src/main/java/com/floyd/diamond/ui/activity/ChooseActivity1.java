@@ -21,13 +21,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
-import com.floyd.diamond.bean.ChoiceCondition;
 import com.floyd.diamond.bean.DLCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.RangeSeekBar;
-import com.floyd.diamond.bean.SeekBarPressure;
-import com.floyd.diamond.bean.SeekBarPressure1;
-import com.floyd.diamond.bean.SeekBarPressure2;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
@@ -119,7 +115,8 @@ public class ChooseActivity1 extends Activity {
                 seekBar_height.setSelectedMaxValue(dlEntity.getHeightMax());
                 seekBar_height.setSelectedMinValue(dlEntity.getHeightMin());
 
-                seekBar_credit.setSelectedMaxValue(dlEntity.getCreditMin());
+                seekBar_credit.setSelectedMaxValue(dlEntity.getCreditMax());
+                seekBar_credit.setSelectedMinValue(dlEntity.getCreditMin());
 
 //                seekBarAge.setProgressLow(dlEntity.getAgeMin());
 //                seekBarAge.setProgressHigh(dlEntity.getAgeMax());
@@ -175,12 +172,12 @@ public class ChooseActivity1 extends Activity {
                 seekBar_height.setSelectedMaxValue(dlEntity.getHeightMax());
                 seekBar_height.setSelectedMinValue(dlEntity.getHeightMin());
 
-                seekBar_credit.setSelectedMaxValue(dlEntity.getCreditMin());
+                seekBar_credit.setSelectedMaxValue(dlEntity.getCreditMax());
+                seekBar_credit.setSelectedMinValue(dlEntity.getCreditMin());
 
-
+                shapes.clear();
                 if (dlEntity.getShapes() != null) {
                     String[] shapesLists = dlEntity.getShapes().split(",");
-                    shapes.clear();
                     for (int i = 0; i < shapesLists.length; i++) {
 
                         shapes.add(shapesLists[i]);
@@ -196,11 +193,9 @@ public class ChooseActivity1 extends Activity {
                         }
                     }
                 }
-
+                areaids.clear();
                 if (dlEntity.getAreaids() != null) {
-
                     String[] areaLists = dlEntity.getAreaids().split(",");
-                    areaids.clear();
                     for (int i = 0; i < areaLists.length; i++) {
 
                         areaids.add(areaLists[i]);
@@ -578,8 +573,8 @@ public class ChooseActivity1 extends Activity {
         seekBar_credit.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                dlEntity.setCreditMin((int)maxValue);
-                dlEntity.setCreditMax(100);
+                dlEntity.setCreditMin((int)minValue);
+                dlEntity.setCreditMax((int)maxValue);
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {

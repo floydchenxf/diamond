@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
@@ -152,6 +153,13 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
         defaultImageView = (ImageView) findViewById(R.id.default_image);
         taskImageView = (NetworkImageView) findViewById(R.id.task_image);
         newTaskButton = (CheckedTextView) findViewById(R.id.new_task_button);
+        LinearLayout click= ((LinearLayout) findViewById(R.id.new_task_button_layout));
+        click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("TAG","点击不跳转！");
+            }
+        });
 
         backView.setOnClickListener(this);
         taskImageView.setOnClickListener(this);

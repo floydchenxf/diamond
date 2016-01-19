@@ -40,7 +40,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#eeeeee">
+        android:background="#eeeeee"
+        android:clickable="false">
 
         <CheckedTextView
             android:id="@+id/new_task_button"

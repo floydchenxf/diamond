@@ -42,7 +42,7 @@ import com.floyd.diamond.event.LoginEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
-import com.floyd.diamond.ui.activity.HomeChooseActivity;
+import com.floyd.diamond.ui.activity.HomeChooseActivity1;
 import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
@@ -404,7 +404,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(getActivity(), HomeChooseActivity.class));
+                startActivity(new Intent(getActivity(), HomeChooseActivity1.class));
             }
         });
     }

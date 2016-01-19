@@ -58,6 +58,7 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name=".ui.activity.HomeChooseActivity1"/>
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -107,11 +108,6 @@
             android:theme="@style/ContentOverlay" />
         <activity
             android:name=".ui.multiimage.MultiImageActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/ContentOverlay" />
-        <activity
-            android:name=".ui.activity.HomeChooseActivity"
-            android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/ContentOverlay" />
         <activity

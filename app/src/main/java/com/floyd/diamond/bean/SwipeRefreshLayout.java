@@ -18,9 +18,6 @@ import android.view.animation.Animation;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Transformation;
 import android.widget.AbsListView;
-import android.widget.Toast;
-
-import com.floyd.diamond.ui.activity.HomeChooseActivity;
 
 /**
  * Created by Administrator on 2015/12/31.

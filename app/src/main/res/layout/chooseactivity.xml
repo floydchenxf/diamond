@@ -122,6 +122,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
+                app:absoluteMaxValue="60"
+                app:absoluteMinValue="0"
                 />
 
             <TextView
@@ -139,8 +141,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
-                app:absoluteMaxValue="180"
-                app:absoluteMinValue="80"
+                app:absoluteMaxValue="200"
+                app:absoluteMinValue="50"
 
                 />
 
@@ -231,7 +233,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
-                app:singleThumb="true" />
                 />
 
             <TextView

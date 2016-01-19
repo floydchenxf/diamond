@@ -10,6 +10,9 @@ import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.aync.JobFactory;
 import com.floyd.diamond.aync.Processor;
+import com.floyd.diamond.bean.Care;
+import com.floyd.diamond.bean.DLCondition;
+import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.MoteTaskStatus;
@@ -216,6 +219,52 @@ public class MoteManager {
         params.put("pageSize", pageSize + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskVO.class);
+    }
+
+    /**
+     * 筛选模特
+     */
+    public static AsyncJob<List<ModelInfo.DataEntity>> filterMoteList(int pageNo, int pageSize, String token){
+        String url = APIConstants.HOST + APIConstants.CHOOSEMOTE;
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", 10 + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<ArrayList<ModelInfo.DataEntity>>(){}.getType());
+    }
+
+
+    /**
+     * 模特筛选结果
+     */
+    public static AsyncJob<List<ModelInfo.DataEntity>> filterMoteResult(int pageNo, int pageSize, String token,DLCondition.DataEntity dataEntity){
+        String url = APIConstants.HOST + APIConstants.CHOOSEMOTE;
+        Map<String, String> params = new HashMap<>();
+        params.put("gender",dataEntity.getGender()+"");
+        params.put("ageMin",dataEntity.getAgeMin()+"");
+        params.put("ageMax",dataEntity.getAgeMax()+"");
+        params.put("heightMin",dataEntity.getHeightMin()+"");
+        params.put("heightMax",dataEntity.getHeightMax()+"");
+        params.put("creditMin",dataEntity.getCreditMin()+"");
+        params.put("creditMax",dataEntity.getCreditMax()+"");
+        params.put("shapes",dataEntity.getShapes()+"");
+        params.put("areaids",dataEntity.getAreaids()+"");
+        params.put("pageNo",pageNo+"");
+        params.put("pageSize",10+"");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<ArrayList<ModelInfo.DataEntity>>(){}.getType());
+    }
+
+    /**
+     * 我的关注取消关注
+     */
+    public static AsyncJob<Care.DataEntity> careMoteDelete(int pageNo, int pageSize, String token){
+        String url = APIConstants.HOST + APIConstants.MYCARE;
+        Map<String, String> params = new HashMap<>();
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", 10 + "");
+        params.put("token", token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST, Care.DataEntity.class);
     }
 
     /**

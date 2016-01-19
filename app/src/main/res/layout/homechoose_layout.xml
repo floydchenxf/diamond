@@ -48,25 +48,28 @@
         </LinearLayout>
 
     </com.zhy.android.percent.support.PercentFrameLayout>
-    <RelativeLayout
+    <com.floyd.pullrefresh.widget.PullToRefreshListView
+        android:id="@+id/gridview_filter"
+        android:layout_width="fill_parent"
+        android:background="#eeeeee"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:listSelector="#00000000"
+        android:layout_height="fill_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_below="@+id/title" />
+    <TextView
+        android:id="@+id/empty_info"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <ProgressBar
-            android:id="@+id/progress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
-        <com.floyd.diamond.bean.SwipeRefreshLayout
-            android:id="@+id/swip"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:scrollbars="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="5dp"/>
-        </com.floyd.diamond.bean.SwipeRefreshLayout>
-    </RelativeLayout>
+        android:layout_height="50dp"
+        android:layout_below="@+id/status_layout"
+        android:background="@color/white"
+        android:gravity="center"
+        android:text="暂无数据"
+        android:visibility="gone" />
+
+    <include layout="@layout/diamod_data_loading" />
 
 </com.zhy.android.percent.support.PercentLinearLayout>
