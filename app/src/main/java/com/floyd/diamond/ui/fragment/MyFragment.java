@@ -90,7 +90,8 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
 
     private LoginVO loginVO;
 
-    private View authView;
+    private View authLayout;
+    private TextView authStatusView;
 
     private String tempImage = "image_temp";
     private String tempImageCompress = "image_tmp";
@@ -125,15 +126,16 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         pictrueView = (TextView) view.findViewById(R.id.pictrue);
         volleyView = (TextView) view.findViewById(R.id.volley);
         setView = (TextView) view.findViewById(R.id.set);
-        authView = view.findViewById(R.id.auth_view);
-        authView.setVisibility(View.GONE);
+        authLayout = view.findViewById(R.id.auth_view);
+        authStatusView = (TextView) view.findViewById(R.id.auth_status_view);
+        authLayout.setVisibility(View.GONE);
 
         careView.setOnClickListener(this);
         taskView.setOnClickListener(this);
         pictrueView.setOnClickListener(this);
         volleyView.setOnClickListener(this);
         setView.setOnClickListener(this);
-        authView.setOnClickListener(this);
+        authLayout.setOnClickListener(this);
 
 
         headView = (NetworkImageView) view.findViewById(R.id.mine_touxiang);
@@ -251,9 +253,16 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     }
 
                     if (userExtVO.authenStatus == 0) {
-                        authView.setVisibility(View.VISIBLE);
-                    } else {
-                        authView.setVisibility(View.GONE);
+                        authLayout.setVisibility(View.VISIBLE);
+                        authStatusView.setText("审核中");
+                    }else if (userExtVO.authenStatus == 1) {
+                        authLayout.setVisibility(View.VISIBLE);
+                        authStatusView.setText("未认证");
+                    } else if (userExtVO.authenStatus == 2) {
+                        authLayout.setVisibility(View.GONE);
+                    } else if (userExtVO.authenStatus == 3){
+                        authLayout.setVisibility(View.VISIBLE);
+                        authStatusView.setText("未通过");
                     }
                     shopView.setText(userExtVO.orderNum + "");
                     qiangView.setText(userExtVO.goodeEvalRate + "%");

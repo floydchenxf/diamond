@@ -7,53 +7,33 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.GlobalParams;
-import com.floyd.diamond.bean.ModelInfo;
-import com.floyd.diamond.bean.SpacesItemDecoration;
-import com.floyd.diamond.bean.SwipeRefreshLayout;
-import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.MoteTypeTaskVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
-import com.floyd.diamond.ui.adapter.CareAdapter;
 import com.floyd.diamond.ui.adapter.CareAdapter1;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
-import com.floyd.diamond.utils.CommonUtil;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2015/12/19.
@@ -61,7 +41,6 @@ import java.util.Map;
 public class CareActivity extends Activity implements View.OnClickListener {
     private LinearLayout back;//返回按钮
     private LinearLayout find;//查找模特
-    private RequestQueue queue;
     private List<Care.DataEntity.DataListEntity> modelsList;
     private List<Care.DataEntity.DataListEntity> allModel;//大集合
     private int pageNo = 1;//当前页数
@@ -151,6 +130,7 @@ public class CareActivity extends Activity implements View.OnClickListener {
 //        //设置adapter
         adapter = new CareAdapter1(this, mImageLoader, deleteModel);
         mListView.setAdapter(adapter);
+        handler.sendEmptyMessage(0);
 
     }
 
@@ -192,10 +172,9 @@ public class CareActivity extends Activity implements View.OnClickListener {
         edit.setBackgroundColor(Color.parseColor("#d4377e"));
         edit.setText("编辑");
         edit.setTextColor(Color.WHITE);
-        edit.setTextSize(10);
+        edit.setTextSize(14);
         back = ((LinearLayout) findViewById(R.id.left));
         find = ((LinearLayout) findViewById(R.id.right));
-        queue = Volley.newRequestQueue(CareActivity.this);
         modelsList = new ArrayList<>();//用于存放每一页的模特
         allModel = new ArrayList<>();//用于存储所有的模特
         deleteModel = new ArrayList<>();//取消关注的模特
