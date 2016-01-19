@@ -32,6 +32,7 @@ import com.floyd.diamond.biz.tools.DataBaseUtils;
 import com.floyd.diamond.biz.tools.FileTools;
 import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.event.AuthStatusEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
@@ -42,6 +43,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
+import de.greenrobot.event.EventBus;
 
 public class MoteCardActivity extends Activity implements View.OnClickListener {
 
@@ -196,6 +199,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
                         if (!MoteCardActivity.this.isFinishing()) {
                             dataLoadingDialog.dismiss();
                             LoginManager.saveLoginInfo(MoteCardActivity.this, loginVO);
+                            EventBus.getDefault().post(new AuthStatusEvent());
                             UIAlertDialog.Builder builder = new UIAlertDialog.Builder(MoteCardActivity.this);
                             builder.setMessage("提交成功，等待审核!")
                                     .setCancelable(true)

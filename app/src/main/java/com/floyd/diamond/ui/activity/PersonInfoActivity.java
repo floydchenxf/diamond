@@ -38,6 +38,7 @@ import com.floyd.diamond.biz.tools.ThumbnailUtils;
 import com.floyd.diamond.biz.vo.AreaDetailVO;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.mote.UserVO;
+import com.floyd.diamond.event.AuthStatusEvent;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.graphic.CropImageActivity;
@@ -55,6 +56,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.UUID;
+
+import de.greenrobot.event.EventBus;
+import de.greenrobot.event.Subscribe;
 
 /**
  * Created by Administrator on 2015/11/28.
@@ -142,6 +146,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personinfo);
+        EventBus.getDefault().register(this);
         if (!LoginManager.isLogin(this)) {
             Toast.makeText(this, "未登录用户", Toast.LENGTH_SHORT).show();
             this.finish();
@@ -269,6 +274,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         heightTypeLayout = findViewById(R.id.height_type_layout);
         goodsAddressLayout = findViewById(R.id.goods_address_layout);
         authLayout = findViewById(R.id.auth_layout);
+        authLayout.setOnClickListener(this);
 
         nicknameView = (EditText) findViewById(R.id.nickname_view);
         genderView = (TextView) findViewById(R.id.gender_view);
@@ -280,7 +286,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         alipayView = (EditText) findViewById(R.id.alipay_view);
         weixinView = (EditText) findViewById(R.id.weixin_view);
         authView = (TextView) findViewById(R.id.auth_view);
-        authView.setOnClickListener(this);
+//        authView.setOnClickListener(this);
         hiddenJiantou();
         removeClickListener();
 
@@ -540,6 +546,11 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 startActivityForResult(addressIntent, CODE_ADDRESS_REQUEST);
                 break;
             case R.id.auth_layout:
+                if (isEditorMode) {
+                    Intent authIntent = new Intent(this, MoteAuthActivity.class);
+                    authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(authIntent);
+                }
                 break;
             case R.id.edit_head:
                 String status = Environment.getExternalStorageState();
@@ -624,11 +635,6 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
             case R.id.alipay_view:
                 alipayView.requestFocus();
                 imm.showSoftInput(alipayView, 0);
-                break;
-            case R.id.auth_view:
-                Intent authIntent = new Intent(this, MoteAuthActivity.class);
-                authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(authIntent);
                 break;
             case R.id.act_lsloading:
                 loadData(true);
@@ -732,8 +738,44 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         }
     }
 
+    @Subscribe
+    public void onEventMainThread(AuthStatusEvent event) {
+        if (!this.isFinishing()) {
+            Log.i(TAG, "do process auth event");
+            MoteManager.getUserInfo(loginVO.token).startUI(new ApiCallback<UserVO>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(PersonInfoActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onSuccess(UserVO userVO) {
+                    if (userVO.authenStatus == 0) {
+                        authView.setText("审核中");
+                        authView.setTextColor(Color.RED);
+                    } else if (userVO.authenStatus == 1) {
+                        authView.setText("未认证");
+                        authView.setTextColor(Color.RED);
+                    } else if (userVO.authenStatus == 2) {
+                        authView.setTextColor(Color.parseColor("#666666"));
+                        authView.setText("已认证");
+                    } else if (userVO.authenStatus == 3) {
+                        authView.setText("未通过");
+                        authView.setTextColor(Color.RED);
+                    }
+                }
+
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
+        }
+    }
+
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
         ywPopupWindow = null;
         genderPopupWindow = null;
         heightTypePopupWindow = null;
