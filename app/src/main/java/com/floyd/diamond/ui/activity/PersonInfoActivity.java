@@ -381,6 +381,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                     }
                 });
                 ArrayList<String> oneList = new ArrayList<String>();
+                oneList.add("0");
                 oneList.add("1");
                 oneList.add("2");
                 oneLoopView.setArrayList(oneList);
@@ -394,7 +395,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 v.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        heightView.setText(((one + 1) * 100 + two * 10 + three) + "");
+                        heightView.setText((one * 100 + two * 10 + three) + "");
                         if (!PersonInfoActivity.this.isFinishing()) {
                             heightPopupWindow.hidePopUpWindow();
                         }

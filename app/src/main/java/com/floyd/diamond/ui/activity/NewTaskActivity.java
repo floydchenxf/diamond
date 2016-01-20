@@ -223,7 +223,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                         UIAlertDialog.Builder builder = new UIAlertDialog.Builder(NewTaskActivity.this);
                         builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
                                 .setCancelable(true)
-                                .setPositiveButton(R.string.confirm,
+                                .setPositiveButton(R.string.confirm_order,
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog,
                                                                 int id) {

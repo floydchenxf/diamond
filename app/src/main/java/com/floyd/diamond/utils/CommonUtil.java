@@ -120,6 +120,10 @@ public class CommonUtil {
         return url.concat(type);
     }
 
+    public static String getImage_w1(String url) {
+        return getImageType(url, "!w1");
+    }
+
     /**
      * 获取图片100X100
      * @param url
