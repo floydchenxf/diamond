@@ -532,13 +532,24 @@ public class RangeSeekBar <T extends Number> extends ImageView {
         Bitmap buttonToDraw;
         if (areSelectedValuesDefault) {
             buttonToDraw = thumbDisabledImage;
+            canvas.drawBitmap(buttonToDraw, screenCoord - thumbHalfWidth+25,
+                    mTextOffset+25,
+                    paint);
         } else {
             buttonToDraw = pressed ? thumbPressedImage : thumbImage;
+            if (pressed){
+                canvas.drawBitmap(buttonToDraw, screenCoord - thumbHalfWidth+25,
+                        mTextOffset+25,
+                        paint);
+            }else{
+                canvas.drawBitmap(buttonToDraw, screenCoord - thumbHalfWidth,
+                        mTextOffset,
+                        paint);
+            }
+
         }
 
-        canvas.drawBitmap(buttonToDraw, screenCoord - thumbHalfWidth,
-                mTextOffset,
-                paint);
+
     }
 
     /**

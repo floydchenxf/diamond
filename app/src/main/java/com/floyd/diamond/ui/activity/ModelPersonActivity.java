@@ -139,6 +139,7 @@ public class ModelPersonActivity extends Activity {
 
         String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
 
+        final String token = loginVO == null?"":loginVO.token;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -182,18 +183,18 @@ public class ModelPersonActivity extends Activity {
                     careCount.setChecked(false);
                    // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
                 }
-                String imageUrl = moteDetail.getData().getAvartUrl();
+                String imageUrl = moteDetail.getData().getAvartUrl()+"!v400";
 //                MyImageLoader loader=new MyImageLoader(queue,imageUrl,headView,ModelPersonActivity.this);
 //                MyImageLoader loader1=new MyImageLoader(queue,imageUrl,headView_bg,ModelPersonActivity.this);
                 if (!TextUtils.isEmpty(imageUrl)) {
-                    headView.setDefaultImageResId(R.drawable.head);
+//                    headView.setDefaultImageResId(R.drawable.head);
                     headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
                             return ImageUtils.getCircleBitmap(bitmap, ModelPersonActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    headView_bg.setDefaultImageResId(R.drawable.head);
+//                    headView_bg.setDefaultImageResId(R.drawable.head);
                     headView_bg.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
@@ -217,9 +218,7 @@ public class ModelPersonActivity extends Activity {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
                 params.put("id", moteId + "");
-                if (vo!=null){
-                    params.put("token",loginVO.token);
-                }
+                params.put("token",token);
                 return params;
             }
         };

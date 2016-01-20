@@ -125,7 +125,7 @@ public class GuideActivity extends Activity implements View.OnClickListener {
                 Intent regIntent = new Intent(this, H5Activity.class);
                 H5Activity.H5Data regData = new H5Activity.H5Data();
                 regData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-                regData.data = SELLER_GUIDE_URL;
+                regData.data = REG_URL;
                 regData.showProcess = true;
                 regData.showNav = true;
                 regData.title = "注册协议";

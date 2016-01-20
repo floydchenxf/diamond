@@ -360,14 +360,14 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                 String imageUrl = vo.getAvartUrl();
                 if (!TextUtils.isEmpty(imageUrl)) {
-                    headView.setDefaultImageResId(R.drawable.head);
+//                    headView.setDefaultImageResId(R.drawable.head);
                     headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
                             return ImageUtils.getCircleBitmap(bitmap, MoteDetailActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-                    headBgView.setDefaultImageResId(R.drawable.head);
+//                    headBgView.setDefaultImageResId(R.drawable.head);
                     headBgView.setImageUrl(vo.getAvartUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
