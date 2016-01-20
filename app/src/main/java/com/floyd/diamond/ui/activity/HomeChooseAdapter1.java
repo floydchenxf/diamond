@@ -110,26 +110,23 @@ public class HomeChooseAdapter1 extends BaseAdapter {
         holder.moteImage2.setDefaultImageResId(R.drawable.tupian);
 
         MoteTypeTaskVO vo = getItem(position);
-        final ModelInfo.DataEntity dataEntity_1 = vo.moteItemVO1;
-        final ModelInfo.DataEntity dataEntity_2 = vo.moteItemVO2;
-        holder.item_1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(v,dataEntity_1);
-            }
-        });
-        holder.item_2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                itemClickListener.onItemClick(v,dataEntity_2);
-            }
-        });
-        if (dataEntity_1!=null){
-            if (!dataEntity_1.isIsFollow()){
+
+        if (vo.moteItemVO1!=null){
+            holder.item_1.setVisibility(View.VISIBLE);
+            if (!vo.moteItemVO1.isIsFollow()){
                 holder.likecount1.setChecked(false);
+            } else {
+                holder.likecount1.setChecked(true);
             }
-            holder.likecount1.setText(dataEntity_1.getFollowNum() + "");
-            holder.likecount1.setTag("cb" + dataEntity_1.getId());
+            holder.likecount1.setText(vo.moteItemVO1.getFollowNum() + "");
+            holder.likecount1.setTag("cb" + vo.moteItemVO1.getId());
+            final ModelInfo.DataEntity dataEntity_1 = vo.moteItemVO1;
+            holder.item_1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onItemClick(v,dataEntity_1);
+                }
+            });
             holder.likecount1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -139,29 +136,26 @@ public class HomeChooseAdapter1 extends BaseAdapter {
                     }
                 }
             });
-            if (dataEntity_1.isIsFollow()) {
-                holder.likecount1.setChecked(true);
-            }
 
-            holder.name1.setText(dataEntity_1.getNickname());
-            holder.address1.setText(dataEntity_1.getArea() + "");
-            String imgUrl = dataEntity_1.getPreviewUrl();
+            holder.name1.setText(vo.moteItemVO1.getNickname());
+            holder.address1.setText(vo.moteItemVO1.getArea() + "");
+            String imgUrl = vo.moteItemVO1.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }
-            if (imgUrl != null) {
-                holder.moteImage1.setImageUrl(imgUrl, mImageLoader);
-            }
+            holder.moteImage1.setImageUrl(imgUrl, mImageLoader);
         }else{
             holder.item_1.setVisibility(View.INVISIBLE);
         }
 
-        if (dataEntity_2!=null){
-            if (!dataEntity_2.isIsFollow()){
+        if (vo.moteItemVO2!=null){
+            holder.item_2.setVisibility(View.VISIBLE);
+            if (!vo.moteItemVO2.isIsFollow()){
                 holder.likecount2.setChecked(false);
             }
-            holder.likecount2.setText(dataEntity_2.getFollowNum() + "");
-            holder.likecount2.setTag("cb" + dataEntity_2.getId());
+            holder.likecount2.setText(vo.moteItemVO2.getFollowNum() + "");
+            holder.likecount2.setTag("cb" + vo.moteItemVO2.getId());
+            final ModelInfo.DataEntity dataEntity_2 = vo.moteItemVO2;
             holder.likecount2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -171,19 +165,23 @@ public class HomeChooseAdapter1 extends BaseAdapter {
                     }
                 }
             });
-            if (dataEntity_2.isIsFollow()) {
+            holder.item_2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    itemClickListener.onItemClick(v, dataEntity_2);
+                }
+            });
+            if (vo.moteItemVO2.isIsFollow()) {
                 holder.likecount2.setChecked(true);
             }
 
-            holder.name2.setText(dataEntity_2.getNickname());
-            holder.address2.setText(dataEntity_2.getArea() + "");
-            String imgUrl = dataEntity_2.getPreviewUrl();
+            holder.name2.setText(vo.moteItemVO2.getNickname());
+            holder.address2.setText(vo.moteItemVO2.getArea() + "");
+            String imgUrl = vo.moteItemVO2.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }
-            if (imgUrl != null) {
-                holder.moteImage2.setImageUrl(imgUrl, mImageLoader);
-            }
+            holder.moteImage2.setImageUrl(imgUrl, mImageLoader);
         }else{
             holder.item_2.setVisibility(View.INVISIBLE);
         }

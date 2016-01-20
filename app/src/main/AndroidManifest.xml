@@ -58,7 +58,9 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name=".ui.activity.HomeChooseActivity1"/>
+        <activity android:name=".ui.activity.HomeChooseActivity1"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.activity.MainActivity"
@@ -130,8 +132,7 @@
         <!-- ###################添加UmengAppkey###################### -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="567f6cb567e58e65bf000cad" />
-
+            android:value="567f6cb567e58e65bf000cad"></meta-data>
 
         <!-- ###################注册SDK使用的Activity###################### -->
         <activity
@@ -157,7 +158,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.floyd.diamond.ui.wxapi.WXEntryActivity"
+            android:name=".ui.wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="true"
             android:screenOrientation="portrait"
@@ -358,6 +359,9 @@
             </intent-filter>
         </service>
 
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Umeng"></meta-data>
         <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_ID"

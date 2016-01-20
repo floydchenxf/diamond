@@ -138,10 +138,11 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         share = ((LinearLayout) findViewById(R.id.share));
         jingyanzhi = ((TextView) findViewById(R.id.jinyan));
         manyidu = ((TextView) findViewById(R.id.agree));
+        configPlatform();
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                configPlatform();
+                mShare.openShare(MoteDetailActivity.this, false);//系统默认的
             }
         });
         mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -233,19 +234,11 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         // 添加QQ平台
         addQQZonePlatform();
 
-
         // 设置分享面板上的分享平台
         mShare.getConfig().setPlatforms(SHARE_MEDIA.WEIXIN,
                 SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
                 SHARE_MEDIA.SINA, SHARE_MEDIA.TENCENT
         );
-
-
-        // 打开分享面板
-         mShare.openShare(this, false);//系统默认的
-//        startActivity(new Intent(MoteDetailActivity.this, DialogActivity.class));
-
-
     }
 
     // 添加QQ平台支持 QQ分享的内容， 包含四种类型， 即单纯的文字、图片、音乐、视频. 参数说明 : title, summary,
@@ -275,6 +268,9 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         String appId = "wx6f4a5ebb3d2cd11e";
         String appSecret = "64710023bac7d1b314c1b3ed3db5949d";
 
+        UMWXHandler wxHandler = new UMWXHandler(MoteDetailActivity.this, appId, appSecret);
+        wxHandler.addToSocialSDK();
+
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();
         //设置分享文字
@@ -287,9 +283,6 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         weixinContent.setShareImage(new UMImage(MoteDetailActivity.this,"http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
         mShare.setShareMedia(weixinContent);
         // 添加微信平台
-        UMWXHandler wxHandler = new UMWXHandler(MoteDetailActivity.this, appId,
-                appSecret);
-        wxHandler.addToSocialSDK();
 
         //设置微信朋友圈分享内容
         CircleShareContent circleMedia = new CircleShareContent();

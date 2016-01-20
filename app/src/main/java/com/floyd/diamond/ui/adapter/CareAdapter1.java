@@ -124,9 +124,7 @@ public class CareAdapter1 extends BaseAdapter {
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }
-            if (imgUrl != null) {
-                holder.moteImage1.setImageUrl(imgUrl, mImageLoader);
-            }
+            holder.moteImage1.setImageUrl(imgUrl, mImageLoader);
         } else {
             holder.item_1.setVisibility(View.INVISIBLE);
         }
@@ -151,9 +149,7 @@ public class CareAdapter1 extends BaseAdapter {
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
             }
-            if (imgUrl != null) {
-                holder.moteImage2.setImageUrl(imgUrl, mImageLoader);
-            }
+            holder.moteImage2.setImageUrl(imgUrl, mImageLoader);
         } else {
             holder.item_2.setVisibility(View.INVISIBLE);
         }
