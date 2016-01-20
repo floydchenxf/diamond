@@ -242,8 +242,8 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                                 goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
                                 goodsData.data = url;
                                 goodsData.showProcess = true;
-                                goodsData.showNav = false;
-                                goodsData.title = "商品";
+                                goodsData.showNav = true;
+                                goodsData.title = "商品详情";
                                 goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
                                 startActivity(goodsItemIntent);
                                 dialog.dismiss();

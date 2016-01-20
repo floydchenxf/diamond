@@ -48,7 +48,6 @@ import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
 import com.floyd.diamond.ui.pageindicator.CircleLoopPageIndicator;
-import com.floyd.diamond.ui.pageindicator.CustomViewPager;
 import com.floyd.diamond.ui.view.LoopViewPager;
 import com.floyd.diamond.utils.CommonUtil;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
@@ -140,7 +139,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     private NetworkImageView femaleProduct, maleProduct, babyProduct, multiPriduct;
 
-    private TextView shuaixuan;//筛选模特
+    private View shuaixuan;//筛选模特
     private LinearLayout guide;//操作指引
 
     private ImageLoader mImageLoader;
@@ -391,7 +390,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
     public void init(View view) {
         guide = ((LinearLayout) view.findViewById(R.id.guide));
-        shuaixuan = ((TextView) view.findViewById(R.id.right));
+        shuaixuan =  view.findViewById(R.id.right_layout);
         //跳转到操作指引界面
         guide.setOnClickListener(new View.OnClickListener() {
             @Override
