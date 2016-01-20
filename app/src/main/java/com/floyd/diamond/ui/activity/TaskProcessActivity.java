@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +80,8 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private ImageLoader mImageLoader;
 
     private Long moteTaskId;
+
+    private TextView jiantou;
 
     private Handler mHandler = new Handler();
 
@@ -261,6 +264,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             editConfirmOrderNoLayout.setVisibility(View.VISIBLE);
             confirmOrderNoTextView.setVisibility(View.GONE);
             confirmButton.setText("确认");
+            confirmButton.setBackgroundColor(Color.parseColor("#d4377e"));
             mHandler.post(timer);
         } else if (status == 2) {
             long orderNoTime = taskProcessVO.moteTask.orderNoTime;
@@ -271,6 +275,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             confirmTimeView.setText(dateStr);
             confirmOrderNoEditView.setText(orderNo);
             confirmButton.setText("修改");
+            confirmButton.setBackgroundColor(Color.parseColor("#d4377e"));
         } else {
             long orderNoTime = taskProcessVO.moteTask.orderNoTime;
             String dateStr = DateUtil.getDateStr(orderNoTime);
@@ -281,6 +286,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             confirmTimeView.setText(dateStr);
             confirmOrderNoTextView.setText(orderNo);
             confirmButton.setText("确认");
+            confirmButton.setBackgroundColor(Color.parseColor("#d4377e"));
         }
 
     }
@@ -305,7 +311,9 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         taskInfoSummaryView = (TextView) findViewById(R.id.task_info_summary);
         taskInfoDetailLayout = findViewById(R.id.task_info_detail_layout);
         taskInfoSummaryView.setVisibility(View.VISIBLE);
-        taskInfoDetailLayout.setVisibility(View.GONE);
+        taskInfoDetailLayout.setVisibility(View.VISIBLE);
+        jiantou= ((TextView) findViewById(R.id.jiantou_hide));
+        jiantou.setVisibility(View.INVISIBLE);
         taskImageView = (NetworkImageView) findViewById(R.id.task_image);
         taskImageView.setDefaultImageResId(R.drawable.tupian);
         priceView = (TextView) findViewById(R.id.goods_price);
@@ -365,6 +373,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 taskInfoSummaryView.setCompoundDrawables(null, null, down, null);
                 taskInfoDetailLayout.setVisibility(View.GONE);
                 acceptStatusLayout.setVisibility(View.VISIBLE);
+                jiantou.setVisibility(View.INVISIBLE);
                 break;
             case R.id.task_info_summary:
                 taskInfoSummaryView.setCompoundDrawables(null, null, null, null);

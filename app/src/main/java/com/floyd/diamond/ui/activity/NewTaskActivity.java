@@ -229,7 +229,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                                                                 int id) {
                                                 dialog.dismiss();
                                             }
-                                        }).setNegativeButton("打开链接", new DialogInterface.OnClickListener() {
+                                        }).setNegativeButton("商品链接", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 String url = taskItemVO.url;
