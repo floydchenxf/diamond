@@ -221,36 +221,39 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                         newTaskButton.setTextColor(Color.parseColor("#666666"));
                         newTaskButton.setEnabled(false);
                         UIAlertDialog.Builder builder = new UIAlertDialog.Builder(NewTaskActivity.this);
-                        builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
-                                .setCancelable(true)
-                                .setPositiveButton(R.string.confirm,
-                                        new DialogInterface.OnClickListener() {
-                                            public void onClick(DialogInterface dialog,
-                                                                int id) {
-                                                dialog.dismiss();
-                                            }
-                                        }).setNegativeButton("商品链接", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                String url = taskItemVO.url;
-                                if (TextUtils.isEmpty(url)) {
-                                    Toast.makeText(NewTaskActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                                Intent goodsItemIntent = new Intent(NewTaskActivity.this, H5Activity.class);
-                                H5Activity.H5Data goodsData = new H5Activity.H5Data();
-                                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-                                goodsData.data = url;
-                                goodsData.showProcess = true;
-                                goodsData.showNav = false;
-                                goodsData.title = "商品";
-                                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
-                                startActivity(goodsItemIntent);
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog dialog = builder.create();
-                        dialog.show();
+//                        builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
+//                                .setCancelable(true)
+//                                .setPositiveButton("继续抢单",
+//                                        new DialogInterface.OnClickListener() {
+//                                            public void onClick(DialogInterface dialog,
+//                                                                int id) {
+//                                                dialog.dismiss();
+//                                            }
+//                                        }).setNegativeButton("商品链接", new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                String url = taskItemVO.url;
+//                                if (TextUtils.isEmpty(url)) {
+//                                    Toast.makeText(NewTaskActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
+//                                    return;
+//                                }
+//                                Intent goodsItemIntent = new Intent(NewTaskActivity.this, H5Activity.class);
+//                                H5Activity.H5Data goodsData = new H5Activity.H5Data();
+//                                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+//                                goodsData.data = url;
+//                                goodsData.showProcess = true;
+//                                goodsData.showNav = false;
+//                                goodsData.title = "商品";
+//                                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
+//                                startActivity(goodsItemIntent);
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                        AlertDialog dialog = builder.create();
+//                        dialog.show();
+                        Intent intent=new Intent(NewTaskActivity.this,OrderActivity.class);
+                        intent.putExtra("url",taskItemVO.url);
+                        startActivity(intent);
                     }
 
                     @Override

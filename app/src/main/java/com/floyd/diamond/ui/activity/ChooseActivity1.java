@@ -44,8 +44,9 @@ public class ChooseActivity1 extends Activity {
     private ImageView moreProvince, jiantou_up;
     private LinearLayout changeProvince;
     private CheckBox allChoose, beijing, shanghai, tianjin, chongqing, jiangsu, zhejiang, liaoning, heilongjiang, jilin, shandong, anhui, hebei, henan, hubei,
-            hunan, jiangxi, shanxi3, shanxi1, sichuan, qinghai, hainan, guangdong, guizhou, fujian, taiwan, gansu, yunnan, neimenggu, ningxia, xinjiang, xizang,
-            guangxi, xianggang, aomen, gugan, biaozhi, fengman;
+            hunan, jiangxi, shanxi3, shanxi1, sichuan, qinghai, hainan, guangdong, guizhou, fujian, gansu, yunnan, neimenggu, ningxia, xinjiang, xizang,
+            guangxi, gugan, biaozhi, fengman;
+    private int[]areas={110000,120000,130000,140000,150000,210000,220000,230000,310000,320000,330000,340000,350000,360000,370000,410000,420000,430000,440000,450000,460000,500000,510000,520000,530000,540000,610000,620000,630000,640000,650000};
     private boolean isScreen;
     private RadioButton boy, girl;
     private List<String> shapesList;
@@ -293,6 +294,9 @@ public class ChooseActivity1 extends Activity {
                         if (areaLists[i].equals(650000 + "")) {
                             xinjiang.setChecked(true);
                         }
+                        if (areaLists.length==31){
+                            allChoose.setChecked(true);
+                        }
 
                     }
                 }
@@ -324,9 +328,9 @@ public class ChooseActivity1 extends Activity {
     public void initView() {
         vo = LoginManager.getLoginInfo(this);
 
-        seekBar_age= ((RangeSeekBar) findViewById(R.id.seekBar_age));
-        seekBar_height= ((RangeSeekBar) findViewById(R.id.seekBar_height));
-        seekBar_credit= ((RangeSeekBar) findViewById(R.id.seekBar_credit));
+        seekBar_age = ((RangeSeekBar) findViewById(R.id.seekBar_age));
+        seekBar_height = ((RangeSeekBar) findViewById(R.id.seekBar_height));
+        seekBar_credit = ((RangeSeekBar) findViewById(R.id.seekBar_credit));
 
         dlEntity = new DLCondition.DataEntity();
         shapes = new ArrayList<>();
@@ -367,7 +371,6 @@ public class ChooseActivity1 extends Activity {
         guangdong = ((CheckBox) findViewById(R.id.guangdong));
         guizhou = ((CheckBox) findViewById(R.id.guizhou));
         fujian = ((CheckBox) findViewById(R.id.fujian));
-        taiwan = ((CheckBox) findViewById(R.id.taiwan));
         gansu = ((CheckBox) findViewById(R.id.gansu));
         yunnan = ((CheckBox) findViewById(R.id.yunnan));
         neimenggu = ((CheckBox) findViewById(R.id.neimenggu));
@@ -375,8 +378,6 @@ public class ChooseActivity1 extends Activity {
         xinjiang = ((CheckBox) findViewById(R.id.xinjiang));
         xizang = ((CheckBox) findViewById(R.id.xizang));
         guangxi = ((CheckBox) findViewById(R.id.guangxi));
-        xianggang = ((CheckBox) findViewById(R.id.xianggang));
-        aomen = ((CheckBox) findViewById(R.id.aomen));
         gugan = ((CheckBox) findViewById(R.id.gugan));
         biaozhi = ((CheckBox) findViewById(R.id.biaozhi));
         fengman = ((CheckBox) findViewById(R.id.fengman));
@@ -410,84 +411,6 @@ public class ChooseActivity1 extends Activity {
         if (GlobalParams.isDebug) {
             Log.e("allChoose", allChoose.isChecked() + "");
         }
-
-        allChoose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (allChoose.isChecked()) {
-                    beijing.setChecked(true);
-                    shanghai.setChecked(true);
-                    tianjin.setChecked(true);
-                    chongqing.setChecked(true);
-                    jiangsu.setChecked(true);
-                    zhejiang.setChecked(true);
-                    liaoning.setChecked(true);
-                    heilongjiang.setChecked(true);
-                    jilin.setChecked(true);
-                    shandong.setChecked(true);
-                    anhui.setChecked(true);
-                    hebei.setChecked(true);
-                    henan.setChecked(true);
-                    hubei.setChecked(true);
-                    hunan.setChecked(true);
-                    jiangxi.setChecked(true);
-                    shanxi3.setChecked(true);
-                    shanxi1.setChecked(true);
-                    sichuan.setChecked(true);
-                    qinghai.setChecked(true);
-                    hainan.setChecked(true);
-                    guangdong.setChecked(true);
-                    guizhou.setChecked(true);
-                    fujian.setChecked(true);
-                    taiwan.setChecked(true);
-                    gansu.setChecked(true);
-                    yunnan.setChecked(true);
-                    neimenggu.setChecked(true);
-                    ningxia.setChecked(true);
-                    xinjiang.setChecked(true);
-                    xizang.setChecked(true);
-                    guangxi.setChecked(true);
-                    xianggang.setChecked(true);
-                    aomen.setChecked(true);
-                } else {
-                    beijing.setChecked(false);
-                    shanghai.setChecked(false);
-                    tianjin.setChecked(false);
-                    chongqing.setChecked(false);
-                    jiangsu.setChecked(false);
-                    zhejiang.setChecked(false);
-                    liaoning.setChecked(false);
-                    heilongjiang.setChecked(false);
-                    jilin.setChecked(false);
-                    shandong.setChecked(false);
-                    anhui.setChecked(false);
-                    hebei.setChecked(false);
-                    henan.setChecked(false);
-                    hubei.setChecked(false);
-                    hunan.setChecked(false);
-                    jiangxi.setChecked(false);
-                    shanxi3.setChecked(false);
-                    shanxi1.setChecked(false);
-                    sichuan.setChecked(false);
-                    qinghai.setChecked(false);
-                    hainan.setChecked(false);
-                    guangdong.setChecked(false);
-                    guizhou.setChecked(false);
-                    fujian.setChecked(false);
-                    taiwan.setChecked(false);
-                    gansu.setChecked(false);
-                    yunnan.setChecked(false);
-                    neimenggu.setChecked(false);
-                    ningxia.setChecked(false);
-                    xinjiang.setChecked(false);
-                    xizang.setChecked(false);
-                    guangxi.setChecked(false);
-                    xianggang.setChecked(false);
-                    aomen.setChecked(false);
-                }
-
-            }
-        });
 
     }
 
@@ -552,7 +475,7 @@ public class ChooseActivity1 extends Activity {
 
     //点击改变筛选条件
     public void clickCondition() {
-          //年龄刻度尺
+        //年龄刻度尺
         seekBar_age.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
@@ -560,7 +483,7 @@ public class ChooseActivity1 extends Activity {
                 dlEntity.setAgeMax((int) maxValue);
             }
         });
-         // 身高刻度尺
+        // 身高刻度尺
         seekBar_height.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
@@ -573,8 +496,8 @@ public class ChooseActivity1 extends Activity {
         seekBar_credit.setOnRangeSeekBarChangeListener(new RangeSeekBar.OnRangeSeekBarChangeListener() {
             @Override
             public void onRangeSeekBarValuesChanged(RangeSeekBar bar, Object minValue, Object maxValue) {
-                dlEntity.setCreditMin((int)minValue);
-                dlEntity.setCreditMax((int)maxValue);
+                dlEntity.setCreditMin((int) minValue);
+                dlEntity.setCreditMax((int) maxValue);
             }
         });
         boy.setOnClickListener(new View.OnClickListener() {
@@ -998,19 +921,6 @@ public class ChooseActivity1 extends Activity {
             }
         });
 
-        taiwan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (taiwan.isChecked()) {
-                    areaids.add(taiwan.getTag() + "");
-                } else {
-                    areaids.remove(taiwan.getTag() + "");
-                }
-
-                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
-            }
-        });
 
         gansu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1109,33 +1019,87 @@ public class ChooseActivity1 extends Activity {
             }
         });
 
-        xianggang.setOnClickListener(new View.OnClickListener() {
+        allChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if (xianggang.isChecked()) {
-                    areaids.add(xianggang.getTag() + "");
+                if (allChoose.isChecked()) {
+                    beijing.setChecked(true);
+                    shanghai.setChecked(true);
+                    tianjin.setChecked(true);
+                    chongqing.setChecked(true);
+                    jiangsu.setChecked(true);
+                    zhejiang.setChecked(true);
+                    liaoning.setChecked(true);
+                    heilongjiang.setChecked(true);
+                    jilin.setChecked(true);
+                    shandong.setChecked(true);
+                    anhui.setChecked(true);
+                    hebei.setChecked(true);
+                    henan.setChecked(true);
+                    hubei.setChecked(true);
+                    hunan.setChecked(true);
+                    jiangxi.setChecked(true);
+                    shanxi3.setChecked(true);
+                    shanxi1.setChecked(true);
+                    sichuan.setChecked(true);
+                    qinghai.setChecked(true);
+                    hainan.setChecked(true);
+                    guangdong.setChecked(true);
+                    guizhou.setChecked(true);
+                    fujian.setChecked(true);
+                    gansu.setChecked(true);
+                    yunnan.setChecked(true);
+                    neimenggu.setChecked(true);
+                    ningxia.setChecked(true);
+                    xinjiang.setChecked(true);
+                    xizang.setChecked(true);
+                    guangxi.setChecked(true);
+                    areaids.clear();
+                    for (int i=0;i<areas.length;i++){
+                        areaids.add(areas[i]+"");
+                    }
+                    dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
                 } else {
-                    areaids.remove(xianggang.getTag() + "");
+                    beijing.setChecked(false);
+                    shanghai.setChecked(false);
+                    tianjin.setChecked(false);
+                    chongqing.setChecked(false);
+                    jiangsu.setChecked(false);
+                    zhejiang.setChecked(false);
+                    liaoning.setChecked(false);
+                    heilongjiang.setChecked(false);
+                    jilin.setChecked(false);
+                    shandong.setChecked(false);
+                    anhui.setChecked(false);
+                    hebei.setChecked(false);
+                    henan.setChecked(false);
+                    hubei.setChecked(false);
+                    hunan.setChecked(false);
+                    jiangxi.setChecked(false);
+                    shanxi3.setChecked(false);
+                    shanxi1.setChecked(false);
+                    sichuan.setChecked(false);
+                    qinghai.setChecked(false);
+                    hainan.setChecked(false);
+                    guangdong.setChecked(false);
+                    guizhou.setChecked(false);
+                    fujian.setChecked(false);
+                    gansu.setChecked(false);
+                    yunnan.setChecked(false);
+                    neimenggu.setChecked(false);
+                    ningxia.setChecked(false);
+                    xinjiang.setChecked(false);
+                    xizang.setChecked(false);
+                    guangxi.setChecked(false);
+                    for (int i=0;i<areas.length;i++){
+                        areaids.remove(areas[i]+"");
+                    }
+                    dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
                 }
 
-                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
             }
         });
 
-        aomen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (aomen.isChecked()) {
-                    areaids.add(aomen.getTag() + "");
-                } else {
-                    areaids.remove(aomen.getTag() + "");
-                }
-
-                dlEntity.setAreaids(areaids.toString().substring(1, areaids.toString().length() - 1).replace(" ", ""));
-            }
-        });
 
     }
 

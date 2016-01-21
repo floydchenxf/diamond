@@ -115,7 +115,7 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
             StringBuilder sb = new StringBuilder();
             String expressCompanyName = taskItemVO.expressCompanyName;
             if (TextUtils.isEmpty(expressCompanyName)) {
-                sb.append("运单编号：");
+                sb.append("快递编号：");
             } else {
                 sb.append(expressCompanyName+"：");
             }

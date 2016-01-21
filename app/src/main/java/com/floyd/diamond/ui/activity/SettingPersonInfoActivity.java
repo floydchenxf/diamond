@@ -297,10 +297,11 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     // 设置分享内容的方法
     private void setShareContent() {
         // 分享字符串
-        mShare.setShareContent("来自“全民模特”的分享");
+        mShare.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+                "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         // 设置分享图片, 参数2为图片的url地址
         mShare.setShareMedia(new UMImage(SettingPersonInfoActivity.this,
-                "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+                R.drawable.icon));
     }
 
     // 用来配置各个平台的SDKF
@@ -335,7 +336,8 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         // 添加QQ支持, 并且设置QQ分享内容的target url
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(SettingPersonInfoActivity.this,
                 appId, appKey);
-        qqSsoHandler.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
+        qqSsoHandler.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w\" +\n" +
+                "                \"RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
         qqSsoHandler.addToSocialSDK();
 
         // 添加QZone平台
@@ -355,13 +357,15 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();
         //设置分享文字
-        weixinContent.setShareContent("给你一个舞台，成就你的明星梦");
+        weixinContent.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+                "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置title
         weixinContent.setTitle("来自“全民模特”的分享");
         //设置分享内容跳转URL
-        weixinContent.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
+        weixinContent.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w\" +\n" +
+                "                \"RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
         //设置分享图片
-        weixinContent.setShareImage(new UMImage(SettingPersonInfoActivity.this,"http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
+        weixinContent.setShareImage(new UMImage(SettingPersonInfoActivity.this,R.drawable.icon));
         mShare.setShareMedia(weixinContent);
         // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(SettingPersonInfoActivity.this, appId,
@@ -370,11 +374,13 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
 
         //设置微信朋友圈分享内容
         CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia.setShareContent("给你一个舞台，成就你的明星梦");
+        circleMedia.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+                "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置朋友圈title
         circleMedia.setTitle("来自“全民模特”的分享");
-        circleMedia.setShareImage(new UMImage(SettingPersonInfoActivity.this, "http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg"));
-        circleMedia.setTargetUrl("http://img4.duitang.com/uploads/item/201201/04/20120104223901_Cku8d.thumb.600_0.jpg");
+        circleMedia.setShareImage(new UMImage(SettingPersonInfoActivity.this, R.drawable.icon));
+        circleMedia.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w\" +\n" +
+                "                \"RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
         mShare.setShareMedia(circleMedia);
 
         // 支持微信朋友圈

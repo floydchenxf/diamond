@@ -228,6 +228,11 @@
             android:configChanges="keyboardHidden|orientation"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
+        <activity android:name=".ui.activity.OrderActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"
+            />
         <activity
             android:name=".ui.activity.ProfileAddressActivity"
             android:configChanges="keyboardHidden|orientation"

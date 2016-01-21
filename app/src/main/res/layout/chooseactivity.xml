@@ -124,8 +124,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="10dp"
                 app:absoluteMaxValue="60"
-                app:absoluteMinValue="0"
-                />
+                app:absoluteMinValue="0" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -233,8 +232,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
-                android:layout_marginRight="10dp"
-                />
+                android:layout_marginRight="10dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -720,7 +718,7 @@
                     android:orientation="horizontal">
 
                     <CheckBox
-                        android:id="@+id/taiwan"
+                        android:id="@+id/ningxia"
                         android:layout_width="0dp"
                         android:layout_height="28dip"
                         android:layout_marginLeft="12dp"
@@ -728,8 +726,8 @@
                         android:background="@drawable/button_selector"
                         android:button="@null"
                         android:gravity="center"
-                        android:tag="710000"
-                        android:text="台湾"
+                        android:tag="640000"
+                        android:text="宁夏"
                         android:textColor="@drawable/text_selector"
                         android:textSize="14sp" />
 
@@ -795,19 +793,6 @@
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal">
 
-                    <CheckBox
-                        android:id="@+id/ningxia"
-                        android:layout_width="0dp"
-                        android:layout_height="28dip"
-                        android:layout_marginLeft="12dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_selector"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:tag="640000"
-                        android:text="宁夏"
-                        android:textColor="@drawable/text_selector"
-                        android:textSize="14sp" />
 
                     <CheckBox
                         android:id="@+id/xinjiang"
@@ -851,60 +836,12 @@
                         android:textColor="@drawable/text_selector"
                         android:textSize="14sp" />
 
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="bottom">
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_gravity="bottom"
-                            android:layout_marginLeft="12dp" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
-                    android:orientation="horizontal">
-
-                    <CheckBox
-                        android:id="@+id/xianggang"
-                        android:layout_width="0dp"
-                        android:layout_height="28dip"
-                        android:layout_marginLeft="12dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_selector"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:tag="810000"
-                        android:text="香港"
-                        android:textColor="@drawable/text_selector"
-                        android:textSize="14sp" />
-
-                    <CheckBox
-                        android:id="@+id/aomen"
-                        android:layout_width="0dp"
-                        android:layout_height="28dip"
-                        android:layout_marginLeft="12dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/button_selector"
-                        android:button="@null"
-                        android:gravity="center"
-                        android:tag="820000"
-                        android:text="澳门"
-                        android:textColor="@drawable/text_selector"
-                        android:textSize="14sp" />
-
                     <CheckBox
                         android:id="@+id/allChoose"
                         android:layout_width="0dp"
                         android:layout_height="28dip"
                         android:layout_marginLeft="12dp"
-                        android:layout_weight="2"
+                        android:layout_weight="1"
                         android:background="@drawable/button_selector"
                         android:button="@null"
                         android:gravity="center"
@@ -928,6 +865,7 @@
                             android:src="@drawable/jiantou_up" />
                     </LinearLayout>
                 </LinearLayout>
+
             </LinearLayout>
 
             <TextView

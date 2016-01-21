@@ -78,6 +78,15 @@ public class MessageFragment extends Fragment implements View.OnClickListener {
                 h5Data.title = "通告";
                 intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
                 startActivity(intent);
+//                Intent goodsItemIntent = new Intent(TaskProcessActivity.this, H5Activity.class);
+//                H5Activity.H5Data goodsData = new H5Activity.H5Data();
+//                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+//                goodsData.data = url;
+//                goodsData.showProcess = true;
+//                goodsData.showNav = false;
+//                goodsData.title = "商品";
+//                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
+//                startActivity(goodsItemIntent);
             }
         });
 //        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_UP_TO_REFRESH);
