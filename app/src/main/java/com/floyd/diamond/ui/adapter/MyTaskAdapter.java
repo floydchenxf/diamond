@@ -59,13 +59,17 @@ public class MyTaskAdapter extends BaseAdapter {
                         return;
                     }
 
+                    if (itemVO.status != 1 || itemVO.isFinish()) {
+                        return;
+                    }
+
                     String dateLeft = DateUtil.getDateBefore(itemVO.createTime);
                     if (dateLeft == null && itemVO.createTime != 0l) {
                         timeView.setVisibility(View.GONE);
                         itemVO.status = 2;
                     } else {
                         timeView.setVisibility(View.VISIBLE);
-                        timeView.setText("剩余时间" + dateLeft);
+                        timeView.setText("剩余时间:" + dateLeft);
                     }
 
                     Message newMsg = new Message();
@@ -156,17 +160,17 @@ public class MyTaskAdapter extends BaseAdapter {
         int finishStatus = taskItemVO.finishStatus;
         Log.i(TAG, "status is" + status + "-----" + taskItemVO.title);
         holder.leftTimeView.setVisibility(View.GONE);
+        holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
         if (finishStatus == 1) {
             holder.fillOrderView.setText("已结束");
         } else {
-            holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
             if (status == 1) {
                 String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
                 if (dateleft == null && taskItemVO.createTime != 0l) {
                     taskItemVO.status = 2;
                 } else {
                     holder.leftTimeView.setVisibility(View.VISIBLE);
-                    holder.leftTimeView.setText("剩余时间" + dateleft);
+                    holder.leftTimeView.setText("剩余时间:" + dateleft);
                     Message msg = new Message();
                     msg.what = TIME_EVENT;
                     MsgObj msgObj = new MsgObj();

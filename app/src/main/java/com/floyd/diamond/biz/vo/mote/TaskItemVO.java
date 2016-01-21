@@ -58,6 +58,6 @@ public class TaskItemVO implements Serializable{
     }
 
     public boolean canAccept() {
-        return acceptStauts == 1;
+        return !isFinish() && this.acceptStauts == 1;
     }
 }
