@@ -32,7 +32,7 @@ public class MoteDetail1 {
     public int gender;
     public int orderNum;
     private int shape;
-    public float goodeEvalRate;
+    public int goodeEvalRate;
 
     public void setIsFollow(boolean isFollow) {
         this.isFollow = isFollow;

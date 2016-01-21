@@ -7,6 +7,6 @@ public class UserExtVO extends UserVO {
     public int orderNum;
     public int fenNum;
     public int followNum;
-    public float goodeEvalRate;
+    public int goodeEvalRate;
 
 }

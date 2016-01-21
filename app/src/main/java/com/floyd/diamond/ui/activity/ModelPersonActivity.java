@@ -172,7 +172,12 @@ public class ModelPersonActivity extends Activity {
 
                 area.setText(moteDetail.getData().getArea());
                 jianyanzhi.setText(moteDetail.getData().getOrderNum() + "");
-                manyidu.setText(moteDetail.getData().getGoodeEvalRate() + "");
+                if (moteDetail.getData().getGoodeEvalRate()==0){
+                    manyidu.setText(moteDetail.getData().getGoodeEvalRate()+"");
+                }else{
+                    manyidu.setText(moteDetail.getData().getGoodeEvalRate()+ "%");
+                }
+
                 boolean isFollow = moteDetail.getData().isIsFollow();
                 if (isFollow) {
                     careCount.setText("已关注");

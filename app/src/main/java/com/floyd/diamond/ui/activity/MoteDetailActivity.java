@@ -395,7 +395,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 }
 
                 jingyanzhi.setText("经验值：" + vo.getOrderNum());
-                manyidu.setText("满意度：" + vo.goodeEvalRate);
+                if (vo.goodeEvalRate==0){
+                    manyidu.setText("满意度：" + vo.goodeEvalRate);
+                }else{
+                    manyidu.setText("满意度：" + vo.goodeEvalRate+"%");
+                }
+
 
             }
 

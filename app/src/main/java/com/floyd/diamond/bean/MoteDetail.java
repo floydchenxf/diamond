@@ -54,7 +54,7 @@ public class MoteDetail {
         private int orderNum;
         private int gender;
         private double shape;
-        private Object goodeEvalRate;
+        private int goodeEvalRate;
 
         public void setFollowNum(int followNum) {
             this.followNum = followNum;
@@ -96,7 +96,7 @@ public class MoteDetail {
             this.shape = shape;
         }
 
-        public void setGoodeEvalRate(Object goodeEvalRate) {
+        public void setGoodeEvalRate(int goodeEvalRate) {
             this.goodeEvalRate = goodeEvalRate;
         }
 
@@ -140,7 +140,7 @@ public class MoteDetail {
             return shape;
         }
 
-        public Object getGoodeEvalRate() {
+        public int getGoodeEvalRate() {
             return goodeEvalRate;
         }
 
