@@ -181,7 +181,7 @@ public class MyTaskAdapter extends BaseAdapter {
                 holder.fillOrderView.setText("上传图片");
             } else if (status >=4 && status < 7 ) {
                 holder.fillOrderView.setText("处理商品");
-            } else if (status >= 8) {
+            } else if (status >= 8 || status == 0) {
                 holder.fillOrderView.setText("已结束");
             } else {
                 holder.fillOrderView.setText("未知");

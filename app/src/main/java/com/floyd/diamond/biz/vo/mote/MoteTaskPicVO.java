@@ -23,6 +23,6 @@ public class MoteTaskPicVO implements IKeepClassForProguard {
     }
 
     public String getDetailImageUrl() {
-        return CommonUtil.getImage_800(this.imgUrl);
+        return CommonUtil.getImage_w1(this.imgUrl);
     }
 }
