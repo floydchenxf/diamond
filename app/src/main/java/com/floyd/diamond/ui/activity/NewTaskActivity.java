@@ -8,6 +8,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.text.TextUtils;
 import android.view.View;
@@ -111,10 +115,10 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
 
                 shotDescView.setText(taskItemVO.shotDesc);
                 taskProductNameView.setText(taskItemVO.title);
-                priceView.setText("商品售价："+taskItemVO.price + "");
-                shotFeeView.setText("酬金："+taskItemVO.shotFee + "");
-                shotAreaIdView.setText("所在地："+taskItemVO.areaName);
-                selfBuyRateView.setText("自购折扣："+taskItemVO.selfBuyRate + "");
+                priceView.setText("商品售价：" + taskItemVO.price + "");
+                shotFeeView.setText("酬金：" + taskItemVO.shotFee + "");
+                shotAreaIdView.setText("所在地：" + taskItemVO.areaName);
+                selfBuyRateView.setText("自购折扣：" + taskItemVO.selfBuyRate + "");
 
                 if (taskItemVO.canAccept()) {
                     newTaskButton.setOnClickListener(NewTaskActivity.this);
@@ -221,70 +225,39 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                         newTaskButton.setTextColor(Color.parseColor("#666666"));
                         newTaskButton.setEnabled(false);
                         UIAlertDialog.Builder builder = new UIAlertDialog.Builder(NewTaskActivity.this);
-//                        builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
-//                                .setCancelable(true)
-//                                .setPositiveButton("继续抢单",
-//                                        new DialogInterface.OnClickListener() {
-//                                            public void onClick(DialogInterface dialog,
-//                                                                int id) {
-//                                                dialog.dismiss();
-//                                            }
-//                                        }).setNegativeButton("商品链接", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                String url = taskItemVO.url;
-//                                if (TextUtils.isEmpty(url)) {
-//                                    Toast.makeText(NewTaskActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
-//                                    return;
-//                                }
-//                                Intent goodsItemIntent = new Intent(NewTaskActivity.this, H5Activity.class);
-//                                H5Activity.H5Data goodsData = new H5Activity.H5Data();
-//                                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-//                                goodsData.data = url;
-//                                goodsData.showProcess = true;
-//                                goodsData.showNav = false;
-//                                goodsData.title = "商品";
-//                                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
-//                                startActivity(goodsItemIntent);
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-                        Intent intent=new Intent(NewTaskActivity.this,OrderActivity.class);
-                        intent.putExtra("url",taskItemVO.url);
-                        startActivity(intent);
-//                        builder.setMessage("亲！您已抢单，请半小时之内完成下单并去任务列表填写订单号")
-//                                .setCancelable(true)
-//                                .setPositiveButton(R.string.confirm_order,
-//                                        new DialogInterface.OnClickListener() {
-//                                            public void onClick(DialogInterface dialog,
-//                                                                int id) {
-//                                                dialog.dismiss();
-//                                            }
-//                                        }).setNegativeButton("商品链接", new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                String url = taskItemVO.url;
-//                                if (TextUtils.isEmpty(url)) {
-//                                    Toast.makeText(NewTaskActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
-//                                    return;
-//                                }
-//                                Intent goodsItemIntent = new Intent(NewTaskActivity.this, H5Activity.class);
-//                                H5Activity.H5Data goodsData = new H5Activity.H5Data();
-//                                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-//                                goodsData.data = url;
-//                                goodsData.showProcess = true;
-//                                goodsData.showNav = true;
-//                                goodsData.title = "商品详情";
-//                                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
-//                                startActivity(goodsItemIntent);
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//>>>>>>> 4af0d6c2998c7627ec7865d04f7d8605c517cdcb
+                        SpannableString message = new SpannableString("亲，您已抢单成功，请半小时之内完成下单并去任务列表填写订单号");
+                        message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        builder.setMessage(message)
+                                .setCancelable(true)
+                                .setPositiveButton(R.string.confirm_order,
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog,
+                                                                int id) {
+                                                dialog.dismiss();
+                                            }
+                                        }).setNegativeButton("商品链接", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String url = taskItemVO.url;
+                                if (TextUtils.isEmpty(url)) {
+                                    Toast.makeText(NewTaskActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                                Intent goodsItemIntent = new Intent(NewTaskActivity.this, H5Activity.class);
+                                H5Activity.H5Data goodsData = new H5Activity.H5Data();
+                                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                                goodsData.data = url;
+                                goodsData.showProcess = true;
+                                goodsData.showNav = true;
+                                goodsData.title = "商品详情";
+                                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
+                                startActivity(goodsItemIntent);
+                                dialog.dismiss();
+                            }
+                        });
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
 
                     @Override

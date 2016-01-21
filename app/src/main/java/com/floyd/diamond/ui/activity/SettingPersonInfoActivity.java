@@ -5,7 +5,12 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -210,9 +215,12 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 break;
             case R.id.clear:
                 UIAlertDialog.Builder clearBuilder = new UIAlertDialog.Builder(this);
-                clearBuilder.setMessage("亲！您确认清除缓存？")
+                SpannableString message = new SpannableString("亲！您确认清除缓存？");
+                message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                clearBuilder.setMessage(message)
                         .setCancelable(true)
-                        .setPositiveButton(R.string.confirm,
+                        .setPositiveButton("清除",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog,
                                                         int id) {
@@ -254,7 +262,11 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 break;
             case R.id.noLogin:
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-                builder.setMessage("亲！您确认要退出登录？")
+                SpannableString alertMessage = new SpannableString("亲, 您确认要退出登录？");
+                alertMessage.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                alertMessage.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                builder.setMessage(alertMessage)
                         .setCancelable(true)
                         .setPositiveButton(R.string.confirm,
                                 new DialogInterface.OnClickListener() {

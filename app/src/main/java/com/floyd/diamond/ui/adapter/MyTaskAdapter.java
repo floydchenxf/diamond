@@ -65,7 +65,7 @@ public class MyTaskAdapter extends BaseAdapter {
                         itemVO.status = 2;
                     } else {
                         timeView.setVisibility(View.VISIBLE);
-                        timeView.setText(dateLeft);
+                        timeView.setText("剩余时间" + dateLeft);
                     }
 
                     Message newMsg = new Message();
@@ -159,14 +159,14 @@ public class MyTaskAdapter extends BaseAdapter {
         if (finishStatus == 1) {
             holder.fillOrderView.setText("已结束");
         } else {
+            holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
             if (status == 1) {
-                holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
                 String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
                 if (dateleft == null && taskItemVO.createTime != 0l) {
                     taskItemVO.status = 2;
                 } else {
                     holder.leftTimeView.setVisibility(View.VISIBLE);
-                    holder.leftTimeView.setText(dateleft + "");
+                    holder.leftTimeView.setText("剩余时间" + dateleft);
                     Message msg = new Message();
                     msg.what = TIME_EVENT;
                     MsgObj msgObj = new MsgObj();

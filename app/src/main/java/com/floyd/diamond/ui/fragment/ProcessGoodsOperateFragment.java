@@ -8,7 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -290,7 +294,10 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                 break;
             case R.id.self_buy_view:
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this.getActivity());
-                builder.setMessage("您确认自购商品？")
+                SpannableString message = new SpannableString("亲,您确认自购商品？");
+                message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setMessage(message)
                         .setCancelable(true)
                         .setPositiveButton(R.string.confirm,
                                 new DialogInterface.OnClickListener() {
