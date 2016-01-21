@@ -91,10 +91,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             int status = taskProcessVO.moteTask.status;
             long now = System.currentTimeMillis();
             long leftTimes = 30 * 60 - (now - times) / 1000;
-            if (leftTimes < 0) {
+            if (leftTimes <= 0) {
                 editConfirmOrderNoLayout.setVisibility(View.GONE);
                 confirmOrderNoTextView.setVisibility(View.VISIBLE);
                 dropOrderNoView.setVisibility(View.GONE);
+                String datetime = DateUtil.getDateStr(System.currentTimeMillis());
+                confirmTimeView.setText(datetime);
                 confirmOrderNoTextView.setText("任务终止");
                 return;
             }
