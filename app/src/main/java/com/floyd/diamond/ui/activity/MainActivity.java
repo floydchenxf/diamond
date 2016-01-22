@@ -1,7 +1,9 @@
 package com.floyd.diamond.ui.activity;
 
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.os.Bundle;
+import android.content.DialogInterface;
+import android.os.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
@@ -19,6 +21,7 @@ import com.floyd.diamond.ui.fragment.FragmentTabAdapter;
 import com.floyd.diamond.ui.fragment.IndexFragment;
 import com.floyd.diamond.ui.fragment.MessageFragment;
 import com.floyd.diamond.ui.fragment.MyFragment;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +110,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void onBackPressed() {
         if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
             if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                super.onBackPressed();
+                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+                builder.setMessage("你确认退出吗？")
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.confirm,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.dismiss();
+                                        android.os.Process.killProcess(android.os.Process.myPid());
+                                    }
+                                })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog = builder.create();
+                dialog.show();
             } else {
                 getSupportFragmentManager().popBackStack();
             }

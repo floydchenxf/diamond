@@ -116,9 +116,11 @@ public class BannerFragment extends BaseFragment {
         h5Data.data = url;
         h5Data.showProcess = true;
         h5Data.showNav = true;
-//        h5Data.title = "广告";
         intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
+//        Intent intent = new Intent(getActivity(), MoteDetailActivity.class);
+//        intent.putExtra(MoteDetailActivity.MOTE_ID, mDataList.id);
         startActivity(intent);
+
     }
 
     private String getActionParam(List<String> actions) {
