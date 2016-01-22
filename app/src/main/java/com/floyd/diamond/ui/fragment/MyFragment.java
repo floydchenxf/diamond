@@ -141,7 +141,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
         headView = (NetworkImageView) view.findViewById(R.id.mine_touxiang);
         headView.setDefaultImageResId(R.drawable.head);
         bgHeadView = (NetworkImageView) view.findViewById(R.id.bg_head_lay);
-        bgHeadView.setDefaultImageResId(R.drawable.head_lay);
+        bgHeadView.setDefaultImageResId(R.drawable.head);
         nicknameView = (TextView) view.findViewById(R.id.mine_name);
         ywPopupWindow = new YWPopupWindow(this.getActivity());
         float height = this.getActivity().getResources().getDimension(R.dimen.edit_head_bar_heigh);

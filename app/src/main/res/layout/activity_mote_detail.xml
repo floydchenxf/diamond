@@ -121,8 +121,8 @@
 
             <CheckedTextView
                 android:id="@+id/guanzhu"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
+                android:layout_width="85dp"
+                android:layout_height="25dp"
                 android:background="@drawable/common_button"
                 android:checked="true"
                 android:gravity="center"

@@ -60,7 +60,7 @@
             android:layout_weight="1"
             android:background="@drawable/blue_line_button_bg"
             android:gravity="center"
-            android:text="进行中"
+            android:text="待付款"
             android:textColor="#666666" />
 
         <CheckedTextView
@@ -70,7 +70,7 @@
             android:layout_weight="1"
             android:background="@drawable/blue_line_button_bg"
             android:gravity="center"
-            android:text="待确定"
+            android:text="进行中"
             android:textColor="#666666" />
 
         <CheckedTextView

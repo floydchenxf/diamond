@@ -30,6 +30,9 @@ import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
 import java.util.List;
 
+/**
+ * 点击我的任务商家跳转的首界面
+ */
 public class SellerTaskActivity extends Activity implements View.OnClickListener {
 
     private CheckedTextView allStatusView;

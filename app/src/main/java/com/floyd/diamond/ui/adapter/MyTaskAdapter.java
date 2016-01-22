@@ -162,7 +162,7 @@ public class MyTaskAdapter extends BaseAdapter {
         holder.leftTimeView.setVisibility(View.GONE);
         holder.leftTimeView.setTag(R.id.LEFT_TIME_ID, taskItemVO);
         if (finishStatus == 1) {
-            holder.fillOrderView.setText("已结束");
+            holder.fillOrderView.setText("任务结束");
         } else {
             if (status == 1) {
                 String dateleft = DateUtil.getDateBefore(taskItemVO.createTime);
@@ -180,13 +180,15 @@ public class MyTaskAdapter extends BaseAdapter {
                     mHandler.sendMessage(msg);
                 }
 
-                holder.fillOrderView.setText("填写订单");
-            } else if (status >=2 && status < 4) {
-                holder.fillOrderView.setText("上传图片");
-            } else if (status >=4 && status < 7 ) {
-                holder.fillOrderView.setText("处理商品");
-            } else if (status >= 8 || status == 0) {
-                holder.fillOrderView.setText("已结束");
+                holder.fillOrderView.setText("填订单号");
+            } else if (status >=2 && status < 3) {
+                holder.fillOrderView.setText("上传照片");
+            }else if (status >=4 && status < 5 ) {
+                holder.fillOrderView.setText("自购退回");
+            } else if (status >=5 && status < 7 ) {
+                holder.fillOrderView.setText("商家确认");
+            } else if (status >= 7 || status == 0) {
+                holder.fillOrderView.setText("任务结束");
             } else {
                 holder.fillOrderView.setText("未知");
             }

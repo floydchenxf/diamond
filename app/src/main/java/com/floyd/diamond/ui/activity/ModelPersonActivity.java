@@ -153,6 +153,7 @@ public class ModelPersonActivity extends Activity {
 
                 //绑定数据
                 nickname.setText(moteDetail.getData().getNickname());
+                age.setText(moteDetail.getData().getAge()+"");
                 int genderNum = moteDetail.getData().getGender();
                 if (genderNum == 0) {
                     gender.setText("女");
@@ -325,7 +326,7 @@ public class ModelPersonActivity extends Activity {
     // 设置分享内容的方法
     private void setShareContent() {
         // 分享字符串
-        mShare.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+        mShare.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
                 "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         // 设置分享图片, 参数2为图片的url地址
         mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
@@ -366,7 +367,7 @@ public class ModelPersonActivity extends Activity {
         // 添加QQ支持, 并且设置QQ分享内容的target url
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(ModelPersonActivity.this,
                 appId, appKey);
-        qqSsoHandler.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w \n" +
+        qqSsoHandler.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w" +
                 "RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
         qqSsoHandler.addToSocialSDK();
 
@@ -387,7 +388,7 @@ public class ModelPersonActivity extends Activity {
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();
 //        //设置分享文字
-        weixinContent.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+        weixinContent.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
                 "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置title
         weixinContent.setTitle("来自“全民模特”的分享");
@@ -404,7 +405,7 @@ public class ModelPersonActivity extends Activity {
 
         //设置微信朋友圈分享内容
         CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+        circleMedia.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
                 "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置朋友圈title
         circleMedia.setTitle("来自“全民模特”的分享");

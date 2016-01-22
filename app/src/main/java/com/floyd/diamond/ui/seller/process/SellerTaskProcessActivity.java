@@ -264,13 +264,13 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
 
                 if (status <= 1) {
                     String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
-                    showWaitLayout(dateTime, "等待模特上传订单");
+                    showWaitLayout(dateTime, "等待模特上传订单号");
                 } else if (status > 1 && status <=3) {
                     String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
                     showWaitLayout(dateTime, "等待模特上传照片");
                 } else if (status == 4) {
                     String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
-                    showWaitLayout(dateTime, "等待模特上传单号");
+                    showWaitLayout(dateTime, "等待模特上传订单号");
                 } else {
                     hiddenWaitLayout();
                 }
@@ -343,7 +343,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         String dateStr = DateUtil.getDateStr(orderNoTime);
         String orderNo = taskProcessVO.moteTask.orderNo;
         confirmTimeView.setText(dateStr);
-        confirmOrderNoTextView.setText(orderNo);
+        confirmOrderNoTextView.setText("订单编号："+orderNo);
     }
 
     private void fillAcceptStatus(TaskProcessVO taskProcessVO) {
@@ -387,7 +387,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             goodsProcessTimeTextView.setText(time);
             goodsOrderTypeView.setVisibility(View.VISIBLE);
             goodsOrderTypeView.setText("承运来源：" + taskProcessVO.moteTask.expressCompanyId);
-            goodsOrderNoView.setText("运单编号：" + taskProcessVO.moteTask.expressNo);
+            goodsOrderNoView.setText("快递单号：" + taskProcessVO.moteTask.expressNo);
             goodsOrderNoView.setOnClickListener(this);
         }
 

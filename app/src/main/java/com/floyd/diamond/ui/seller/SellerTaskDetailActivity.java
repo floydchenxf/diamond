@@ -26,6 +26,7 @@ import com.floyd.diamond.ui.activity.NewTaskActivity;
 import com.floyd.diamond.ui.adapter.SellerTaskDetailAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
 import com.floyd.diamond.ui.loading.DefaultDataLoadingView;
+import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 import com.floyd.pullrefresh.widget.PullToRefreshBase;
 import com.floyd.pullrefresh.widget.PullToRefreshListView;
 
@@ -112,12 +113,16 @@ public class SellerTaskDetailActivity extends Activity implements View.OnClickLi
 
         mListView = mPullToRefreshListView.getRefreshableView();
         adapter = new SellerTaskDetailAdapter(this, mImageLoader);
+        //设置这里点击进入任务进去、、、
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SellerTaskDetailVO sellerTaskDetailVO = adapter.getData().get(position - 1);
-                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
-                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, sellerTaskDetailVO.id);
+//                Intent it = new Intent(SellerTaskDetailActivity.this, NewTaskActivity.class);
+//                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, sellerTaskDetailVO.id);
+//                startActivity(it);
+                Intent it = new Intent(SellerTaskDetailActivity.this, SellerTaskProcessActivity.class);
+                it.putExtra("SELLER_MOTE_TASK_ID", sellerTaskDetailVO.moteTaskId);
                 startActivity(it);
             }
         });

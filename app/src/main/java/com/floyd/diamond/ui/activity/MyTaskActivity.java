@@ -34,6 +34,10 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import de.greenrobot.event.Subscribe;
 
+/**
+ * 点击我的任务模特端跳转的任务界面
+ */
+
 public class MyTaskActivity extends Activity implements View.OnClickListener {
 
     private CheckedTextView allStatusView;

@@ -17,6 +17,8 @@ import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.event.SellerTaskEvent;
 import com.floyd.diamond.ui.activity.ExpressActivity;
+import com.floyd.diamond.ui.activity.NewTaskActivity;
+import com.floyd.diamond.ui.seller.SellerTaskDetailActivity;
 import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 
 import java.util.ArrayList;
@@ -105,6 +107,14 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
         holder.titleView.setText(taskItemVO.title);
         holder.taskPicView.setDefaultImageResId(R.drawable.tupian);
         holder.taskPicView.setImageUrl(taskItemVO.avartUrl, mImageLoader);
+        holder.taskPicView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent it = new Intent(mContext, NewTaskActivity.class);
+                it.putExtra(NewTaskActivity.TASK_TYPE_ITEM_ID, taskItemVO.id);
+                mContext.startActivity(it);
+            }
+        });
 
         String expressNo = taskItemVO.expressNo;
         if (TextUtils.isEmpty(expressNo)) {
