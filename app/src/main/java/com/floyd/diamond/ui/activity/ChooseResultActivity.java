@@ -78,7 +78,7 @@ public class ChooseResultActivity extends Activity implements View.OnClickListen
             @Override
             public void onItemClick(View v, ModelInfo.DataEntity dataEntity) {
 
-                Toast.makeText(ChooseResultActivity.this,"点击了哦",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ChooseResultActivity.this,"点击了哦",Toast.LENGTH_SHORT).show();
 
                 Intent it = new Intent(ChooseResultActivity.this, MoteDetailActivity.class);
                 it.putExtra("moteId",dataEntity.getId());
@@ -152,6 +152,7 @@ public class ChooseResultActivity extends Activity implements View.OnClickListen
                 startActivity(new Intent(ChooseResultActivity.this,ChooseActivity1.class));
             }
         });
+        ((TextView) findViewById(R.id.center)).setText("模特");
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), ChooseResultActivity.this);
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);

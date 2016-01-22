@@ -218,7 +218,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     // 设置分享内容的方法
     private void setShareContent() {
         // 分享字符串
-        mShare.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+        mShare.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
                 "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         // 设置分享图片, 参数2为图片的url地址
         mShare.setShareMedia(new UMImage(MoteDetailActivity.this,
@@ -276,7 +276,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();
         //设置分享文字
-        weixinContent.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+        weixinContent.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
                 "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置title
         weixinContent.setTitle("来自“全民模特”的分享");
@@ -290,7 +290,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
         //设置微信朋友圈分享内容
         CircleShareContent circleMedia = new CircleShareContent();
-        circleMedia.setShareContent(" 基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+        circleMedia.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
                 "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置朋友圈title
         circleMedia.setTitle("来自“全民模特”的分享");

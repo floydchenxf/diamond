@@ -12,6 +12,7 @@ import com.floyd.diamond.aync.JobFactory;
 import com.floyd.diamond.aync.Processor;
 import com.floyd.diamond.bean.Care;
 import com.floyd.diamond.bean.DLCondition;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.ModelInfo;
 import com.floyd.diamond.bean.MoteDetail1;
 import com.floyd.diamond.biz.constants.APIConstants;
@@ -241,6 +242,9 @@ public class MoteManager {
         String url = APIConstants.HOST + APIConstants.CHOOSEMOTE;
         Map<String, String> params = new HashMap<>();
         params.put("gender",dataEntity.getGender()+"");
+        if (GlobalParams.isDebug){
+            Log.e("TAG",dataEntity.getGender()+"性别");
+        }
         params.put("ageMin",dataEntity.getAgeMin()+"");
         params.put("ageMax",dataEntity.getAgeMax()+"");
         params.put("heightMin",dataEntity.getHeightMin()+"");

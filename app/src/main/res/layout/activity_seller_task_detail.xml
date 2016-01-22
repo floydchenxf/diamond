@@ -61,7 +61,7 @@
             android:layout_weight="1"
             android:background="@drawable/blue_line_button_bg"
             android:gravity="center"
-            android:text="待审核"
+            android:text="进行中"
             android:textColor="#666666" />
 
         <CheckedTextView

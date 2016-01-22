@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckedTextView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -71,6 +72,7 @@ public class SellerTaskAdapter extends BaseAdapter {
             holder.taskPicView = (NetworkImageView) convertView.findViewById(R.id.task_pic);
             holder.taskNumberView = (TextView) convertView.findViewById(R.id.task_number);
             holder.taskStatusView = (CheckedTextView) convertView.findViewById(R.id.task_status);
+            holder.taskLayout= ((RelativeLayout) convertView.findViewById(R.id.task_layout));
             convertView.setTag(holder);
         }
 
@@ -87,7 +89,7 @@ public class SellerTaskAdapter extends BaseAdapter {
         if (status == 0) {
             //支付
             holder.taskStatusView.setVisibility(View.VISIBLE);
-            holder.taskStatusView.setText("待支付");
+            holder.taskStatusView.setText("待付款");
             holder.taskStatusView.setTextColor(Color.WHITE);
             holder.taskStatusView.setChecked(true);
             if (statusCallback != null) {
@@ -118,6 +120,7 @@ public class SellerTaskAdapter extends BaseAdapter {
         public TextView titleView;
         public TextView taskNumberView;
         public CheckedTextView taskStatusView;
+        public RelativeLayout taskLayout;
     }
 
     public interface StatusCallback {

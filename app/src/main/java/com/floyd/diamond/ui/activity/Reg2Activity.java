@@ -1,6 +1,7 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -141,6 +142,7 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                         passwordView.setText("");
                         checkCodeView.setText("");
                         Toast.makeText(Reg2Activity.this, "注册成功", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Reg2Activity.this,PhoneLoginActivity.class));
                     }
 
                     @Override
