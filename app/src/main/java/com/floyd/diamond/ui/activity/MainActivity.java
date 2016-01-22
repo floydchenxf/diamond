@@ -131,6 +131,25 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             } else {
                 getSupportFragmentManager().popBackStack();
             }
+        } else {
+            UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+            builder.setMessage("你确认退出吗？")
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.confirm,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.dismiss();
+                                    android.os.Process.killProcess(android.os.Process.myPid());
+                                }
+                            })
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     }
 

@@ -74,7 +74,9 @@ public class ChooseActivity1 extends Activity {
             if (GlobalParams.isDebug) {
                 Log.e("TAG_areaids", areaids.toString());
                 Log.e("TAG_shapes", shapes.toString());
-                Log.e("TAG",vo.token+"");
+                if (vo != null) {
+                    Log.e("TAG",vo.token+"");
+                }
             }
 
             searchMote();
@@ -454,7 +456,11 @@ public class ChooseActivity1 extends Activity {
 //                                var two=test.Replace(",", " ").Trim().Replace(" ", ",");
                                 params.put("shapes", dlEntity.getShapes().replace(",", " ").trim().replace(" ", ","));
                                 params.put("areaids", dlEntity.getAreaids());
-                                params.put("token", vo.token + "");
+                                String token = "";
+                                if (vo != null) {
+                                    token = vo.token;
+                                }
+                                params.put("token", token);
                                 return params;
                             }
                         };
