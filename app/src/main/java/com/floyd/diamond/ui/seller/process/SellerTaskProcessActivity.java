@@ -12,7 +12,11 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.widget.CheckedTextView;
 import android.widget.ImageView;
@@ -409,7 +413,10 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
         switch (v.getId()) {
             case R.id.finish_button:
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-                builder.setMessage("选择不满意，此模特以后将无法承接您的任务!")
+                SpannableString message = new SpannableString("您选择不满意，此模特以后将无法承接您的任务!");
+                message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setMessage(message)
                         .setCancelable(true)
                         .setNegativeButton("不满意", new DialogInterface.OnClickListener() {
                             @Override

@@ -8,10 +8,15 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -314,7 +319,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
             case R.id.title_back:
                 if (isEditorMode) {
                     final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-                    builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                    SpannableString message = new SpannableString("亲, 您还未保存修改信息，是否保存？");
+                    message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    builder.setMessage(message).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
@@ -510,7 +518,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
             if (isEditorMode) {
                 final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-                builder.setMessage("您还未保存修改信息，是否保存？").setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
+                SpannableString message = new SpannableString("亲, 您还未保存修改信息，是否保存？");
+                message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setMessage(message).setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
