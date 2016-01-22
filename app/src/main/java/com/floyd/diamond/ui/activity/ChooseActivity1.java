@@ -74,6 +74,7 @@ public class ChooseActivity1 extends Activity {
             if (GlobalParams.isDebug) {
                 Log.e("TAG_areaids", areaids.toString());
                 Log.e("TAG_shapes", shapes.toString());
+                Log.e("TAG",vo.token+"");
             }
 
             searchMote();
@@ -449,7 +450,9 @@ public class ChooseActivity1 extends Activity {
                                 params.put("creditMax", dlEntity.getCreditMax() + "");
 //                                params.put("shapes", dlEntity.getShapes().toString().substring(1, dlEntity.getShapes().toString().length() - 1).replace(" ", "") + "");
 //                                params.put("areaids", dlEntity.getAreaids().toString().substring(1, dlEntity.getAreaids().toString().length() - 1).replace(" ", "") + "");
-                                params.put("shapes", dlEntity.getShapes());
+
+//                                var two=test.Replace(",", " ").Trim().Replace(" ", ",");
+                                params.put("shapes", dlEntity.getShapes().replace(",", " ").trim().replace(" ", ","));
                                 params.put("areaids", dlEntity.getAreaids());
                                 params.put("token", vo.token + "");
                                 return params;
