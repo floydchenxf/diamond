@@ -7,9 +7,12 @@ import android.os.*;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -43,6 +46,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private RadioButton myButton;
     private List<Fragment> fragments = new ArrayList<Fragment>();
     private FragmentTabAdapter tabAdapter;
+
+    private long exitTime = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,52 +111,78 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
 
     }
+//
+//    public void onBackPressed() {
+//        if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
+//            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+//                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+//                builder.setMessage("你确认退出吗？")
+//                        .setCancelable(true)
+//                        .setPositiveButton(R.string.confirm,
+//                                new DialogInterface.OnClickListener() {
+//                                    public void onClick(DialogInterface dialog, int id) {
+//                                        dialog.dismiss();
+//                                        android.os.Process.killProcess(android.os.Process.myPid());
+//                                    }
+//                                })
+//                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.dismiss();
+//                            }
+//                        });
+//                AlertDialog dialog = builder.create();
+//                dialog.show();
+//            } else {
+//                getSupportFragmentManager().popBackStack();
+//            }
+//        } else {
+//            UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
+//            builder.setMessage("你确认退出吗？")
+//                    .setCancelable(true)
+//                    .setPositiveButton(R.string.confirm,
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int id) {
+//                                    dialog.dismiss();
+//                                    android.os.Process.killProcess(android.os.Process.myPid());
+//                                }
+//                            })
+//                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    });
+//            AlertDialog dialog = builder.create();
+//            dialog.show();
+//        }
+//    }
 
-    public void onBackPressed() {
-        if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
-            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-                builder.setMessage("你确认退出吗？")
-                        .setCancelable(true)
-                        .setPositiveButton(R.string.confirm,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.dismiss();
-                                        android.os.Process.killProcess(android.os.Process.myPid());
-                                    }
-                                })
-                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                AlertDialog dialog = builder.create();
-                dialog.show();
-            } else {
-                getSupportFragmentManager().popBackStack();
-            }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            exit();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    public void exit() {
+        if ((System.currentTimeMillis() - exitTime) > 2000) {
+//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
+//                    Toast.LENGTH_SHORT).show();
+            View toastRoot = getLayoutInflater().inflate(R.layout.toast_layout, null);
+            Toast toast=new Toast(MainActivity.this);
+            toast.setView(toastRoot);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            exitTime = System.currentTimeMillis();
         } else {
-            UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-            builder.setMessage("你确认退出吗？")
-                    .setCancelable(true)
-                    .setPositiveButton(R.string.confirm,
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.dismiss();
-                                    android.os.Process.killProcess(android.os.Process.myPid());
-                                }
-                            })
-                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
+            finish();
+            System.exit(0);
         }
     }
+
 
     @Override
     public void setSelectedFragment(BackHandledFragment selectedFragment) {
