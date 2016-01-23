@@ -30,6 +30,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -85,6 +86,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private EditText alipayView;
     private EditText weixinView;
     private EditText qqView;
+    private EditText alipayname;
 
     private EditText returnItemMobileView;
     private TextView goodsCityView;
@@ -158,6 +160,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
             }
         });
         alipayView.setText(userVO.alipayId);
+        alipayname.setText(userVO.alipayName);
         weixinView.setText(userVO.weixin);
         qqView.setText(userVO.qq);
         shopNameView.setText(sellerInfoVO.shopName);
@@ -221,6 +224,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         nickNameView = (EditText) findViewById(R.id.nick_name_view);
         shopNameView = (EditText) findViewById(R.id.shop_name_view);
         alipayView = (EditText) findViewById(R.id.alipay_view);
+        alipayname= ((EditText)findViewById(R.id.alipayname_shop));
         weixinView = (EditText) findViewById(R.id.weixin_view);
         qqView = (EditText) findViewById(R.id.qq_view);
 
@@ -253,6 +257,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private void enableEditable() {
         weixinView.setEnabled(true);
         alipayView.setEnabled(true);
+        alipayname.setEnabled(true);
         shopNameView.setEnabled(true);
         qqView.setEnabled(true);
         nickNameView.setEnabled(true);
@@ -260,6 +265,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
 
         weixinView.setOnClickListener(this);
         alipayView.setOnClickListener(this);
+        alipayname.setOnClickListener(this);
         shopNameView.setOnClickListener(this);
         qqView.setOnClickListener(this);
         nickNameView.setOnClickListener(this);
@@ -269,6 +275,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private void disableEditable() {
         weixinView.setEnabled(false);
         alipayView.setEnabled(false);
+        alipayname.setEnabled(false);
         shopNameView.setEnabled(false);
         qqView.setEnabled(false);
         returnItemMobileView.setEnabled(false);
@@ -295,6 +302,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private void removeClickListener() {
         weixinView.setOnClickListener(null);
         alipayView.setOnClickListener(null);
+        alipayname.setOnClickListener(null);
         shopNameView.setOnClickListener(null);
         returnItemMobileLayout.setOnClickListener(null);
         qqView.setOnClickListener(null);
@@ -305,6 +313,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
     private void addClickListener() {
         weixinView.setOnClickListener(this);
         alipayView.setOnClickListener(this);
+        alipayname.setOnClickListener(this);
         shopNameView.setOnClickListener(this);
         returnItemMobileLayout.setOnClickListener(this);
         qqView.setOnClickListener(this);
@@ -413,6 +422,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
                 alipayView.requestFocus();
                 imm.showSoftInput(alipayView, 0);
                 break;
+            case R.id.alipayname_shop:
+                alipayname.requestFocus();
+                imm.showSoftInput(alipayname,0);
+                break;
             case R.id.shop_name_view:
                 shopNameView.requestFocus();
                 imm.showSoftInput(shopNameView, 0);
@@ -440,6 +453,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         dataLoadingDialog.show();
         String weixin = weixinView.getText().toString();
         String alipayId = alipayView.getText().toString();
+        String aliname=alipayname.getText().toString();
         String qq = qqView.getText().toString();
         final String nicknameStr = nickNameView.getText().toString();
         final String shopNameStr = shopNameView.getText().toString();
@@ -455,6 +469,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
         userVO.nickname = nicknameStr;
         userVO.weixin = weixin;
         userVO.alipayId = alipayId;
+        userVO.alipayName=aliname;
         userVO.qq = qq;
 
         String token = LoginManager.getLoginInfo(this).token;
@@ -467,6 +482,7 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
             sellerInfoUpdateParams.districtId = areaDetailVO.districtId;
         }
         sellerInfoUpdateParams.alipayId = alipayId;
+        sellerInfoUpdateParams.alipayName=aliname;
         sellerInfoUpdateParams.weixin = weixin;
         sellerInfoUpdateParams.qq = qq;
         sellerInfoUpdateParams.nickname = nicknameStr;
@@ -496,6 +512,10 @@ public class SellerPersonInfoActivity extends Activity implements View.OnClickLi
                 loginVO.user.cityId = params.cityId;
                 loginVO.user.districtId = params.districtId;
                 loginVO.user.alipayId = params.alipayId;
+                loginVO.user.alipayName=params.alipayName;
+                if (GlobalParams.isDebug){
+                    Log.e("TAG",loginVO.user.alipayName+"");
+                }
                 loginVO.user.weixin = params.weixin;
                 loginVO.user.returnItemMobile = params.returnItemMobile;
                 LoginManager.saveLoginInfo(SellerPersonInfoActivity.this, loginVO);

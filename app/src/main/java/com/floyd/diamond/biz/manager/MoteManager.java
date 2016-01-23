@@ -508,6 +508,7 @@ public class MoteManager {
         params.put("address", userVO.address);
         params.put("weixin", userVO.weixin);
         params.put("alipayId", userVO.alipayId);
+        params.put("alipayName",userVO.alipayName);
         params.put("msgSwitch", userVO.msgSwitch + "");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, UserVO.class);

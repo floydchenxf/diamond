@@ -169,7 +169,36 @@
             android:background="#ffffff"
             android:orientation="vertical"
             android:paddingLeft="12dp">
+            <RelativeLayout
+                android:id="@+id/alipayname_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="12dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:gravity="center_vertical"
+                    android:text="支付宝姓名"
+                    android:textColor="#666666" />
+
+                <EditText
+                    android:id="@+id/alipayname_shop"
+                    android:layout_width="200dp"
+                    android:layout_height="40dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="18dp"
+                    android:background="@color/white"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical|right"
+                    android:hint="未填写"
+                    android:singleLine="true"
+                    android:textColor="#666666"
+                    android:textColorHint="#cecece"
+                    android:textSize="14sp" />
+            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/alipay_layout"
                 android:layout_width="wrap_content"
@@ -180,7 +209,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:gravity="center_vertical"
-                    android:text="支付宝"
+                    android:text="支付宝账号"
                     android:textColor="#666666" />
 
                 <EditText

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.FileUploadManager;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -136,6 +138,9 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     private int heightType;
     private int genderType;
 
+    private EditText alipayname;
+    private RelativeLayout alipayname_layout;
+
     private File tempFile;
 
     private Dialog dataLoadingDialog;
@@ -190,6 +195,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
             }
         });
         alipayView.setText(userVO.alipayId);
+        alipayname.setText(userVO.alipayName);
+        if (GlobalParams.isDebug){
+            Log.e("TAG_user",userVO.alipayName+"");
+        }
         heightView.setText(userVO.height + "");
         birthdayView.setText(DateUtil.getDateStr(userVO.birdthday));
         genderView.setText(userVO.getGender());
@@ -270,6 +279,9 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         heightJiantou = (ImageView) findViewById(R.id.height_jiantou);
         goodsAddressJiantou = (ImageView) findViewById(R.id.goods_address_jiantou);
         authJiantou = (ImageView) findViewById(R.id.auth_jiantou);
+
+        alipayname= ((EditText) findViewById(R.id.alipayname_view));
+        alipayname_layout= ((RelativeLayout) findViewById(R.id.alipayname_layout));
 
         personHeadView = (NetworkImageView) findViewById(R.id.touxiang_personinfo);
         genderLayout = findViewById(R.id.gender_layout);
@@ -423,9 +435,11 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
     private void enableEditable() {
         weixinView.setEnabled(true);
         alipayView.setEnabled(true);
+        alipayname.setEnabled(true);
         nicknameView.setEnabled(true);
         weixinView.setOnClickListener(this);
         alipayView.setOnClickListener(this);
+        alipayname.setOnClickListener(this);
         nicknameView.setOnClickListener(this);
 
     }
@@ -434,6 +448,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         weixinView.setEnabled(false);
         alipayView.setEnabled(false);
         nicknameView.setEnabled(false);
+        alipayname.setEnabled(false);
     }
 
     private void hiddenPopup() {
@@ -644,6 +659,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 alipayView.requestFocus();
                 imm.showSoftInput(alipayView, 0);
                 break;
+            case R.id.alipayname_view://支付宝名
+                alipayname.requestFocus();
+                imm.showSoftInput(alipayname,0);
+                break;
             case R.id.act_lsloading:
                 loadData(true);
                 break;
@@ -659,6 +678,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         dataLoadingDialog.show();
         String weixin = weixinView.getText().toString();
         String alipayId = alipayView.getText().toString();
+        String aliname=alipayname.getText().toString();
+        if (GlobalParams.isDebug){
+            Log.e("TAG_EDIT",aliname+"");
+        }
         String birthdayStr = birthdayView.getText().toString();
         String nicknameStr = nicknameView.getText().toString();
         int gender = genderType;
@@ -679,7 +702,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
         userVO.birdthdayStr = birthdayStr;
         userVO.weixin = weixin;
         userVO.alipayId = alipayId;
-
+        userVO.alipayName=aliname;
+        if (GlobalParams.isDebug){
+            Log.e("TAG_2",aliname+"");
+        }
         String token = LoginManager.getLoginInfo(this).token;
         MoteManager.updateMoteInfo(userVO, token).startUI(new ApiCallback<UserVO>() {
             @Override
@@ -708,6 +734,10 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 loginVO.user.birdthday = userVO.birdthday;
                 loginVO.user.weixin = userVO.weixin;
                 loginVO.user.alipayId = userVO.alipayId;
+                loginVO.user.alipayName=userVO.alipayName;
+                if (GlobalParams.isDebug){
+                    Log.e("TAG_SAVE",loginVO.user.alipayName+"");
+                }
                 LoginManager.saveLoginInfo(PersonInfoActivity.this, loginVO);
             }
 
