@@ -78,8 +78,10 @@ public class UserVO implements Serializable {
     public String getGender() {
         if (gender == 1) {
             return "男";
-        } else {
+        } else if ( gender == 0){
             return "女";
+        } else {
+            return "未知";
         }
     }
 

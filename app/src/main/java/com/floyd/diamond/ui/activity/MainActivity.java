@@ -1,12 +1,9 @@
 package com.floyd.diamond.ui.activity;
 
-import android.app.AlertDialog;
 import android.app.FragmentTransaction;
-import android.content.DialogInterface;
-import android.os.*;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,20 +14,15 @@ import android.widget.Toast;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
-import com.floyd.diamond.event.LoginEvent;
 import com.floyd.diamond.ui.BackHandledInterface;
 import com.floyd.diamond.ui.fragment.BackHandledFragment;
 import com.floyd.diamond.ui.fragment.FragmentTabAdapter;
 import com.floyd.diamond.ui.fragment.IndexFragment;
 import com.floyd.diamond.ui.fragment.MessageFragment;
 import com.floyd.diamond.ui.fragment.MyFragment;
-import com.floyd.diamond.ui.view.UIAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import de.greenrobot.event.EventBus;
-import de.greenrobot.event.Subscribe;
 
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener, BackHandledInterface {
@@ -86,8 +78,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             }
         });
 
-        EventBus.getDefault().register(this);
-
     }
 
     @Override
@@ -111,56 +101,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
 
     }
-//
-//    public void onBackPressed() {
-//        if(mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()){
-//            if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-//                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-//                builder.setMessage("你确认退出吗？")
-//                        .setCancelable(true)
-//                        .setPositiveButton(R.string.confirm,
-//                                new DialogInterface.OnClickListener() {
-//                                    public void onClick(DialogInterface dialog, int id) {
-//                                        dialog.dismiss();
-//                                        android.os.Process.killProcess(android.os.Process.myPid());
-//                                    }
-//                                })
-//                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.dismiss();
-//                            }
-//                        });
-//                AlertDialog dialog = builder.create();
-//                dialog.show();
-//            } else {
-//                getSupportFragmentManager().popBackStack();
-//            }
-//        } else {
-//            UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this);
-//            builder.setMessage("你确认退出吗？")
-//                    .setCancelable(true)
-//                    .setPositiveButton(R.string.confirm,
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int id) {
-//                                    dialog.dismiss();
-//                                    android.os.Process.killProcess(android.os.Process.myPid());
-//                                }
-//                            })
-//                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    });
-//            AlertDialog dialog = builder.create();
-//            dialog.show();
-//        }
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (mBackHandedFragment == null || !mBackHandedFragment.onBackPressed()) {
+                if (getSupportFragmentManager().getBackStackEntryCount() != 0) {
+                    getSupportFragmentManager().popBackStack();
+                }
+            }
             exit();
             return false;
         }
@@ -169,8 +118,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     public void exit() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
-//            Toast.makeText(getApplicationContext(), "再按一次退出程序",
-//                    Toast.LENGTH_SHORT).show();
             View toastRoot = getLayoutInflater().inflate(R.layout.toast_layout, null);
             Toast toast=new Toast(MainActivity.this);
             toast.setView(toastRoot);
@@ -189,15 +136,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         this.mBackHandedFragment = selectedFragment;
     }
 
-    @Subscribe
-    public void onEventMainThread(LoginEvent event) {
-        Log.i(TAG, "-----------login event fire");
-//        tabAdapter.onCheckedChanged(rgs, R.id.tab_my);
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 }
