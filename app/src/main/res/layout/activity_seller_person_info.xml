@@ -44,7 +44,7 @@
                     android:layout_marginBottom="4dp"
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="4dp"
-                    android:background="@drawable/head" />
+                    android:background="@drawable/head1" />
 
             </RelativeLayout>
 

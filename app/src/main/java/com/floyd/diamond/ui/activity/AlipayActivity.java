@@ -80,7 +80,12 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
         titleNameView.setVisibility(View.VISIBLE);
 
         rightView = (TextView) findViewById(R.id.right);
-        rightView.setText(R.string.pay_record);
+        if (loginVO.isModel()){
+            rightView.setText("提现记录");
+        }else{
+            rightView.setText("账户明细");
+        }
+
         rightView.setOnClickListener(this);
         rightView.setVisibility(View.VISIBLE);
 
