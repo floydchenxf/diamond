@@ -391,30 +391,16 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     Toast.makeText(TaskProcessActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-//                Intent intent = new Intent();
-//                intent.setAction("android.intent.action.VIEW");
-//                Uri content_url = Uri.parse(url);
-//                intent.setData(content_url);
-//                startActivity(intent);
-
                 Intent goodsItemIntent = new Intent(TaskProcessActivity.this, H5Activity.class);
                 H5Activity.H5Data goodsData = new H5Activity.H5Data();
                 goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
                 goodsData.data = url;
                 goodsData.showProcess = true;
                 goodsData.showNav = true;
-                goodsData.title = "商品";
                 goodsData.canZoom=true;
-                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
-                startActivity(goodsItemIntent);
                 goodsData.title = "商品详情";
                 goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
                 startActivity(goodsItemIntent);
-//                Intent intent = new Intent();
-//                intent.setAction("android.intent.action.VIEW");
-//                Uri content_url = Uri.parse(url);
-//                intent.setData(content_url);
-//                startActivity(intent);
                 break;
             case R.id.confirm_order_button:
                 long moteTaskId = taskProcessVO.moteTask.id;

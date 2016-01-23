@@ -142,7 +142,8 @@ public class Reg2Activity extends Activity implements View.OnClickListener {
                         passwordView.setText("");
                         checkCodeView.setText("");
                         Toast.makeText(Reg2Activity.this, "注册成功", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(Reg2Activity.this,PhoneLoginActivity.class));
+                        startActivity(new Intent(Reg2Activity.this, PhoneLoginActivity.class));
+                        Reg2Activity.this.finish();
                     }
 
                     @Override
