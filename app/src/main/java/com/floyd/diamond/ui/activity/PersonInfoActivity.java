@@ -608,7 +608,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 startActivityForResult(intentFromGallery, CODE_GALLERY_REQUEST);
                 break;
             case R.id.gender_female:
-                genderType = 2;
+                genderType = 0;
                 genderView.setText("女");
                 if (!this.isFinishing()) {
                     hiddenPopup();
