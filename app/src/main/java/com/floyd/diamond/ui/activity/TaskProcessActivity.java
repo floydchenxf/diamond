@@ -50,7 +50,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private TextView shotRequiredView;
     private TextView priceView;
     private TextView shotFeeView;
-    private TextView addressView;
+//    private TextView addressView;
     private TextView goodsLinkView;
 
     //----------------------接单信息----------------------//
@@ -288,7 +288,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
             confirmOrderNoTextView.setVisibility(View.VISIBLE);
             dropOrderNoView.setVisibility(View.GONE);
             confirmTimeView.setText(dateStr);
-            confirmOrderNoTextView.setText(orderNo);
+            confirmOrderNoTextView.setText("订单编号："+orderNo);
             confirmButton.setText("确认");
             confirmButton.setTextColor(Color.WHITE);
             confirmButton.setBackgroundResource(R.drawable.common_round_blue_bg);
@@ -305,9 +305,9 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
     private void fillTaskInfo(TaskProcessVO taskProcessVO) {
         TaskItemVO itemVo = taskProcessVO.task;
         taskImageView.setImageUrl(itemVo.getPreviewImageUrl(), mImageLoader);
-        addressView.setText(itemVo.areaName);
-        priceView.setText(itemVo.price + "");
-        shotFeeView.setText(itemVo.shotFee + "");
+//        addressView.setText(itemVo.areaName);
+        priceView.setText("售价："+itemVo.price + "");
+        shotFeeView.setText("酬金："+itemVo.shotFee + "");
         shotRequiredView.setText(itemVo.shotDesc);
         titleView.setText(itemVo.title);
     }
@@ -323,7 +323,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         taskImageView.setDefaultImageResId(R.drawable.tupian);
         priceView = (TextView) findViewById(R.id.goods_price);
         shotFeeView = (TextView) findViewById(R.id.goods_shot_fee);
-        addressView = (TextView) findViewById(R.id.goods_address);
+//        addressView = (TextView) findViewById(R.id.goods_address);
         titleView = (TextView) findViewById(R.id.task_name);
         shotRequiredView = (TextView) findViewById(R.id.task_shot_required);
         goodsLinkView = (TextView) findViewById(R.id.goods_link);

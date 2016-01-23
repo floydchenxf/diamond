@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="2dp"
-                android:text="任务名称"
+                android:text="任务标题"
                 android:textColor="#666666"
                 android:textSize="12sp" />
 
@@ -99,9 +99,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/goodslist_price_black"
                     android:drawablePadding="4dp"
-                    android:text="70"
+                    android:text="售价：70"
+                    android:textColor="#666666"
                     android:textSize="10sp" />
 
                 <TextView
@@ -109,21 +109,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:drawableLeft="@drawable/goodslist_money_black"
                     android:drawablePadding="4dp"
                     android:textColor="#666666"
-                    android:text="70"
-                    android:textSize="10sp" />
-
-                <TextView
-                    android:id="@+id/goods_address"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableLeft="@drawable/goodslist_address_black"
-                    android:drawablePadding="4dp"
-                    android:textColor="#666666"
-                    android:text="黑龙江"
+                    android:text="酬金：70"
                     android:textSize="10sp" />
 
             </LinearLayout>
