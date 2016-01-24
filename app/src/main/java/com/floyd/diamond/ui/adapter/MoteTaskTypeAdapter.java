@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -91,6 +92,9 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.priceView21 = (TextView) convertView.findViewById(R.id.price_2_1);
             holder.priceView22 = (TextView) convertView.findViewById(R.id.price_2_2);
 
+            holder.ding1= ((ImageView) convertView.findViewById(R.id.ding_1));
+            holder.ding2= ((ImageView) convertView.findViewById(R.id.ding_2));
+
             convertView.setTag(holder);
         }
 
@@ -124,6 +128,10 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                     }
                 }
             });
+
+            if (!itemVO1.isDirect){
+                holder.ding1.setVisibility(View.INVISIBLE);
+            }
 
             holder.productImage1.setDefaultImageResId(R.drawable.tupian);
             holder.productImage1.setImageUrl(itemVO1.getPreviewImageUrl(), mImageLoader);
@@ -160,6 +168,10 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 holder.finishStatusView2.setVisibility(View.GONE);
             }
 
+            if(!itemVO2.isDirect){
+                holder.ding2.setVisibility(View.INVISIBLE);
+            }
+
             holder.productImage2.setDefaultImageResId(R.drawable.tupian);
             holder.productImage2.setImageUrl(itemVO2.getPreviewImageUrl(), mImageLoader);
             holder.priceView21.setText("商品售价："+itemVO2.price+"");
@@ -190,6 +202,7 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         public TextView finishStatusView1;
         public TextView finishStatusView2;
 
+        public ImageView ding1,ding2;
 
     }
 }

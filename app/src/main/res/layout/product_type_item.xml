@@ -65,6 +65,11 @@
             android:text="已接完"
             android:textColor="#cecece"
             android:textSize="20sp" />
+        <ImageView
+            android:id="@+id/ding_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ding"/>
 
     </RelativeLayout>
 
@@ -128,6 +133,11 @@
             android:text="已接完"
             android:textColor="#cecece"
             android:textSize="20sp"/>
+        <ImageView
+            android:id="@+id/ding_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ding"/>
 
     </RelativeLayout>
 

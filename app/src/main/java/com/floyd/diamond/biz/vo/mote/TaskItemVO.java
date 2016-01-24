@@ -41,6 +41,7 @@ public class TaskItemVO implements Serializable{
     public int followNum;
     public long moteTaskId;
     public int acceptStauts;
+    public boolean isDirect;
 
     public boolean isAccepted;
     public int  finishStatus;

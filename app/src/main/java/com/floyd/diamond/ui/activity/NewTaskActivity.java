@@ -124,15 +124,17 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                 }
                 selfBuyRateView.setText("自购折扣：" + taskItemVO.selfBuyOff + "");
 
-                if (taskItemVO.canAccept()) {
+                //任务状态为1的时候为红色，2位不可接灰色（选中为红色）
+                if (taskItemVO.acceptStauts==1) {
                     newTaskButton.setOnClickListener(NewTaskActivity.this);
                     newTaskButton.setChecked(true);
                     newTaskButton.setTextColor(Color.WHITE);
-                } else {
+                } else if (taskItemVO.acceptStauts==2){
                     newTaskButton.setOnClickListener(null);
                     newTaskButton.setTextColor(Color.parseColor("#666666"));
                     newTaskButton.setChecked(false);
                 }
+
 
                 taskImageView.setDefaultImageResId(R.drawable.tupian);
                 taskImageView.setImageUrl(taskItemVO.getDetailImageUrl(), mImageLoader, new BitmapProcessor() {
