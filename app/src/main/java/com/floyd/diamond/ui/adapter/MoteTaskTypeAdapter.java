@@ -131,6 +131,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
             if (!itemVO1.isDirect){
                 holder.ding1.setVisibility(View.INVISIBLE);
+            } else {
+                holder.ding1.setVisibility(View.VISIBLE);
             }
 
             holder.productImage1.setDefaultImageResId(R.drawable.tupian);
@@ -170,6 +172,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
 
             if(!itemVO2.isDirect){
                 holder.ding2.setVisibility(View.INVISIBLE);
+            } else {
+                holder.ding2.setVisibility(View.VISIBLE);
             }
 
             holder.productImage2.setDefaultImageResId(R.drawable.tupian);
