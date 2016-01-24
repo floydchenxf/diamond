@@ -75,7 +75,7 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         dataLoadingDialog = DialogCreator.createDataLoadingDialog(this);
         mPullToRefreshListView = (PullToRefreshListView) findViewById(R.id.product_type_list);
-        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.BOTH);
+        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {

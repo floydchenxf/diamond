@@ -17,7 +17,7 @@
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:gravity="left|top"
-        android:hint="意见反馈"
+        android:hint="请留下你的宝贵意见"
         android:padding="12dp"
         android:singleLine="false"
         android:textSize="12sp" />

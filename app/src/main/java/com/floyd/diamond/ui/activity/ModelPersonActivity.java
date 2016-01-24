@@ -49,7 +49,9 @@ import com.umeng.socialize.weixin.controller.UMWXHandler;
 import com.umeng.socialize.weixin.media.CircleShareContent;
 import com.umeng.socialize.weixin.media.WeiXinShareContent;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,6 +71,7 @@ public class ModelPersonActivity extends Activity {
     private RequestQueue queue;
     private MoteDetail moteDetail;
     private LoginVO loginVO;
+    private boolean isFollow;
 
 
     @Override
@@ -179,7 +182,7 @@ public class ModelPersonActivity extends Activity {
                     manyidu.setText(moteDetail.getData().getGoodeEvalRate()+ "%");
                 }
 
-                boolean isFollow = moteDetail.getData().isIsFollow();
+                isFollow = moteDetail.getData().isIsFollow();
                 if (isFollow) {
                     careCount.setText("已关注");
                     careCount.setChecked(true);
@@ -420,9 +423,46 @@ public class ModelPersonActivity extends Activity {
         wxCircleHandler.addToSocialSDK();
     }
 
+//    private void doGuanzhu() {
+//        if (LoginManager.isLogin(this)) {
+//            LoginVO vo = LoginManager.getLoginInfo(this);
+//            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
+//                @Override
+//                public void onError(int code, String errorInfo) {
+//                    Toast.makeText(ModelPersonActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+//                    if (!ModelPersonActivity.this.isFinishing()) {
+//                        loadingDialog.dismiss();
+//                    }
+//                }
+//
+//                @Override
+//                public void onSuccess(Integer aBoolean) {
+//                    Toast.makeText(ModelPersonActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
+//                    if (!ModelPersonActivity.this.isFinishing()) {
+//                        loadingDialog.dismiss();
+//                    }
+//                    careCount.setText("已关注");
+//                    careCount.setChecked(true);
+//                    careCount.setOnClickListener(null);
+//                }
+//
+//                @Override
+//                public void onProgress(int progress) {
+//
+//                }
+//            });
+//
+//
+//        }
+//    }
+
     private void doGuanzhu() {
-        if (LoginManager.isLogin(this)) {
-            LoginVO vo = LoginManager.getLoginInfo(this);
+        if (!LoginManager.isLogin(this)) {
+            return;
+        }
+        loadingDialog.show();
+        LoginVO vo = LoginManager.getLoginInfo(this);
+        if (!isFollow) {
             MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
                 @Override
                 public void onError(int code, String errorInfo) {
@@ -440,7 +480,7 @@ public class ModelPersonActivity extends Activity {
                     }
                     careCount.setText("已关注");
                     careCount.setChecked(true);
-                    careCount.setOnClickListener(null);
+                    isFollow = true;
                 }
 
                 @Override
@@ -448,10 +488,36 @@ public class ModelPersonActivity extends Activity {
 
                 }
             });
+        } else {
+            List<Long> moteIds = Arrays.asList(new Long[]{moteId});
+            MoteManager.cancelFollow(moteIds, vo.token).startUI(new ApiCallback<Boolean>() {
+                @Override
+                public void onError(int code, String errorInfo) {
+                    Toast.makeText(ModelPersonActivity.this, "取消关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
+                    if (!ModelPersonActivity.this.isFinishing()) {
+                        loadingDialog.dismiss();
+                    }
+                }
 
+                @Override
+                public void onSuccess(Boolean num) {
+                    Toast.makeText(ModelPersonActivity.this, "取消关注成功", Toast.LENGTH_SHORT).show();
+                    if (!ModelPersonActivity.this.isFinishing()) {
+                        loadingDialog.dismiss();
+                    }
+                    careCount.setText("关注度:" + moteDetail.getData().getFollowNum());
+                    careCount.setChecked(false);
+                    isFollow = false;
+                }
 
+                @Override
+                public void onProgress(int progress) {
+
+                }
+            });
         }
     }
+
 
 
 }

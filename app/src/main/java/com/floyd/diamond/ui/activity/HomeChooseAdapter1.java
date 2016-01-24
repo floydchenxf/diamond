@@ -124,7 +124,7 @@ public class HomeChooseAdapter1 extends BaseAdapter {
             holder.item_1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    itemClickListener.onItemClick(v,dataEntity_1);
+                    itemClickListener.onItemClick(v, dataEntity_1);
                 }
             });
             holder.likecount1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -138,7 +138,12 @@ public class HomeChooseAdapter1 extends BaseAdapter {
             });
 
             holder.name1.setText(vo.moteItemVO1.getNickname());
-            holder.address1.setText(vo.moteItemVO1.getArea() + "");
+            if (vo.moteItemVO1.getArea()!=null){
+                holder.address1.setText(vo.moteItemVO1.getArea() + "");
+            }else{
+                holder.address1.setText("未知");
+            }
+
             String imgUrl = vo.moteItemVO1.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");
@@ -176,7 +181,12 @@ public class HomeChooseAdapter1 extends BaseAdapter {
             }
 
             holder.name2.setText(vo.moteItemVO2.getNickname());
-            holder.address2.setText(vo.moteItemVO2.getArea() + "");
+            if (vo.moteItemVO2.getArea()!=null){
+                holder.address2.setText(vo.moteItemVO2.getArea() + "");
+            }else{
+                holder.address2.setText("未知");
+            }
+
             String imgUrl = vo.moteItemVO2.getPreviewUrl();
             if (GlobalParams.isDebug) {
                 Log.e("TAG", imgUrl + "");

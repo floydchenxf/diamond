@@ -89,14 +89,14 @@ public class BannerFragment extends BaseFragment {
         mImageView = new NetworkImageView(getActivity());
         mImageView.setDefaultImageResId(R.drawable.tupian);
         mImageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.dip2px(getActivity(), height)));
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<String> actions = new ArrayList<String>();
-                actions.add(mDataList.getImgUrl());
-                callAction(actions, "BANNER", mDataList);
-            }
-        });
+//        mImageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                List<String> actions = new ArrayList<String>();
+//                actions.add(mDataList.getImgUrl());
+//                callAction(actions, "BANNER", mDataList);
+//            }
+//        });
         mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         mImageView.setErrorImageResId(R.drawable.pic_loading);
         mImageView.setDefaultImageResId(R.drawable.pic_loading);
