@@ -270,7 +270,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                     showWaitLayout(dateTime, "等待模特上传照片");
                 } else if (status == 4) {
                     String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
-                    showWaitLayout(dateTime, "等待模特上传订单号");
+                    showWaitLayout(dateTime, "等待模特处理商品");
                 } else {
                     hiddenWaitLayout();
                 }
@@ -433,12 +433,12 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                                     @Override
                                     public void onSuccess(Boolean aBoolean) {
                                         dataLoadingDailog.dismiss();
-                                        loadData(false);
                                         SellerTaskEvent event = new SellerTaskEvent();
                                         event.finishStatus = 1;
                                         event.status = 8;
                                         event.moteTaskId = taskProcessVO.moteTask.id;
                                         EventBus.getDefault().post(event);
+                                        loadData(false);
                                     }
 
                                     @Override
