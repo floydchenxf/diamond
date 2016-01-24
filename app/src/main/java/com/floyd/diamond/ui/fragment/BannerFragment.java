@@ -1,6 +1,5 @@
 package com.floyd.diamond.ui.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -15,17 +14,14 @@ import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
-import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.vo.AdvVO;
-import com.floyd.diamond.ui.activity.H5Activity;
 import com.floyd.diamond.utils.CommonUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -109,17 +105,17 @@ public class BannerFragment extends BaseFragment {
 
     private void callAction(final List<String> actions, final String param, final AdvVO banner) {
 
-        Intent intent = new Intent(getActivity(), H5Activity.class);
-        String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO + "?id=" + mDataList.id;
-        H5Activity.H5Data h5Data = new H5Activity.H5Data();
-        h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-        h5Data.data = url;
-        h5Data.showProcess = true;
-        h5Data.showNav = true;
-        intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
+//        Intent intent = new Intent(getActivity(), H5Activity.class);
+//        String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO + "?id=" + mDataList.id;
+//        H5Activity.H5Data h5Data = new H5Activity.H5Data();
+//        h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+//        h5Data.data = url;
+//        h5Data.showProcess = true;
+//        h5Data.showNav = true;
+//        intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
 //        Intent intent = new Intent(getActivity(), MoteDetailActivity.class);
 //        intent.putExtra(MoteDetailActivity.MOTE_ID, mDataList.id);
-        startActivity(intent);
+//        startActivity(intent);
 
     }
 
