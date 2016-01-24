@@ -187,48 +187,74 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
 
                 loginVO.user.realName = realName;
                 loginVO.user.idNumber = idcardNumber;
-                dataLoadingDialog.show();
-                MoteManager.updateMoteAuthenInfo(loginVO.user, loginVO.token).startUI(new ApiCallback<Boolean>() {
-                    @Override
-                    public void onError(int code, String errorInfo) {
-                        if (!MoteCardActivity.this.isFinishing()) {
-                            dataLoadingDialog.dismiss();
-                            Toast.makeText(MoteCardActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
-                        }
+
+                //弹框提示认证后性别，年龄不可修改
+                UIAlertDialog.Builder builder = new UIAlertDialog.Builder(MoteCardActivity.this);
+                SpannableString message = new SpannableString(" 亲,性别与出生年月认证后将无法修改！");
+                message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                builder.setMessage(message)
+                        .setCancelable(true)
+                        .setPositiveButton(R.string.confirm,
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,
+                                                        int id) {
+                                        //确定后提交
 
 
-                    }
-
-                    @Override
-                    public void onSuccess(Boolean aBoolean) {
-                        if (!MoteCardActivity.this.isFinishing()) {
-                            dataLoadingDialog.dismiss();
-                            LoginManager.saveLoginInfo(MoteCardActivity.this, loginVO);
-                            EventBus.getDefault().post(new AuthStatusEvent());
-                            UIAlertDialog.Builder builder = new UIAlertDialog.Builder(MoteCardActivity.this);
-                            SpannableString message = new SpannableString("亲,您已提交成功，请等待审核!");
-                            message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            builder.setMessage(message)
-                                    .setCancelable(true)
-                                    .setPositiveButton(R.string.confirm,
-                                            new DialogInterface.OnClickListener() {
-                                                public void onClick(DialogInterface dialog,
-                                                                    int id) {
-                                                    dialog.dismiss();
-                                                    MoteCardActivity.this.finish();
+                                        dataLoadingDialog.show();
+                                        MoteManager.updateMoteAuthenInfo(loginVO.user, loginVO.token).startUI(new ApiCallback<Boolean>() {
+                                            @Override
+                                            public void onError(int code, String errorInfo) {
+                                                if (!MoteCardActivity.this.isFinishing()) {
+                                                    dataLoadingDialog.dismiss();
+                                                    Toast.makeText(MoteCardActivity.this, errorInfo, Toast.LENGTH_SHORT).show();
                                                 }
-                                            });
-                            AlertDialog dialog = builder.create();
-                            dialog.show();
-                        }
-                    }
 
+
+                                            }
+
+                                            @Override
+                                            public void onSuccess(Boolean aBoolean) {
+                                                if (!MoteCardActivity.this.isFinishing()) {
+                                                    dataLoadingDialog.dismiss();
+                                                    LoginManager.saveLoginInfo(MoteCardActivity.this, loginVO);
+                                                    EventBus.getDefault().post(new AuthStatusEvent());
+                                                    UIAlertDialog.Builder builder = new UIAlertDialog.Builder(MoteCardActivity.this);
+                                                    SpannableString message = new SpannableString("亲,您已提交成功，请等待审核!");
+                                                    message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                                    message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                                    builder.setMessage(message)
+                                                            .setCancelable(true)
+                                                            .setPositiveButton(R.string.confirm,
+                                                                    new DialogInterface.OnClickListener() {
+                                                                        public void onClick(DialogInterface dialog,
+                                                                                            int id) {
+                                                                            dialog.dismiss();
+                                                                            MoteCardActivity.this.finish();
+                                                                        }
+                                                                    });
+                                                    AlertDialog dialog = builder.create();
+                                                    dialog.show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onProgress(int progress) {
+
+                                            }
+                                        });
+                                    }
+                                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onProgress(int progress) {
-
+                    public void onClick(DialogInterface dialog, int which) {
+                        //取消后弹框消失
+                        dialog.dismiss();
+                        MoteCardActivity.this.finish();
                     }
                 });
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
                 break;
         }
