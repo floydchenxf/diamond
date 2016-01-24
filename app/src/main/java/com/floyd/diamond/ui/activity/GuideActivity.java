@@ -12,21 +12,21 @@ import com.floyd.diamond.R;
  */
 public class GuideActivity extends Activity implements View.OnClickListener {
 
-    private static final String STATIC_HOST = "http://test.static.penghongwo.com/";
+    public static final String STATIC_HOST = "http://test.static.penghongwo.com/";
     //联系我们
-    private static final String CONTACT_URL = STATIC_HOST + "1.html";
+    public static final String CONTACT_URL = STATIC_HOST + "1.html";
     //关于我们
-    private static final String ABOUT_US = STATIC_HOST + "2.html";
+    public static final String ABOUT_US = STATIC_HOST + "2.html";
     //模特索引
-    private static final String MOTE_GUIDE_URL = STATIC_HOST + "3.html";
+    public static final String MOTE_GUIDE_URL = STATIC_HOST + "3.html";
     //商家索引
-    private static final String SELLER_GUIDE_URL = STATIC_HOST + "4.html";
+    public static final String SELLER_GUIDE_URL = STATIC_HOST + "4.html";
     //图标说明
-    private static final String ICON_ULR = STATIC_HOST + "5.html";
+    public static final String ICON_ULR = STATIC_HOST + "5.html";
     //新商家QA
-    private static final String NEWSELLER_QA = STATIC_HOST + "6.html";
+    public static final String NEWSELLER_QA = STATIC_HOST + "6.html";
     //注册说明
-    private static final String REG_URL = STATIC_HOST + "7.html";
+    public static final String REG_URL = STATIC_HOST + "7.html";
 
     private View moteGuideLayout;
     private View sellerGuideLayout;
