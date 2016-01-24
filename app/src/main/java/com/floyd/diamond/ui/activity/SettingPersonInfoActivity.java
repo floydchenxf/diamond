@@ -147,6 +147,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         aboutUs.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
         Log.i(TAG, "-------model:" + modelInfo);
+        loginVO = LoginManager.getLoginInfo(this);
         if (modelInfo != null  && modelInfo.contains("Redmi Note 2")) {
             messageSettingLayout.setVisibility(View.GONE);
         } else {
@@ -160,7 +161,6 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
                 }
             });
 
-            loginVO = LoginManager.getLoginInfo(this);
             if (loginVO.user.msgSwitch == 1) {
                 msgSwitch.setChecked(true);
             } else {
