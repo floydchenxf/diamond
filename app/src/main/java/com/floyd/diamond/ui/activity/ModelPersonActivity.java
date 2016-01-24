@@ -423,39 +423,6 @@ public class ModelPersonActivity extends Activity {
         wxCircleHandler.addToSocialSDK();
     }
 
-//    private void doGuanzhu() {
-//        if (LoginManager.isLogin(this)) {
-//            LoginVO vo = LoginManager.getLoginInfo(this);
-//            MoteManager.addFollow(moteId, vo.token).startUI(new ApiCallback<Integer>() {
-//                @Override
-//                public void onError(int code, String errorInfo) {
-//                    Toast.makeText(ModelPersonActivity.this, "关注失败:" + errorInfo, Toast.LENGTH_SHORT).show();
-//                    if (!ModelPersonActivity.this.isFinishing()) {
-//                        loadingDialog.dismiss();
-//                    }
-//                }
-//
-//                @Override
-//                public void onSuccess(Integer aBoolean) {
-//                    Toast.makeText(ModelPersonActivity.this, "关注成功", Toast.LENGTH_SHORT).show();
-//                    if (!ModelPersonActivity.this.isFinishing()) {
-//                        loadingDialog.dismiss();
-//                    }
-//                    careCount.setText("已关注");
-//                    careCount.setChecked(true);
-//                    careCount.setOnClickListener(null);
-//                }
-//
-//                @Override
-//                public void onProgress(int progress) {
-//
-//                }
-//            });
-//
-//
-//        }
-//    }
-
     private void doGuanzhu() {
         if (!LoginManager.isLogin(this)) {
             return;

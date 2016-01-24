@@ -546,13 +546,32 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.gender_layout:
-                if (!this.isFinishing()) {
-                    hiddenPopup();
-                    genderPopupWindow.showPopUpWindow();
+                if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
+                    genderLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
+                }else{
+                    if (!this.isFinishing()) {
+                        hiddenPopup();
+                        genderPopupWindow.showPopUpWindow();
+                    }
                 }
+
                 break;
             case R.id.birthday_layout:
-                pickerPopWin.showPopWin(this);
+                if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
+                        birthdayLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+                            }
+                        });
+                }else{
+                    pickerPopWin.showPopWin(this);
+                }
                 break;
             case R.id.height_layout:
                 heightPopupWindow.showPopUpWindow();
@@ -569,11 +588,21 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 startActivityForResult(addressIntent, CODE_ADDRESS_REQUEST);
                 break;
             case R.id.auth_layout:
-                if (isEditorMode) {
-                    Intent authIntent = new Intent(this, MoteAuthActivity.class);
-                    authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(authIntent);
+                if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
+                    authLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                        }
+                    });
+                }else{
+                    if (isEditorMode) {
+                        Intent authIntent = new Intent(this, MoteAuthActivity.class);
+                        authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(authIntent);
+                    }
                 }
+
                 break;
             case R.id.edit_head:
                 String status = Environment.getExternalStorageState();

@@ -359,7 +359,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
             }
 
             @Override
-            public void onSuccess(MoteDetail1 vo) {
+            public void onSuccess(final MoteDetail1 vo) {
                 countDownLatch.countDown();
 
                 if (GlobalParams.isDebug){
@@ -401,6 +401,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     manyidu.setText("满意度：" + vo.goodeEvalRate+"%");
                 }
 
+                guanzhuView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        doGuanzhu(vo.getFollowNum());
+                    }
+                });
 
             }
 
@@ -454,9 +460,9 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                 it.putExtra("moteId", moteId);
                 startActivity(it);
                 break;
-            case R.id.guanzhu:
-                doGuanzhu();
-                break;
+//            case R.id.guanzhu:
+//                doGuanzhu();
+//                break;
             case R.id.back:
                 this.finish();
                 break;
@@ -471,7 +477,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     public void onEventMainThread(LoginEvent event) {
     }
 
-    private void doGuanzhu() {
+    private void doGuanzhu(final int number) {
         if (!LoginManager.isLogin(this)) {
             return;
         }
@@ -520,7 +526,10 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     if (!MoteDetailActivity.this.isFinishing()) {
                         loadingDialog.dismiss();
                     }
-                    guanzhuView.setText("关注度:" + infoVO.followNum);
+                    guanzhuView.setText("关注度:" +number);
+                    if (GlobalParams.isDebug){
+                        Log.e("TAG",infoVO.getFollowNum()+"");
+                    }
                     guanzhuView.setChecked(false);
                     isFollow = false;
                 }

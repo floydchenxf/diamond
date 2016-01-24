@@ -38,6 +38,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 
+/**
+ * 模特个人认证
+ */
+
 public class MoteAuthActivity extends Activity implements View.OnClickListener {
 
     private static final String TAG = "MoteAuthActivity";

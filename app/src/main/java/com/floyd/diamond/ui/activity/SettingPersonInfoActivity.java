@@ -76,10 +76,10 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_setting);
         modelInfo = Build.MODEL;
-        Log.i(TAG, "model:" + Build.MODEL);
-        Log.i(TAG, "device:"+Build.DEVICE);
-        Log.i(TAG, "product:"+Build.PRODUCT);
-        Log.i(TAG, "manufacturer"+Build.MANUFACTURER);
+//        Log.i(TAG, "model:" + Build.MODEL);
+//        Log.i(TAG, "device:"+Build.DEVICE);
+//        Log.i(TAG, "product:"+Build.PRODUCT);
+//        Log.i(TAG, "manufacturer"+Build.MANUFACTURER);
         dataloadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         // 得到UM的社会化分享组件
