@@ -79,10 +79,10 @@ public class MoteTaskTypeActivity extends Activity implements View.OnClickListen
         mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
             @Override
             public void onPullDownToRefresh() {
-                dataLoadingDialog.show();
-                pageNo++;
-                isClear = false;
-                loadData(false);
+//                dataLoadingDialog.show();
+//                pageNo++;
+//                isClear = false;
+//                loadData(false);
                 mPullToRefreshListView.onRefreshComplete(false, true);
             }
 
