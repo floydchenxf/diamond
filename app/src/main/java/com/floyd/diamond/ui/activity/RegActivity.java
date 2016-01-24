@@ -3,6 +3,7 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckedTextView;
@@ -19,6 +20,7 @@ public class RegActivity extends Activity implements View.OnClickListener {
     private EditText phoneNumberView;
     private TextView backView;
     private TextView nextStepView;
+    private TextView regInfoView;
 
     private int checkType;
 
@@ -31,10 +33,13 @@ public class RegActivity extends Activity implements View.OnClickListener {
         phoneNumberView = (EditText) findViewById(R.id.user_name);
         backView = (TextView) findViewById(R.id.back);
         nextStepView = (TextView) findViewById(R.id.next_step);
+        regInfoView = (TextView) findViewById(R.id.reg_info);
+        regInfoView.setText(Html.fromHtml("注册代表同意<font color=\"#00b4ff\">全民模特网络服务使用协议</font>"));
         backView.setOnClickListener(this);
         sellerView.setOnClickListener(this);
         modelView.setOnClickListener(this);
         nextStepView.setOnClickListener(this);
+        regInfoView.setOnClickListener(this);
     }
 
     @Override
@@ -70,6 +75,17 @@ public class RegActivity extends Activity implements View.OnClickListener {
                 it.putExtra("phoneNumber", phoneNumber);
                 startActivity(it);
                 finish();
+                break;
+            case R.id.reg_info:
+                Intent intent = new Intent(this, H5Activity.class);
+                H5Activity.H5Data h5Data = new H5Activity.H5Data();
+                h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                h5Data.data = GuideActivity.REG_URL;
+                h5Data.showProcess = true;
+                h5Data.showNav = true;
+                h5Data.title = "全民模特网络服务使用协议";
+                intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
+                startActivity(intent);
                 break;
         }
 

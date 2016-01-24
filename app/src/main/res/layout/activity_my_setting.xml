@@ -90,15 +90,15 @@
 
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:orientation="vertical"
-        app:layout_heightPercent="15%"
         app:layout_marginTopPercent="2%">
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            app:layout_heightPercent="8%"
             android:id="@+id/msg_setting_layout"
             android:layout_weight="1">
 
@@ -134,6 +134,7 @@
 
         <com.zhy.android.percent.support.PercentRelativeLayout
             android:layout_width="match_parent"
+            app:layout_heightPercent="8%"
             android:layout_height="0dp"
             android:layout_weight="1">
 
