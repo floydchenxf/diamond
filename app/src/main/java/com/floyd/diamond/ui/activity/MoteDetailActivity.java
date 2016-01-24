@@ -125,7 +125,9 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), this);
         headBgView = (NetworkImageView) findViewById(R.id.head_bg);
+        headBgView.setDefaultImageResId(R.drawable.head_lay);
         headView = (NetworkImageView) findViewById(R.id.head);
+        headView.setDefaultImageResId(R.drawable.head);
         backView = (LinearLayout) findViewById(R.id.back);
         jinyanView = (TextView) findViewById(R.id.jinyan);
         agreeView = (TextView) findViewById(R.id.agree);
@@ -366,14 +368,12 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
 
                 String imageUrl = vo.getAvartUrl();
                 if (!TextUtils.isEmpty(imageUrl)) {
-//                    headView.setDefaultImageResId(R.drawable.head);
                     headView.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
                             return ImageUtils.getCircleBitmap(bitmap, MoteDetailActivity.this.getResources().getDimension(R.dimen.cycle_head_image_size));
                         }
                     });
-//                    headBgView.setDefaultImageResId(R.drawable.head);
                     headBgView.setImageUrl(vo.getAvartUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {

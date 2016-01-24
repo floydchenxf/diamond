@@ -18,7 +18,6 @@ import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.event.SellerTaskEvent;
 import com.floyd.diamond.ui.activity.ExpressActivity;
 import com.floyd.diamond.ui.activity.NewTaskActivity;
-import com.floyd.diamond.ui.seller.SellerTaskDetailActivity;
 import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
 
 import java.util.ArrayList;
@@ -173,15 +172,18 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
         };
 
         int finishStatus = taskItemVO.finishStatus;
-        if (finishStatus == 1 || status == 8) {
+        if (finishStatus == 1 || status >= 7) {
             holder.taskStatusView.setText("已结束");
             holder.taskStatusView.setTextColor(Color.parseColor("#999999"));
             holder.taskStatusView.setChecked(false);
         } else {
+            if (status == 1) {
+
+            }
             if (status >=5 ) {
                 holder.taskStatusView.setChecked(true);
                 holder.taskStatusView.setTextColor(Color.WHITE);
-                holder.taskStatusView.setText("确认并满意");
+                holder.taskStatusView.setText("待确定");
             } else {
                 holder.taskStatusView.setChecked(true);
                 holder.taskStatusView.setTextColor(Color.WHITE);

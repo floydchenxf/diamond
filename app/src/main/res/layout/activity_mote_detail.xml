@@ -14,7 +14,7 @@
             android:layout_width="fill_parent"
             android:layout_height="136dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/head" />
+            android:src="@drawable/head_lay" />
 
         <FrameLayout
             android:id="@+id/title"

@@ -114,10 +114,14 @@ public class SellerTaskActivity extends Activity implements View.OnClickListener
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SellerTaskItemVO itemVO = adapter.getData().get(position - 1);
-                Intent it = new Intent(SellerTaskActivity.this, SellerTaskDetailActivity.class);
-                it.putExtra(SellerTaskDetailActivity.TASK_ID_PARAM, itemVO.id);
-                it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(it);
+                if (itemVO.status == 0) {
+                    Toast.makeText(SellerTaskActivity.this, "亲,请到商家后台付款!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent it = new Intent(SellerTaskActivity.this, SellerTaskDetailActivity.class);
+                    it.putExtra(SellerTaskDetailActivity.TASK_ID_PARAM, itemVO.id);
+                    it.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(it);
+                }
             }
         });
         mListView.setAdapter(adapter);
