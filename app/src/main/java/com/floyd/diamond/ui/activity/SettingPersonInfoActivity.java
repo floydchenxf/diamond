@@ -6,11 +6,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -63,13 +65,21 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
     private UMSocialService mShare;
     private LoginVO loginVO;
     private Switch msgSwitch;
+    private View messageSettingLayout;
 
     private Dialog dataloadingDialog;
+
+    private String modelInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_setting);
+        modelInfo = Build.MODEL;
+        Log.i(TAG, "model:" + Build.MODEL);
+        Log.i(TAG, "device:"+Build.DEVICE);
+        Log.i(TAG, "product:"+Build.PRODUCT);
+        Log.i(TAG, "manufacturer"+Build.MANUFACTURER);
         dataloadingDialog = DialogCreator.createDataLoadingDialog(this);
 
         // 得到UM的社会化分享组件
@@ -128,6 +138,7 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         tuijian = ((TextView) findViewById(R.id.tuijian));//推荐给朋友
         aboutUs = ((TextView) findViewById(R.id.aboutus));//关于我们
         noLogin = ((TextView) findViewById(R.id.noLogin));//退出登录
+        messageSettingLayout = findViewById(R.id.msg_setting_layout);
         fileSizeView = (TextView) findViewById(R.id.file_size_view);
         ziliao.setOnClickListener(this);
         noLogin.setOnClickListener(this);
@@ -135,14 +146,20 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         suggest.setOnClickListener(this);
         aboutUs.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
-        msgSwitch = (Switch)findViewById(R.id.msg_switch_view);
+        Log.i(TAG, "-------model:" + modelInfo);
+        if (modelInfo != null  && modelInfo.contains("HM NOTE2")) {
+            messageSettingLayout.setVisibility(View.GONE);
+        } else {
+            messageSettingLayout.setVisibility(View.VISIBLE);
+            msgSwitch = (Switch)findViewById(R.id.msg_switch_view);
 
-        msgSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SettingPersonInfoActivity.this.setMsgSetting(isChecked);
-            }
-        });
+            msgSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    SettingPersonInfoActivity.this.setMsgSetting(isChecked);
+                }
+            });
+        }
 
         loginVO = LoginManager.getLoginInfo(this);
         if (loginVO.user.msgSwitch == 1) {
