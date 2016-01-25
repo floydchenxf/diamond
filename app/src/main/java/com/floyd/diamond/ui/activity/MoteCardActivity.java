@@ -396,6 +396,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
                         intent.putExtra("return-data", true);
                         intent.putExtra("path", avatorTmp);
                         intent.putExtra("outputFormat", "JPEG");// 返回格式
+                        intent.putExtra("needRotate", true);
                         this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
                     }
                 }
@@ -451,6 +452,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
                 intent.putExtra("return-data", true);
                 intent.putExtra("path", avatorTmp);
                 intent.putExtra("outputFormat", "JPEG");// 返回格式
+                intent.putExtra("needRotate", true);
                 this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
             }
         }
