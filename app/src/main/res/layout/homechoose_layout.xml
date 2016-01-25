@@ -7,7 +7,6 @@
     <com.zhy.android.percent.support.PercentLinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff"
         android:orientation="vertical">
 
         <com.zhy.android.percent.support.PercentFrameLayout
@@ -59,10 +58,10 @@
 
         <com.floyd.pullrefresh.widget.PullToRefreshListView
             android:id="@+id/gridview_filter"
+            android:background="#eeeeee"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_below="@+id/title"
-            android:background="@color/white"
             android:cacheColorHint="#00000000"
             android:descendantFocusability="blocksDescendants"
             android:divider="@null"
@@ -76,6 +75,7 @@
             android:layout_height="50dp"
             android:layout_below="@+id/status_layout"
             android:background="@color/white"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:text="暂无数据"
             android:visibility="gone" />
