@@ -433,11 +433,13 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 Intent it = new Intent(this.getActivity(), MyPicActivity.class);
                 startActivity(it);
                 break;
-//            case R.id.auth_view:
-//                Intent authIntent = new Intent(this.getActivity(), MoteAuthActivity.class);
-//                authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(authIntent);
-//                break;
+            case R.id.auth_view:
+                if (authStatusView.getText().toString().equals("未认证")||authStatusView.getText().toString().equals("未通过")){
+                    Intent authIntent = new Intent(this.getActivity(), MoteAuthActivity.class);
+                    authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(authIntent);
+                }
+                break;
         }
     }
 

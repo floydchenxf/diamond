@@ -74,7 +74,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
 
     private String tempImage = "image_temp";
     private String tempImageCompress = "image_tmp";
-    private int avatorSize = 720;
+    private int avatorSize = 1000;
     private String avatorTmp = "avator_tmp.jpg";
     private File newFile = new File(EnvConstants.imageRootPath, tempImage);
     private File tmpFile = new File(EnvConstants.imageRootPath, tempImageCompress);

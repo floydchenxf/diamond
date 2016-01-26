@@ -550,7 +550,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                     genderLayout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
+                            Toast.makeText(PersonInfoActivity.this,"审核中或者已认证的状态无法修改性别！",Toast.LENGTH_SHORT).show();
                         }
                     });
                 }else{
@@ -566,7 +566,7 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                         birthdayLayout.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-
+                                Toast.makeText(PersonInfoActivity.this,"审核中或者已认证的状态无法修改出生年月！",Toast.LENGTH_SHORT).show();
                             }
                         });
                 }else{
@@ -588,21 +588,52 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 startActivityForResult(addressIntent, CODE_ADDRESS_REQUEST);
                 break;
             case R.id.auth_layout:
-                if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
-                    authLayout.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
+                if (GlobalParams.isDebug){
+                    Log.e("TAG",nicknameView.getText().toString());
+                    Log.e("TAG",genderView.getText().toString());
+                    Log.e("TAG",birthdayView.getText().toString());
+                    Log.e("TAG",heightView.getText().toString());
+                    Log.e("TAG",weixinView.getText().toString());
+                    Log.e("TAG",alipayView.getText().toString());
+                    Log.e("TAG",alipayname.getText().toString());
+                    Log.e("TAG",goodsCityView.getText().toString());
 
-                        }
-                    });
-                }else{
-                    if (isEditorMode) {
-                        Intent authIntent = new Intent(this, MoteAuthActivity.class);
-                        authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(authIntent);
-                    }
                 }
+                if (nicknameView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"昵称不能为空！",Toast.LENGTH_SHORT).show();
+                }else if(genderView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"性别不能为空！",Toast.LENGTH_SHORT).show();
+                }else if (birthdayView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"出生年月不能为空！",Toast.LENGTH_SHORT).show();
+                }else if(heightTypeView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"身形不能为空！",Toast.LENGTH_SHORT).show();
+                }else if (heightView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"身高不能为空！",Toast.LENGTH_SHORT).show();
+                }else if(weixinView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"微信不能为空！",Toast.LENGTH_SHORT).show();
+                }else if(alipayname.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"支付宝姓名不能为空！",Toast.LENGTH_SHORT).show();
+                }else if (alipayView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"支付宝账号不能为空！",Toast.LENGTH_SHORT).show();
+                }else if (goodsCityView.getText().toString().length()<=0){
+                    Toast.makeText(PersonInfoActivity.this,"收货地址不能为空！",Toast.LENGTH_SHORT).show();
+                }else{
+                    if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
+                        authLayout.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Toast.makeText(PersonInfoActivity.this,"审核中或者已认证的状态无法修改！",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }else{
+                        if (isEditorMode) {
+                            Intent authIntent = new Intent(this, MoteAuthActivity.class);
+                            authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(authIntent);
+                        }
+                    }
 
+                }
                 break;
             case R.id.edit_head:
                 String status = Environment.getExternalStorageState();
