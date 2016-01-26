@@ -218,7 +218,10 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
                                             public void onSuccess(Boolean aBoolean) {
                                                 if (!MoteCardActivity.this.isFinishing()) {
                                                     dataLoadingDialog.dismiss();
-                                                    LoginManager.saveLoginInfo(MoteCardActivity.this, loginVO);
+                                                    if (loginVO != null && loginVO.user !=null) {
+                                                        loginVO.user.authenStatus = 0;
+                                                        LoginManager.saveLoginInfo(MoteCardActivity.this, loginVO);
+                                                    }
                                                     EventBus.getDefault().post(new AuthStatusEvent());
                                                     UIAlertDialog.Builder builder = new UIAlertDialog.Builder(MoteCardActivity.this);
                                                     SpannableString message = new SpannableString("亲,您已提交成功，请等待审核!");
@@ -393,6 +396,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
                         intent.putExtra("return-data", true);
                         intent.putExtra("path", avatorTmp);
                         intent.putExtra("outputFormat", "JPEG");// 返回格式
+                        intent.putExtra("needRotate", true);
                         this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
                     }
                 }
@@ -448,6 +452,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
                 intent.putExtra("return-data", true);
                 intent.putExtra("path", avatorTmp);
                 intent.putExtra("outputFormat", "JPEG");// 返回格式
+                intent.putExtra("needRotate", true);
                 this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
             }
         }

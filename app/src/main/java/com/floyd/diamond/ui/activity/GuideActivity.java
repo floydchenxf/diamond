@@ -12,7 +12,7 @@ import com.floyd.diamond.R;
  */
 public class GuideActivity extends Activity implements View.OnClickListener {
 
-    public static final String STATIC_HOST = "http://test.static.penghongwo.com/";
+    public static final String STATIC_HOST = "http://static.penghongwo.com/";
     //联系我们
     public static final String CONTACT_URL = STATIC_HOST + "1.html";
     //关于我们

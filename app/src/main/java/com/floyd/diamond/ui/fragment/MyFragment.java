@@ -42,7 +42,6 @@ import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.CareActivity;
-import com.floyd.diamond.ui.activity.MoteAuthActivity;
 import com.floyd.diamond.ui.activity.MoteWalletSummaryActivity;
 import com.floyd.diamond.ui.activity.MyPicActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;
@@ -559,6 +558,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     intent.putExtra("return-data", true);
                     intent.putExtra("path", avatorTmp);
                     intent.putExtra("outputFormat", "JPEG");// 返回格式
+                    intent.putExtra("needRotate", true);
                     this.startActivityForResult(intent, CROP_PICTURE_REQUEST);
                 }
             }

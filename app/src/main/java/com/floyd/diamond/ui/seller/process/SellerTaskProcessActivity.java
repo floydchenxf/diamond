@@ -270,7 +270,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                     showWaitLayout(dateTime, "等待模特上传照片");
                 } else if (status == 4) {
                     String dateTime = DateUtil.getDateStr(System.currentTimeMillis());
-                    showWaitLayout(dateTime, "等待模特处理商品");
+                    showWaitLayout(dateTime, "等待模特自购退回");
                 } else {
                     hiddenWaitLayout();
                 }

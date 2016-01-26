@@ -294,7 +294,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                 break;
             case R.id.self_buy_view:
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(this.getActivity());
-                SpannableString message = new SpannableString(" 亲，您确认自购商品？");
+                SpannableString message = new SpannableString("亲，您确认自购商品？");
                 message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setMessage(message)
