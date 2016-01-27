@@ -42,6 +42,7 @@ import com.floyd.diamond.biz.vo.seller.SellerInfoVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.CareActivity;
+import com.floyd.diamond.ui.activity.MoteAuthActivity;
 import com.floyd.diamond.ui.activity.MoteWalletSummaryActivity;
 import com.floyd.diamond.ui.activity.MyPicActivity;
 import com.floyd.diamond.ui.activity.MyTaskActivity;

@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:background="#55000000"
+            android:background="#66000000"
             android:orientation="horizontal">
 
             <TextView
@@ -60,9 +60,8 @@
             android:id="@+id/finish_status_view1"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="#44000000"
+            android:background="#66000000"
             android:gravity="center"
-            android:text="已接完"
             android:textColor="#cecece"
             android:textSize="20sp" />
         <ImageView
@@ -93,7 +92,7 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_alignParentBottom="true"
-            android:background="#55000000"
+            android:background="#66000000"
             android:orientation="horizontal">
 
             <TextView
@@ -128,9 +127,8 @@
             android:id="@+id/finish_status_view2"
             android:layout_width="match_parent"
             android:layout_height="180dp"
-            android:background="#44000000"
+            android:background="#66000000"
             android:gravity="center"
-            android:text="已接完"
             android:textColor="#cecece"
             android:textSize="20sp"/>
         <ImageView

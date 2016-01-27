@@ -29,4 +29,5 @@ public class ProcessMoteTaskVO implements Serializable {
     public long returnItemTime; //退货时间
     public long finishStatusTime;//结束时间
     public long selfBuyTime;//自购时间
+    public String expressCompanyName;
 }

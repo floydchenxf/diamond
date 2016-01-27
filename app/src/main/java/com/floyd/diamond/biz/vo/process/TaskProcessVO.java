@@ -32,4 +32,5 @@ public class TaskProcessVO implements Serializable {
     public List<ProcessPicVO> picList;
     public ProcessSellerVO seller;
     public UserVO user;
+
 }

@@ -249,13 +249,14 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
     // 要分享标题 summary : 要分享的文字概述 image url : 图片地址 [以上三个参数至少填写一个] targetUrl
     // 用户点击该分享时跳转到的目标地址 [必填] ( 若不填写则默认设置为友盟主页 )
     private void addQQZonePlatform() {
-        String appId = "100424468";
-        String appKey = "c7394704798a158208a74ab60104f0ba";
+//        String appId = "100424468";
+//        String appKey = "c7394704798a158208a74ab60104f0ba";
+        String appId="1104979541";
+        String appKey="uMcMgTs7XX85f4eO";
         // 添加QQ支持, 并且设置QQ分享内容的target url
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(MoteDetailActivity.this,
                 appId, appKey);
-        qqSsoHandler.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w\" +\n" +
-                "                \"RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
+        qqSsoHandler.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
         qqSsoHandler.addToSocialSDK();
 
         // 添加QZone平台
@@ -283,8 +284,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         //设置title
         weixinContent.setTitle("来自“全民模特”的分享");
         //设置分享内容跳转URL
-        weixinContent.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w\" +\n" +
-                "                \"RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
+        weixinContent.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
         //设置分享图片
         weixinContent.setShareImage(new UMImage(MoteDetailActivity.this,R.drawable.icon));
         mShare.setShareMedia(weixinContent);
@@ -297,8 +297,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
         //设置朋友圈title
         circleMedia.setTitle("来自“全民模特”的分享");
         circleMedia.setShareImage(new UMImage(MoteDetailActivity.this, R.drawable.icon));
-        circleMedia.setTargetUrl("http://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7w\" +\n" +
-                "                \"RVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirecthttp://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402911639&idx=1&sn=fb9dbf4dd14da4d2f9430743b88c96b6&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D#wechat_redirect");
+        circleMedia.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
         mShare.setShareMedia(circleMedia);
 
         // 支持微信朋友圈

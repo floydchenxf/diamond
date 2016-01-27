@@ -107,13 +107,13 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         } else {
             final TaskItemVO itemVO1 = vo.productItemVO1;
             if (itemVO1.isFinish()) {
-                holder.finishStatusView1.setText("已被抢完");
+//                holder.finishStatusView1.setText("已被抢完");
                 holder.finishStatusView1.setVisibility(View.VISIBLE);
             } else if (itemVO1.acceptStauts == 2) {
-                holder.finishStatusView1.setText("条件不符");
+//                holder.finishStatusView1.setText("条件不符");
                 holder.finishStatusView1.setVisibility(View.VISIBLE);
             } else if (itemVO1.acceptStauts == 3) {
-                holder.finishStatusView1.setText("已完成");
+//                holder.finishStatusView1.setText("已完成");
                 holder.finishStatusView1.setVisibility(View.VISIBLE);
             } else {
                 holder.finishStatusView1.setVisibility(View.GONE);
@@ -158,13 +158,13 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             });
 
             if (itemVO2.isFinish()) {
-                holder.finishStatusView2.setText("已被抢完");
+//                holder.finishStatusView2.setText("已被抢完");
                 holder.finishStatusView2.setVisibility(View.VISIBLE);
             } else if (itemVO2.acceptStauts == 2) {
-                holder.finishStatusView2.setText("条件不符");
+//                holder.finishStatusView2.setText("条件不符");
                 holder.finishStatusView2.setVisibility(View.VISIBLE);
             }else if (itemVO2.acceptStauts == 3) {
-                holder.finishStatusView2.setText("已完成");
+//                holder.finishStatusView2.setText("已完成");
                 holder.finishStatusView2.setVisibility(View.VISIBLE);
             } else {
                 holder.finishStatusView2.setVisibility(View.GONE);

@@ -386,7 +386,7 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
             String time = DateUtil.getDateStr(taskProcessVO.moteTask.returnItemTime);
             goodsProcessTimeTextView.setText(time);
             goodsOrderTypeView.setVisibility(View.VISIBLE);
-            goodsOrderTypeView.setText("承运来源：" + taskProcessVO.moteTask.expressCompanyId);
+            goodsOrderTypeView.setText("承运来源：" + taskProcessVO.moteTask.expressCompanyName);
             goodsOrderNoView.setText("快递单号：" + taskProcessVO.moteTask.expressNo);
             goodsOrderNoView.setOnClickListener(this);
         }
