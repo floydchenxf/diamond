@@ -1,15 +1,9 @@
 package com.floyd.diamond.ui.adapter;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.text.SpannableString;
-import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
-import android.text.style.RelativeSizeSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -27,10 +21,7 @@ import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.biz.vo.seller.SellerTaskDetailVO;
 import com.floyd.diamond.event.SellerTaskEvent;
-import com.floyd.diamond.ui.activity.ExpressActivity;
 import com.floyd.diamond.ui.activity.NewTaskActivity;
-import com.floyd.diamond.ui.seller.process.SellerTaskProcessActivity;
-import com.floyd.diamond.ui.view.UIAlertDialog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,11 +33,12 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
     private ImageLoader mImageLoader;
     private List<SellerTaskDetailVO> taskItems = new ArrayList<SellerTaskDetailVO>();
     private Context mContext;
-    private ViewHolder holder;
+    private LoginVO loginVO;
 
     public SellerTaskDetailAdapter(Context context, ImageLoader mImageLoader) {
         this.mContext = context;
         this.mImageLoader = mImageLoader;
+        this.loginVO = LoginManager.getLoginInfo(mContext);
     }
 
     public void addAll(List<SellerTaskDetailVO> tasks, boolean isClear) {
@@ -99,7 +91,7 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        holder = null;
+        ViewHolder holder = null;
         if (convertView == null) {
             convertView = View.inflate(mContext, R.layout.seller_task_detail_item, null);
             holder = new ViewHolder();
@@ -144,14 +136,6 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
 
             sb.append(expressNo);
             holder.goodsOrderNoView.setText(sb.toString());
-//            holder.goodsOrderNoView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Intent orderIntent = new Intent(mContext, ExpressActivity.class);
-//                    orderIntent.putExtra(ExpressActivity.EXPRESS_MOTE_TASK_ID, taskItemVO.moteTaskId);
-//                    mContext.startActivity(orderIntent);
-//                }
-//            });
         }
 
         String timeStr = DateUtil.getDateTime(taskItemVO.createTime);
@@ -175,85 +159,62 @@ public class SellerTaskDetailAdapter extends BaseAdapter {
             holder.goodsStatusView.setVisibility(View.GONE);
         }
 
-        View.OnClickListener click = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(mContext, SellerTaskProcessActivity.class);
-                it.putExtra(SellerTaskProcessActivity.SELLER_MOTE_TASK_ID, taskItemVO.moteTaskId);
-                mContext.startActivity(it);
-            }
-        };
+//        View.OnClickListener click = new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent it = new Intent(mContext, SellerTaskProcessActivity.class);
+//                it.putExtra(SellerTaskProcessActivity.SELLER_MOTE_TASK_ID, taskItemVO.moteTaskId);
+//                mContext.startActivity(it);
+//            }
+//        };
 
         int finishStatus = taskItemVO.finishStatus;
         if (finishStatus == 1 || status >= 7) {
             holder.taskStatusView.setText("已结束");
             holder.taskStatusView.setTextColor(Color.parseColor("#999999"));
             holder.taskStatusView.setChecked(false);
+            holder.taskStatusView.setOnClickListener(null);
         } else {
-            if (status == 1) {
-
-            }
             if (status >=5 ) {
                 holder.taskStatusView.setChecked(true);
                 holder.taskStatusView.setTextColor(Color.WHITE);
                 holder.taskStatusView.setText("确定并满意");
-//                //弹框显示满意
-//                holder.taskPicView.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-////                        Toast.makeText(mContext,"您已确定并满意该任务！",Toast.LENGTH_SHORT).show();
-//                        final UIAlertDialog.Builder builder = new UIAlertDialog.Builder(mContext);
-//                        SpannableString message = new SpannableString(" 您已确定并满意该任务！");
-//                        message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                        message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                        builder.setMessage(message)
-//                                .setCancelable(true)
-//                                .setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialog, int which) {
-//                                        dialog.dismiss();
-//                                    }
-//                                });
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//                    }
-//                });
+                holder.taskStatusView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+
+                        SellerManager.finishAndApproveMoteTask(taskItemVO.moteTaskId, 1, loginVO.token).startUI(new ApiCallback<Boolean>() {
+                            @Override
+                            public void onError(int code, String errorInfo) {
+                                Toast.makeText(mContext, errorInfo, Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onSuccess(Boolean aBoolean) {
+                                taskItemVO.status = 8;
+                                CheckedTextView tt = (CheckedTextView) v;
+                                tt.setTextColor(Color.parseColor("#999999"));
+                                tt.setChecked(false);
+                                tt.setText("已结束");
+                                tt.setOnClickListener(null);
+                                Toast.makeText(mContext, "您已确定并满意该任务！", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onProgress(int progress) {
+
+                            }
+                        });
+                    }
+                });
             } else {
                 holder.taskStatusView.setChecked(true);
                 holder.taskStatusView.setTextColor(Color.WHITE);
                 holder.taskStatusView.setText("进行中");
+                holder.taskStatusView.setOnClickListener(null);
             }
         }
 
-       final  LoginVO loginVO= LoginManager.getLoginInfo(mContext);
-        if (holder.taskStatusView.getText().toString().equals("确定并满意")){
-            holder.taskStatusView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                                        SellerManager.finishAndApproveMoteTask(taskItemVO.moteTaskId, 1, loginVO.token).startUI(new ApiCallback<Boolean>() {
-                                            @Override
-                                            public void onError(int code, String errorInfo) {
-                                                Toast.makeText(mContext, errorInfo, Toast.LENGTH_SHORT).show();
-                                            }
-
-                                            @Override
-                                            public void onSuccess(Boolean aBoolean) {
-                                                holder.taskStatusView.setText("已结束");
-                                                Toast.makeText(mContext,"您已确定并满意该任务！",Toast.LENGTH_SHORT).show();
-                                            }
-
-                                            @Override
-                                            public void onProgress(int progress) {
-
-                                            }
-                                        });
-                }
-            });
-
-        }
-
-//        holder.taskStatusView.setOnClickListener(click);
         return convertView;
     }
 

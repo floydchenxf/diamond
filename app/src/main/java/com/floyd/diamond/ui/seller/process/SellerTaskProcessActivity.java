@@ -465,6 +465,11 @@ public class SellerTaskProcessActivity extends Activity implements View.OnClickL
                                             @Override
                                             public void onSuccess(Boolean aBoolean) {
                                                 dataLoadingDailog.dismiss();
+                                                SellerTaskEvent event = new SellerTaskEvent();
+                                                event.finishStatus = 1;
+                                                event.status = 8;
+                                                event.moteTaskId = taskProcessVO.moteTask.id;
+                                                EventBus.getDefault().post(event);
                                                 loadData(false);
                                             }
 
