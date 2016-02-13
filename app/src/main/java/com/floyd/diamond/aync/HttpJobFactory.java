@@ -60,7 +60,7 @@ public class HttpJobFactory {
                 new BaseRequest(url, params, files, httpMethod, new RequestCallback() {
                     @Override
                     public void onProgress(int progress) {
-
+                        callback.onProgress(progress);
                     }
 
                     @Override
@@ -76,7 +76,7 @@ public class HttpJobFactory {
 
                     @Override
                     public void onError(int code, String info) {
-
+                        callback.onError(code, info);
                     }
                 }).execute();
 
