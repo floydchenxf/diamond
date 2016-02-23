@@ -36,6 +36,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -124,25 +125,27 @@ public class HighDefinitionImageLoader {
 
             if (requests != null && requests.length == 1) {
                 final ImageRequest request = requests[0];
-                request.execute(new ApiCallback() {
+                if (request != null) {
+                    request.execute(new ApiCallback() {
 
-                    @Override
-                    public void onSuccess(Object result) {
+                        @Override
+                        public void onSuccess(Object result) {
 
-                    }
+                        }
 
-                    @Override
-                    public void onProgress(int progress) {
-                        request.progress = progress;
-                        publishProgress(request);
-                    }
+                        @Override
+                        public void onProgress(int progress) {
+                            request.progress = progress;
+                            publishProgress(request);
+                        }
 
-                    @Override
-                    public void onError(int code, String info) {
+                        @Override
+                        public void onError(int code, String info) {
 
-                    }
-                });
-                return request;
+                        }
+                    });
+                    return request;
+                }
             }
             return null;
         }
@@ -259,7 +262,7 @@ public class HighDefinitionImageLoader {
                 String destfile = new StringBuilder(EnvConstants.imageRootPath).append(File.separator).append(md5Name).toString();
                 try {
                     //url有效，从网络读取图片
-                    Response r = new BaseRequest(url, null, HttpMethod.GET, new RequestCallback() {
+                    Response r = new BaseRequest(url, new HashMap<String, String>(), HttpMethod.GET, new RequestCallback() {
                         @Override
                         public void onProgress(int progress) {
                             listener.onProgress(progress);
