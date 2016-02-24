@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,6 +72,10 @@ public class TaskPicAdapter extends BaseAdapter {
             holder.dateTimeView = (TextView) convertView.findViewById(R.id.date_time);
             holder.imageLayout = (LinearLayout) convertView.findViewById(R.id.galley_item);
             convertView.setTag(holder);
+        }
+
+        if (convertView instanceof HorizontalScrollView) {
+            ((HorizontalScrollView) convertView).scrollTo(0,0);
         }
 
         holder = (ViewHolder) convertView.getTag();

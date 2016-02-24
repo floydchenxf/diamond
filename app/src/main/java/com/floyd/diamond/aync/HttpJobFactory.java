@@ -22,30 +22,40 @@ public class HttpJobFactory {
 
                 boolean isNetworkAvailable = NetworkUtil.isNetworkAvailable(IMChannel.getApplication());
                 if (!isNetworkAvailable) {
-                    callback.onError(APIError.API_NETWORK_ERROR, "无网络，请检查网络设置．");
+                    if (callback != null) {
+                        callback.onError(APIError.API_NETWORK_ERROR, "无网络，请检查网络设置．");
+                    }
                     return;
                 }
 
                 new BaseRequest(url, params, httpMethod, new RequestCallback() {
                     @Override
                     public void onProgress(int progress) {
-                        callback.onProgress(progress);
+                        if (callback != null) {
+                            callback.onProgress(progress);
+                        }
                     }
 
                     @Override
                     public <T> void onSuccess(T... result) {
                         if (result == null || result.length <= 0) {
-                            callback.onError(APIError.API_CONTENT_EMPTY, "empty!");
+                            if (callback != null) {
+                                callback.onError(APIError.API_CONTENT_EMPTY, "empty!");
+                            }
                             return;
                         }
 
                         byte[] content = (byte[]) result[0];
-                        callback.onSuccess(content);
+                        if (callback != null) {
+                            callback.onSuccess(content);
+                        }
                     }
 
                     @Override
                     public void onError(int code, String info) {
-                        callback.onError(code, info);
+                        if (callback != null) {
+                            callback.onError(code, info);
+                        }
                     }
                 }).execute();
 
@@ -60,23 +70,31 @@ public class HttpJobFactory {
                 new BaseRequest(url, params, files, httpMethod, new RequestCallback() {
                     @Override
                     public void onProgress(int progress) {
-
+                        if (callback != null) {
+                            callback.onProgress(progress);
+                        }
                     }
 
                     @Override
                     public <T> void onSuccess(T... result) {
                         if (result == null || result.length <= 0) {
-                            callback.onError(APIError.API_CONTENT_EMPTY, "empty!");
+                            if (callback != null) {
+                                callback.onError(APIError.API_CONTENT_EMPTY, "empty!");
+                            }
                             return;
                         }
 
                         byte[] content = (byte[]) result[0];
-                        callback.onSuccess(content);
+                        if (callback != null) {
+                            callback.onSuccess(content);
+                        }
                     }
 
                     @Override
                     public void onError(int code, String info) {
-
+                        if (callback != null) {
+                            callback.onError(code, info);
+                        }
                     }
                 }).execute();
 
