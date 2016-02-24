@@ -189,12 +189,16 @@ public class MoteManager {
 
                 List<TaskPicsVO> pics = new ArrayList<TaskPicsVO>();
                 for (Map<String, List<MoteTaskPicVO>> ele : taskPicList) {
-                    TaskPicsVO taskPicsVO = new TaskPicsVO();
                     if (ele != null) {
                         for (Map.Entry<String, List<MoteTaskPicVO>> ent : ele.entrySet()) {
-                            taskPicsVO.dateTime = ent.getKey();
-                            taskPicsVO.taskPics = ent.getValue();
-                            pics.add(taskPicsVO);
+                            String dateTime = ent.getKey();
+                            List<MoteTaskPicVO> taskPics = ent.getValue();
+                            if (taskPics != null && taskPics.size() > 0) {
+                                TaskPicsVO taskPicsVO = new TaskPicsVO();
+                                taskPicsVO.dateTime = ent.getKey();
+                                taskPicsVO.taskPics = ent.getValue();
+                                pics.add(taskPicsVO);
+                            }
                         }
                     }
                 }
