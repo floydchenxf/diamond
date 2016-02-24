@@ -102,5 +102,4 @@
 
    <include layout="@layout/diamod_data_loading"/>
 
-
 </RelativeLayout>

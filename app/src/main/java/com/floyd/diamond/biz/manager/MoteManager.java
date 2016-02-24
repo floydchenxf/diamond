@@ -244,6 +244,14 @@ public class MoteManager {
         params.put("gender",dataEntity.getGender()+"");
         if (GlobalParams.isDebug){
             Log.e("TAG",dataEntity.getGender()+"性别");
+            Log.e("TAG",dataEntity.getAgeMin()+"ageMin");
+            Log.e("TAG",dataEntity.getAgeMax()+"ageMax");
+            Log.e("TAG",dataEntity.getHeightMax()+"heightMax");
+            Log.e("TAG",dataEntity.getHeightMin()+"heightMin");
+            Log.e("TAG",dataEntity.getCreditMin()+"creMin");
+            Log.e("TAG",dataEntity.getCreditMax()+"creMax");
+            Log.e("TAG",dataEntity.getShapes()+"shape");
+            Log.e("TAG",dataEntity.getAreaids()+"area");
         }
         params.put("ageMin",dataEntity.getAgeMin()+"");
         params.put("ageMax",dataEntity.getAgeMax()+"");
@@ -347,6 +355,7 @@ public class MoteManager {
      * @return
      */
     public static AsyncJob<Boolean> returnGoods(long moteTaskId, String token, String expressCompanyId, String expressNo) {
+
         String url = APIConstants.HOST + APIConstants.API_RETURN_ITEM;
         Map<String, String> params = new HashMap<String, String>();
         params.put("moteTaskId", moteTaskId + "");

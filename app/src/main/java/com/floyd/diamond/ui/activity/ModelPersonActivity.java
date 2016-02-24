@@ -41,6 +41,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.controller.UMServiceFactory;
 import com.umeng.socialize.controller.UMSocialService;
 import com.umeng.socialize.controller.listener.SocializeListeners;
+import com.umeng.socialize.media.QQShareContent;
+import com.umeng.socialize.media.QZoneShareContent;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.sso.QZoneSsoHandler;
 import com.umeng.socialize.sso.UMQQSsoHandler;
@@ -142,7 +144,7 @@ public class ModelPersonActivity extends Activity {
 
         String url = APIConstants.HOST + APIConstants.API_MOTE_DETAIL_INFO;
 
-        final String token = loginVO == null?"":loginVO.token;
+        final String token = loginVO == null ? "" : loginVO.token;
         StringRequest request = new StringRequest(Request.Method.POST, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -156,7 +158,7 @@ public class ModelPersonActivity extends Activity {
 
                 //绑定数据
                 nickname.setText(moteDetail.getData().getNickname());
-                age.setText(moteDetail.getData().getAge()+"");
+                age.setText(moteDetail.getData().getAge() + "");
                 int genderNum = moteDetail.getData().getGender();
                 if (genderNum == 0) {
                     gender.setText("女");
@@ -165,21 +167,21 @@ public class ModelPersonActivity extends Activity {
                 }
 
                 height.setText(moteDetail.getData().getHeight() + "");
-                float shape= ((float) moteDetail.getData().getShape());
-                if (shape==1){
+                float shape = ((float) moteDetail.getData().getShape());
+                if (shape == 1) {
                     shapes.setText("骨感");
-                }else if(shape==2){
+                } else if (shape == 2) {
                     shapes.setText("标致");
-                }else if (shape==3){
+                } else if (shape == 3) {
                     shapes.setText("丰满");
                 }
 
                 area.setText(moteDetail.getData().getArea());
                 jianyanzhi.setText(moteDetail.getData().getOrderNum() + "");
-                if (moteDetail.getData().getGoodeEvalRate()==0){
-                    manyidu.setText(moteDetail.getData().getGoodeEvalRate()+"");
-                }else{
-                    manyidu.setText(moteDetail.getData().getGoodeEvalRate()+ "%");
+                if (moteDetail.getData().getGoodeEvalRate() == 0) {
+                    manyidu.setText(moteDetail.getData().getGoodeEvalRate() + "");
+                } else {
+                    manyidu.setText(moteDetail.getData().getGoodeEvalRate() + "%");
                 }
 
                 isFollow = moteDetail.getData().isIsFollow();
@@ -190,9 +192,9 @@ public class ModelPersonActivity extends Activity {
                     int num = moteDetail.getData().getFollowNum();
                     careCount.setText("关注度:" + num);
                     careCount.setChecked(false);
-                   // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
+                    // careCount.setOnClickListener((View.OnClickListener) ModelPersonActivity.this);
                 }
-                String imageUrl = moteDetail.getData().getAvartUrl()+"!v400";
+                String imageUrl = moteDetail.getData().getAvartUrl() + "!v400";
 //                MyImageLoader loader=new MyImageLoader(queue,imageUrl,headView,ModelPersonActivity.this);
 //                MyImageLoader loader1=new MyImageLoader(queue,imageUrl,headView_bg,ModelPersonActivity.this);
                 if (!TextUtils.isEmpty(imageUrl)) {
@@ -227,7 +229,7 @@ public class ModelPersonActivity extends Activity {
                 //在这里设置需要post的参数
                 Map<String, String> params = new HashMap<>();
                 params.put("id", moteId + "");
-                params.put("token",token);
+                params.put("token", token);
                 return params;
             }
         };
@@ -330,10 +332,11 @@ public class ModelPersonActivity extends Activity {
     private void setShareContent() {
         // 分享字符串
         mShare.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
-                "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
+                "在全民模特APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         // 设置分享图片, 参数2为图片的url地址
         mShare.setShareMedia(new UMImage(ModelPersonActivity.this,
                 R.drawable.icon));
+
     }
 
 
@@ -367,18 +370,43 @@ public class ModelPersonActivity extends Activity {
     private void addQQZonePlatform() {
 //        String appId = "100424468";
 //        String appKey = "c7394704798a158208a74ab60104f0ba";
-        String appId="1104979541";
-        String appKey="uMcMgTs7XX85f4eO";
+        String appId = "1104979541";
+        String appKey = "uMcMgTs7XX85f4eO";
         // 添加QQ支持, 并且设置QQ分享内容的target url
         UMQQSsoHandler qqSsoHandler = new UMQQSsoHandler(ModelPersonActivity.this,
                 appId, appKey);
-        qqSsoHandler.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
+//        qqSsoHandler.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
+//        //设置title
+//        qqSsoHandler.setTitle("来自“全民模特”的分享");
         qqSsoHandler.addToSocialSDK();
 
         // 添加QZone平台
         QZoneSsoHandler qZoneSsoHandler = new QZoneSsoHandler(
                 ModelPersonActivity.this, appId, appKey);
         qZoneSsoHandler.addToSocialSDK();
+
+        QQShareContent qqShareContent = new QQShareContent();
+        //设置分享文字
+        qqShareContent.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+                "在全民模特APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
+        //设置分享title
+        qqShareContent.setTitle("来自“全民模特”的分享");
+        //设置分享图片
+        qqShareContent.setShareImage(new UMImage(ModelPersonActivity.this, R.drawable.icon));
+        //设置点击分享内容的跳转链接
+        qqShareContent.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
+        mShare.setShareMedia(qqShareContent);
+
+        QZoneShareContent qzone = new QZoneShareContent();
+        //设置分享文字
+        qzone.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
+                "在全民模特APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
+        //设置点击消息的跳转URL
+        qzone.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
+        qzone.setTitle("来自“全民模特”的分享");
+        //设置分享图片
+        qzone.setShareImage(new UMImage(ModelPersonActivity.this, R.drawable.icon));
+        mShare.setShareMedia(qzone);
     }
 
     //添加微信分享平台
@@ -393,13 +421,13 @@ public class ModelPersonActivity extends Activity {
         WeiXinShareContent weixinContent = new WeiXinShareContent();
 //        //设置分享文字
         weixinContent.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
-                "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
+                "在全民模特APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置title
         weixinContent.setTitle("来自“全民模特”的分享");
         //设置分享内容跳转URL
         weixinContent.setTargetUrl("https://mp.weixin.qq.com/s?__biz=MzA3MzUxMjE0Nw==&mid=402986533&idx=1&sn=d503481e7048afe058d7b7b19613919d&scene=0&previewkey=Y0AJm9zrE7wRVUc950Fuc8NS9bJajjJKzz%2F0By7ITJA%3D&uin=NTgzMTExODgw&key=710a5d99946419d9b3463e089f1d876636ceb5d18633bbe0cb595068d607d845498fc2369c6cb0fb9af4c15c0132292e&devicetype=iMac14%2C2+OSX+OSX+10.11.1+build%2815B42%29&version=11000003&lang=zh_CN&pass_ticket=fsq9NnAUofrE%2FMjugdWnmN1G2g9xOx1w2bLs%2BwX9n2wOSxs8FzTcB4eb5CHVLpyy");
         //设置分享图片
-        weixinContent.setShareImage(new UMImage(ModelPersonActivity.this,R.drawable.icon));
+        weixinContent.setShareImage(new UMImage(ModelPersonActivity.this, R.drawable.icon));
         mShare.setShareMedia(weixinContent);
         // 添加微信平台
         UMWXHandler wxHandler = new UMWXHandler(ModelPersonActivity.this, appId,
@@ -409,7 +437,7 @@ public class ModelPersonActivity extends Activity {
         //设置微信朋友圈分享内容
         CircleShareContent circleMedia = new CircleShareContent();
         circleMedia.setShareContent("基于移动互联网，构建颜值经济平台，聚集高颜值美女，帅哥，儿童，让颜值成为生产力，让颜值更有价值！圆你一个模特梦，让人人都有机会成为网络红人的平台！\n" +
-                "在捧红APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
+                "在全民模特APP只要你有颜值！而颜值越用越亮！真正做到轻松赚钱，还能成为网红！");
         //设置朋友圈title
         circleMedia.setTitle("来自“全民模特”的分享");
         circleMedia.setShareImage(new UMImage(ModelPersonActivity.this, R.drawable.icon));
@@ -483,7 +511,6 @@ public class ModelPersonActivity extends Activity {
             });
         }
     }
-
 
 
 }

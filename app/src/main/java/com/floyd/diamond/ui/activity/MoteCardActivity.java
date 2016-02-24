@@ -190,7 +190,7 @@ public class MoteCardActivity extends Activity implements View.OnClickListener {
 
                 //弹框提示认证后性别，年龄不可修改
                 UIAlertDialog.Builder builder = new UIAlertDialog.Builder(MoteCardActivity.this);
-                SpannableString message = new SpannableString(" 亲,性别与出生年月认证后将无法修改！");
+                SpannableString message = new SpannableString(" 亲,性别与出生年月认证后无法修改");
                 message.setSpan(new RelativeSizeSpan(2), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 message.setSpan(new ForegroundColorSpan(Color.parseColor("#d4377e")), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 builder.setMessage(message)

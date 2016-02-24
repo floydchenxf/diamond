@@ -1,5 +1,7 @@
 package com.floyd.diamond.biz.manager;
 
+import android.util.Log;
+
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.biz.constants.APIConstants;
@@ -39,6 +41,7 @@ public class IndexManager {
      */
     public static AsyncJob<List<MoteInfoVO>> fetchMoteList(int moteType, int pageNo, int pageSize) {
         String url = APIConstants.HOST + APIConstants.API_GET_MOTE_LIST;
+        Log.e("TAG",moteType+","+pageNo+","+pageSize);
         final Map<String, String> params = new HashMap<String, String>();
         params.put("moteType", moteType + "");
         params.put("pageNo", pageNo + "");

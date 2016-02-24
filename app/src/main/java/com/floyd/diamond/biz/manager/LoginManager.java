@@ -3,10 +3,12 @@ package com.floyd.diamond.biz.manager;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.HttpJobFactory;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.biz.constants.AccountType;
@@ -63,6 +65,9 @@ public class LoginManager {
         params.put("phoneNumber", phoneNum);
         params.put("password", password);
         params.put("lastDeviceType", loginType + "");
+        if (GlobalParams.isDebug){
+            Log.e("TAG_deviceid",deviceId);
+        }
         params.put("lastDeviceId", deviceId);
         final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
 

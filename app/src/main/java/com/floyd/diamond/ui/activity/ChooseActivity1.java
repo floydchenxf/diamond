@@ -55,6 +55,7 @@ public class ChooseActivity1 extends Activity {
     private RequestQueue queue;
     private LoginVO vo;
     private DLCondition.DataEntity dlEntity;
+
     private List<String> shapes;
     private List<String> areaids;
     private RangeSeekBar seekBar_age;

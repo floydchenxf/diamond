@@ -528,6 +528,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                             femaleProduct.setImageUrl(url, mImageLoader, new BitmapProcessor() {
                                 @Override
                                 public Bitmap processBitmpa(Bitmap bitmap) {
+                                    //获得圆角图片（最后一个参数为圆角的度数）
                                     return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 40);
                                 }
                             });

@@ -180,7 +180,8 @@
                     android:text="12345678"
                     android:layout_alignBottom="@+id/express_company_id"
                     android:layout_toRightOf="@+id/express_company_id"
-                    android:layout_toEndOf="@+id/express_company_id" />
+                    android:layout_toEndOf="@+id/express_company_id"
+                    />
 
                 <TextView
                     android:id="@+id/confirm_express"

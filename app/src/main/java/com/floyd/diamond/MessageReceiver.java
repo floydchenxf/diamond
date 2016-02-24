@@ -3,6 +3,7 @@ package com.floyd.diamond;
 import android.content.Context;
 import android.util.Log;
 
+import com.floyd.diamond.biz.vo.IKeepClassForProguard;
 import com.floyd.diamond.notice.NoticeVO;
 import com.floyd.diamond.notice.OpenAppVO;
 import com.floyd.diamond.notice.PushNotificationManager;
@@ -77,7 +78,7 @@ public class MessageReceiver extends XGPushBaseReceiver {
         notifiShowedRlt.getCustomContent();
     }
 
-    public class PushMsgVO {
+    public class PushMsgVO implements IKeepClassForProguard {
         public long td;
         public int msgType;
         public Map<String, String> ct;

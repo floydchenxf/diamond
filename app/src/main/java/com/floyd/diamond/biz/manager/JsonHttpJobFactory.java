@@ -33,13 +33,17 @@ public class JsonHttpJobFactory {
                         new AbstractJsonParser<T>() {
                             @Override
                             protected T convert2Obj(String data) {
+
+                                if(GlobalParams.isDebug){
+                                    Log.e("TAG_data",data);
+                                }
                                 if (TextUtils.isEmpty(data)) {
                                     return null;
                                 }
                                 Gson gson = new Gson();
-                                if (GlobalParams.isDebug){
-                                    Log.d("TAG",data+"");
-                                }
+//                                if (GlobalParams.isDebug){
+//                                    Log.d("TAG——数据",data+"");
+//                                }
 
                                 T result = null;
                                 try {

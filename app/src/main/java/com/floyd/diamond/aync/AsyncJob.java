@@ -2,7 +2,9 @@ package com.floyd.diamond.aync;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.channel.threadpool.WxDefaultExecutor;
 
@@ -138,6 +140,9 @@ public abstract class AsyncJob<T> {
 
                     @Override
                     public void onSuccess(T result) {
+                        if (GlobalParams.isDebug){
+                            Log.e("TAG",result+"");
+                        }
                         AsyncJob<R> mapped = func.call(result);
                         mapped.start(new ApiCallback<R>() {
                             @Override

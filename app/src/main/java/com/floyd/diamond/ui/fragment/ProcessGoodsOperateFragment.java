@@ -13,6 +13,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.tools.DateUtil;
@@ -141,10 +143,11 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
             returnGoodsLayout.setVisibility(View.VISIBLE);
             selfBuyResultLayout.setVisibility(View.GONE);
             fillReturnGoodsData(true);
-            String companyId = taskProcessVO.moteTask.expressCompanyId;
+            String companyId = taskProcessVO.moteTask.expressCompanyName;
             String expressNo = taskProcessVO.moteTask.expressNo;
             showEditExpressInfo(companyId, expressNo);
         } else if (status > ProcessStatus.RETURN_GOODS) {
+            selfBuyResultLayout.setVisibility(View.GONE);
             long selfBuyTime = taskProcessVO.moteTask.selfBuyTime;
             long returnItemTime = taskProcessVO.moteTask.returnItemTime;
             boolean isSelfBuy = selfBuyTime > 0;
@@ -155,7 +158,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
 
             if (isReturnItem) {
                 fillReturnGoodsData(false);
-                String companyId = taskProcessVO.moteTask.expressCompanyId;
+                String companyId = taskProcessVO.moteTask.expressCompanyName;
                 String expressNo = taskProcessVO.moteTask.expressNo;
                 showExpressInfo(companyId, expressNo);
             }
@@ -369,7 +372,10 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
 
                 dataLoadingDialog.show();
                 LoginVO vo = LoginManager.getLoginInfo(this.getActivity());
-                MoteManager.returnGoods(taskProcessVO.moteTask.id, vo.token, expressCompany.name, expressNo).startUI(new ApiCallback<Boolean>() {
+                if (GlobalParams.isDebug){
+                    Log.e("TAG_ex", expressCompany.code+"code");
+                }
+                MoteManager.returnGoods(taskProcessVO.moteTask.id, vo.token, expressCompany.code, expressNo).startUI(new ApiCallback<Boolean>() {
                     @Override
                     public void onError(int code, String errorInfo) {
                         if (!ProcessGoodsOperateFragment.this.getActivity().isFinishing()) {
