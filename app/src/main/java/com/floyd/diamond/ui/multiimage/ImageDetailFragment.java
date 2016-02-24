@@ -468,7 +468,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getActivity(),
-                            getResources().getString(R.string.image_save_fail),
+                            getResources().getString(R.string.image_saved),
                             Toast.LENGTH_SHORT).show();
                 }
 
