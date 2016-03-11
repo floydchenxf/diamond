@@ -38,6 +38,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.R;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.utils.WXUtil;
@@ -52,6 +53,8 @@ import java.io.OutputStream;
 public class ImageUtils {
 
 	private static final String TAG = ImageUtils.class.getSimpleName();
+
+	private static RenderScript rs = null;
 	/**
 	 * 图片去色,返回灰度图片
 	 *
@@ -86,11 +89,12 @@ public class ImageUtils {
 		return bmpGrayscale;
 	}
 
-	public static Bitmap fastBlur(Context context, Bitmap sentBitmap, int radius) {
+	public static Bitmap fastBlur(Bitmap sentBitmap, int radius) {
 		if (Build.VERSION.SDK_INT > 16) {
 			Bitmap bitmap = sentBitmap.copy(sentBitmap.getConfig(), true);
-
-			final RenderScript rs = RenderScript.create(context);
+			if (rs == null) {
+				rs = RenderScript.create(IMChannel.getApplication());
+			}
 			final Allocation input = Allocation.createFromBitmap(rs, sentBitmap, Allocation.MipmapControl.MIPMAP_NONE,
 					Allocation.USAGE_SCRIPT);
 			final Allocation output = Allocation.createTyped(rs, input.getType());

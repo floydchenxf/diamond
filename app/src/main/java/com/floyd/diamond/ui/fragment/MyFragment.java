@@ -223,7 +223,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     bgHeadView.setImageUrl(moteInfoVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
-                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            return ImageUtils.fastBlur(bitmap, 12);
                         }
                     });
                 }
@@ -278,7 +278,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                         bgHeadView.setImageUrl(userExtVO.getDetailUrl(), mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
-                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                                return ImageUtils.fastBlur(bitmap, 12);
                             }
                         });
                     }
@@ -307,7 +307,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     bgHeadView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
-                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            return ImageUtils.fastBlur(bitmap, 12);
                         }
                     });
                 }
@@ -349,7 +349,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                         bgHeadView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {
                             @Override
                             public Bitmap processBitmpa(Bitmap bitmap) {
-                                return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                                return ImageUtils.fastBlur(bitmap, 12);
                             }
                         });
                     }
@@ -596,7 +596,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     bgHeadView.setImageUrl(CommonUtil.getImage_400(booleanApiResult), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
-                            return ImageUtils.fastBlur(MyFragment.this.getActivity(), bitmap, 12);
+                            return ImageUtils.fastBlur(bitmap, 12);
                         }
                     });
                     newFile.delete();

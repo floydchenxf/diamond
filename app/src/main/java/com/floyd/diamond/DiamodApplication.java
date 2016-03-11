@@ -37,7 +37,6 @@ public class DiamodApplication extends Application {
         return false;
     }
 
-
     @Override
     public void onCreate() {
         super.onCreate();

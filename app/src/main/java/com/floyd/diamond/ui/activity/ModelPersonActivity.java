@@ -209,7 +209,7 @@ public class ModelPersonActivity extends Activity {
                     headView_bg.setImageUrl(imageUrl, mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
-                            return ImageUtils.fastBlur(ModelPersonActivity.this, bitmap, 12);
+                            return ImageUtils.fastBlur(bitmap, 12);
                         }
                     });
                     //headView_bg.setBackgroundResource(R.color.headview_bf);
