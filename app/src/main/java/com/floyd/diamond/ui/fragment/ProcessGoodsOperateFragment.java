@@ -176,6 +176,10 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
         String address = taskProcessVO.seller.address;
         String phoneNumber = taskProcessVO.seller.phoneNumber;
         String shopName = taskProcessVO.seller.shopName;
+        String provinceName=taskProcessVO.seller.provinceName;
+        String cityName=taskProcessVO.seller.cityName;
+        String districtName=taskProcessVO.seller.districtName;
+        Log.e("TAG",address+"地址");
         addressView.setText(address);
         phoneNumView.setText(phoneNumber);
         shopNameView.setText(shopName);

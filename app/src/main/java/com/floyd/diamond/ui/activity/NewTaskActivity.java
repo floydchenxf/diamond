@@ -122,7 +122,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                 }else {
                     shotAreaIdView.setText("所在地：" );
                 }
-                selfBuyRateView.setText("自购折扣：" + taskItemVO.selfBuyOff + "");
+                selfBuyRateView.setText("自购价格：" + taskItemVO.selfBuyOff + "");
 
                 //任务状态为1的时候为红色，2位不可接灰色（选中为红色）
                 if (taskItemVO.acceptStauts==1) {
@@ -255,6 +255,7 @@ public class NewTaskActivity extends Activity implements View.OnClickListener {
                                 goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
                                 goodsData.data = url;
                                 goodsData.showProcess = true;
+                                //判断是否在app中打开网页
                                 goodsData.showNav = true;
                                 goodsData.title = "商品详情";
                                 goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);

@@ -95,9 +95,11 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
 
     private void initWebView() {
         webView = (WebView) findViewById(R.id.h5_web_view);
+        //允许JS执行
         webView.getSettings().setJavaScriptEnabled(true);
         if (data.canZoom) {
             webView.getSettings().setSupportZoom(true);
+            //设置webview可触摸放大缩小
             webView.getSettings().setBuiltInZoomControls(true);
             webView.getSettings().setDisplayZoomControls(false);
         } else {
@@ -105,7 +107,9 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             webView.getSettings().setBuiltInZoomControls(false);
         }
 
+        //可能的话会使所有列的宽度不超过屏幕宽度
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        //允许访问文件
         webView.getSettings().setAllowFileAccess(true);
         webView.getSettings().setDefaultFontSize(18);
         webView.setVerticalScrollBarEnabled(false);

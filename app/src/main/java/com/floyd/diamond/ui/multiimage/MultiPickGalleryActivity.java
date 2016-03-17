@@ -411,7 +411,7 @@ public class MultiPickGalleryActivity extends Activity implements
 		if (id == R.id.title_back) {
 			onback();
 		} else if (id == R.id.finish) {
-			setResult(null,true);
+			setResult(null,false);
 		} else if (id == R.id.preview) {
 			List<String> selectedList = PhotoChooseHelper.getHelper()
 					.getSelectedList();

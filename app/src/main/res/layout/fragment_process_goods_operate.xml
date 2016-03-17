@@ -155,7 +155,6 @@
                     android:layout_alignBaseline="@+id/address_desc"
                     android:layout_alignBottom="@+id/address_desc"
                     android:layout_toRightOf="@+id/address_desc"
-                    android:singleLine="true"
                     android:text="xxxx2"
                     android:textColor="#666666"
                     android:textSize="12sp" />
@@ -164,9 +163,9 @@
                     android:id="@+id/express_company_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/address_desc"
+                    android:layout_below="@+id/goods_address"
                     android:layout_marginRight="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="30dp"
                     android:text="圆通：" />
 
                 <TextView

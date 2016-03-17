@@ -12,4 +12,8 @@ public class ProcessSellerVO implements Serializable {
     public String phoneNumber;
     public String address;
     public String shopName;
+    public String provinceName;
+    public String cityName;
+    public String districtName;
+
 }

@@ -696,6 +696,18 @@ public class MoteManager {
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, MoteTaskPicVO.class);
     }
 
+    /**
+     * 获取app最新的版本
+     * @return
+     */
+//
+//    public static AsyncJob<> getNewCode(double currentCode){
+//        String url=APIConstants.HOST+APIConstants.API_GETNEWCODE;
+//        Map<String,String> params=new HashMap<>();
+//        params.put("");
+//        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,);
+//    }
+
     public static AsyncJob<UserExtVO> fetchUserExtInfo(final String token) {
         AsyncJob<UserVO> userJob = getUserInfo(token);
         AsyncJob<UserExtVO> aa = userJob.flatMap(new Func<UserVO, AsyncJob<UserExtVO>>() {

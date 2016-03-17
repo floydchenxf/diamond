@@ -126,6 +126,7 @@ public class SellerWalletActivity extends Activity implements View.OnClickListen
                 Intent drawIntent = new Intent(this, AlipayActivity.class);
                 drawIntent.putExtra(AlipayActivity.REMIND_FEE_KEY, sellerWalletVO.remindFee);
                 startActivity(drawIntent);
+                finish();
                 break;
         }
 

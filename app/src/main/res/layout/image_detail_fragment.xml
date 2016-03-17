@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/image_detail_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
     <com.floyd.diamond.ui.multiimage.TouchImageView
         android:id="@+id/image_detail_view"
@@ -10,6 +10,11 @@
         android:layout_height="fill_parent"
         android:adjustViewBounds="true"
         android:contentDescription="@string/app_name" />
+
+    <RelativeLayout
+        android:id="@+id/rlt_animation_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></RelativeLayout>
 
     <com.floyd.diamond.ui.multiimage.MutliImageGifView
         android:id="@+id/gif_image_detail_view"
@@ -47,12 +52,11 @@
         android:textColor="#7f7f7f"
         android:textSize="12sp" />
 
-    <com.floyd.diamond.ui.multiimage.ProgressWheel
-        xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
+    <com.floyd.diamond.ui.multiimage.ProgressWheel xmlns:ProgressWheel="http://schemas.android.com/apk/res-auto"
         android:id="@+id/image_detail_progress"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
     <RelativeLayout
         android:id="@+id/vote_pic_layout"
@@ -80,9 +84,6 @@
             android:textSize="10sp" />
 
     </RelativeLayout>
-
-
-
 
 
 </RelativeLayout>

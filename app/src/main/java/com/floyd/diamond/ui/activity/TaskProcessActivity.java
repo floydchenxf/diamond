@@ -396,6 +396,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
                 goodsData.data = url;
                 goodsData.showProcess = true;
+                //是否在app中打开webview
                 goodsData.showNav = true;
                 goodsData.canZoom=true;
                 goodsData.title = "商品详情";

@@ -418,6 +418,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                     //模特儿钱包
                     Intent volleyIntent = new Intent(this.getActivity(), MoteWalletSummaryActivity.class);
                     startActivity(volleyIntent);
+
                 } else {
                     //商家钱包
                     Intent volleyIntent = new Intent(this.getActivity(), SellerWalletActivity.class);

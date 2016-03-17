@@ -3,6 +3,7 @@ package com.floyd.diamond.ui.fragment;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -134,6 +135,8 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
     private View redHot2Layout;
     private View redHot3Layout;
     private View redHot4Layout;
+
+    private ImageView one_array;
 
     Map<Integer, Boolean> showRedHotMap = new HashMap<Integer, Boolean>();
 
@@ -288,6 +291,15 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mListView.setOnScrollListener(this);
         mFakeNavigationContainer = (LinearLayout) view.findViewById(R.id.fake_navigation_container);
 
+        one_array= ((ImageView) view.findViewById(R.id.one_array));
+        one_array.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//               Toast.makeText(getActivity(),"一键置顶",Toast.LENGTH_SHORT).show();
+                mListView.setSelection(0);
+            }
+        });
+
 
         initListViewHeader();
 
@@ -367,6 +379,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                         if (mPullToRefreshListView.isBeingDragged()) {
                             if (mFakeNavigationContainer != null && mNavigationContainer != null) {
                                 mFakeNavigationContainer.setVisibility(View.GONE);
+                                one_array.setVisibility(View.GONE);
                             }
                         }
 
@@ -387,6 +400,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         });
         return view;
     }
+
 
     public void init(View view) {
         guide = ((LinearLayout) view.findViewById(R.id.guide));
@@ -779,8 +793,11 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
 
             if (isShowFakeNavigationTips) {
                 mFakeNavigationContainer.setVisibility(View.VISIBLE);
+                one_array.setVisibility(View.VISIBLE);
             } else {
                 mFakeNavigationContainer.setVisibility(View.GONE);
+                one_array.setVisibility(View.GONE);
+
             }
         }
 
@@ -800,7 +817,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 moteType = 1;
                 pageNo = 1;
                 needClear = true;
-                loadMoteInfo(true);
+                loadData(false);
                 break;
 
             case R.id.male_colther:

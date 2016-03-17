@@ -106,7 +106,7 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
-            android:text="自购折扣：70"
+            android:text="自购价格：70"
             android:textColor="@color/white"
             android:textSize="10sp" />
 

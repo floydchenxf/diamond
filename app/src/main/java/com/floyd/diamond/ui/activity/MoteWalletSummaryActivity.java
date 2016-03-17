@@ -124,6 +124,7 @@ public class MoteWalletSummaryActivity extends Activity implements View.OnClickL
                 Intent drawIntent = new Intent(this, AlipayActivity.class);
                 drawIntent.putExtra(AlipayActivity.REMIND_FEE_KEY, moteWalletVO.remindFee);
                 startActivity(drawIntent);
+                finish();
                 break;
         }
 

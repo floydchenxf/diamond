@@ -12,6 +12,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.BadgeUtil;
+import com.floyd.diamond.bean.UpdateManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.BackHandledInterface;
@@ -41,10 +43,22 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private long exitTime = 0;
 
+    private UpdateManager mUpdateManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        // 发送未读消息数目广播：count为未读消息数目（int类型）
+//        BadgeUtil.setBadgeCount(getApplicationContext(), 5);
+//
+//        // 发送重置/清除未读消息数目广播：
+//        BadgeUtil.resetBadgeCount(getApplicationContext());
+
+        //这里来检测版本是否需要更新
+        mUpdateManager = new UpdateManager(this);
+        mUpdateManager.showNoticeDialog();
 
         com.umeng.socialize.utils.Log.LOG = true;
 
@@ -77,6 +91,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 return false;
             }
         });
+
+    }
+
+
+    public void loadCode(){
 
     }
 

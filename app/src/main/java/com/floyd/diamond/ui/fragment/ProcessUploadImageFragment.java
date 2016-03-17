@@ -152,7 +152,7 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
         uploadPicLayout.removeAllViews();
         int width = this.getActivity().getWindowManager().getDefaultDisplay().getWidth();
         float ondp = this.getActivity().getResources().getDimension(R.dimen.one_dp);
-        final float eachWidth = (width - 32 * ondp) / 3;
+        final float eachWidth = (width - 32 * ondp)/3;
         if (pics != null) {
             for (final ProcessPicVO vo : pics) {
                 GridLayout.LayoutParams lp = new GridLayout.LayoutParams();
@@ -167,7 +167,8 @@ public class ProcessUploadImageFragment extends Fragment implements View.OnClick
                 networkImage.setImageUrl(vo.getPreviewUrl(), mImageLoader, new BitmapProcessor() {
                     @Override
                     public Bitmap processBitmpa(Bitmap bitmap) {
-                        return ImageUtils.getRoundBitmap(bitmap, (int) eachWidth, 20);
+                        return ImageUtils.getRoundBitmap(bitmap, (int) eachWidth, 30);
+//                        return ImageUtils.getRoundBitmap(bitmap, (int) IndexFragment.this.getActivity().getResources().getDimension(R.dimen.cycle_head_image_size), 40);
                     }
                 });
                 networkImage.setScaleType(ImageView.ScaleType.CENTER_CROP);

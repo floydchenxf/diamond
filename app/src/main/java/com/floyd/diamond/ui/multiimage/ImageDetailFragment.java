@@ -18,11 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.FllowerAnimation;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -66,6 +68,8 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
     private TextView picVoteTextView;
     private MoteTaskPicVO taskPicVO;
 
+    private RelativeLayout rlt_animation_layout;
+    private FllowerAnimation fllowerAnimation;
 
     private OnImageFragmentListener mCallback;
 
@@ -152,6 +156,17 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
         picVoteLayout = v.findViewById(R.id.vote_pic_layout);
         picVoteTextView = (TextView)v.findViewById(R.id.vote_pic_view);
+
+
+        // 撒花初始化
+        rlt_animation_layout = (RelativeLayout)v.findViewById(R.id.rlt_animation_layout);
+        rlt_animation_layout.setVisibility(View.VISIBLE);
+        fllowerAnimation = new FllowerAnimation(getActivity());
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.MATCH_PARENT,
+                RelativeLayout.LayoutParams.MATCH_PARENT);
+        fllowerAnimation.setLayoutParams(params);
+        rlt_animation_layout.addView(fllowerAnimation);
 
         if (TextUtils.isEmpty(picView.getExtData())) {
             picVoteLayout.setVisibility(View.GONE);
@@ -627,7 +642,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                         public void onSuccess(MoteTaskPicVO picVO) {
                             taskPicVO = picVO;
                             Drawable zan = null;
-                            if(android.os.Build.VERSION.SDK_INT >= 21){
+                            if (android.os.Build.VERSION.SDK_INT >= 21) {
                                 zan = getResources().getDrawable(R.drawable.zan_pressed, ImageDetailFragment.this.getActivity().getTheme());
                             } else {
                                 zan = getResources().getDrawable(R.drawable.zan_pressed);
@@ -643,6 +658,8 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                         }
                     });
 
+                    //撒花
+                    fllowerAnimation.startAnimation();
 
                 }
                 break;

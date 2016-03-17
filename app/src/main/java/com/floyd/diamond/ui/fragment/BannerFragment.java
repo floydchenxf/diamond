@@ -150,3 +150,21 @@ public class BannerFragment extends BaseFragment {
     }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -18,6 +18,7 @@ import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.DialogCreator;
+import com.floyd.diamond.ui.seller.SellerWalletActivity;
 import com.floyd.diamond.ui.seller.SellerWalletRecordActivity;
 
 public class AlipayActivity extends Activity implements View.OnClickListener {
@@ -185,6 +186,14 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
                                 drawPasswordView.setText("");
                                 drawFeeView.setText("");
                                 Toast.makeText(AlipayActivity.this, "提现成功", Toast.LENGTH_SHORT).show();
+                                if (loginVO.isModel()){
+                                    startActivity(new Intent(AlipayActivity.this,MoteWalletSummaryActivity.class));
+                                    finish();
+                                }else{
+                                    startActivity(new Intent(AlipayActivity.this, SellerWalletActivity.class));
+                                    finish();
+                                }
+
                             }
                         }
                     }

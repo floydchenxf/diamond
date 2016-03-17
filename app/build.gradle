@@ -54,5 +54,4 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
-
 }

@@ -546,19 +546,19 @@ public class PersonInfoActivity extends Activity implements View.OnClickListener
                 }
                 break;
             case R.id.gender_layout:
-//                if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
-//                    genderLayout.setOnClickListener(new View.OnClickListener() {
-//                        @Override
-//                        public void onClick(View v) {
-//                            Toast.makeText(PersonInfoActivity.this,"审核中或者已认证的状态无法修改性别！",Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-//                }else{
+                if (authView.getText().toString().equals("审核中")||authView.getText().toString().equals("已认证")){
+                    genderLayout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Toast.makeText(PersonInfoActivity.this,"审核中或者已认证的状态无法修改性别！",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else{
                     if (!this.isFinishing()) {
                         hiddenPopup();
                         genderPopupWindow.showPopUpWindow();
                     }
-//                }
+                }
 
                 break;
             case R.id.birthday_layout:
