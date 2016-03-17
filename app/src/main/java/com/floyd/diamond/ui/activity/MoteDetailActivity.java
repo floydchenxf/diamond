@@ -403,7 +403,7 @@ public class MoteDetailActivity extends Activity implements View.OnClickListener
                     headBgView.setImageUrl(vo.getAvartUrl(), mImageLoader, new BitmapProcessor() {
                         @Override
                         public Bitmap processBitmpa(Bitmap bitmap) {
-                            return ImageUtils.fastBlur(MoteDetailActivity.this, bitmap, 12);
+                            return ImageUtils.fastBlur(bitmap, 12);
                         }
                     });
                 }

@@ -1,6 +1,7 @@
 package com.floyd.diamond;
 
 import android.app.Application;
+import android.renderscript.RenderScript;
 
 /**
  * Created by floyd on 15-12-2.
@@ -8,6 +9,8 @@ import android.app.Application;
 public class IMChannel {
 
     public static Application mApplication;
+
+    public static RenderScript renderScript;
 
     public static Application getApplication() {
         return mApplication;

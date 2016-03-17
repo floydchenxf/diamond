@@ -129,7 +129,8 @@ public abstract class AbstractRequest extends AbstractWebUtils {
             }
 
         } catch (Exception e1) {
-			Log.e(sTAG, e1.getMessage());
+            String message = e1.getMessage() == null ? "null" : e1.getMessage();
+            Log.e(sTAG, message);
 			boolean isRetry = isRetryException(e1);
 			if (isRetry && retryNum++ < 2) {
 				Log.i(sTAG, "url:" + url + "-------retry: " + retryNum);
