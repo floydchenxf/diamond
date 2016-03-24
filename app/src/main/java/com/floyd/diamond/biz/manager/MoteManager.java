@@ -11,6 +11,7 @@ import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.aync.JobFactory;
 import com.floyd.diamond.aync.Processor;
 import com.floyd.diamond.bean.Care;
+import com.floyd.diamond.bean.Code;
 import com.floyd.diamond.bean.DLCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.ModelInfo;
@@ -704,13 +705,12 @@ public class MoteManager {
      * 获取app最新的版本
      * @return
      */
-//
-//    public static AsyncJob<> getNewCode(double currentCode){
-//        String url=APIConstants.HOST+APIConstants.API_GETNEWCODE;
-//        Map<String,String> params=new HashMap<>();
-//        params.put("");
-//        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,);
-//    }
+
+    public static AsyncJob<Code> getNewCode(){
+        String url=APIConstants.HOST+APIConstants.API_GETNEWCODE;
+        Map<String,String> params=new HashMap<>();
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,Code.class);
+    }
 
     public static AsyncJob<UserExtVO> fetchUserExtInfo(final String token) {
         AsyncJob<UserVO> userJob = getUserInfo(token);

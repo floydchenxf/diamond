@@ -7,12 +7,17 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
+import com.floyd.diamond.bean.VipDays;
+import com.floyd.diamond.bean.VipInfos;
+import com.floyd.diamond.bean.VipMoney;
+import com.floyd.diamond.bean.VipObject;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.biz.constants.SellerTaskDetailStatus;
 import com.floyd.diamond.biz.constants.SellerTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
+import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.biz.vo.seller.SellerInfoUpdateParams;
@@ -230,4 +235,42 @@ public class SellerManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerWalletSummaryVO.class);
     }
+
+    /**
+     * 获取商家会员开通的类别
+     */
+    public static AsyncJob<List<VipObject.DataEntity>>getVipInfo(String token){
+        String url=APIConstants.HOST+APIConstants.API_VIPINFO;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipObject.DataEntity>>() {
+        }.getType());
+    }
+
+
+    /**
+     * 商家开通会员资费信息
+     */
+    public static AsyncJob<List<VipMoney.DataEntity>> getVipMoney(String token,String vipTypeIds){
+        String url=APIConstants.HOST+APIConstants.API_VIP_TYPEMONEY;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        params.put("vipTypeIds",vipTypeIds);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipMoney.DataEntity>>() {
+        }.getType());
+    }
+
+
+    /**
+     * 商家开通会员剩下的天数
+     */
+    public static AsyncJob<List<VipDays.DataEntity>> getVipDays(String token,long userId){
+        String url=APIConstants.HOST+APIConstants.API_VIP_DAYS;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        params.put("userId",userId+"");
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipDays.DataEntity>>() {
+        }.getType());
+    }
+
 }

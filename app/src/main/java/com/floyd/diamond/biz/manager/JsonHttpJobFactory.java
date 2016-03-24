@@ -48,6 +48,9 @@ public class JsonHttpJobFactory {
                                 T result = null;
                                 try {
                                     result = gson.fromJson(data, type);
+                                    if(GlobalParams.isDebug){
+                                        Log.e("TAG_data_2",result.toString());
+                                    }
                                 } catch (Exception e) {
                                     Log.e(TAG, e.getMessage());
                                     result = null;

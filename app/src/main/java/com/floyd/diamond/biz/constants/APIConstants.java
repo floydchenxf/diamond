@@ -4,9 +4,9 @@ package com.floyd.diamond.biz.constants;
  * Created by floyd on 15-11-28.
  */
 public class APIConstants {
-//    public static final String HOST = "http://120.27.132.126:9999/mote/";//测试服务器
-    public static final String HOST ="http://139.196.34.98:8888/mote/";//真实服务器
-//    public static final String HOST ="http://192.168.5.101:8080/mote/";//本地服务器
+    public static final String HOST = "http://120.27.132.126:9999/mote/";//测试服务器
+//    public static final String HOST ="http://139.196.34.98:8888/mote/";//真实服务器
+//    public static final String HOST ="http://192.168.5.106:8080/mote/";//本地服务器
     public static final String API_VERIFY_CODE = "api/user/sendVerifyCode";//发送验证码
     public static final String API_CHANGE_PASSWORD_VERIFY_CODE = "api/user/changePasswordByVerifyCode";//修改密码的验证码
     public static final String API_USER_LOGIN = "api/user/login";//登录
@@ -69,5 +69,8 @@ public class APIConstants {
     public static final String API_GET_FEE_CHANGE_FLOW = "api/user/getFeeChangeFlow"; //获取费用变更记录
 
 
-    public static final String API_GETNEWCODE="";
+    public static final String API_GETNEWCODE="api/common/getAndroidVersion";//获取最新版本
+    public static final String API_VIPINFO="api/user/getSellerVipType";//获取两个会员type的信息
+    public static final String API_VIP_TYPEMONEY="api/user/getSellerVipTypePrice";//获取商家会员充值的钱数
+    public static final String API_VIP_DAYS="api/user/getSellerVipDays";//获取会员剩下天数
 }

@@ -226,7 +226,11 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     needClear = true;
                     int k = (++moteType - 1) % 3 + 1;
                     checkMoteType(k);
-                    loadMoteInfo(true);
+                    if (k==1){
+                        loadData(false);
+                    }else{
+                        loadMoteInfo(true);
+                    }
                 } else if (e2.getX() - x1 > MIN_JULI && Math.abs(velocityX) > MIN_VELOCITY_X) {
 
                     int k = 1;
@@ -239,7 +243,11 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     pageNo = 1;
                     needClear = true;
                     checkMoteType(k);
-                    loadMoteInfo(true);
+                    if (k==1){
+                        loadData(false);
+                    }else{
+                        loadMoteInfo(true);
+                    }
                 }
                 return false;
             }
