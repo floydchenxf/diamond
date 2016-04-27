@@ -3,7 +3,6 @@
     android:orientation="vertical"
     android:layout_width="252dp"
     android:layout_height="169dp"
-    android:background="@drawable/yuanbao_shape"
     >
     <RelativeLayout
         android:layout_width="252dp"

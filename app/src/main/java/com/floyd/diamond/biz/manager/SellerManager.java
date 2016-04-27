@@ -8,9 +8,11 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
+
 import com.floyd.diamond.bean.CorrectTime;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.PingPP;
+
 import com.floyd.diamond.bean.VipDays;
 import com.floyd.diamond.bean.VipInfos;
 import com.floyd.diamond.bean.VipMoney;
@@ -273,13 +275,10 @@ public class SellerManager {
         Map<String,String>params=new HashMap<>();
         params.put("token",token);
         params.put("userId",userId+"");
-
-        if (GlobalParams.isDebug){
-            Log.e("TAG",token+"userid:"+userId);
-        }
         return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipDays.DataEntity>>() {
         }.getType());
     }
+
 
     /**
      * 倒计时任务最后几分钟矫正时间
@@ -310,7 +309,6 @@ public class SellerManager {
 //        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST, PingPP.DataEntity.class);
 //
 //    }
-
 
 
 }

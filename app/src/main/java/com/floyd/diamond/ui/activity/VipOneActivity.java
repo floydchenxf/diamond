@@ -93,7 +93,9 @@ public class VipOneActivity extends Activity implements View.OnClickListener {
 
         String token = LoginManager.getLoginInfo(this).token;
 
+
         long userId=LoginManager.getLoginInfo(this).user.id;
+
 
         SellerManager.getVipInfo(token).startUI(new ApiCallback<List<VipObject.DataEntity>>() {
             @Override
@@ -278,12 +280,16 @@ public class VipOneActivity extends Activity implements View.OnClickListener {
 
 
         if (isOpen_01){
+
 //            day1_layout.setVisibility(View.VISIBLE);
+
             day_01.setText(day1);
         }
 
         if (isOpen_02){
+
 //            day2_layout.setVisibility(View.VISIBLE);
+
             day_02.setText(day2);
         }
 

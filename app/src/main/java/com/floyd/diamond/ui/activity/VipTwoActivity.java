@@ -2,10 +2,24 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+
+import android.content.DialogInterface;
+import android.content.pm.LabeledIntent;
+import android.graphics.Color;
+import android.os.Build;
+import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
+import android.view.ContextThemeWrapper;
+
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,6 +58,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.floyd.diamond.R;
+import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.DLCondition;
+import com.floyd.diamond.bean.VipMoney;
+import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.SellerManager;
+import com.floyd.diamond.ui.view.UIAlertDialog;
+
+import java.util.List;
+
+
 /**
  * Created by hy on 2016/3/21.
  */
@@ -59,6 +84,7 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
     private String data;
     private RequestQueue queue;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +96,9 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
     }
 
     public void init() {
+
         queue = Volley.newRequestQueue(this);
+
         back = ((LinearLayout) findViewById(R.id.back));
         day_M1 = ((TextView) findViewById(R.id.day_money_01));
         all_M1 = ((TextView) findViewById(R.id.allMoney_01));
@@ -99,7 +127,9 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
 
     public void loadData() {
         String token = LoginManager.getLoginInfo(this).token;
+
         choices = getIntent().getStringExtra("vips").trim().replace(" ", "");
+
         SellerManager.getVipMoney(token, choices).startUI(new ApiCallback<List<VipMoney.DataEntity>>() {
             @Override
             public void onError(int code, String errorInfo) {
@@ -109,10 +139,12 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
             @Override
             public void onSuccess(List<VipMoney.DataEntity> dataEntities) {
 
+
                 allM1 = dataEntities.get(3).getPrice() / 1000;
                 allM2 = dataEntities.get(2).getPrice() / 1000;
                 allM3 = dataEntities.get(1).getPrice() / 1000;
                 allM4 = dataEntities.get(0).getPrice() / 1000;
+
 
                 day_M4.setText("日均" + allM4 / dataEntities.get(0).getCycle() + "元");
                 all_M4.setText(allM4 + "");
@@ -145,6 +177,7 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
                 finish();
                 break;
             case R.id.vip_year:
+
                 showVipDialog(allM1, 12 * 30);
                 break;
             case R.id.vip_halfyear:
@@ -160,7 +193,9 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
 
     }
 
+
     public void showVipDialog(final float money, final int cycle) {
+
 //        final AlertDialog.Builder builder=new UIAlertDialog.Builder(new ContextThemeWrapper(this, R.style.AlertDialogCustom));
         final AlertDialog.Builder builder = new UIAlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.vipmoney_layout, null);
@@ -172,7 +207,9 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
         zhifubao_pay = ((TextView) view.findViewById(R.id.zhifubao_pay));
         cancle_pay = ((TextView) view.findViewById(R.id.cancel_pay));
         payMoney = ((TextView) view.findViewById(R.id.pay_money));
+
         payMoney.setText("￥" + money + "");
+
         cancle_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -183,14 +220,18 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
         weixin_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 getChargeObj("wx", money + "", cycle + "", choices);
+
                 Toast.makeText(VipTwoActivity.this, "跳转微信支付...", Toast.LENGTH_SHORT).show();
             }
         });
         zhifubao_pay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 getChargeObj("alipay", money + "", cycle + "", choices);
+
                 Toast.makeText(VipTwoActivity.this, "跳转支付宝支付...", Toast.LENGTH_SHORT).show();
             }
         });
@@ -199,13 +240,16 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
     /**
      * 支付成功弹出大元宝提示
      */
-    public void showYuanBao() {
+
+    public void showYuanBao(){
+
         Toast toast = new Toast(VipTwoActivity.this);
         View view = LayoutInflater.from(VipTwoActivity.this).inflate(R.layout.toast_yuanbao_layout, null);
         toast.setView(view);
         toast.setGravity(Gravity.CENTER, 0, 0);
         toast.show();
     }
+
 
     public void getChargeObj(final String channel, final String money, final String cycle, final String vipTypeIds) {
 
@@ -312,4 +356,5 @@ public class VipTwoActivity extends Activity implements View.OnClickListener {
     }
 
 //    }
+
 }

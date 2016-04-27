@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.BadgeUtil;
 import com.floyd.diamond.bean.Code;
 import com.floyd.diamond.bean.UpdateManager;
 import com.floyd.diamond.biz.manager.LoginManager;
@@ -49,7 +50,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private long exitTime = 0;
 
     private String serverVersion;
+
     private String isShowVersion;
+
 
     private UpdateManager mUpdateManager;
 
@@ -60,7 +63,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             //这里来检测版本是否需要更新
             Log.e("version",serverVersion);
+
             mUpdateManager = new UpdateManager(MainActivity.this,serverVersion,isShowVersion);
+
             mUpdateManager.showNoticeDialog();
         }
     };
@@ -117,14 +122,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
             @Override
             public void onSuccess(Code code) {
-                serverVersion=code.getVersion();
+                serverVersion = code.getVersion();
 
                 try {
-                    isShowVersion=code.getTag();
+                    isShowVersion = code.getTag();
 
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
+
                 handler.sendEmptyMessage(1);
             }
 

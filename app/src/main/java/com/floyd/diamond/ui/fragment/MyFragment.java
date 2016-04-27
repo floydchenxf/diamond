@@ -193,6 +193,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             qiangView = (TextView) view.findViewById(R.id.qiang);
             placeView = (TextView) view.findViewById(R.id.place);
 
+
         } else {
             ViewStub stub = (ViewStub) view.findViewById(R.id.seller_summary_info_stub);
             stub.inflate();
@@ -200,6 +201,18 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             shopView = (TextView) view.findViewById(R.id.shop);
             placeView = (TextView) view.findViewById(R.id.place);
 //
+//        } else {
+//            ViewStub stub = (ViewStub) view.findViewById(R.id.seller_summary_info_stub);
+//            stub.inflate();
+//
+//            shopView = (TextView) view.findViewById(R.id.shop);
+//            placeView = (TextView) view.findViewById(R.id.place);
+//
+//        }else {
+//            seller_cz.setVisibility(View.VISIBLE);
+//            home_vip.setVisibility(View.VISIBLE);
+//            loadVip();
+
         }
 //        else {
 //            //商家充值界面
@@ -279,6 +292,54 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             }
         });
     }
+
+//    public void loadVip(){
+//        SellerManager.getVipDays(loginVO.token,loginVO.id).startUI(new ApiCallback<List<VipDays.DataEntity>>() {
+//            @Override
+//            public void onError(int code, String errorInfo) {
+//
+//            }
+//
+//            @Override
+//            public void onSuccess(List<VipDays.DataEntity> dataEntities) {
+//                Drawable drawable1 = getResources().getDrawable(R.drawable.hasopen);
+//                Drawable drawable2 = getResources().getDrawable(R.drawable.notopen);
+//                drawable1.setBounds(0, 0, drawable1.getMinimumWidth(), drawable1.getMinimumHeight()); //设置边界
+//                drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight()); //设置边界
+//                if (dataEntities.size()!=0){
+//                    isVip=true;
+//                    home_vip.setImageResource(R.drawable.vip_home_light);
+//
+//                    if (dataEntities.size()==1){
+//                        for (VipDays.DataEntity dataEntity:dataEntities){
+//                            if (dataEntity.getVipTypeId()==1){
+//                                vip_1.setCompoundDrawables(null,null,null,drawable1);
+//                                vip_2.setCompoundDrawables(null,null,null,drawable2);
+//                            }else{
+//                                vip_2.setCompoundDrawables(null,null,null,drawable1);
+//                                vip_1.setCompoundDrawables(null,null,null,drawable2);
+//                            }
+//                        }
+//                    }else if (dataEntities.size()==2){
+//                        vip_1.setCompoundDrawables(null,null,null,drawable1);
+//                        vip_2.setCompoundDrawables(null,null,null,drawable1);
+//                    }
+//
+//                }else{
+//                    isVip=false;
+//                    home_vip.setImageResource(R.drawable.vip_home_gray);
+//                    vip_1.setCompoundDrawables(null,null,null,drawable2);
+//                    vip_2.setCompoundDrawables(null, null, null, drawable2);
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onProgress(int progress) {
+//
+//            }
+//        });
+//    }
 
     private void loadData(final boolean needDialog, final boolean isFirst) {
         if (needDialog) {
@@ -387,9 +448,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
             //店铺
             final SellerInfoVO sellerInfoVO = SellerManager.getSellerInfo(this.getActivity());
             if (sellerInfoVO != null) {
-                shopView.setText(sellerInfoVO.shopName);
+//                shopView.setText(sellerInfoVO.shopName);
                 nicknameView.setText(sellerInfoVO.nickname);
-                placeView.setText(sellerInfoVO.area);
+//                placeView.setText(sellerInfoVO.area);
                 if (!TextUtils.isEmpty(sellerInfoVO.avartUrl)) {
                     headView.setImageUrl(sellerInfoVO.avartUrl, mImageLoader, new BitmapProcessor() {
                         @Override
@@ -428,9 +489,9 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                             dataLoadingDialog.dismiss();
                         }
                     }
-                    shopView.setText(vo.shopName);
+//                    shopView.setText(vo.shopName);
                     nicknameView.setText(vo.nickname);
-                    placeView.setText(vo.area);
+//                    placeView.setText(vo.area);
 
                     if (!TextUtils.isEmpty(vo.avartUrl)) {
                         headView.setImageUrl(vo.avartUrl, mImageLoader, new BitmapProcessor() {

@@ -388,6 +388,7 @@
             android:theme="@style/ContentOverlay" />
         <activity android:name=".ui.activity.VipOneActivity"/>
         <activity android:name=".ui.activity.VipTwoActivity"/>
+
         <!-- Ping++ SDK -->
         <activity
             android:name="com.pingplusplus.android.PaymentActivity"
@@ -417,6 +418,7 @@
         <activity android:name=".ui.activity.HomeSearchActivity"/>
         <activity android:name=".ui.activity.ModifyActivity"/>
         <activity android:name=".ui.activity.ModifyActivity2"/>
+
     </application>
 
 </manifest>

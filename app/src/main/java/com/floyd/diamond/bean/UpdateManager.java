@@ -42,7 +42,9 @@ public class UpdateManager {
     private boolean cancelFlag = false; //取消下载标志位
 
     private String serverVersion; //从服务器获取的版本号
+
     private String clientVersion="1.2"; //客户端当前的版本号
+
 //    private String updateDescription = "1.首页一键置顶功能" +
 //            "2.修复多个crash问题" +
 //            "3.完善及修改界面展示"; //更新内容描述信息
@@ -54,10 +56,12 @@ public class UpdateManager {
     /**
      * 构造函数
      */
+
     public UpdateManager(Context context,String serverVersion,String isShowVersion) {
         this.mContext = context;
         this.serverVersion=serverVersion;
         this.isShowVersion=isShowVersion;
+
     }
 
     /**

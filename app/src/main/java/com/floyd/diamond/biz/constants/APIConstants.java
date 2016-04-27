@@ -6,7 +6,9 @@ package com.floyd.diamond.biz.constants;
 public class APIConstants {
     public static final String HOST = "http://120.27.132.126:9999/mote/";//测试服务器
 //    public static final String HOST ="http://139.196.34.98:8888/mote/";//真实服务器
+
 //    public static final String HOST ="http://192.168.5.103:8080/mote/";//本地服务器
+
     public static final String API_VERIFY_CODE = "api/user/sendVerifyCode";//发送验证码
     public static final String API_CHANGE_PASSWORD_VERIFY_CODE = "api/user/changePasswordByVerifyCode";//修改密码的验证码
     public static final String API_USER_LOGIN = "api/user/login";//登录
@@ -81,4 +83,5 @@ public class APIConstants {
 
     public static final String API_MODIFY_PASS="api/user/sellerChangePhoneNumber";//修改账号和密码
     public static final String API_GET_TG_LIST = "api/index/getAdvertList2";//获取通告列表
+
 }

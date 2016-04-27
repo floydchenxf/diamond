@@ -14,6 +14,7 @@ public class Code {
     private int id;
     private String version;
     private String name;
+
     private String tag;
 
     public String getTag() {
@@ -23,6 +24,7 @@ public class Code {
     public void setTag(String tag) {
         this.tag = tag;
     }
+
 
     public void setId(int id) {
         this.id = id;

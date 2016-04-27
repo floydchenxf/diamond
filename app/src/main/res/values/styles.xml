@@ -173,4 +173,5 @@
     <style name="MyTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
         <item name="android:textSize">12sp</item>
     </style>
+
 </resources>
