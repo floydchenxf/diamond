@@ -86,6 +86,9 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             params.addRule(RelativeLayout.ALIGN_PARENT_TOP, -1);
             wvUIModel.setLoadingView(progressbar, params);
         }
+        if (data.webString!=null){
+            //给webview传值
+        }
         if (data.isUrl()) {
             webView.loadUrl(data.data);
         } else {
@@ -164,6 +167,7 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         public boolean showNav;
         public boolean showProcess;
         public boolean canZoom = false;
+        public String webString;
 
         public H5Data() {
 

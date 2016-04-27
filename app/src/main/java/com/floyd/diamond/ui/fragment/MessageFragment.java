@@ -81,6 +81,7 @@ public class MessageFragment extends Fragment {
         return view;
     }
 
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

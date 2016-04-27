@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -69,12 +70,15 @@ public class MessageAdapter extends BaseAdapter {
         holder = (ViewHolder) convertView.getTag();
         TgBean.DataEntity advVO = getItem(position);
         holder.imageView.setDefaultImageResId(R.drawable.tupian);
+
         holder.imageView.setImageUrl(advVO.getImgUrl(), mImageLoader, new BitmapProcessor() {
             @Override
             public Bitmap processBitmpa(Bitmap bitmap) {
-                return ImageUtils.getOriginRoundBitmap(bitmap, 3*oneDp);
+                return ImageUtils.getOriginRoundBitmap(bitmap, 3 * oneDp);
             }
         });
+
+
         return convertView;
     }
 

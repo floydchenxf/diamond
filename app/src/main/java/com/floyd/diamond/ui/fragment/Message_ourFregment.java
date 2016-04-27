@@ -39,6 +39,7 @@ import com.floyd.diamond.bean.MyScrollView;
 import com.floyd.diamond.bean.TgBean;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.manager.IndexManager;
+import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.ui.DialogCreator;
@@ -87,31 +88,16 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
     private AlphaAnimation myAnimation_Alpha;
     private AlphaAnimation myAnimation_Alpha1;
 //    private NetworkImageView message_head;
-
-    /**
-     * 手机屏幕宽度
-     */
     private int screenWidth;
-    /**
-     * 悬浮框View
-     */
+
     private static View suspendView;
-    /**
-     * 悬浮框的参数
-     */
+
     private static WindowManager.LayoutParams suspendLayoutParams;
-    /**
-     * 购买布局的高度
-     */
+
     private int tabLayoutHeight;
-    /**
-     * myScrollView与其父类布局的顶部距离
-     */
+
     private int myScrollViewTop;
 
-    /**
-     * 购买布局与其父类布局的顶部距离
-     */
     private int dianLayoutTop;
     private Activity mContext;
 
@@ -125,6 +111,32 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
 
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        //判断Fragment中的ListView时候存在，判断该Fragment时候已经正在前台显示  通过这两个判断，就可以知道什么时候去加载数据了
+        if (isVisibleToUser && isVisible() && mListView.getVisibility() != View.VISIBLE) {
+            setData(true); //加载数据的方法
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        if (getUserVisibleHint() && mListView.getVisibility() != View.VISIBLE) {
+            setData(true);
+        }
+        super.onActivityCreated(savedInstanceState);
+    }
+
+    @Override
+    public void onDestroy() {
+        mContext.unregisterReceiver(mBroadcastReceiver);
+        super.onDestroy();
+//
+        mContext.setContentView(R.layout.empty_layout);
+        mListView=null;
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -159,6 +171,7 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
                 h5Data.showNav = true;
                 h5Data.canZoom = true;
                 h5Data.title = "通告";
+                h5Data.webString= LoginManager.getLoginInfo(mContext).token==null?"":LoginManager.getLoginInfo(mContext).token;
                 intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
                 startActivity(intent);
 //                Intent goodsItemIntent = new Intent(TaskProcessActivity.this, H5Activity.class);
@@ -292,10 +305,7 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
         }
     }
 
-    /**
-     * 滚动的回调方法，当滚动的Y距离大于或者等于 购买布局距离父类布局顶部的位置，就显示购买的悬浮框
-     * 当滚动的Y的距离小于 购买布局距离父类布局顶部的位置加上购买布局的高度就移除购买的悬浮框
-     */
+
     @Override
     public void onScroll(int scrollY) {
         tabLayoutHeight = 44;
@@ -343,9 +353,7 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
             if (action.equals("go")) {
                 mListView.setFocusable(false);
                 myScrollView.smoothScrollTo(0, 380);
-                //说明:0.0表示完全透明,1.0表示完全不透明
                 myAnimation_Alpha = new AlphaAnimation(1.0f, 0.0f);
-                //设置时间持续时间为 5000毫秒
                 myAnimation_Alpha.setDuration(3000);
                 message_bg.startAnimation(myAnimation_Alpha);
                 message_bg.setVisibility(View.INVISIBLE);
@@ -369,11 +377,7 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
         mContext.registerReceiver(mBroadcastReceiver, myIntentFilter);
     }
 
-    @Override
-    public void onDestroy() {
-        mContext.unregisterReceiver(mBroadcastReceiver);
-        super.onDestroy();
-    }
+
 
 
 }
