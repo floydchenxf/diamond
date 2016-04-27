@@ -86,6 +86,9 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.productImage1 = (NetworkImageView) convertView.findViewById(R.id.product_pic_1);
             holder.productImage2 = (NetworkImageView) convertView.findViewById(R.id.product_pic_2);
 
+            holder.djs1= ((ImageView) convertView.findViewById(R.id.djs_1));
+            holder.djs2= ((ImageView) convertView.findViewById(R.id.djs_2));
+
             holder.priceView11 = (TextView) convertView.findViewById(R.id.price_1_1);
             holder.priceView12 = (TextView) convertView.findViewById(R.id.price_1_2);
 
@@ -106,17 +109,29 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
             holder.finishStatusView1.setVisibility(View.GONE);
         } else {
             final TaskItemVO itemVO1 = vo.productItemVO1;
-            if (itemVO1.isFinish()) {
-//                holder.finishStatusView1.setText("已被抢完");
-                holder.finishStatusView1.setVisibility(View.VISIBLE);
-            } else if (itemVO1.acceptStauts == 2) {
-//                holder.finishStatusView1.setText("条件不符");
-                holder.finishStatusView1.setVisibility(View.VISIBLE);
-            } else if (itemVO1.acceptStauts == 3) {
-//                holder.finishStatusView1.setText("已完成");
-                holder.finishStatusView1.setVisibility(View.VISIBLE);
-            } else {
+            if (itemVO1.isTimerTask){
+                holder.djs1.setVisibility(View.VISIBLE);
                 holder.finishStatusView1.setVisibility(View.GONE);
+            }else{
+                holder.djs1.setVisibility(View.INVISIBLE);
+                if (itemVO1.isFinish()) {
+//                holder.finishStatusView1.setText("已被抢完");
+                    holder.finishStatusView1.setVisibility(View.VISIBLE);
+                } else if (itemVO1.acceptStauts == 2) {
+//                holder.finishStatusView1.setText("条件不符");
+                    holder.finishStatusView1.setVisibility(View.VISIBLE);
+                } else if (itemVO1.acceptStauts == 3) {
+//                holder.finishStatusView1.setText("已完成");
+                    holder.finishStatusView1.setVisibility(View.VISIBLE);
+                } else {
+                    holder.finishStatusView1.setVisibility(View.GONE);
+                }
+                if (!itemVO1.isDirect){
+                    holder.ding1.setVisibility(View.INVISIBLE);
+                } else {
+                    holder.ding1.setVisibility(View.VISIBLE);
+                }
+
             }
 
             holder.productItemLayout1.setVisibility(View.VISIBLE);
@@ -129,16 +144,11 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                 }
             });
 
-            if (!itemVO1.isDirect){
-                holder.ding1.setVisibility(View.INVISIBLE);
-            } else {
-                holder.ding1.setVisibility(View.VISIBLE);
-            }
 
             holder.productImage1.setDefaultImageResId(R.drawable.tupian);
             holder.productImage1.setImageUrl(itemVO1.getPreviewImageUrl(), mImageLoader);
             holder.priceView11.setText("商品售价：" + itemVO1.price + "");
-            holder.priceView12.setText("酬金："+itemVO1.shotFee+"");
+            holder.priceView12.setText("积分："+itemVO1.shotFee+"");
         }
 
         if (vo.productItemVO2 == null) {
@@ -156,30 +166,34 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
                     }
                 }
             });
-
-            if (itemVO2.isFinish()) {
-//                holder.finishStatusView2.setText("已被抢完");
-                holder.finishStatusView2.setVisibility(View.VISIBLE);
-            } else if (itemVO2.acceptStauts == 2) {
-//                holder.finishStatusView2.setText("条件不符");
-                holder.finishStatusView2.setVisibility(View.VISIBLE);
-            }else if (itemVO2.acceptStauts == 3) {
-//                holder.finishStatusView2.setText("已完成");
-                holder.finishStatusView2.setVisibility(View.VISIBLE);
-            } else {
+            if (itemVO2.isTimerTask){
+                holder.djs2.setVisibility(View.VISIBLE);
                 holder.finishStatusView2.setVisibility(View.GONE);
-            }
-
-            if(!itemVO2.isDirect){
-                holder.ding2.setVisibility(View.INVISIBLE);
-            } else {
-                holder.ding2.setVisibility(View.VISIBLE);
+            }else{
+                holder.djs2.setVisibility(View.INVISIBLE);
+                if (itemVO2.isFinish()) {
+//                holder.finishStatusView2.setText("已被抢完");
+                    holder.finishStatusView2.setVisibility(View.VISIBLE);
+                } else if (itemVO2.acceptStauts == 2) {
+//                holder.finishStatusView2.setText("条件不符");
+                    holder.finishStatusView2.setVisibility(View.VISIBLE);
+                }else if (itemVO2.acceptStauts == 3) {
+//                holder.finishStatusView2.setText("已完成");
+                    holder.finishStatusView2.setVisibility(View.VISIBLE);
+                } else {
+                    holder.finishStatusView2.setVisibility(View.GONE);
+                }
+                if(!itemVO2.isDirect){
+                    holder.ding2.setVisibility(View.INVISIBLE);
+                } else {
+                    holder.ding2.setVisibility(View.VISIBLE);
+                }
             }
 
             holder.productImage2.setDefaultImageResId(R.drawable.tupian);
             holder.productImage2.setImageUrl(itemVO2.getPreviewImageUrl(), mImageLoader);
             holder.priceView21.setText("商品售价："+itemVO2.price+"");
-            holder.priceView22.setText("酬金："+itemVO2.shotFee+"");
+            holder.priceView22.setText("积分："+itemVO2.shotFee+"");
         }
 
         return convertView;
@@ -207,6 +221,8 @@ public class MoteTaskTypeAdapter extends BaseAdapter {
         public TextView finishStatusView2;
 
         public ImageView ding1,ding2;
+
+        public ImageView djs1,djs2;
 
     }
 }

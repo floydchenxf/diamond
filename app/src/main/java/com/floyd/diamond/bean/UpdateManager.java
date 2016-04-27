@@ -27,6 +27,7 @@ import java.net.URL;
  */
 public class UpdateManager {
     private Context mContext; //上下文
+    private String isShowVersion;//是否弹出版本控制的dialog
 
     private String apkUrl =
             "http://openbox.mobilem.360.cn/index/d/sid/3214092"; //apk下载地址
@@ -40,8 +41,8 @@ public class UpdateManager {
     private int progress; //下载进度
     private boolean cancelFlag = false; //取消下载标志位
 
-    private double serverVersion = 2.0; //从服务器获取的版本号
-    private double clientVersion=1.0; //客户端当前的版本号
+    private String serverVersion; //从服务器获取的版本号
+    private String clientVersion="1.2"; //客户端当前的版本号
 //    private String updateDescription = "1.首页一键置顶功能" +
 //            "2.修复多个crash问题" +
 //            "3.完善及修改界面展示"; //更新内容描述信息
@@ -53,8 +54,10 @@ public class UpdateManager {
     /**
      * 构造函数
      */
-    public UpdateManager(Context context) {
+    public UpdateManager(Context context,String serverVersion,String isShowVersion) {
         this.mContext = context;
+        this.serverVersion=serverVersion;
+        this.isShowVersion=isShowVersion;
     }
 
     /**
@@ -62,11 +65,20 @@ public class UpdateManager {
      */
     public void showNoticeDialog() {
 
+        Log.e("server",serverVersion);
+
         //如果版本最新，则不需要更新
-        if (serverVersion <= clientVersion)
+        if (serverVersion.equals(clientVersion))
             return;
+        try {
+            if (isShowVersion.equals(0+"")){
+                return;
+            }
+        }catch (Exception e){
+
+        }
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-        dialog.setMessage("发现新版本 ：" + serverVersion);
+        dialog.setMessage("发现新版本,请立即更新哦!");
 //        dialog.setMessage(updateDescription);
         dialog.setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
             @Override

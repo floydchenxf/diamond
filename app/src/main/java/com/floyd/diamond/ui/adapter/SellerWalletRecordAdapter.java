@@ -2,6 +2,7 @@ package com.floyd.diamond.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.tools.DateUtil;
 import com.floyd.diamond.biz.vo.seller.SellerWalletRecordVO;
 
@@ -79,22 +81,35 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
         String[] times = timeString.split(" ");
         holder.payDayView.setText(times[0]);
         holder.payTimeView.setText(times[1]);
-        holder.drawMoneyView.setText("￥" + sellerWalletRecordVO.freezeChange);
-        if (type == 1) {
-            holder.drawMoneyView.setTextColor(Color.parseColor("#4193c0"));
+        if (type == 1) {//放单
+            String mm=(sellerWalletRecordVO.freezeChange+"").substring(0,1);
+            if (mm.equals("-")){
+                String m=(sellerWalletRecordVO.freezeChange+"").substring(1);
+                holder.drawMoneyView.setText("￥" + m);
+                holder.drawMoneyView.setTextColor(Color.parseColor("#d4377e"));
+            }else{
+                holder.drawMoneyView.setText("￥" + sellerWalletRecordVO.freezeChange);
+                holder.drawMoneyView.setTextColor(Color.parseColor("#4193c0"));
+            }
+            if (GlobalParams.isDebug){
+                Log.e("TAG", mm + "========" + (sellerWalletRecordVO.freezeChange+"").substring(2));
+            }
+
             holder.drawDetailLayout.setVisibility(View.GONE);
             holder.payDrawView.setVisibility(View.VISIBLE);
             holder.payDrawView.setText(sellerWalletRecordVO.reason);
             holder.payDrawView.setTextSize(12);
             holder.walletStatusView.setImageResource(R.drawable.publish_task);
-        } else if (type == 2) {
+        } else if (type == 2) {//自购
+            holder.drawMoneyView.setText("￥" + sellerWalletRecordVO.remindChange);
             holder.drawMoneyView.setTextColor(Color.parseColor("#d4377e"));
             holder.drawDetailLayout.setVisibility(View.GONE);
             holder.payDrawView.setVisibility(View.VISIBLE);
             holder.payDrawView.setText(sellerWalletRecordVO.reason);
             holder.payDrawView.setTextSize(12);
             holder.walletStatusView.setImageResource(R.drawable.self_buy);
-        } else if (type == 3) {
+        } else if (type == 3) {//提现
+            holder.drawMoneyView.setText("￥" + sellerWalletRecordVO.freezeChange);
             holder.drawDetailLayout.setVisibility(View.GONE);
             holder.payDrawView.setVisibility(View.VISIBLE);
             holder.payDrawView.setText(sellerWalletRecordVO.reason);
@@ -115,15 +130,20 @@ public class SellerWalletRecordAdapter extends BaseAdapter {
                 holder.drawMoneyView.setTextColor(Color.parseColor("#666666"));
                 holder.walletStatusView.setImageResource(R.drawable.draw_money_process);
             }
-        } else if (type == 4) {
+        } else if (type == 4) {//充值
+            holder.drawMoneyView.setText("￥" + sellerWalletRecordVO.remindChange);
             holder.drawDetailLayout.setVisibility(View.VISIBLE);
             holder.payDrawView.setVisibility(View.GONE);
             holder.alipayIdView.setText(sellerWalletRecordVO.alipayId);
             holder.alipayUserLayout.setVisibility(View.GONE);
             holder.alipayNoView.setText(sellerWalletRecordVO.alipayNo);
-            holder.drawMoneyView.setTextColor(Color.parseColor("#4193c0"));
+            holder.drawMoneyView.setTextColor(Color.parseColor("#d4377e"));
             holder.walletStatusView.setImageResource(R.drawable.add_cash);
         }
+//        else if(type==5){//app端支付宝，微信充值
+//
+//
+//        }
         return convertView;
     }
 

@@ -414,8 +414,8 @@ public class ModelPersonActivity extends Activity {
         // 注意：在微信授权的时候，必须传递appSecret
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
 
-        String appId = "wx6f4a5ebb3d2cd11e";
-        String appSecret = "64710023bac7d1b314c1b3ed3db5949d";
+        String appId = "wx787a58aec93342a4";
+        String appSecret = "b9b9b224459a65766b0b3396c8f8cf1e";
 
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();

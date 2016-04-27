@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#eee"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="#d4377e">
+        <TextView
+            android:id="@+id/tv"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_FindFragment_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+             />
+        <android.support.design.widget.TabLayout
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:id="@+id/message_tablayout"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="#fff"
+            app:tabIndicatorColor="#86D1FB"
+            app:tabSelectedTextColor="#86D1FB"
+            app:tabTextColor="#999"
+            app:tabIndicatorHeight="3dp"
+            android:visibility="invisible"
+            app:tabTextAppearance="@style/MyTabLayoutTextAppearance"></android.support.design.widget.TabLayout>
+    </RelativeLayout>
+
+
+
+</LinearLayout>

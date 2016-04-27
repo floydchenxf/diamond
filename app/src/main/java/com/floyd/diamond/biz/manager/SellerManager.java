@@ -2,17 +2,26 @@ package com.floyd.diamond.biz.manager;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
 import com.floyd.diamond.aync.HttpJobFactory;
+import com.floyd.diamond.bean.CorrectTime;
+import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.PingPP;
+import com.floyd.diamond.bean.VipDays;
+import com.floyd.diamond.bean.VipInfos;
+import com.floyd.diamond.bean.VipMoney;
+import com.floyd.diamond.bean.VipObject;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.biz.constants.SellerTaskDetailStatus;
 import com.floyd.diamond.biz.constants.SellerTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
 import com.floyd.diamond.biz.tools.PrefsTools;
+import com.floyd.diamond.biz.vo.AdvVO;
 import com.floyd.diamond.biz.vo.mote.MoteTaskPicVO;
 import com.floyd.diamond.biz.vo.mote.TaskPicsVO;
 import com.floyd.diamond.biz.vo.seller.SellerInfoUpdateParams;
@@ -230,4 +239,78 @@ public class SellerManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, SellerWalletSummaryVO.class);
     }
+
+    /**
+     * 获取商家会员开通的类别
+     */
+    public static AsyncJob<List<VipObject.DataEntity>>getVipInfo(String token){
+        String url=APIConstants.HOST+APIConstants.API_VIPINFO;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipObject.DataEntity>>() {
+        }.getType());
+    }
+
+
+    /**
+     * 商家开通会员资费信息
+     */
+    public static AsyncJob<List<VipMoney.DataEntity>> getVipMoney(String token,String vipTypeIds){
+        String url=APIConstants.HOST+APIConstants.API_VIP_TYPEMONEY;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        params.put("vipTypeIds",vipTypeIds);
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipMoney.DataEntity>>() {
+        }.getType());
+    }
+
+
+    /**
+     * 商家开通会员剩下的天数
+     */
+    public static AsyncJob<List<VipDays.DataEntity>> getVipDays(String token,long userId){
+        String url=APIConstants.HOST+APIConstants.API_VIP_DAYS;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        params.put("userId",userId+"");
+
+        if (GlobalParams.isDebug){
+            Log.e("TAG",token+"userid:"+userId);
+        }
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<List<VipDays.DataEntity>>() {
+        }.getType());
+    }
+
+    /**
+     * 倒计时任务最后几分钟矫正时间
+     */
+    public static AsyncJob<CorrectTime>correctTime(String token,String taskId){
+        String url=APIConstants.HOST+APIConstants.API_CORRENT_TIME;
+        Map<String,String>params=new HashMap<>();
+        params.put("token",token);
+        params.put("taskId",taskId+"");
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,CorrectTime.class);
+    }
+
+    /**
+     * 商家开通会员充值
+     */
+
+//    public static AsyncJob<PingPP.DataEntity> getVipType(String token,String channel,String money,String vipTypeIds,String cycle){
+//        String url=APIConstants.HOST+APIConstants.API_PINGPP;
+//        Map<String,String>params=new HashMap<>();
+//        params.put("token",token);
+//        params.put("channel",channel);
+//        params.put("money",0.1+"");
+//        params.put("vipTypeIds",vipTypeIds);
+//        params.put("cycle",cycle);
+//
+//        Log.e("TAG_P",channel+money+vipTypeIds+cycle);
+//
+//        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST, PingPP.DataEntity.class);
+//
+//    }
+
+
+
 }

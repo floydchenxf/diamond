@@ -11,10 +11,13 @@ import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.aync.JobFactory;
 import com.floyd.diamond.aync.Processor;
 import com.floyd.diamond.bean.Care;
+import com.floyd.diamond.bean.Code;
 import com.floyd.diamond.bean.DLCondition;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.ModelInfo;
+import com.floyd.diamond.bean.ModifyBean;
 import com.floyd.diamond.bean.MoteDetail1;
+import com.floyd.diamond.bean.NickNameMote;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.MoteTaskStatus;
 import com.floyd.diamond.biz.func.StringFunc;
@@ -240,35 +243,44 @@ public class MoteManager {
 
 
     /**
-     * 模特筛选结果
+     * 模特条件筛选结果
      */
     public static AsyncJob<List<ModelInfo.DataEntity>> filterMoteResult(int pageNo, int pageSize, String token,DLCondition.DataEntity dataEntity){
         String url = APIConstants.HOST + APIConstants.CHOOSEMOTE;
-        Map<String, String> params = new HashMap<>();
-        params.put("gender",dataEntity.getGender()+"");
         if (GlobalParams.isDebug){
-            Log.e("TAG",dataEntity.getGender()+"性别");
-            Log.e("TAG",dataEntity.getAgeMin()+"ageMin");
-            Log.e("TAG",dataEntity.getAgeMax()+"ageMax");
-            Log.e("TAG",dataEntity.getHeightMax()+"heightMax");
-            Log.e("TAG",dataEntity.getHeightMin()+"heightMin");
-            Log.e("TAG",dataEntity.getCreditMin()+"creMin");
-            Log.e("TAG",dataEntity.getCreditMax()+"creMax");
-            Log.e("TAG",dataEntity.getShapes()+"shape");
-            Log.e("TAG",dataEntity.getAreaids()+"area");
+            Log.e("TAG_condition","gender"+dataEntity.getGender()+"ageMin"+dataEntity.getAgeMin()+"ageMax"+dataEntity.getAgeMax()+
+            "heightMin"+dataEntity.getHeightMin()+"heightMax"+dataEntity.getHeightMax()+"creditMin"+dataEntity.getCreditMin()+"creditMax"+
+                    dataEntity.getCreditMax()+"shapes"+dataEntity.getShapes()+"areaids"+dataEntity.getAreaids()+"token"+token);
         }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("gender",dataEntity.getGender()==null?"":dataEntity.getGender());
         params.put("ageMin",dataEntity.getAgeMin()+"");
         params.put("ageMax",dataEntity.getAgeMax()+"");
         params.put("heightMin",dataEntity.getHeightMin()+"");
         params.put("heightMax",dataEntity.getHeightMax()+"");
         params.put("creditMin",dataEntity.getCreditMin()+"");
         params.put("creditMax",dataEntity.getCreditMax()+"");
-        params.put("shapes",dataEntity.getShapes()+"");
-        params.put("areaids",dataEntity.getAreaids()+"");
+        params.put("shapes",dataEntity.getShapes()==null?"":dataEntity.getShapes());
+        params.put("areaids",dataEntity.getAreaids()==null?"":dataEntity.getAreaids());
         params.put("pageNo",pageNo+"");
         params.put("pageSize",10+"");
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<ArrayList<ModelInfo.DataEntity>>(){}.getType());
+    }
+
+    /**
+     * 模特昵称搜索结果
+     */
+
+    public static AsyncJob<List<NickNameMote.DataEntity>> filterMoteNickNameResult(String nickname,String token,int pageNo, int pageSize){
+        String url = APIConstants.HOST + APIConstants.API_SEARCHMOTE_NICKNAME;
+        Map<String, String> params = new HashMap<>();
+        params.put("nickName",nickname);
+        params.put("token", token);
+        params.put("pageNo",pageNo+"");
+        params.put("pageSize",10+"");
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,new TypeToken<ArrayList<NickNameMote.DataEntity>>(){}.getType());
     }
 
     /**
@@ -704,13 +716,12 @@ public class MoteManager {
      * 获取app最新的版本
      * @return
      */
-//
-//    public static AsyncJob<> getNewCode(double currentCode){
-//        String url=APIConstants.HOST+APIConstants.API_GETNEWCODE;
-//        Map<String,String> params=new HashMap<>();
-//        params.put("");
-//        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,);
-//    }
+
+    public static AsyncJob<Code> getNewCode(){
+        String url=APIConstants.HOST+APIConstants.API_GETNEWCODE;
+        Map<String,String> params=new HashMap<>();
+        return JsonHttpJobFactory.getJsonAsyncJob(url,params,HttpMethod.POST,Code.class);
+    }
 
     public static AsyncJob<UserExtVO> fetchUserExtInfo(final String token) {
         AsyncJob<UserVO> userJob = getUserInfo(token);
@@ -840,4 +851,7 @@ public class MoteManager {
         params.put("token", token);
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, Care.DataEntity.class);
     }
+
+
+
 }

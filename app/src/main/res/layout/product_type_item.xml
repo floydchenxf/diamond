@@ -68,7 +68,13 @@
             android:id="@+id/ding_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ding"/>
+            android:src="@drawable/zx"/>
+        <ImageView
+            android:id="@+id/djs_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jijiang"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 
@@ -135,7 +141,13 @@
             android:id="@+id/ding_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ding"/>
+            android:src="@drawable/zx"/>
+        <ImageView
+            android:id="@+id/djs_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/jijiang"
+            android:visibility="invisible"/>
 
     </RelativeLayout>
 

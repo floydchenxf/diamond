@@ -30,4 +30,5 @@ public class ProcessMoteTaskVO implements Serializable {
     public long finishStatusTime;//结束时间
     public long selfBuyTime;//自购时间
     public String expressCompanyName;
+    public Boolean isCustomTask; // 是否为自定义任务 false不是
 }

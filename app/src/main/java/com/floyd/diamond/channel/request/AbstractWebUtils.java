@@ -752,6 +752,10 @@ public abstract class AbstractWebUtils {
         public void checkServerTrusted(X509Certificate[] chain, String authType)
                 throws CertificateException {
         }
+//        public void checkServerTrusted(java.security.cert.X509Certificate[] p1, String p2)
+//        {
+//            return;
+//        }
     }
 
     public abstract void invokeProgress(int progressType, int progress);

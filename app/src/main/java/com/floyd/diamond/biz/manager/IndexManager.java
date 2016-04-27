@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.Func;
+import com.floyd.diamond.bean.TgBean;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.vo.AdvDetailVO;
 import com.floyd.diamond.biz.vo.AdvVO;
@@ -28,6 +29,16 @@ public class IndexManager {
         params.put("count", count + "");
         params.put("type", type + "");
         return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, new TypeToken<ArrayList<AdvVO>>() {
+        }.getType());
+    }
+
+    public static AsyncJob<List<TgBean.DataEntity>> fetchTgLists(int pageNo,int pageSize, int type) {
+        String url = APIConstants.HOST + APIConstants.API_GET_TG_LIST;
+        final Map<String, String> params = new HashMap<String, String>();
+        params.put("pageNo", pageNo + "");
+        params.put("pageSize", pageSize + "");
+        params.put("type", type + "");
+        return JsonHttpJobFactory.getJsonAsyncJob(url, params, HttpMethod.POST, new TypeToken<ArrayList<TgBean.DataEntity>>() {
         }.getType());
     }
 

@@ -185,6 +185,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 } else {
                     dataLoadingDailog.dismiss();
                 }
+
+                if (taskProcessVO.task.isCustomTask){
+                    goodsLinkView.setText("任务要求");
+                }else{
+                    goodsLinkView.setText("商品详情");
+                }
                 TaskProcessActivity.this.taskProcessVO = taskProcessVO;
                 fillTaskInfo(taskProcessVO);
                 fillAcceptStatus(taskProcessVO);
@@ -199,14 +205,14 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                     initAndFillGoodsOperate(taskProcessVO);
                 }
 
-                if (status >=5 && status < 8) {
+                if (status >= 5 && status < 8) {
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(System.currentTimeMillis());
                     confirmGoodsTimeView.setText(dateStr);
                     confirmGoodsDescView.setText("等待商家确认");
                 }
 
-                if (status >=8 || taskProcessVO.moteTask.finishStatus == 1) {
+                if (status >= 8 || taskProcessVO.moteTask.finishStatus == 1) {
                     confirmGoodsLayout.setVisibility(View.VISIBLE);
                     String dateStr = DateUtil.getDateStr(taskProcessVO.moteTask.finishStatusTime);
                     confirmGoodsTimeView.setText(dateStr);
@@ -307,7 +313,7 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
         taskImageView.setImageUrl(itemVo.getPreviewImageUrl(), mImageLoader);
 //        addressView.setText(itemVo.areaName);
         priceView.setText("售价："+itemVo.price + "");
-        shotFeeView.setText("酬金："+itemVo.shotFee + "");
+        shotFeeView.setText("酬金：" + itemVo.shotFee + "");
         shotRequiredView.setText(itemVo.shotDesc);
         titleView.setText(itemVo.title);
     }
@@ -386,9 +392,15 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 acceptStatusLayout.setVisibility(View.GONE);
                 break;
             case R.id.goods_link:
-                String url = taskProcessVO.task.url;
+                String url;
+                if (taskProcessVO.task.isCustomTask){
+                   url = taskProcessVO.task.h5Url;
+                }else{
+                   url = taskProcessVO.task.url;
+                }
+
                 if (TextUtils.isEmpty(url)) {
-                    Toast.makeText(TaskProcessActivity.this, "无效商品链接!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TaskProcessActivity.this, "无效链接!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 Intent goodsItemIntent = new Intent(TaskProcessActivity.this, H5Activity.class);
@@ -399,7 +411,12 @@ public class TaskProcessActivity extends Activity implements View.OnClickListene
                 //是否在app中打开webview
                 goodsData.showNav = true;
                 goodsData.canZoom=true;
-                goodsData.title = "商品详情";
+                if (taskProcessVO.task.isCustomTask){
+                    goodsData.title = "任务要求";
+                }else{
+                    goodsData.title = "商品详情";
+                }
+//                goodsData.title = "商品详情";
                 goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
                 startActivity(goodsItemIntent);
                 break;

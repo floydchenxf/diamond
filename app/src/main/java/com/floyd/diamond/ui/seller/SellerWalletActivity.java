@@ -98,7 +98,7 @@ public class SellerWalletActivity extends Activity implements View.OnClickListen
         titleNameView.setText(R.string.wallet);
         titleNameView.setVisibility(View.VISIBLE);
         TextView rightView = (TextView) findViewById(R.id.right);
-        rightView.setText(R.string.draw_money);
+        rightView.setText("明细");
         rightView.setVisibility(View.VISIBLE);
         rightView.setOnClickListener(this);
 
@@ -109,8 +109,9 @@ public class SellerWalletActivity extends Activity implements View.OnClickListen
         selfBuyNumTotalView = (TextView) findViewById(R.id.self_buy_num_total_view);
         addCashTotalView = (TextView) findViewById(R.id.add_cash_total_view);
         addCashButton = (TextView) findViewById(R.id.add_cash_button);
+        addCashButton.setText("提现");
         addCashButton.setOnClickListener(this);
-        addCashButton.setVisibility(View.GONE);
+//        addCashButton.setVisibility(View.GONE);
     }
 
     @Override
@@ -122,11 +123,15 @@ public class SellerWalletActivity extends Activity implements View.OnClickListen
             case R.id.act_ls_fail_layout:
                 loadData(true);
                 break;
-            case R.id.right:
+            case R.id.add_cash_button:
                 Intent drawIntent = new Intent(this, AlipayActivity.class);
                 drawIntent.putExtra(AlipayActivity.REMIND_FEE_KEY, sellerWalletVO.remindFee);
                 startActivity(drawIntent);
-                finish();
+//                finish();
+                break;
+            case R.id.right:
+                Intent sellerWalletRecordIntent = new Intent(this, SellerWalletRecordActivity.class);
+                startActivity(sellerWalletRecordIntent);
                 break;
         }
 

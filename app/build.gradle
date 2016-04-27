@@ -8,8 +8,8 @@ android {
         applicationId "com.floyd.diamond.ui"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
     }
 
     signingConfigs {
@@ -54,4 +54,6 @@ dependencies {
     compile 'com.google.code.gson:gson:2.5'
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.jakewharton:butterknife:7.0.1'
+    compile project(':lib:pingpp')
+    compile 'com.android.support:design:22.2.0'
 }

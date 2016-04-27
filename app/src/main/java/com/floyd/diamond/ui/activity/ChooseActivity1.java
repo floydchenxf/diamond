@@ -165,11 +165,15 @@ public class ChooseActivity1 extends Activity {
 //
                 dlEntity = choiceCondition.getData();
 
-                if (dlEntity.getGender() == 0) {
-                    girl.setChecked(true);
-                } else {
-                    boy.setChecked(true);
+                if (dlEntity.getGender()!=null){
+                    Log.e("TAG","无性别");
+                    if (dlEntity.getGender() .equals(0+"")) {
+                        girl.setChecked(true);
+                    } else if (dlEntity.getGender().equals(1+"")){
+                        boy.setChecked(true);
+                    }
                 }
+
 
                 seekBar_age.setSelectedMaxValue(dlEntity.getAgeMax());
                 seekBar_age.setSelectedMinValue(dlEntity.getAgeMin());
@@ -437,14 +441,14 @@ public class ChooseActivity1 extends Activity {
                             @Override
                             public void onErrorResponse(VolleyError error) {
 
-                                Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_LONG).show();
+//                                Toast.makeText(ChooseActivity1.this, "请检查网络连接...", Toast.LENGTH_LONG).show();
                             }
                         }) {
                             @Override
                             protected Map<String, String> getParams() {
                                 //在这里设置需要post的参数
                                 Map<String, String> params = new HashMap<>();
-                                params.put("gender", dlEntity.getGender() + "");
+                                params.put("gender", dlEntity.getGender()==null?"":dlEntity.getGender());
                                 params.put("ageMin", dlEntity.getAgeMin() + "");
                                 params.put("ageMax", dlEntity.getAgeMax() + "");
                                 params.put("heightMin", dlEntity.getHeightMin() + "");
@@ -455,8 +459,8 @@ public class ChooseActivity1 extends Activity {
 //                                params.put("areaids", dlEntity.getAreaids().toString().substring(1, dlEntity.getAreaids().toString().length() - 1).replace(" ", "") + "");
 
 //                                var two=test.Replace(",", " ").Trim().Replace(" ", ",");
-                                params.put("shapes", dlEntity.getShapes().replace(",", " ").trim().replace(" ", ","));
-                                params.put("areaids", dlEntity.getAreaids());
+                                params.put("shapes", dlEntity.getShapes()==null?"":dlEntity.getShapes().replace(",", " ").trim().replace(" ", ","));
+                                params.put("areaids", dlEntity.getAreaids()==null?"":dlEntity.getAreaids().trim());
                                 String token = "";
                                 if (vo != null) {
                                     token = vo.token;
@@ -471,9 +475,14 @@ public class ChooseActivity1 extends Activity {
 
 
                 }
+//                if (dlEntity.getGender().equals("")){
+//                    dlEntity.setGender(0+"");
+//                    dlEntity.setGender(1+"");
+//                }
                 Intent intent = new Intent(ChooseActivity1.this, ChooseResultActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("chooseCondition", (Serializable) dlEntity);
+                intent.putExtra("type",2+"");
                 startActivity(intent);
                 finish();
 
@@ -519,7 +528,7 @@ public class ChooseActivity1 extends Activity {
                         Log.e("areaid", areaids.toString());
 
                     }
-                    dlEntity.setGender(1);
+                    dlEntity.setGender(1+"");
                 }
             }
         });
@@ -528,7 +537,7 @@ public class ChooseActivity1 extends Activity {
             @Override
             public void onClick(View v) {
                 if (girl.isChecked()) {
-                    dlEntity.setGender(0);
+                    dlEntity.setGender(0+"");
                 }
             }
         });

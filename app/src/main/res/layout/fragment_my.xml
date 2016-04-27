@@ -16,7 +16,7 @@
             android:id="@+id/user_info_layout"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_heightPercent="40%">
+            app:layout_heightPercent="42%">
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/bg_head_lay"
@@ -27,32 +27,28 @@
 
             <com.android.volley.toolbox.NetworkImageView
                 android:id="@+id/mine_touxiang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/head"
-                app:layout_heightPercent="35%"
-                app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%" />
+                app:layout_marginTopPercent="13%"/>
 
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
                 android:src="@drawable/circle_shape"
-                app:layout_heightPercent="35%"
-                app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%" />
+                app:layout_marginTopPercent="13%"
+               />
 
             <RelativeLayout
                 android:id="@+id/auth_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_centerHorizontal="true"
-                app:layout_heightPercent="35%"
-                app:layout_marginTopPercent="15%"
-                app:layout_widthPercent="20%">
+                app:layout_marginTopPercent="13%"
+                >
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -73,34 +69,121 @@
             </RelativeLayout>
 
 
-            <TextView
-                android:id="@+id/mine_name"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+            <com.zhy.android.percent.support.PercentLinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_below="@+id/mine_touxiang"
-                android:layout_centerHorizontal="true"
-                android:ellipsize="middle"
                 android:gravity="center"
-                android:singleLine="true"
-                android:text="yoyo"
-                android:textColor="#ffffff"
-                app:layout_heightPercent="15%"
-                app:layout_widthPercent="20%" />
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp">
+                <TextView
+                    android:id="@+id/mine_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="yoyodsafsdfgds"
+                    android:textColor="#ffffff"
+                    />
+                <ImageView
+                    android:id="@+id/home_vip"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    />
+            </com.zhy.android.percent.support.PercentLinearLayout>
+
 
             <ViewStub
                 android:id="@+id/mote_summary_info_stub"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout="@layout/mote_summary_info" />
+                android:layout="@layout/mote_summary_info"
+                android:background="@drawable/mote_bg"/>
 
             <ViewStub
                 android:id="@+id/seller_summary_info_stub"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout="@layout/seller_summary_info" />
         </com.zhy.android.percent.support.PercentRelativeLayout>
+
+
+        <com.zhy.android.percent.support.PercentLinearLayout
+            android:id="@+id/cz_seller"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/fuwu"
+                android:layout_width="match_parent"
+                android:layout_height="22dp"
+                android:background="#fff"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="我的服务"
+                android:textColor="#515151"
+                android:textSize="10sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/fuwu"
+                android:background="#ddd" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:background="#ffffff">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="57dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/vip_1"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:drawableBottom="@drawable/notopen"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="买家秀会员"
+                        android:textColor="#515151"
+                        android:textSize="13sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:background="#ddd" />
+
+                    <TextView
+                        android:id="@+id/vip_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="1"
+                        android:drawableBottom="@drawable/notopen"
+                        android:drawablePadding="5dp"
+                        android:gravity="center"
+                        android:text="测款测图会员"
+                        android:textColor="#515151"
+                        android:textSize="13sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </com.zhy.android.percent.support.PercentLinearLayout>
 
         <com.zhy.android.percent.support.PercentLinearLayout
             android:layout_width="match_parent"
@@ -118,15 +201,17 @@
                 android:drawableRight="@drawable/jiantou_next"
                 android:gravity="center_vertical"
                 android:text="我的关注"
+                android:textColor="#515151"
+                android:textSize="13sp"
                 app:layout_heightPercent="50%"
                 app:layout_marginLeftPercent="2%"
                 app:layout_marginRightPercent="2%" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="1dp"
                 android:layout_below="@id/care"
-                android:background="#55000000"
+                android:background="#ddd"
                 app:layout_marginLeftPercent="2%" />
 
             <TextView
@@ -137,6 +222,8 @@
                 android:drawableRight="@drawable/jiantou_next"
                 android:gravity="center_vertical"
                 android:text="我的任务"
+                android:textColor="#515151"
+                android:textSize="13sp"
                 app:layout_heightPercent="50%"
                 app:layout_marginLeftPercent="2%"
                 app:layout_marginRightPercent="2%" />
@@ -159,15 +246,17 @@
                 android:drawableRight="@drawable/jiantou_next"
                 android:gravity="center_vertical"
                 android:text="我的图库"
+                android:textColor="#515151"
+                android:textSize="13sp"
                 app:layout_heightPercent="50%"
                 app:layout_marginLeftPercent="2%"
                 app:layout_marginRightPercent="2%" />
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="1dp"
                 android:layout_below="@id/care"
-                android:background="#55000000"
+                android:background="#ddd"
                 app:layout_marginLeftPercent="2%" />
 
             <TextView
@@ -177,7 +266,9 @@
                 android:layout_gravity="center"
                 android:drawableRight="@drawable/jiantou_next"
                 android:gravity="center_vertical"
-                android:text="我的钱包"
+                android:text="我的积分"
+                android:textColor="#515151"
+                android:textSize="13sp"
                 app:layout_heightPercent="50%"
                 app:layout_marginLeftPercent="2%"
                 app:layout_marginRightPercent="2%" />
@@ -200,9 +291,10 @@
                 android:drawableRight="@drawable/jiantou_next"
                 android:gravity="center_vertical"
                 android:text="设置"
+                android:textColor="#515151"
+                android:textSize="13sp"
                 app:layout_marginLeftPercent="2%"
                 app:layout_marginRightPercent="2%" />
-
 
         </com.zhy.android.percent.support.PercentLinearLayout>
     </com.zhy.android.percent.support.PercentLinearLayout>

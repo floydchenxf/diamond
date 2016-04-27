@@ -2,8 +2,11 @@ package com.floyd.diamond.ui.activity;
 
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -12,9 +15,11 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.floyd.diamond.R;
-import com.floyd.diamond.bean.BadgeUtil;
+import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.Code;
 import com.floyd.diamond.bean.UpdateManager;
 import com.floyd.diamond.biz.manager.LoginManager;
+import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.BackHandledInterface;
 import com.floyd.diamond.ui.fragment.BackHandledFragment;
@@ -43,22 +48,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     private long exitTime = 0;
 
+    private String serverVersion;
+    private String isShowVersion;
+
     private UpdateManager mUpdateManager;
+
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+
+            //这里来检测版本是否需要更新
+            Log.e("version",serverVersion);
+            mUpdateManager = new UpdateManager(MainActivity.this,serverVersion,isShowVersion);
+            mUpdateManager.showNoticeDialog();
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        // 发送未读消息数目广播：count为未读消息数目（int类型）
-//        BadgeUtil.setBadgeCount(getApplicationContext(), 5);
-//
-//        // 发送重置/清除未读消息数目广播：
-//        BadgeUtil.resetBadgeCount(getApplicationContext());
 
-        //这里来检测版本是否需要更新
-        mUpdateManager = new UpdateManager(this);
-        mUpdateManager.showNoticeDialog();
+        loadCode();
 
         com.umeng.socialize.utils.Log.LOG = true;
 
@@ -96,7 +109,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
     public void loadCode(){
+        MoteManager.getNewCode().startUI(new ApiCallback<Code>() {
+            @Override
+            public void onError(int code, String errorInfo) {
 
+            }
+
+            @Override
+            public void onSuccess(Code code) {
+                serverVersion=code.getVersion();
+
+                try {
+                    isShowVersion=code.getTag();
+
+                }catch (Exception e){
+
+                }
+                handler.sendEmptyMessage(1);
+            }
+
+            @Override
+            public void onProgress(int progress) {
+
+            }
+        });
     }
 
     @Override

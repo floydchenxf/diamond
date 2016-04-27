@@ -22,8 +22,8 @@
 
         <CheckBox
             android:id="@+id/likecount1"
-            android:layout_width="44dp"
-            android:layout_height="22dp"
+            android:layout_width="41dp"
+            android:layout_height="17dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/count_shape"
@@ -32,7 +32,8 @@
             android:focusable="false"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:textSize="8sp" />
+            android:textSize="8sp"
+            android:padding="2dp"/>
 
         <TextView
             android:id="@+id/bg_recycle_1"
@@ -60,8 +61,9 @@
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:text="是小差"
+                android:singleLine="true"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/address_1_2"
@@ -73,7 +75,7 @@
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
 
@@ -98,8 +100,8 @@
 
         <CheckBox
             android:id="@+id/likecount2"
-            android:layout_width="44dp"
-            android:layout_height="22dp"
+            android:layout_width="41dp"
+            android:layout_height="17dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:background="@drawable/count_shape"
@@ -108,7 +110,8 @@
             android:focusable="false"
             android:gravity="center"
             android:textColor="#ffffff"
-            android:textSize="8sp" />
+            android:textSize="8sp"
+            android:padding="2dp"/>
 
         <TextView
             android:id="@+id/bg_recycle_2"
@@ -134,8 +137,9 @@
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:text="胡巴"
+                android:singleLine="true"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/address_2_2"
@@ -147,7 +151,7 @@
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
         </LinearLayout>
 
     </RelativeLayout>

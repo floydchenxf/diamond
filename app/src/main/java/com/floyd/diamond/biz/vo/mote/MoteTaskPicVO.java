@@ -3,6 +3,8 @@ package com.floyd.diamond.biz.vo.mote;
 import com.floyd.diamond.biz.vo.IKeepClassForProguard;
 import com.floyd.diamond.utils.CommonUtil;
 
+import java.util.Date;
+
 /**
  * Created by floyd on 15-12-5.
  */

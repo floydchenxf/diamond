@@ -53,7 +53,7 @@ public class DLCondition implements Serializable{
 
     public static class DataEntity implements Serializable{
         private int userId;
-        private int gender;
+        private String gender;
         private int ageMin;
         private int ageMax;
         private int heightMin;
@@ -88,7 +88,7 @@ public class DLCondition implements Serializable{
             this.userId = userId;
         }
 
-        public void setGender(int gender) {
+        public void setGender(String gender) {
             this.gender = gender;
         }
 
@@ -148,7 +148,7 @@ public class DLCondition implements Serializable{
             return userId;
         }
 
-        public int getGender() {
+        public String getGender() {
             return gender;
         }
 

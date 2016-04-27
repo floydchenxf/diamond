@@ -29,6 +29,7 @@ import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -44,6 +45,7 @@ import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.GuideActivity;
 import com.floyd.diamond.ui.activity.HomeChooseActivity1;
+import com.floyd.diamond.ui.activity.HomeSearchActivity;
 import com.floyd.diamond.ui.activity.MoteTaskTypeActivity;
 import com.floyd.diamond.ui.adapter.IndexMoteAdapter;
 import com.floyd.diamond.ui.loading.DataLoadingView;
@@ -226,7 +228,11 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     needClear = true;
                     int k = (++moteType - 1) % 3 + 1;
                     checkMoteType(k);
-                    loadMoteInfo(true);
+                    if (k==1){
+                        loadData(false);
+                    }else{
+                        loadMoteInfo(true);
+                    }
                 } else if (e2.getX() - x1 > MIN_JULI && Math.abs(velocityX) > MIN_VELOCITY_X) {
 
                     int k = 1;
@@ -239,7 +245,11 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                     pageNo = 1;
                     needClear = true;
                     checkMoteType(k);
-                    loadMoteInfo(true);
+                    if (k==1){
+                        loadData(false);
+                    }else{
+                        loadMoteInfo(true);
+                    }
                 }
                 return false;
             }
@@ -413,12 +423,12 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
             }
         });
 
-        //跳转到筛选模特界面
+        //跳转到筛选界面
         shuaixuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(getActivity(), HomeChooseActivity1.class));
+                startActivity(new Intent(getActivity(), HomeSearchActivity.class));
             }
         });
     }
@@ -608,7 +618,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 showRedHotMap.put(4, unReadMsgVO.other > 0);
 
                 if (showRedHotMap.get(1)) {
-                    String womenNum = unReadMsgVO.women > 99?"99+":unReadMsgVO.women+"";
+                    String womenNum = unReadMsgVO.women > 99 ? "99+" : unReadMsgVO.women + "";
                     womenView.setText(womenNum);
                     redHot1Layout.setVisibility(View.VISIBLE);
                 } else {
@@ -616,7 +626,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 }
 
                 if (showRedHotMap.get(2)) {
-                    String menNum = unReadMsgVO.men > 99?"99+":unReadMsgVO.men+"";
+                    String menNum = unReadMsgVO.men > 99 ? "99+" : unReadMsgVO.men + "";
                     menView.setText(menNum);
                     redHot2Layout.setVisibility(View.VISIBLE);
                 } else {
@@ -624,7 +634,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 }
 
                 if (showRedHotMap.get(3)) {
-                    String boyNum = unReadMsgVO.boy > 99?"99+":unReadMsgVO.boy+"";
+                    String boyNum = unReadMsgVO.boy > 99 ? "99+" : unReadMsgVO.boy + "";
                     babyView.setText(boyNum);
                     redHot3Layout.setVisibility(View.VISIBLE);
                 } else {
@@ -632,7 +642,7 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 }
 
                 if (showRedHotMap.get(4)) {
-                    String otherNum = unReadMsgVO.other > 99?"99+":unReadMsgVO.other+"";
+                    String otherNum = unReadMsgVO.other > 99 ? "99+" : unReadMsgVO.other + "";
                     otherView.setText(otherNum);
                     redHot4Layout.setVisibility(View.VISIBLE);
                 } else {
@@ -654,7 +664,10 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
         mViewPagerContainer = mHeaderView.findViewById(R.id.pager_layout);
         mViewPagerContainer.setVisibility(View.GONE);
         ViewGroup.LayoutParams mViewPagerContainerLayoutParams = mViewPagerContainer.getLayoutParams();
-        mViewPagerContainerLayoutParams.height = CommonUtil.dip2px(this.getActivity(), BANNER_HEIGHT_IN_DP)-200;
+        mViewPagerContainerLayoutParams.height = CommonUtil.dip2px(this.getActivity(), BANNER_HEIGHT_IN_DP)*10/16;
+        if (GlobalParams.isDebug){
+            Log.e("TAG_height",mViewPagerContainerLayoutParams.height+"");
+        }
 //        mViewPagerContainerLayoutParams.height =480;
                 mHeaderViewPager = (LoopViewPager) mHeaderView.findViewById(R.id.loopViewPager);
         mHeaderViewIndicator = (CircleLoopPageIndicator) mHeaderView.findViewById(R.id.indicator);
@@ -692,6 +705,13 @@ public class IndexFragment extends BackHandledFragment implements AbsListView.On
                 }
             }
         });
+
+//        mHeaderView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//            }
+//        });
 
 
     }

@@ -8,34 +8,34 @@
         android:layout_width="match_parent"
         android:layout_height="50dip"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/tab_index_page"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:button="@null"
             android:layout_weight="1.0"
+            android:button="@null"
             android:checked="true"
-            android:paddingTop="6dp"
             android:drawableTop="@drawable/home_selector"
             android:gravity="center"
+            android:paddingTop="6dp"
             android:singleLine="true"
             android:text="首页"
-            android:textColor="@drawable/word_selector"/>
+            android:textColor="@drawable/word_selector" />
 
         <RadioButton
             android:id="@+id/tab_message"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
-            android:button="@null"
             android:layout_weight="1.0"
+            android:button="@null"
             android:drawableTop="@drawable/tg_selector"
             android:gravity="center"
             android:paddingTop="6dp"
             android:text="通告"
-            android:textColor="@drawable/word_selector"/>
+            android:textColor="@drawable/word_selector" />
 
         <RadioButton
             android:id="@+id/tab_my"
@@ -47,15 +47,13 @@
             android:gravity="center"
             android:paddingTop="6dp"
             android:text="我的"
-            android:textColor="@drawable/word_selector"/>
+            android:textColor="@drawable/word_selector" />
     </RadioGroup>
-
 
     <FrameLayout
         android:id="@+id/id_content"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@id/id_ly_bottombar"
-         />
+        android:layout_above="@id/id_ly_bottombar" />
 
 </RelativeLayout>

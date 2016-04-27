@@ -3,12 +3,13 @@ package com.floyd.diamond.biz.vo.mote;
 import com.floyd.diamond.utils.CommonUtil;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by floyd on 15-12-9.
  */
 public class TaskItemVO implements Serializable{
-    public long id;
+    public long id;//任务id
     public long userId;
     public String title;
     public String url;
@@ -42,6 +43,15 @@ public class TaskItemVO implements Serializable{
     public long moteTaskId;
     public int acceptStauts;
     public boolean isDirect;
+    public String h5Url;
+
+    public Boolean isTimerTask = false; //是否为倒计时任务  false不是
+    public Boolean isVipSeller = false; //是否为VIP商家  false不是
+    public Boolean isCustomTask = false; // 是否为自定义任务 false不是
+
+    public long diffTime;   //倒计时时间,正数倒计时，负数，正常接单
+    public long futurePublishTime;//系统预发布时间
+    public long databaseTime;//当前时间
 
     public boolean isAccepted;
     public int  finishStatus;

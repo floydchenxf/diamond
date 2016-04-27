@@ -9,6 +9,7 @@ import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.aync.AsyncJob;
 import com.floyd.diamond.aync.HttpJobFactory;
 import com.floyd.diamond.bean.GlobalParams;
+import com.floyd.diamond.bean.ModifyBean;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.APIError;
 import com.floyd.diamond.biz.constants.AccountType;
@@ -160,6 +161,13 @@ public class LoginManager {
 
     }
 
+    /**
+     * 重置密码
+     * @param phoneNumber
+     * @param newPwd
+     * @param smsCode
+     * @return
+     */
     public static AsyncJob<Boolean> fetchResetPwdJob(String phoneNumber, String newPwd, String smsCode) {
         String url = APIConstants.HOST + APIConstants.API_CHANGE_PASSWORD_VERIFY_CODE;
         Map<String, String> params = new HashMap<String, String>();
@@ -174,6 +182,40 @@ public class LoginManager {
                 httpJob.start(new AbstractJsonApiCallback<Boolean>(callback) {
                     @Override
                     protected Boolean convert2Obj(String s, String data) throws JSONException {
+
+                        return Boolean.TRUE;
+                    }
+                });
+            }
+        };
+
+        return resultJob;
+    }
+
+    /**
+     * 修改账号和密码
+     */
+    public static AsyncJob<Boolean> modifyNum(String oldPhone,String oldPass,String oldCode,String newPhone,String newPass,String newCode,String token){
+        String url=APIConstants.HOST+APIConstants.API_MODIFY_PASS;
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("oldPhoneNumber",oldPhone);
+        params.put("oldPassword",oldPass);
+        params.put("oldSmsCode",oldCode);
+        params.put("newPhoneNumber",newPhone);
+        params.put("newPassword",newPass);
+        params.put("newSmsCode",newCode);
+        params.put("token",token);
+        final AsyncJob<String> httpJob = HttpJobFactory.createHttpJob(url, params, HttpMethod.POST).map(new StringFunc());
+
+        AsyncJob<Boolean> resultJob = new AsyncJob<Boolean>() {
+            @Override
+            public void start(final ApiCallback<Boolean> callback) {
+                httpJob.start(new AbstractJsonApiCallback<Boolean>(callback) {
+                    @Override
+                    protected Boolean convert2Obj(String s, String data) throws JSONException {
+
+                       //data为新的token值
+
                         return Boolean.TRUE;
                     }
                 });

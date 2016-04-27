@@ -6,7 +6,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
 import com.floyd.diamond.biz.vo.LoginVO;
@@ -83,12 +87,14 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
         rightView = (TextView) findViewById(R.id.right);
         if (loginVO.isModel()){
             rightView.setText("提现记录");
+            rightView.setVisibility(View.VISIBLE);
         }else{
-            rightView.setText("账户明细");
+//            rightView.setText("账户明细");
+            rightView.setVisibility(View.INVISIBLE);
         }
 
         rightView.setOnClickListener(this);
-        rightView.setVisibility(View.VISIBLE);
+
 
         alipayIdView = (TextView) findViewById(R.id.alipay_id_view);
         remindMoneyView = (TextView) findViewById(R.id.remind_money_view);
@@ -98,14 +104,53 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
         smsFetchView = (TextView) findViewById(R.id.sms_fetch_view);
         drawButton = (TextView) findViewById(R.id.draw_button);
 
+        drawFeeView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        drawFeeView.setText(s);
+                        drawFeeView.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    drawFeeView.setText(s);
+                    drawFeeView.setSelection(2);
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        drawFeeView.setText(s.subSequence(0, 1));
+                        drawFeeView.setSelection(1);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         drawButton.setOnClickListener(this);
         smsFetchView.setOnClickListener(this);
         fillData();
     }
 
     private void fillData() {
-        alipayIdView.setText("支付宝帐号:" + loginVO.user.alipayId);
-        remindMoneyView.setText("余额:" + remindFee);
+        alipayIdView.setText(loginVO.user.alipayId);
+        remindMoneyView.setText(remindFee+"");
     }
 
     @Override
@@ -115,10 +160,11 @@ public class AlipayActivity extends Activity implements View.OnClickListener {
                 if (loginVO.isModel()) {
                     Intent payRecordIntent = new Intent(this, MoteWalletRecordsActivity.class);
                     startActivity(payRecordIntent);
-                } else {
-                    Intent sellerWalletRecordIntent = new Intent(this, SellerWalletRecordActivity.class);
-                    startActivity(sellerWalletRecordIntent);
                 }
+//                else {
+//                    Intent sellerWalletRecordIntent = new Intent(this, SellerWalletRecordActivity.class);
+//                    startActivity(sellerWalletRecordIntent);
+//                }
                 break;
             case R.id.title_back:
                 this.finish();

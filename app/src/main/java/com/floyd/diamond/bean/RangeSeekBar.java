@@ -429,7 +429,7 @@ public class RangeSeekBar <T extends Number> extends ImageView {
 
         paint.setTextSize(mTextSize);
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(Color.GRAY);
+        paint.setColor(Color.parseColor("#aaaaaa"));//设置进度条以及max，min字的背景色
         paint.setAntiAlias(true);
 
         // draw min and max labels(Just this two words)
@@ -450,7 +450,7 @@ public class RangeSeekBar <T extends Number> extends ImageView {
                 getSelectedMaxValue().equals(getAbsoluteMaxValue()));
 
         int colorToUseForButtonsAndHighlightedLine = selectedValuesAreDefault ?
-                Color.GRAY :    // default values
+               Color.GRAY:    // default values
                 Color.parseColor("#d4377e"); //non default, filter is active
 
         // draw seek bar active range line
@@ -485,14 +485,14 @@ public class RangeSeekBar <T extends Number> extends ImageView {
             if (!mSingleThumb) {
                 canvas.drawText(minText,
                         normalizedToScreen(normalizedMinValue) - minTextWidth * 0.5f,
-                        mDistanceToTop + mTextSize,
+                        mDistanceToTop + mTextSize-20,
                         paint);
 
             }
 
             canvas.drawText(maxText,
                     normalizedToScreen(normalizedMaxValue) - maxTextWidth * 0.5f,
-                    mDistanceToTop + mTextSize,
+                    mDistanceToTop + mTextSize-20,
                     paint);
         }
 

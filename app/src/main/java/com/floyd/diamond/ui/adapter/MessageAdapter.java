@@ -10,6 +10,7 @@ import com.android.volley.toolbox.BitmapProcessor;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.TgBean;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.AdvVO;
 
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by Administrator on 2015/11/24.
  */
 public class MessageAdapter extends BaseAdapter {
-    private List<AdvVO> advVOList = new ArrayList<AdvVO>();
+    private List<TgBean.DataEntity> advVOList = new ArrayList<TgBean.DataEntity>();
     private Context mContext;
     private ImageLoader mImageLoader;
     private float oneDp;
@@ -31,7 +32,7 @@ public class MessageAdapter extends BaseAdapter {
         oneDp = this.mContext.getResources().getDimension(R.dimen.one_dp);
     }
 
-    public void addAll(List<AdvVO> advVOs, boolean clear) {
+    public void addAll(List<TgBean.DataEntity> advVOs, boolean clear) {
         if (clear) {
             advVOList.clear();
         }
@@ -46,7 +47,7 @@ public class MessageAdapter extends BaseAdapter {
     }
 
     @Override
-    public AdvVO getItem(int position) {
+    public TgBean.DataEntity getItem(int position) {
         return advVOList.get(position);
     }
 
@@ -66,7 +67,7 @@ public class MessageAdapter extends BaseAdapter {
         }
 
         holder = (ViewHolder) convertView.getTag();
-        AdvVO advVO = getItem(position);
+        TgBean.DataEntity advVO = getItem(position);
         holder.imageView.setDefaultImageResId(R.drawable.tupian);
         holder.imageView.setImageUrl(advVO.getImgUrl(), mImageLoader, new BitmapProcessor() {
             @Override

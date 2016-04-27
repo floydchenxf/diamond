@@ -62,6 +62,7 @@
             app:layout_marginLeftPercent="2%" />
 
         <com.zhy.android.percent.support.PercentRelativeLayout
+            android:id="@+id/XG"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -69,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="手机号"
+                android:text="修改密码"
                 android:textColor="#666666"
                 app:layout_marginLeftPercent="4%"
                 app:layout_marginRightPercent="4%" />
@@ -83,7 +84,9 @@
                 android:text="15445102374"
                 android:textColor="#666666"
                 android:textSize="10sp"
-                app:layout_marginRightPercent="4%" />
+                app:layout_marginRightPercent="4%"
+                android:drawableRight="@drawable/jiantou_next"
+                android:drawablePadding="5dp"/>
         </com.zhy.android.percent.support.PercentRelativeLayout>
 
     </com.zhy.android.percent.support.PercentLinearLayout>
@@ -188,7 +191,23 @@
             android:layout_height="1px"
             android:background="#33000000"
             app:layout_marginLeftPercent="2%" />
+        <TextView
+            android:id="@+id/aboutus"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:drawableRight="@drawable/jiantou_next"
+            android:gravity="center_vertical"
+            android:text="关于我们"
+            android:textColor="#666666"
+            app:layout_marginLeftPercent="4%"
+            app:layout_marginRightPercent="4%" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#33000000"
+            app:layout_marginLeftPercent="2%" />
         <TextView
             android:id="@+id/tuijian"
             android:layout_width="match_parent"
@@ -202,23 +221,7 @@
             app:layout_marginLeftPercent="4%"
             app:layout_marginRightPercent="4%" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#33000000"
-            app:layout_marginLeftPercent="2%" />
 
-        <TextView
-            android:id="@+id/aboutus"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:drawableRight="@drawable/jiantou_next"
-            android:gravity="center_vertical"
-            android:text="关于我们"
-            android:textColor="#666666"
-            app:layout_marginLeftPercent="4%"
-            app:layout_marginRightPercent="4%" />
 
     </com.zhy.android.percent.support.PercentLinearLayout>
 

@@ -4,9 +4,9 @@ package com.floyd.diamond.biz.constants;
  * Created by floyd on 15-11-28.
  */
 public class APIConstants {
-//    public static final String HOST = "http://120.27.132.126:9999/mote/";//测试服务器
-    public static final String HOST ="http://139.196.34.98:8888/mote/";//真实服务器
-//    public static final String HOST ="http://192.168.5.101:8080/mote/";//本地服务器
+    public static final String HOST = "http://120.27.132.126:9999/mote/";//测试服务器
+//    public static final String HOST ="http://139.196.34.98:8888/mote/";//真实服务器
+//    public static final String HOST ="http://192.168.5.103:8080/mote/";//本地服务器
     public static final String API_VERIFY_CODE = "api/user/sendVerifyCode";//发送验证码
     public static final String API_CHANGE_PASSWORD_VERIFY_CODE = "api/user/changePasswordByVerifyCode";//修改密码的验证码
     public static final String API_USER_LOGIN = "api/user/login";//登录
@@ -21,7 +21,7 @@ public class APIConstants {
     public static final String API_ADV_DETAIL_INFO = "api/index/getAdvertDetail";//广告详情
     public static final String API_MOTE_DETAIL_INFO = "api/user/getMoteInfo";//模特详情
     public static final String API_MOTE_TASK_PICS = "api/taskPic/getMoteTaskPics";
-    public static final String API_MOTE_TASK_SEARCH = "api/task/search";//任务查询
+    public static final String API_MOTE_TASK_SEARCH = "api/task/search3";//任务查询
     public static final String API_NEW_MOTE_TASK = "api/task/newMoteTask"; //模特接单
     public static final String API_MOTE_MY_TASK = "api/motetask/getMyTaskList";//模特我的任务
     public static final String API_INDEX_INFO = "api/index/getIndexInfo";//获取首页导航栏目
@@ -69,5 +69,16 @@ public class APIConstants {
     public static final String API_GET_FEE_CHANGE_FLOW = "api/user/getFeeChangeFlow"; //获取费用变更记录
 
 
-    public static final String API_GETNEWCODE="";
+    public static final String API_GETNEWCODE="api/common/getAndroidVersion";//获取最新版本
+    public static final String API_VIPINFO="api/user/getSellerVipType";//获取两个会员type的信息
+    public static final String API_VIP_TYPEMONEY="api/user/getSellerVipTypePrice";//获取商家会员充值的钱数
+    public static final String API_VIP_DAYS="api/user/getSellerVipDays";//获取会员剩下天数
+
+    public static final String API_PINGPP="api/cash/addVipChargeCash";//商家充值会员
+
+    public static final String API_SEARCHMOTE_NICKNAME="api/user/searchMoteByNickName";//按照昵称搜索模特
+    public static final String API_CORRENT_TIME="api/task/correctTime";//倒计时任务矫正时间
+
+    public static final String API_MODIFY_PASS="api/user/sellerChangePhoneNumber";//修改账号和密码
+    public static final String API_GET_TG_LIST = "api/index/getAdvertList2";//获取通告列表
 }

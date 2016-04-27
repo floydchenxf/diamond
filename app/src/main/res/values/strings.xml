@@ -87,7 +87,7 @@
     <string name="title_activity_set_return_item_mobile">SetReturnItemMobileActivity</string>
     <string name="title_activity_mote_wallet_records">MoteWalletRecordsActivity</string>
     <string name="title_activity_seller_wallet">SellerWalletActivity</string>
-    <string name="wallet">我的钱包</string>
+    <string name="wallet">我的积分</string>
     <string name="draw_money">提现</string>
     <string name="pay_record">账户明细</string>
     <string name="title_activity_feedback">FeedbackActivity</string>

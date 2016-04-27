@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.FllowerAnimation;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -39,6 +40,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -189,6 +192,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
 
                     picVoteLayout.setVisibility(View.VISIBLE);
                     taskPicVO = moteTaskPicVO;
+
                     Drawable zan = null;
                     if (taskPicVO.isUpvoted) {
                         if(android.os.Build.VERSION.SDK_INT >= 21){
@@ -314,6 +318,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
         mLoadFailedImageView.setVisibility(View.VISIBLE);
         mLoadFailedTextView.setVisibility(View.VISIBLE);
     }
+
 
     @Override
     public void onLoadImage(final Bitmap bitmap, final String url, int type) {
@@ -659,7 +664,7 @@ public class ImageDetailFragment extends Fragment implements View.OnClickListene
                     });
 
                     //撒花
-                    fllowerAnimation.startAnimation();
+//                    fllowerAnimation.startAnimation();
 
                 }
                 break;

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -137,6 +138,8 @@ public class CareActivity extends Activity implements View.OnClickListener {
         this.mImageLoader = ImageLoaderFactory.createImageLoader();
         loginVO = LoginManager.getLoginInfo(this);
         care = ((TextView) findViewById(R.id.center));
+        EditText et_search_jia= ((EditText) findViewById(R.id.et_search_jia));
+        et_search_jia.setVisibility(View.GONE);
         dataLoadingView = new DefaultDataLoadingView();
         dataLoadingView.initView(findViewById(R.id.act_lsloading), CareActivity.this);
         emptyView = (TextView) findViewById(R.id.empty_info);

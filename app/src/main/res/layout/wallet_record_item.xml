@@ -37,7 +37,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:gravity="center">
@@ -81,11 +81,12 @@
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="6dp">
 
                     <TextView
+                        android:id="@+id/xm"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="姓名:"
@@ -97,7 +98,7 @@
                         android:id="@+id/alipay_name_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_toRightOf="@+id/xm"
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </RelativeLayout>

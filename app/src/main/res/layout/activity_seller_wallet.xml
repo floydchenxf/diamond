@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#eee">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#C8C7CC"/>
 
     <include
         android:id="@+id/title"
@@ -12,7 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="140dp"
         android:layout_below="@+id/title"
-        android:layout_marginTop="4dp"
         android:background="@color/white"
         android:gravity="center_vertical"
         android:orientation="vertical"
@@ -20,18 +25,32 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="账户余额（元）"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="bottom"
+            android:text="账户积分（分）"
             android:textColor="@color/title_bg_color"
             android:textSize="18sp" />
 
         <TextView
             android:id="@+id/remind_fee_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical"
             android:layout_marginTop="10dp"
             android:textColor="@color/title_bg_color"
             android:textSize="30sp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="right|bottom"
+            android:layout_marginRight="12dp"
+            android:layout_marginBottom="10dp"
+            android:text="(1积分=1元钱)可直接提现"
+            android:textSize="10sp"
+            android:textColor="#999"/>
 
     </LinearLayout>
 
@@ -58,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="left|top"
-                android:text="累计充值金额（元）"
+                android:text="累计充值积分（分）"
                 android:textColor="@color/title_bg_color"
                 android:textSize="14sp" />
 
@@ -86,7 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="left|top"
-                android:text="佣金总金额（元）"
+                android:text="佣金总积分（分）"
                 android:textColor="@color/title_bg_color"
                 android:textSize="14sp" />
 
@@ -153,7 +172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="left|top"
-                android:text="自购总金额（元）"
+                android:text="自购总积分（分）"
                 android:textColor="@color/title_bg_color"
                 android:textSize="14sp" />
 
@@ -184,7 +203,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:gravity="left|top"
-            android:text="未完结任务金额（元）"
+            android:text="未完结任务积分（分）"
             android:textColor="@color/title_bg_color"
             android:textSize="14sp" />
 

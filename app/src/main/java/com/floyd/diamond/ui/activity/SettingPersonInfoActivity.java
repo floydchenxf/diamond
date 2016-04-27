@@ -148,7 +148,6 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         suggest.setOnClickListener(this);
         aboutUs.setOnClickListener(this);
         this.findViewById(R.id.left).setOnClickListener(this);
-        Log.i(TAG, "-------model:" + modelInfo);
         loginVO = LoginManager.getLoginInfo(this);
         if (modelInfo != null  && modelInfo.contains("Redmi Note 2")) {
             messageSettingLayout.setVisibility(View.GONE);
@@ -170,12 +169,31 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
             }
         }
 
-        phoneNum.setText(loginVO.user.phoneNumber);
+        if (loginVO.isModel()){
+            String phoneNumText=loginVO.user.phoneNumber.trim().replace(loginVO.user.phoneNumber.substring(3,7),"****");
+            phoneNum.setText(phoneNumText);
+        }else {
+            String phoneNumText=loginVO.user.phoneNumber.trim().replace(loginVO.user.phoneNumber.substring(3,7),"****");
+            phoneNum.setText(phoneNumText);
+        }
+
+
+
 
         tuijian.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 configPlatform();
+            }
+        });
+        //修改账号和密码
+        findViewById(R.id.XG).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(SettingPersonInfoActivity.this, ModifyActivity.class);
+                intent.putExtra("phoneNum", loginVO.user.phoneNumber);
+                startActivity(intent);
             }
         });
     }
@@ -409,8 +427,8 @@ public class SettingPersonInfoActivity extends Activity implements View.OnClickL
         // 注意：在微信授权的时候，必须传递appSecret
         // wx967daebe835fbeac是你在微信开发平台注册应用的AppID, 这里需要替换成你注册的AppID
 
-        String appId = "wx6f4a5ebb3d2cd11e";
-        String appSecret = "64710023bac7d1b314c1b3ed3db5949d";
+        String appId = "wx787a58aec93342a4";
+        String appSecret = "b9b9b224459a65766b0b3396c8f8cf1e";
 
         //设置微信好友分享内容
         WeiXinShareContent weixinContent = new WeiXinShareContent();

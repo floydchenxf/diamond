@@ -8,9 +8,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
 import android.util.Log;
@@ -176,10 +178,10 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
         String address = taskProcessVO.seller.address;
         String phoneNumber = taskProcessVO.seller.phoneNumber;
         String shopName = taskProcessVO.seller.shopName;
-        String provinceName=taskProcessVO.seller.provinceName;
-        String cityName=taskProcessVO.seller.cityName;
-        String districtName=taskProcessVO.seller.districtName;
-        Log.e("TAG",address+"地址");
+        String provinceName = taskProcessVO.seller.provinceName;
+        String cityName = taskProcessVO.seller.cityName;
+        String districtName = taskProcessVO.seller.districtName;
+        Log.e("TAG", address + "地址");
         addressView.setText(address);
         phoneNumView.setText(phoneNumber);
         shopNameView.setText(shopName);
@@ -203,6 +205,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
         expressNoView.setVisibility(View.VISIBLE);
         expressCompanyView.setText(companyId);
         expressNoView.setText(expressNo);
+//        inputControl(expressNoView,expressNo);
 
     }
 
@@ -213,6 +216,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
         confirmExpressNoView.setOnClickListener(this);
         expressCompanyView.setText(companyId);
         expressNoView.setText(expressNO);
+//        inputControl(expressNoView,expressNO);
     }
 
     private void initExpressGridLayout() {
@@ -368,7 +372,7 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                 }
 
                 final ExpressCompanyVO expressCompany = expressCompanies.get(expressCompanyId);//[expressCompanyId];
-                final String expressNo = layoutExpressNoEditView.getText().toString();
+                final String expressNo=layoutExpressNoEditView.getText().toString();
                 if (TextUtils.isEmpty(expressNo)) {
                     Toast.makeText(this.getActivity(), "请输入快递单号", Toast.LENGTH_SHORT).show();
                     return;
@@ -376,8 +380,8 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
 
                 dataLoadingDialog.show();
                 LoginVO vo = LoginManager.getLoginInfo(this.getActivity());
-                if (GlobalParams.isDebug){
-                    Log.e("TAG_ex", expressCompany.code+"code");
+                if (GlobalParams.isDebug) {
+                    Log.e("TAG_ex", expressCompany.code + "code");
                 }
                 MoteManager.returnGoods(taskProcessVO.moteTask.id, vo.token, expressCompany.code, expressNo).startUI(new ApiCallback<Boolean>() {
                     @Override
@@ -433,4 +437,5 @@ public class ProcessGoodsOperateFragment extends Fragment implements View.OnClic
                 break;
         }
     }
+
 }

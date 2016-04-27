@@ -3,7 +3,9 @@ package com.floyd.diamond.ui.activity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -37,6 +39,28 @@ public class FeedbackActivity extends Activity implements View.OnClickListener {
         titleNameView.setText(R.string.title_feedback);
         titleNameView.setVisibility(View.VISIBLE);
         feedbackView.setOnClickListener(this);
+        contentView.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (s.toString().isEmpty()){
+
+                    feedbackView.setBackgroundResource(R.drawable.gray_button_bg_nor);
+                }else{
+                    feedbackView.setBackgroundResource(R.drawable.common_round_blue_bg);
+                }
+            }
+        });
     }
 
     @Override

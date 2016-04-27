@@ -2,15 +2,79 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#55000000">
-    <TextView
+    android:background="#eee">
+    <LinearLayout
         android:id="@+id/back_null"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#d4377e"
-        android:layout_gravity="top"
-        android:drawableLeft="@drawable/jiantou_back"
-        android:paddingLeft="10dp"/>
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:background="#d4377e">
+
+        <LinearLayout
+            android:id="@+id/left"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="10dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical|left"
+                android:layout_marginLeft="10dip"
+                android:background="@drawable/jiantou_back" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <EditText
+                android:id="@+id/et_search_jia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bg"
+                android:drawableLeft="@drawable/search_red"
+                android:drawableRight="@drawable/clear_search"
+                android:drawablePadding="5dp"
+                android:paddingRight="5dp"
+                android:focusable="false"
+                android:gravity="start|center_vertical"
+                android:hint=" 请输入昵称"
+                android:imeOptions="actionSearch"
+                android:paddingLeft="5dp"
+                android:singleLine="true"
+                android:textColor="#fff"
+                android:textColorHint="#C75789"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/right"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="2dp"
+                android:text="条件筛选"
+                android:textColor="#fff"
+                android:textSize="12sp"
+                android:gravity="center"/>
+        </LinearLayout>
+
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,20 +82,23 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/content_1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="很遗憾，没有找到符合你条件的模特"
-            android:textColor="#d4377e"
+            android:text="该昵称无匹配模特"
+            android:textColor="#666"
             android:layout_gravity="center"
+            android:textSize="14sp"
             />
         <TextView
-            android:id="@+id/lookother"
+            android:id="@+id/content_2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="去看看其他优质模特..."
+            android:text="小技巧：减少关键词更容易搜索到哦！"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            android:textColor="#d4377e"/>
+            android:textColor="#999"
+            android:textSize="12sp"/>
     </LinearLayout>
 
 

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context="${relativePackage}.${activityClass}">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:background="#d4377e"
+        android:orientation="horizontal"
+        >
+
+        <LinearLayout
+            android:id="@+id/finishsearch"
+            android:layout_width="60dp"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:padding="12dp"
+                android:src="@drawable/jiantou_back" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/search_bg"
+                android:drawablePadding="5dp"
+                android:gravity="start|center_vertical"
+                android:hint=" 请输入昵称"
+                android:paddingLeft="5dp"
+                android:imeOptions="actionSearch"
+                android:singleLine="true"
+                android:textSize="12sp"
+                android:textColorHint="#C75789"
+                android:textColor="#fff"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:drawableLeft="@drawable/search_red"
+                />
+            <LinearLayout
+                android:layout_width="25dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical">
+                <ImageView
+                    android:id="@+id/clearS"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/clear_search"
+
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="center">
+            <TextView
+                android:id="@+id/conditon_choose"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center_vertical"
+                android:text="条件筛选"
+                android:textColor="#fff"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:background="@drawable/button_shape"
+                 />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="#fff"
+                >
+                <TextView
+                    android:id="@+id/tv_tip"
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"
+                    android:gravity="left|bottom"
+                    android:text="搜索历史"
+                    android:textSize="10sp"
+                    android:paddingLeft="12dp"
+                    android:textColor="#333"
+                    android:visibility="gone"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#fff">
+                    <com.floyd.diamond.bean.MyListView
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:divider="#ddd"
+                        android:dividerHeight="0.5dp"
+                        ></com.floyd.diamond.bean.MyListView>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#fff">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="#ddd"
+                    ></View>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/tv_clear"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:background="#fff"
+                android:gravity="center"
+                android:text="清除搜索历史"
+                android:textSize="12sp"
+                android:textColor="#999"
+                android:visibility="gone"/>
+
+            <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="1dp"-->
+                <!--android:layout_marginBottom="20dp"-->
+                <!--android:background="#EEEEEE"></View>-->
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\ceshi\diamond\app\libs\mid-sdk-2.20.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0822bf00661a83ba2fab32214c70cc50a244a0a3">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\mid-sdk-2.20-7afb573b90ef04fa17097740eda1890cc285e712.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\httpmime-4.1.3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e70d34d98f7f7f3b2b92105b9f2fe2a7a7184461">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\httpmime-4.1.3-131f0c904e37fddef4242f9659c4d45664a000e6.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\SocialSDK_QQZone_3.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="931ab461b91c2a2fd5c697e7f622cdca8c2b3ac5">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\SocialSDK_QQZone_3-ad003217d055a7a91c3e933308a40a0928a8e64c.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\eventbus-3.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d4a559b2dfb3e8a00ed37c440e118584f60db046">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\eventbus-3.0.0-22ccf9f33bad1ac0d5cb2fd300cca3bc18d80b08.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\libs\internal_impl-22.2.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c471eaaba13ff64f6e0383d1c30a9cdc9a97efeb">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\internal_impl-22.2.1-d8f44dc3c402bc50617b2746116f998e41d6c8b9.jar" />
+    </item>
+    <item
+        jar="C:\Users\hy\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\butterknife-7.0.1-6153cf9c9dc5b3549517fe322bd7367e357b1794.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\jg_filter_sdk_1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="ebfc3cde0309ff27e9568757784eefefc71407a2">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\jg_filter_sdk_1.1-de43c6c9334499e5fbf5f8308122f56948874b52.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\SocialSDK_QQZone_1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c184c69f43b1fe46390f7123717c65bd844bccb6">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\SocialSDK_QQZone_1-8a377fc7c87d467ad98fda5ab97e723cc9860b26.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\SocialSDK_WeiXin_2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="52817908728a9be3fd40d9ee7f46009b1b4fba57">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\SocialSDK_WeiXin_2-9c60b4415dd10eef95041c26a4322722ec00ff5c.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\SocialSDK_like.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="18c87f83fb936fb724ea6adb76795584511318e8">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\SocialSDK_like-19ded3d13e1ee7b24fd31e917bef6a7ee96de4ef.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\diamond.lib\pingpp\unspecified\jars\libs\alipaySingle-20160111.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0c92c4d11a49f3595cf2b4d0020c83336ae1e23a">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\alipaySingle-20160111-eda513a7be3d84f8671f2e1913783d6ef7349252.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\umeng_social_sdk.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="38c1f37e256f912f926a587ef006ffb44b584437">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\umeng_social_sdk-5feb94bb7b66696956e587064ea0aa9d7ba5d689.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\diamond.lib\pingpp\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="02e8feed8f27ea52b8c30dfc894d09b454e1a3c6">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\classes-27344535fe588ccdb9345a9881cc6dca87d1a081.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\diamond.lib\pingpp\unspecified\jars\libs\UPPayAssistEx.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8efbcbe3b773b9d75050c5ba6dec8d21ca30b1e1">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\UPPayAssistEx-e76df56f11b8b1570575ea343fe07d991be905cb.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\universal-image-loader-1.9.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="442dbfb517b9ab5cb5c6da7ebf8cc28ec5bd0375">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\universal-image-loader-1.9.5-0addfea2bea1d751c178a7c000425c953b19a3eb.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\wup-1.0.0-SNAPSHOT.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a0845068801a0b9a3a144b7cf57cb650b3d467e5">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\wup-1.0.0-SNAPSHOT-10b058ca662d0e763744a0b43ad12644326a1706.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\Xg_sdk_v2.39_20150915_1121.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b1a16d54584c44f32d2492e25acab5f8d07772fb">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\Xg_sdk_v2.39_20150915_1121-f3b971b91df83fef086ae3d774d8be4c37707b79.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\zxing.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e88c14e6e7daa0fa65172a62b54ee6a16ff4162d">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\zxing-ca320d63eb437f2a80382f32005ffabf439a5f37.jar" />
+    </item>
+    <item
+        jar="D:\BaiduYunDownload\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\22.2.1\support-annotations-22.2.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="61a0ff5c29295ec56d7e0bd3d25d95dbf71b4b2b">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\support-annotations-22.2.1-5a684f774ccfe01952e4f0e3fbc1bfcef8c36dcb.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f8efd0096475e0daf054267b61544e10dc776503">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\classes-cb8fa82a1f7c70b0eccff196ca15ae2d36732aa5.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\com.android.support\design\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="fc63b820d54c8a27a3a614bdd93920e0076581c2">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\classes-e73b3482c259d0f2af64fcc15e78c78472d0d95b.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\SocialSDK_Sina.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a6eee0ece63ba5e74411057d09eda1a5a01ca940">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\SocialSDK_Sina-04c3e125e8607aea455fac09d3fed7fd7b5649bb.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\diamond.lib\pingpp\unspecified\jars\libs\UPPayPluginExPro.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c9de05e5c153c59c86720e52ebef0a62d428fcea">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\UPPayPluginExPro-bc97fff984e4cc880920c6d4c43b5d5aae89e062.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3abb4b88f5a8a0584a9b01d3170d7165f12f8588">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\classes-131cef2cc4b2c5f30d0f317d0466cb9d628b2725.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4486e953d1f35f8ccab098b1dd67146366d5f731">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\classes-12f86dca74447ad47943474fbe839ba51fdb1f4f.jar" />
+    </item>
+    <item
+        jar="C:\Users\hy\.gradle\caches\modules-2\files-2.1\com.google.code.gson\gson\2.5\686c608d1805b6d4d425ec4459e88164ffc85870\gson-2.5.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="686c608d1805b6d4d425ec4459e88164ffc85870">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\gson-2.5-57767e80bb0b6cdede6cb84d990b03fe67d9f18a.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\diamond.lib\pingpp\unspecified\jars\libs\libpingpp-2.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="21f38cd7d2ba910c3ba42c97a127d91fd478c5cd">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\libpingpp-2.1.1-660f0d5933bd53f34347507805f2493977afcaf5.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\libs\SocialSDK_QQZone_2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4a69b33758dcba3ef519cbd4b6c8af5f41603c4f">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\SocialSDK_QQZone_2-e092eaa48151ab4f72a00625b1740128fe79ddbf.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\diamond.lib\pingpp\unspecified\jars\libs\libammsdk.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="47f4993168154fa73377d7470b9f6887d48a8023">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\libammsdk-338ccd2548fb75eb2d114ccee1d7d261be685c13.jar" />
+    </item>
+    <item
+        jar="D:\ceshi\diamond\app\build\intermediates\exploded-aar\com.zhy\percent-support-extends\1.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="bb6a4052ce1adfb69d577af519cb291b4ca4ecf1">
+        <dex dex="D:\ceshi\diamond\app\build\intermediates\pre-dexed\release\classes-abc55594fcc9b17282c73178891c47ed1a22ea43.jar" />
+    </item>
+
+</items>

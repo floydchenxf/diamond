@@ -91,111 +91,120 @@
                 android:textColor="#666666"
                 android:textSize="14sp" />
 
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/seller_info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/return_goods_desc"
+                android:orientation="vertical"
                 android:paddingBottom="10dp">
 
-                <TextView
-                    android:id="@+id/shop_name_desc"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="商家昵称："
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/shop_name"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/shop_name_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="商家昵称："
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/shop_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="xxxx"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/shop_name_desc"
-                    android:singleLine="true"
-                    android:text="xxxx"
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
 
+                    <TextView
+                        android:id="@+id/phone_num_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/shop_name_desc"
+                        android:text="手机号："
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/phone_num_desc"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/phone_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="xxxx2"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/shop_name_desc"
-                    android:text="手机号："
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/phone_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/phone_num_desc"
-                    android:layout_alignBottom="@+id/phone_num_desc"
-                    android:layout_toRightOf="@+id/phone_num_desc"
-                    android:singleLine="true"
-                    android:text="xxxx2"
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/address_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="收货地址："
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/goods_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="xxxx2"
+                        android:textColor="#666666"
+                        android:textSize="12sp" />
+                </LinearLayout>
 
 
-                <TextView
-                    android:id="@+id/address_desc"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/phone_num_desc"
-                    android:text="收货地址："
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:gravity="bottom"
+                    android:layout_marginTop="12.5dp">
+                    <TextView
+                        android:id="@+id/express_company_id"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="圆通："
+                        />
 
-                <TextView
-                    android:id="@+id/goods_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/address_desc"
-                    android:layout_alignBottom="@+id/address_desc"
-                    android:layout_toRightOf="@+id/address_desc"
-                    android:text="xxxx2"
-                    android:textColor="#666666"
-                    android:textSize="12sp" />
+                    <TextView
+                        android:id="@+id/express_no"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/common_gray_round_bord_bg"
+                        android:gravity="center"
+                        android:text="12345678" />
 
-                <TextView
-                    android:id="@+id/express_company_id"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/goods_address"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginTop="30dp"
-                    android:text="圆通：" />
+                    <TextView
+                        android:id="@+id/confirm_express"
+                        android:layout_width="60dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/common_round_red_bg"
+                        android:gravity="center"
+                        android:text="修改" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/express_no"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/common_gray_round_bord_bg"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
-                    android:text="12345678"
-                    android:layout_alignBottom="@+id/express_company_id"
-                    android:layout_toRightOf="@+id/express_company_id"
-                    android:layout_toEndOf="@+id/express_company_id"
-                    />
 
-                <TextView
-                    android:id="@+id/confirm_express"
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/express_no"
-                    android:layout_marginLeft="8dp"
-                    android:layout_toRightOf="@+id/express_no"
-                    android:background="@drawable/common_round_red_bg"
-                    android:gravity="center"
-                    android:paddingBottom="4dp"
-                    android:paddingTop="4dp"
-                    android:text="修改" />
 
-            </RelativeLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/express_info_setting_layout"
@@ -243,6 +252,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@drawable/common_gray_round_bord_bg"
+                        android:digits="1234567890qwertyuiopasdfghklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
                         android:gravity="center" />
 
                     <TextView
