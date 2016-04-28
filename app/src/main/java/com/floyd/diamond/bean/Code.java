@@ -14,7 +14,7 @@ public class Code {
     private int id;
     private String version;
     private String name;
-
+    public String message;
     private String tag;
 
     public String getTag() {
@@ -48,5 +48,13 @@ public class Code {
 
     public String getName() {
         return name;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

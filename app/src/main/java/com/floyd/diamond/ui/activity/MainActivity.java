@@ -18,6 +18,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.aync.ApiCallback;
 import com.floyd.diamond.bean.BadgeUtil;
 import com.floyd.diamond.bean.Code;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.bean.UpdateManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.manager.MoteManager;
@@ -55,6 +56,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
 
     private UpdateManager mUpdateManager;
+    private String message;
 
     private Handler handler=new Handler(){
         @Override
@@ -64,7 +66,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             //这里来检测版本是否需要更新
             Log.e("version",serverVersion);
 
-            mUpdateManager = new UpdateManager(MainActivity.this,serverVersion,isShowVersion);
+            mUpdateManager = new UpdateManager(MainActivity.this,serverVersion,isShowVersion,message);
 
             mUpdateManager.showNoticeDialog();
         }
@@ -123,6 +125,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             @Override
             public void onSuccess(Code code) {
                 serverVersion = code.getVersion();
+                message=code.getMessage();
+
+                if (GlobalParams.isDebug){
+                    Log.e("TAG",message);
+                }
 
                 try {
                     isShowVersion = code.getTag();

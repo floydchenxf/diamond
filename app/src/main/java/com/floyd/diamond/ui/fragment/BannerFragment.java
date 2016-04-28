@@ -3,6 +3,7 @@ package com.floyd.diamond.ui.fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import com.floyd.diamond.IMChannel;
 import com.floyd.diamond.IMImageCache;
 import com.floyd.diamond.R;
+import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.constants.APIConstants;
 import com.floyd.diamond.biz.constants.EnvConstants;
 import com.floyd.diamond.biz.vo.AdvVO;
@@ -90,14 +92,21 @@ public class BannerFragment extends BaseFragment {
         mImageView = new NetworkImageView(getActivity());
         mImageView.setDefaultImageResId(R.drawable.tupian);
         mImageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, CommonUtil.dip2px(getActivity(), height)));
-        mImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                List<String> actions = new ArrayList<String>();
-                actions.add(mDataList.getImgUrl());
-                callAction(actions, "BANNER", mDataList);
-            }
-        });
+        if (GlobalParams.isDebug){
+            Log.e("TAG_type",mDataList.urlType+"");
+        }
+        if (mDataList.urlType==3){
+            mImageView.setOnClickListener(null);
+        }else{
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    List<String> actions = new ArrayList<String>();
+                    actions.add(mDataList.getImgUrl());
+                    callAction(actions, "BANNER", mDataList);
+                }
+            });
+        }
         mImageView.setScaleType(ImageView.ScaleType.FIT_XY);//控制图片显示居中方式（首页banner）
         mImageView.setErrorImageResId(R.drawable.pic_loading);
         mImageView.setDefaultImageResId(R.drawable.pic_loading);
@@ -111,8 +120,9 @@ public class BannerFragment extends BaseFragment {
     private void callAction(final List<String> actions, final String param, final AdvVO banner) {
 
         Intent intent = new Intent(getActivity(), H5Activity.class);
-        String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO + "?id=" + mDataList.id;
+//        String url = APIConstants.HOST + APIConstants.API_ADV_DETAIL_INFO + "?id=" + mDataList.id;
         H5Activity.H5Data h5Data = new H5Activity.H5Data();
+        String url =mDataList.url ;
         h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
         h5Data.data = url;
         h5Data.showProcess = true;

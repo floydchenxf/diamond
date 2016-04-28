@@ -42,6 +42,7 @@ import com.floyd.diamond.biz.manager.IndexManager;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.tools.ImageUtils;
 import com.floyd.diamond.biz.vo.AdvVO;
+import com.floyd.diamond.biz.vo.LoginVO;
 import com.floyd.diamond.ui.DialogCreator;
 import com.floyd.diamond.ui.ImageLoaderFactory;
 import com.floyd.diamond.ui.activity.H5Activity;
@@ -159,32 +160,7 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
 //        mPullToRefreshListView = (PullToRefreshListView) view.findViewById(R.id.listview);
         mListView = (MyListView) view.findViewById(R.id.listview);
         mListView.setFocusable(false);
-        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(mContext, H5Activity.class);
-                String url = advList.get(position).getUrl();
-                H5Activity.H5Data h5Data = new H5Activity.H5Data();
-                h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-                h5Data.data = url;
-                h5Data.showProcess = true;
-                h5Data.showNav = true;
-                h5Data.canZoom = true;
-                h5Data.title = "通告";
-                h5Data.webString= LoginManager.getLoginInfo(mContext).token==null?"":LoginManager.getLoginInfo(mContext).token;
-                intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
-                startActivity(intent);
-//                Intent goodsItemIntent = new Intent(TaskProcessActivity.this, H5Activity.class);
-//                H5Activity.H5Data goodsData = new H5Activity.H5Data();
-//                goodsData.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
-//                goodsData.data = url;
-//                goodsData.showProcess = true;
-//                goodsData.showNav = false;
-//                goodsData.title = "商品";
-//                goodsItemIntent.putExtra(H5Activity.H5Data.H5_DATA, goodsData);
-//                startActivity(goodsItemIntent);
-            }
-        });
+
 //        mPullToRefreshListView.setMode(PullToRefreshBase.Mode.PULL_UP_TO_REFRESH);
 //        mPullToRefreshListView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2() {
 //            @Override
@@ -265,7 +241,7 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
             }
 
             @Override
-            public void onSuccess(List<TgBean.DataEntity> advVOs) {
+            public void onSuccess(final List<TgBean.DataEntity> advVOs) {
 
                 if (GlobalParams.isDebug){
                     Log.e("TAG",position+2+"");
@@ -276,6 +252,28 @@ public class Message_ourFregment extends Fragment implements View.OnClickListene
 //                        return ImageUtils.getCircleBitmap(bitmap, getActivity().getResources().getDimension(R.dimen.cycle_head_image_size));
 //                    }
 //                });
+
+                mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                        if (advVOs.get(position).getUrlType()==3){
+                            Log.e("TAG","无连接，不可点击");
+                        }else{
+                            Intent intent = new Intent(mContext, H5Activity.class);
+                            String url = advList.get(position).getUrl();
+                            H5Activity.H5Data h5Data = new H5Activity.H5Data();
+                            h5Data.dataType = H5Activity.H5Data.H5_DATA_TYPE_URL;
+                            h5Data.data = url;
+                            h5Data.showProcess = true;
+                            h5Data.showNav = true;
+                            h5Data.canZoom = true;
+                            h5Data.title = "通告";
+                            intent.putExtra(H5Activity.H5Data.H5_DATA, h5Data);
+                            startActivity(intent);
+                        }
+                    }
+                });
 
                 if (isFirst) {
                     dataLoadingView.loadSuccess();

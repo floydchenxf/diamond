@@ -590,7 +590,7 @@ public class MyFragment extends BackHandledFragment implements View.OnClickListe
                 break;
             case R.id.auth_view:
                 if (authStatusView.getText().toString().equals("未认证")||authStatusView.getText().toString().equals("未通过")){
-                    Intent authIntent = new Intent(this.getActivity(), MoteAuthActivity.class);
+                    Intent authIntent = new Intent(this.getActivity(), PersonInfoActivity.class);
                     authIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(authIntent);
                 }

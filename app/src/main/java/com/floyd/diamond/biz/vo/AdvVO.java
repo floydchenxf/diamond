@@ -15,15 +15,19 @@ public class AdvVO implements Parcelable, IKeepClassForProguard {
     public long createTime;
     public long updateTime;
     public int type;
+    public int urlType;
+    public String url;
 //    public String content;
 
     public AdvVO(Parcel in) {
         id = in.readLong();
+        urlType=in.readInt();
         title = in.readString();
         imgUrl = in.readString();
         createTime = in.readLong();
         updateTime = in.readLong();
         type = in.readInt();
+        url=in.readString();
 //        content = in.readString();
     }
 
@@ -52,6 +56,8 @@ public class AdvVO implements Parcelable, IKeepClassForProguard {
         dest.writeLong(createTime);
         dest.writeLong(updateTime);
         dest.writeInt(type);
+        dest.writeInt(urlType);
+        dest.writeString(url);
     }
 
     public static final Parcelable.Creator<AdvVO> CREATOR = new Parcelable.Creator<AdvVO>() {

@@ -45,23 +45,21 @@ public class UpdateManager {
 
     private String clientVersion="1.2"; //客户端当前的版本号
 
-//    private String updateDescription = "1.首页一键置顶功能" +
-//            "2.修复多个crash问题" +
-//            "3.完善及修改界面展示"; //更新内容描述信息
     private String updateDescription="更新描述";
     private boolean forceUpdate = true; //是否强制更新
 
     private AlertDialog alertDialog1, alertDialog2; //表示提示对话框、进度条对话框
+    private String message;
 
     /**
      * 构造函数
      */
 
-    public UpdateManager(Context context,String serverVersion,String isShowVersion) {
+    public UpdateManager(Context context,String serverVersion,String isShowVersion,String message) {
         this.mContext = context;
         this.serverVersion=serverVersion;
         this.isShowVersion=isShowVersion;
-
+        this.message=message;
     }
 
     /**
@@ -82,7 +80,8 @@ public class UpdateManager {
 
         }
         AlertDialog.Builder dialog = new AlertDialog.Builder(mContext);
-        dialog.setMessage("发现新版本,请立即更新哦!");
+        dialog.setMessage(message);
+        dialog.setTitle("发现新版本，请立即更新哦~~");
 //        dialog.setMessage(updateDescription);
         dialog.setPositiveButton("现在更新", new DialogInterface.OnClickListener() {
             @Override

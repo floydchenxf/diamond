@@ -32,6 +32,7 @@ import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -233,6 +234,9 @@ public class ImageUtils {
 	public static Bitmap getOriginRoundBitmap(Bitmap bitmap, float radius) {
 		Bitmap output = null;
 		try {
+//			DisplayMetrics metrics=new DisplayMetrics();
+//			metrics.heightPixels=bitmap.getWidth()/2;
+//			metrics.widthPixels=bitmap.getHeight()/2;
 			output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
 		} catch (OutOfMemoryError e) {
 			Log.d(TAG, e.getMessage(),e);
@@ -242,7 +246,7 @@ public class ImageUtils {
 			Canvas canvas = new Canvas(output);
 			canvas.drawColor(Color.TRANSPARENT);
 			Rect dstRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-			Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());;
+			Rect srcRect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 			RectF rectF = new RectF(dstRect);
 			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 			canvas.drawRoundRect(rectF, radius, radius, paint);
