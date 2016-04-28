@@ -127,9 +127,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 serverVersion = code.getVersion();
                 message=code.getMessage();
 
-                if (GlobalParams.isDebug){
-                    Log.e("TAG",message);
-                }
+//                if (GlobalParams.isDebug){
+//                    Log.e("TAG",message);
+//                }
 
                 try {
                     isShowVersion = code.getTag();

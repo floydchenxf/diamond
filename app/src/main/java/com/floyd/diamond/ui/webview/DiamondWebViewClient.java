@@ -3,9 +3,12 @@ package com.floyd.diamond.ui.webview;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.http.SslError;
+import android.util.Log;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+import com.floyd.diamond.bean.GlobalParams;
 
 /**
  * Created by floyd on 16-1-9.
@@ -14,9 +17,11 @@ public class DiamondWebViewClient extends WebViewClient {
     private Context mContext;
     private WebViewErrorListener mWebViewErrorListener;
     private WebViewPageCallback mWebViewPageCallback;
+    private String token;
 
-    public DiamondWebViewClient(Context context) {
+    public DiamondWebViewClient(Context context,String token) {
         this.mContext = context;
+        this.token=token;
     }
 
     @Override
@@ -30,6 +35,19 @@ public class DiamondWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
         super.onPageFinished(view, url);
+
+        String webStr;
+        if (token==null){
+            webStr="javascript:var token = '"+token+")';" +
+                    "window.localStorage.setItem('moteApp',true);";
+        }else{
+            webStr="javascript:var token = '"+token+")';" +
+                    "window.localStorage.setItem('token',token);" +
+                    "window.localStorage.setItem('moteApp',true);";
+        }
+
+        view.loadUrl(webStr);
+
         if (mWebViewPageCallback != null) {
             mWebViewPageCallback.onPageFinished(view, url);
         }

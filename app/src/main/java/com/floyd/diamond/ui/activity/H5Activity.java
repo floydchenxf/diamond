@@ -1,6 +1,8 @@
 package com.floyd.diamond.ui.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +29,7 @@ import com.floyd.diamond.R;
 import com.floyd.diamond.bean.GlobalParams;
 import com.floyd.diamond.biz.manager.LoginManager;
 import com.floyd.diamond.biz.vo.LoginVO;
+import com.floyd.diamond.ui.view.UIAlertDialog;
 import com.floyd.diamond.ui.webview.DiamondWebViewClient;
 import com.floyd.diamond.ui.webview.XBlinkUIModel;
 
@@ -57,7 +60,7 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_h5);
         findViewById(R.id.title_back).setOnClickListener(this);
-        loginVO= LoginManager.getLoginInfo(this);
+        loginVO = LoginManager.getLoginInfo(this);
         titleLayout = findViewById(R.id.title);
         titlenameView = (TextView) findViewById(R.id.title_name);
         data = getIntent().getParcelableExtra(H5Data.H5_DATA);
@@ -104,36 +107,9 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             webView.loadDataWithBaseURL("", data.data, "text/html", "utf-8", null);
         }
 
-        webView.setWebViewClient(new MyWebViewClient());
-        webView.setWebChromeClient(new MyWebChromeClient());
-
 
     }
-    private class MyWebViewClient extends WebViewClient {
-        @Override
-        public void onPageFinished(WebView webView, String url) {
-            String token=loginVO==null?"":loginVO.token;
-            if (GlobalParams.isDebug){
-                Log.e("TAG_Token",token+"h5");
-            }
-            webView.loadUrl("javascript:alert('"+token+"')");
-        }
-    }
-    private class MyWebChromeClient extends WebChromeClient {
-        @Override
-        public boolean onConsoleMessage(ConsoleMessage cm) {
-            Log.d("test", cm.message() + " -- From line "
-                    + cm.lineNumber() + " of "
-                    + cm.sourceId() );
-            return true;
-        }
 
-        @Override
-        public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
-            Toast.makeText(H5Activity.this, message, Toast.LENGTH_SHORT).show();
-            return true;
-        }
-    }
 
     private void initWebView() {
         webView = (WebView) findViewById(R.id.h5_web_view);
@@ -153,13 +129,36 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
         webView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
         //允许访问文件
         webView.getSettings().setAllowFileAccess(true);
-        webView.getSettings().setJavaScriptEnabled(true);
+        //使用localStorage则必须打开
+        webView.getSettings().setDomStorageEnabled(true);
+        webView.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);//允许js弹出窗口
+        webView.getSettings().setGeolocationEnabled(true);
         webView.getSettings().setDefaultFontSize(18);
         webView.setVerticalScrollBarEnabled(false);
-        webViewClient = new DiamondWebViewClient(this);
+        String token = loginVO == null ? "" : loginVO.token;
+        webViewClient = new DiamondWebViewClient(this, token);
         webViewClient.setWebViewErrorListener(this);
         webViewClient.setmWebViewPageCallback(this);
         webView.setWebViewClient(webViewClient);
+        if (token != null) {
+            webView.setWebChromeClient(new WebChromeClient() {
+                @Override
+                public boolean onJsAlert(WebView view, String url, String message, final JsResult result) {
+                    AlertDialog.Builder b2 = new UIAlertDialog.Builder(H5Activity.this)
+                            .setMessage(message).setPositiveButton("ok", new AlertDialog.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    result.confirm();
+                                }
+                            });
+                    b2.setCancelable(false);
+                    b2.create();
+                    b2.show();
+                    return true;
+                }
+            });
+        }
+
         webView.requestFocus();
         CookieManager.getInstance().setAcceptCookie(true);
         if (android.os.Build.VERSION.SDK_INT >= 19) {
@@ -234,7 +233,7 @@ public class H5Activity extends Activity implements View.OnClickListener, Diamon
             dest.writeString(data);
             dest.writeByte((byte) (showNav ? 1 : 0));
             dest.writeByte((byte) (showProcess ? 1 : 0));
-            dest.writeByte((byte)(canZoom?1:0));
+            dest.writeByte((byte) (canZoom ? 1 : 0));
         }
 
         public static final Parcelable.Creator<H5Data> CREATOR = new Parcelable.Creator<H5Data>() {
